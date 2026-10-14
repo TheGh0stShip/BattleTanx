@@ -5,9 +5,16 @@ typedef struct ListNode {
     struct ListNode *next;
 } ListNode;
 
-s32 func_800A6E10(void *value)
+typedef struct List {
+    u8 pad00[0x10];
+    ListNode *head;
+} List;
+
+s32 linked_list_count(List *list) __asm__("func_800A6E10");
+
+s32 linked_list_count(List *list)
 {
-    ListNode *node = *(ListNode **)((u8 *)value + 0x10);
+    ListNode *node = list->head;
     s32 count = 0;
 
     while (node != 0) {
