@@ -901,3 +901,29 @@
 0x96D18	0x27C	src/code/effects/create_effect_motion.c	-O2 -G0 -mips3 -mgp32 -mfp32	0864d1ace75e407aef0ad59390815e28ec9f3ac3034b9d21dba95eda149c93f5
 0x77FDC	0x228	src/code/gameplay/ai_squad_slot_activity.c	--section-base=.rodata:0x8007475C -O2 -G0 -mips3 -mgp32 -mfp32	c47b8deae0d07213ef694e636eb00f6ab96301005126b3904333ae8be006e014
 0x783A4	0x2D8	src/code/gameplay/ai_unit_type_parameters.c	--section-base=.rodata:0x8007477C -O2 -G0 -mips3 -mgp32 -mfp32	bde04b8d53052d6cb713679fb33af5f4f85f98d639331207cca21945fa247e94
+0x7FAD8	0x1D0	src/code/effects/countdown_effect_handle_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	16bd1508b13dd92521b5fd614c68cb001519d91878fe65a1c002528c88a9d078
+0x2F958	0x118	src/code/effects/notify_objects_near_point.c	-O2 -G0 -mips3 -mgp32 -mfp32	e0ba2b105446427a29830f972cee2a19a87c3443b6b22000ff84a1545d25b383
+0x21108	0x98	src/code/effects/offset_effect_corner_quad.c	-O2 -G0 -mips3 -mgp32 -mfp32	4e309066478940d40d191884df753187970493a29e3fd564e96a43770cb98be9
+0x7D994	0x104	src/code/effects/run_effect_script.c	-O2 -G0 -mips3 -mgp32 -mfp32	6d397ca9f377738d2a5b37697ee8a0e48f2599f7daa39ded8e4e4c1c04194cc5
+0x30B8C	0x148	src/code/effects/shot_effect_handle_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	cffec51feb484e1c16ab6d393ca3ba8d47adef05b144a1f30b61d167f504318c
+0x21D6C	0x12C	src/code/effects/spawn_effect_kind_09.c	-O2 -G0 -mips3 -mgp32 -mfp32	8f5773928269830a77f6070c5c7b66b3f7758c0661554b8c2cc618be3c89adec
+0x7E4D4	0x288	src/code/effects/spawn_effect_kind_29_at_offset.c	-O2 -G0 -mips3 -mgp32 -mfp32	5328e8682bbdc0c7810b9f1f83e8a8dec837f1d77d7271a10fe746f4ed3bb569
+0x7ED5C	0xFC	src/code/effects/spawn_effect_kind_2a_on_owner.c	-O2 -G0 -mips3 -mgp32 -mfp32	11750ebc4b08cf84ff2b88d5947d4c1f6bc1bac75341a4983d0a369cb7827879
+0x35B6C	0x164	src/code/gameplay/add_team_counter.c	-O2 -G0 -mips3 -mgp32 -mfp32	52f80f731bc4f8dde83ec64c71a1ccac1aee8e2507cc4d4bf6b123a66bf506f0
+0x74DF8	0x3A0	src/code/gameplay/ai_build_team_groups.c	-O2 -G0 -mips3 -mgp32 -mfp32	04e71ee2749f2d7a6803452da5e54c324626ae2b89f09a89382df3de76405ffc
+0x74AA4	0x288	src/code/gameplay/ai_refresh_member_plays.c	-O2 -G0 -mips3 -mgp32 -mfp32	7e13ee21788bc77089a0426edfffdd495c5f4e673846ebec538215704eb89119
+0x73CF0	0x2A0	src/code/gameplay/ai_select_best_scored_unit.c	-O2 -G0 -mips3 -mgp32 -mfp32	d5b6083fc600e70c397462d7bbaf41ebed043b476df3c5a7cff6edc9822ef2ca
+0x74344	0x118	src/code/gameplay/ai_set_unit_engaged.c	-O2 -G0 -mips3 -mgp32 -mfp32	05d0befb5faf603b06dcfe572b48f6a60bfc8db33dd864358eeb69512d634b5c
+0x726DC	0x108	src/code/gameplay/ai_set_unit_mode.c	-O2 -G0 -mips3 -mgp32 -mfp32	e34431892a50269000ceeb240d5fa4f68209e6c5b5ab1e48f47a2cf219847bac
+0x74820	0x11C	src/code/gameplay/ai_sync_squad_member_states.c	-O2 -G0 -mips3 -mgp32 -mfp32	9424bd94bc53415ad6075642a7ba76ae6f7f018b6f37b07f2648a0c322ec38a6
+0x77168	0x194	src/code/gameplay/ai_update_random_metric.c	-O2 -G0 -mips3 -mgp32 -mfp32	e6e8a5a1d9d48aa6d49e795bb5be38dbbe3a125e990318ee5c94011b5ebba3f4
+0x73C34	0xBC	src/code/gameplay/check_unit_route_to_kind1b_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	46321654420d32d3eaccc6a54efac2550f2bb263d6b5cd472b818789aff72e49
+0x77B7C	0x12C	src/code/gameplay/compute_entity2_presence_weight.c	-O2 -G0 -mips3 -mgp32 -mfp32	0c9cbcb5400a5ea66259650529b7ed39205e235e2f4e1b9d9972122a208485c3
+0x77A50	0x12C	src/code/gameplay/compute_record1_presence_weight.c	-O2 -G0 -mips3 -mgp32 -mfp32	4e5a7cfca713a752f84314bca39a3846865770ca2fa0cf9784999d239611d770
+0x77804	0xB8	src/code/gameplay/entity_active_member_value98_weight.c	-O2 -G0 -mips3 -mgp32 -mfp32	23f60c2afc3cbe35a0c0d33ed1a23c8dccbbeaf249932c99c6330cf787f91d82
+0x73F90	0x104	src/code/gameplay/find_nearest_active_group_member.c	-O2 -G0 -mips3 -mgp32 -mfp32	c95bb53c86a99502e919cb8a94072705570fc4d735a1a7e7d63f9ba85f1e5844
+0x71F14	0x144	src/code/gameplay/resolve_unit_pair.c	-O2 -G0 -mips3 -mgp32 -mfp32	43974781b3dce07e8eca92012e4dea3f3b0218e132a738e8492b018bb708d2ca
+0x75DE4	0x14C	src/code/gameplay/select_nearest_linked_member.c	-O2 -G0 -mips3 -mgp32 -mfp32	6a433c451b99ac229cbcdfed8afa838faed8cc75ef5719f7f0ab21db8c0ae1b1
+0x71648	0x94	src/code/levels/compute_waypoint_triangle_centroid.c	-O2 -G0 -mips3 -mgp32 -mfp32	c44298074f45f6da65474584a6db1b144da3a1aa26e6f0670d75eac35760a162
+0x718B0	0x108	src/code/levels/get_triangle_edge_vertices.c	-O2 -G0 -mips3 -mgp32 -mfp32	0034a9b542a5b8b26b5c85430b6bebf09eb12bd766bca88222561937b9c2c71a
+0x97B44	0x3D0	src/code/runtime/collect_motion_contacts.c	-O2 -G0 -mips3 -mgp32 -mfp32	816da005e438e1e493eac9517ad61863c27cb75f431288ad8c7a855a281d450e

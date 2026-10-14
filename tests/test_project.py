@@ -64,8 +64,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 902)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 175688)
+        self.assertEqual(len(kmc_rows), 928)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 185484)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -91,7 +91,7 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(len(report["units"]), 1711)
         self.assertEqual(report["measures"]["total_functions"], 1711)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 173488)
+        self.assertEqual(int(report["measures"]["total_data"]), 173492)
         self.assertEqual(report["measures"]["matched_data"], "87452")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
