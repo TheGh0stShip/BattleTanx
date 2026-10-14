@@ -88,6 +88,8 @@
 0x7CB98	0x10	src/code/runtime/runtime_status.c	-O2 -G0 -mips3 -mgp32 -mfp32	7385749d9fe37b217276c4d4253ad58a3bd91c10ae102715942620430f0273ee
 0x77718	0x1C	src/code/gameplay/ai_parameter_constants.c	--section-base=.rodata:0x8007471C -O2 -G0 -mips3 -mgp32 -mfp32	4515fb90c67e17875d50ccf723bc5be41f2dacfc1f486bf47961a24ca071c85c
 0x778BC	0x78	src/code/gameplay/ai_parameter_zero_providers.c	-O2 -G0 -mips3 -mgp32 -mfp32	f5b68280497444ed6f30833eb881f983163625c6f936a469050c3b642186c1b4
+0x77320	0x60	src/code/gameplay/ai_random_metric_actions.c	-O2 -G0 -mips3 -mgp32 -mfp32	62838751847849936690314b9187d7ed030592e4196c433ac8c7e69b495f506b
+0x7775C	0x20	src/code/gameplay/ai_parameter_elapsed_time.c	-O2 -G0 -mips3 -mgp32 -mfp32	db6a8d2d9b79ada57aad3783cfb04f27d357b662b9d8606c7495bc9ce5a03bd8
 0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x381F0	0x4C	src/code/render/matrix_transpose_3x3.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3d290589223dc29703e1765648d2f96c2a02f2aab80d8c9f63651d29271af4f0
