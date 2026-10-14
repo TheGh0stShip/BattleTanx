@@ -1432,7 +1432,7 @@ segments:
       - [0xA1F90, hasm, libultra/os_cleanup_thread]
       - [0xA1FA0, c, libultra/os_destroy_thread]
       - [0xA2098, bin, gaps/gap_0A2098]
-      - [0xA20A0, asm, functions/osGetTime]
+      - [0xA20A0, c, libultra/os_get_time]
       - [0xA2124, bin, gaps/gap_0A2124]
       - [0xA2130, hasm, libultra/os_get_count]
       - [0xA213C, bin, gaps/gap_0A213C]
