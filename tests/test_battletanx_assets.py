@@ -52,7 +52,7 @@ class LayoutTests(unittest.TestCase):
         self.assertEqual(assets.BUNDLE_HEADER.size, 8)
         self.assertEqual([assets.bundle_header_size(n) for n in (1, 4, 5, 9, 25, 30)],
                          [0x10, 0x18, 0x20, 0x30, 0x70, 0x80])
-        table = assets.SCREEN_STRIP_TABLE
+        table = assets.RESOURCE_BUNDLE_STRIP_TABLE
         self.assertEqual(table.end_vram - table.start_vram, 4 * table.count)
 
     def test_bundle_round_trip(self) -> None:
@@ -86,6 +86,11 @@ class LzariTests(unittest.TestCase):
 
 
 class ManifestAccountingTests(unittest.TestCase):
+    def test_asset_progress_inventory(self) -> None:
+        total, identified = report.asset_progress()
+        self.assertEqual(total, 0x800000 - 0x101000)
+        self.assertEqual(identified, 0x4E0D0)
+
     def test_data_rows_accept_optional_section(self) -> None:
         four = "0x5EA0\t0x100\tsrc/libultra/xprintf.c\t" + "0" * 64
         five = "0xD6FC0\t0x50\tsrc/libultra/xprintf.c\t.data\t" + "0" * 64
@@ -101,7 +106,8 @@ class ManifestAccountingTests(unittest.TestCase):
         self.assertEqual(int(measures["total_data"]),
                          report.INITIALIZED_DATA_END - section_vram - int(measures["total_code"]))
         categories = {c["id"]: int(c["measures"]["total_data"]) for c in built["categories"]}
-        self.assertEqual(sum(categories.values()), int(measures["total_data"]))
+        self.assertEqual(categories["game"] + categories["libultra"], int(measures["total_data"]))
+        self.assertEqual(categories["assets"], 0x800000 - 0x101000)
 
 
 @unittest.skipUnless(ROM.is_file(), "requires the supported ROM")
@@ -113,7 +119,7 @@ class RomTests(unittest.TestCase):
 
     def test_strip_table_is_a_contiguous_chain(self) -> None:
         rom = assets.load_rom(ROM)
-        strips = assets.read_pi_table(rom, assets.SCREEN_STRIP_TABLE)
+        strips = assets.read_pi_table(rom, assets.RESOURCE_BUNDLE_STRIP_TABLE)
         spans = sorted((r.rom_start, r.rom_end) for r in strips)
         for (_, end), (start, _) in zip(spans, spans[1:]):
             self.assertEqual(end, start)
@@ -121,7 +127,7 @@ class RomTests(unittest.TestCase):
     def test_catalogue_decodes_every_resource(self) -> None:
         rom = assets.load_rom(ROM)
         rows = assets.catalogue(rom)
-        self.assertEqual(len(rows), len(assets.SCREEN_RESOURCES) + assets.SCREEN_STRIP_TABLE.count)
+        self.assertEqual(len(rows), len(assets.RESOURCE_BUNDLES) + assets.RESOURCE_BUNDLE_STRIP_TABLE.count)
         for row in rows:
             self.assertLessEqual(row["expanded_size"], row["capacity"])
             self.assertEqual(row["entries"][-1]["end"], row["expanded_size"])

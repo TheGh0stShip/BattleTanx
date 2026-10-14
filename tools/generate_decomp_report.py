@@ -19,11 +19,38 @@ MANIFESTS = (
 )
 DEFAULT_OUTPUT = ROOT / "build/report.json"
 MATCHING_DATA = ROOT / "config/us/matching_data_units.tsv"
+ASSET_PROGRESS = ROOT / "config/us/asset_progress.toml"
 LIBULTRA_START = 0x80110480
 # The entry point (0x80071000) zeroes .bss from 0x80147040 to 0x803C8880, so
 # initialized program data ends here; the rest of the 1 MiB main copy is not
 # reconstructable static data and must not inflate decomp.dev data totals.
 INITIALIZED_DATA_END = 0x80147040
+
+
+def asset_progress() -> tuple[int, int]:
+    manifest = tomllib.loads(ASSET_PROGRESS.read_text())
+    region = manifest["region"]
+    start, end = region["rom_start"], region["rom_end"]
+    if start < 0 or end <= start:
+        raise ValueError(f"{ASSET_PROGRESS}: invalid asset region")
+
+    ranges: list[tuple[int, int]] = []
+    names: set[str] = set()
+    for entry in manifest.get("range", []):
+        name = entry["name"]
+        left, right = entry["rom_start"], entry["rom_end"]
+        if name in names:
+            raise ValueError(f"{ASSET_PROGRESS}: duplicate range name {name!r}")
+        if not start <= left < right <= end:
+            raise ValueError(f"{ASSET_PROGRESS}: {name!r} lies outside the asset region")
+        names.add(name)
+        ranges.append((left, right))
+
+    ranges.sort()
+    for previous, current in zip(ranges, ranges[1:]):
+        if current[0] < previous[1]:
+            raise ValueError(f"{ASSET_PROGRESS}: overlapping asset ranges")
+    return end - start, sum(right - left for left, right in ranges)
 
 
 def manifest_ranges() -> list[tuple[int, int, str]]:
@@ -179,6 +206,13 @@ def build_report() -> dict:
             "measures": measures(total, matched, count, complete, count, complete,
                                  total_data=total_data, matched_data=matched_data),
         })
+    total_assets, identified_assets = asset_progress()
+    categories.append({
+        "id": "assets",
+        "name": "Asset identification",
+        "measures": measures(0, 0, 0, 0, 0, 0,
+                             total_data=total_assets, matched_data=identified_assets),
+    })
     total_data = image_end - section["vram"] - total_code
     matched_data = sum(range_bytes(start, end, matched_data_ranges)
                        for start, end in category_rom_spans.values())

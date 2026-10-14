@@ -119,16 +119,16 @@ class Resource:
     loader: str  # recovered C function (evidence)
 
 
-SCREEN_RESOURCES = (
-    Resource("screen_49C740", 0x49C740, 0x49DCD0, "raw", 0x3A980, "load_raw_screen_image_49C740 (0x800CA980)"),
-    Resource("screen_49DCD0", 0x49DCD0, 0x4AC150, "lzari", 0x25800, "load_screen_image_49DCD0 (0x800C54F0)"),
-    Resource("screen_4AC150", 0x4AC150, 0x4AD7E0, "lzari", 0x25800, "load_screen_image_4AC150 (0x800DADBC)"),
-    Resource("screen_4AD7E0", 0x4AD7E0, 0x4B1300, "lzari", 0x25800, "load_screen_image_4AD7E0 (0x800D44CC)"),
-    Resource("screen_4B1300", 0x4B1300, 0x4B3280, "lzari", 0x25800, "load_screen_image_4B1300 (0x800CE4B0)"),
-    Resource("screen_4B3280", 0x4B3280, 0x4B39B0, "lzari", 0x25800, "load_screen_image_4B3280 (0x800D0D30)"),
-    Resource("screen_4B39B0", 0x4B39B0, 0x4B4B00, "lzari", 0x25800, "load_screen_image_4B39B0 (0x800CC470)"),
-    Resource("screen_3D6940", 0x3D6940, 0x3DC430, "lzari", 0x25800, "load_screen_image_3D6940 (0x800C5B90)"),
-    Resource("screen_3DFD10", 0x3DFD10, 0x3EA970, "lzari", 0x25800, "load_screen_image_3DFD10 (0x800D9080)"),
+RESOURCE_BUNDLES = (
+    Resource("bundle_49C740", 0x49C740, 0x49DCD0, "raw", 0x3A980, "load_raw_resource_bundle_49C740 (0x800CA980)"),
+    Resource("bundle_49DCD0", 0x49DCD0, 0x4AC150, "lzari", 0x25800, "load_resource_bundle_49DCD0 (0x800C54F0)"),
+    Resource("bundle_4AC150", 0x4AC150, 0x4AD7E0, "lzari", 0x25800, "load_resource_bundle_4AC150 (0x800DADBC)"),
+    Resource("bundle_4AD7E0", 0x4AD7E0, 0x4B1300, "lzari", 0x25800, "load_resource_bundle_4AD7E0 (0x800D44CC)"),
+    Resource("bundle_4B1300", 0x4B1300, 0x4B3280, "lzari", 0x25800, "load_resource_bundle_4B1300 (0x800CE4B0)"),
+    Resource("bundle_4B3280", 0x4B3280, 0x4B39B0, "lzari", 0x25800, "load_resource_bundle_4B3280 (0x800D0D30)"),
+    Resource("bundle_4B39B0", 0x4B39B0, 0x4B4B00, "lzari", 0x25800, "load_resource_bundle_4B39B0 (0x800CC470)"),
+    Resource("bundle_3D6940", 0x3D6940, 0x3DC430, "lzari", 0x25800, "load_resource_bundle_3D6940 (0x800C5B90)"),
+    Resource("bundle_3DFD10", 0x3DFD10, 0x3EA970, "lzari", 0x25800, "load_resource_bundle_3DFD10 (0x800D9080)"),
 )
 
 
@@ -144,8 +144,8 @@ class PiAddressTable:
     loader: str
 
 
-SCREEN_STRIP_TABLE = PiAddressTable(
-    "screen_strip", 0x80134B88, 0x80134BB0, 10, 0xBC00, "load_screen_strip (0x800CA8C0)"
+RESOURCE_BUNDLE_STRIP_TABLE = PiAddressTable(
+    "bundle_strip", 0x80134B88, 0x80134BB0, 10, 0xBC00, "load_strip_bundle (0x800CA8C0)"
 )
 
 
@@ -178,7 +178,7 @@ def decode_resource(rom: bytes, resource: Resource) -> bytes:
 
 def catalogue(rom: bytes) -> list[dict]:
     rows = []
-    for resource in (*SCREEN_RESOURCES, *read_pi_table(rom, SCREEN_STRIP_TABLE)):
+    for resource in (*RESOURCE_BUNDLES, *read_pi_table(rom, RESOURCE_BUNDLE_STRIP_TABLE)):
         data = decode_resource(rom, resource)
         bundle = parse_bundle(data)
         row = asdict(resource)

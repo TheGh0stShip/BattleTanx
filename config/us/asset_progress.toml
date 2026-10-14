@@ -1,0 +1,79 @@
+[region]
+name = "Asset identification"
+rom_start = 0x101000
+rom_end = 0x800000
+
+# A range is credited only after its ROM boundaries and container encoding are
+# supported by recovered code and validated against the supported retail ROM.
+# Identifying the container does not imply that its individual entries have
+# been classified as textures, audio, models, levels, or another asset type.
+
+[[range]]
+name = "resource_bundle_strip_chain"
+rom_start = 0x2e2cd0
+rom_end = 0x308290
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_3d6940"
+rom_start = 0x3d6940
+rom_end = 0x3dc430
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_3dfd10"
+rom_start = 0x3dfd10
+rom_end = 0x3ea970
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_49c740"
+rom_start = 0x49c740
+rom_end = 0x49dcd0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_49dcd0"
+rom_start = 0x49dcd0
+rom_end = 0x4ac150
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4ac150"
+rom_start = 0x4ac150
+rom_end = 0x4ad7e0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4ad7e0"
+rom_start = 0x4ad7e0
+rom_end = 0x4b1300
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4b1300"
+rom_start = 0x4b1300
+rom_end = 0x4b3280
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4b3280"
+rom_start = 0x4b3280
+rom_end = 0x4b39b0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4b39b0"
+rom_start = 0x4b39b0
+rom_end = 0x4b4b00
+kind = "resource_bundle"
+status = "container_verified"

@@ -55,11 +55,11 @@ The generator rejects out-of-range, unaligned, or overlapping canonical
 function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
-The initial split accounts for the full 8 MiB ROM: 1,647 non-overlapping
+The initial split accounts for the full 8 MiB ROM: 1,660 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Five hundred sixty-five reviewed C source
-units now reconstruct 98,892 retail code bytes. Together with 17 authentic
-source-assembly units, 582 matching units reconstruct 100,240 code bytes. The
+resource area remain explicit binary regions. Five hundred ninety-three reviewed C source
+units now reconstruct 103,156 retail code bytes. Together with 17 authentic
+source-assembly units, 610 matching units reconstruct 104,504 code bytes. The
 128 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
@@ -77,11 +77,17 @@ decomp.dev; locally, `make report` writes the same ignored report under
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
 the section-aware matching-data manifest; 14,880 initialized bytes are currently
 verified. Unknown non-function bytes are never credited as reconstructed data.
+Asset identification is tracked separately over the ROM's asset region. A byte
+is credited only when its container boundaries and encoding are supported by
+recovered code and validated against the retail ROM. Container identification
+does not claim that individual entries have already been classified as textures,
+music, sounds, images, models, or levels.
 
 ```text
-code       [███░░░░░░░░░░░░░░░░░]  14.18%   99,660 / 702,576 bytes
-data       [██░░░░░░░░░░░░░░░░░░]   8.55%   14,880 / 174,032 bytes
-functions  [█████████░░░░░░░░░░░]  46.27%      762 / 1,647
+code       [███░░░░░░░░░░░░░░░░░]  14.78%  103,916 / 702,868 bytes
+data       [██░░░░░░░░░░░░░░░░░░]   8.56%   14,880 / 173,740 bytes
+functions  [██████████░░░░░░░░░░]  47.77%      793 / 1,660
+assets     [█░░░░░░░░░░░░░░░░░░░]   4.36%  319,696 / 7,335,936 bytes
 ```
 
 The game-owned KMC GCC units cover string and list helpers, state initialization
