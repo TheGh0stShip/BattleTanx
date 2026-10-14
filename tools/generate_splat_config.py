@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CATALOGUE = ROOT / "config/us/recomp_function_boundaries.toml"
 MATCHING = ROOT / "config/us/matching_units.tsv"
+MATCHING_KMC = ROOT / "config/us/matching_kmc_units.tsv"
 OUTPUT = ROOT / "config/us/splat.yaml"
 
 
@@ -72,11 +73,12 @@ def main() -> None:
         "    subsegments:",
     ]
     matching = []
-    for line in MATCHING.read_text().splitlines():
-        if not line or line.startswith("#"):
-            continue
-        offset, size, source, _flags, _digest = line.split("\t")
-        matching.append((int(offset, 0), int(offset, 0) + int(size, 0), source.removeprefix("src/").removesuffix(".c")))
+    for manifest in (MATCHING, MATCHING_KMC):
+        for line in manifest.read_text().splitlines():
+            if not line or line.startswith("#"):
+                continue
+            offset, size, source, _flags, _digest = line.split("\t")
+            matching.append((int(offset, 0), int(offset, 0) + int(size, 0), source.removeprefix("src/").removesuffix(".c")))
     matching.sort()
     for left, right in zip(matching, matching[1:]):
         if left[1] > right[0]:

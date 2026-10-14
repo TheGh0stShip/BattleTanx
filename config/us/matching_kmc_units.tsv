@@ -1,0 +1,6 @@
+# ROM_START	SIZE	SOURCE	KMC_GCC_FLAGS	SHA256_TEXT
+0x6CA8	0x20	src/code/unknown/80076CA8.c	-O2 -G0 -mips3 -mgp32 -mfp32	ee119a272930ac363119547f6442b30c2feea75a81f1f0467c4c316048c64d54
+0x377D4	0x2C	src/code/render/800A77D4_matrix_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	751da3c44ae17a10712d80b7491a8659d68e88e2e92d8e5ae10fe3045c8bed1b
+0x37F3C	0xF8	src/code/render/800A7F3C_matrix_multiply.c	-O2 -G0 -mips3 -mgp32 -mfp32	4898dee8e3b8df143b1a5e336cb362dfda9492ebe60681ef2305c73276be6df8
+0x39B44	0x2C	src/code/unknown/800A9B44.c	-O2 -G0 -mips3 -mgp32 -mfp32	cd14fc14108f3404ab2302db467b079f9b84f9261527bb8771c54d3f11b7a1ad
+0x83D0C	0x34	src/code/math/800F3D0C_angle_distance.c	-O2 -G0 -mips3 -mgp32 -mfp32	9b222fccf87f7f7d98251bbf9eb1ec4e8dcc7755918737c09fadff01f9b8bded
