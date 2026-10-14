@@ -81,6 +81,11 @@
 0x7B158	0x20	src/code/gameplay/ai_reset_member_link_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	d657089b0b790b2bf6aa77d2d1439f9cfd11c0981c5acf9a05620878452bfd7c
 0x7B1A0	0x20	src/code/gameplay/ai_resolve_member_target_variant.c	-O2 -G0 -mips3 -mgp32 -mfp32	f502cf06ccb18b492c2e1675dbec72a43b8a5cf9a4faed23ace23590d28572e4
 0x7BBB4	0x8	src/code/gameplay/ai_action_reject.c	-O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
+0x7C380	0x10	src/code/runtime/runtime_slot_index.c	-O2 -G0 -mips3 -mgp32 -mfp32	ab8cd33ce66e1b54f32809323999d7e21cf4c1bb854204f7d0a4f679efb72bdd
+0x7C3F0	0x20	src/code/runtime/runtime_slot_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	078863cad1e1fd7293448ac84de0ed952e35c0087ae4c06856ffaf90eb75e87d
+0x7C644	0xBC	src/code/runtime/runtime_partition.c	-O2 -G0 -mips3 -mgp32 -mfp32	0b5d0df84d40adad1ecaedb2ce911ecc511680c2a0ac4cdaf8ea5f4fd900c407
+0x7CB34	0x34	src/code/runtime/initialize_pending_counter.c	-O2 -G0 -mips3 -mgp32 -mfp32	b9380af2b9abb528177cde2284fed074c8c51df7ebb0f3f82efa3e5ef9a83a19
+0x7CB98	0x10	src/code/runtime/runtime_status.c	-O2 -G0 -mips3 -mgp32 -mfp32	7385749d9fe37b217276c4d4253ad58a3bd91c10ae102715942620430f0273ee
 0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x381F0	0x4C	src/code/render/matrix_transpose_3x3.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3d290589223dc29703e1765648d2f96c2a02f2aab80d8c9f63651d29271af4f0
