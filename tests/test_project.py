@@ -26,9 +26,9 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["size"], 0x100000)
         self.assertEqual(len(section["functions"]), 1700)
         canonical = canonical_functions(section)
-        # 85 catalogue entries are internal aliases or overlapping hypotheses;
+        # 84 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1615)
+        self.assertEqual(len(canonical), 1616)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -57,8 +57,8 @@ class ProjectTests(unittest.TestCase):
 
     def test_matching_manifest(self) -> None:
         rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(rows), 110)
-        self.assertEqual(sum(int(row[1], 0) for row in rows), 46420)
+        self.assertEqual(len(rows), 123)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 60148)
         for _start, _size, source, _flags, digest in rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -78,8 +78,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(data_rows), 34)
-        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 2632)
+        self.assertEqual(len(data_rows), 37)
+        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 2744)
         for _start, _size, source, section, digest in data_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertIn(section, {".rodata", ".data"})
@@ -88,11 +88,11 @@ class ProjectTests(unittest.TestCase):
     def test_decomp_dev_report(self) -> None:
         report = build_report()
         self.assertEqual(report["version"], 2)
-        self.assertEqual(len(report["units"]), 1615)
-        self.assertEqual(report["measures"]["total_functions"], 1615)
+        self.assertEqual(len(report["units"]), 1616)
+        self.assertEqual(report["measures"]["total_functions"], 1616)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 174296)
-        self.assertEqual(report["measures"]["matched_data"], "2632")
+        self.assertEqual(int(report["measures"]["total_data"]), 174092)
+        self.assertEqual(report["measures"]["matched_data"], "2744")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]}, {"game", "libultra"})
         # The report must remain JSON serializable with protobuf-compatible

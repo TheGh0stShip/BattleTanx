@@ -33,3 +33,6 @@
 0xD7010	0x30	src/libultra/xlitob.c	.data	bbefddc1c189e8f5c81aae8c1839e94ac99e61b73210e990a35497c3dd4a9b49
 0x5D60	0x40	src/libultra/al_sndplayer.c	.rodata	821c6d19a470958d6895178f790b3515ba6bd64ed68c48518adaa3bc9280c16b
 0xD5E10	0x10	src/libultra/al_sl.c	.data	374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb
+0x5A10	0x20	src/libultra/os_device_manager.c	.rodata	32e3f60a1a27e00842c09edfe72212127e915384fb0a3422661118d88a0b32fb
+0xD5DA0	0x20	src/libultra/os_initialize.c	.data	00eff670001b7953977665e4e87a8f811e3928fc8cce0f7ff5e8bf01d41559c6
+0xD5DC0	0x30	src/libultra/os_create_pi_manager.c	.data	f7f1be71b709b7907c338e13c24851bc2e8c9cc24268bec92fff52b217bb21e3
