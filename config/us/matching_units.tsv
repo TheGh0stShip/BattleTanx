@@ -34,5 +34,8 @@
 0xAC150	0x54	src/libultra/al_link.c	-O2 -mips2 -non_shared -G 0	5565a231c51e83753152087be4ff4d493714ce5fda6a23017d27ab9061433255
 0xA46A0	0x188	src/libultra/gu_mtx.c	-O2 -mips2 -Wab,-r4300_mul -non_shared -G 0	d82ff75135b2b1835ef6bb98f78568d82714254ef744f6c7fe8032b7391935ea
 0xA53B0	0xC4	src/libultra/os_cont_pfs_checksum.c	-O1 -mips2 -non_shared -G 0	0a2bc00bd4ce680fa23bc6b870f78a5bf69809efb988e3c74c700a22501fcb49
+0xA86E0	0x150	src/libultra/os_jam_mesg.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	c1cc82e0820b3e90300ea39923192a2b0fd67e6d9dcb4891af2447232f4059ae
+0xA9240	0x138	src/libultra/os_recv_mesg.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	30f2376b6df23c6182f5fb1d5862806b4f0f49324fd85d8310ed331d2af5a0b8
+0xA93E0	0x14C	src/libultra/os_send_mesg.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	a3fbb5bcc3f39a9c570d789615767151ac7177c27a62bbe445a476b1b319ddb1
 0xAEBB8	0xEC	src/libultra/al_frexpf.c	-O3 -mips2 -Wab,-r4300_mul -non_shared -G 0	4498bb6a00d9565ff10d6ae1b3fb5fc3a0aa745c4e1ed73a7e82659c640f9ba7
 0xAE6B0	0xA0	src/libultra/al_init_lpfilter.c	-O3 -mips2 -non_shared -G 0	806a712b699bb14ebb3ebbc909fb448f18c649b0937278d1a10d287ce8a1e81f
