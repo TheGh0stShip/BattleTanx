@@ -27,6 +27,8 @@ make setup
 make split
 make verify-matching
 make report
+make asset-catalogue
+make data-survey
 make check
 ```
 
@@ -34,6 +36,14 @@ make check
 regenerates the splat configuration from the reviewed catalogue. `make split`
 produces ignored assembly for analysis. `make check` runs ROM-independent
 metadata, architecture, and repository-safety tests.
+
+`make asset-catalogue` validates and decodes the currently identified retail
+resource bundles into an ignored JSON catalogue under `build/us/assets/`.
+`make data-survey` produces ignored JSON and Markdown maps of the initialized
+program image. Both commands verify the USA Rev 0 ROM before reading it. To
+materialize individual bundle entries for local editor work, run
+`python3 tools/battletanx_assets.py extract`; extracted binaries remain under
+ignored `build/` paths and must never be committed.
 
 ## Status and provenance
 
