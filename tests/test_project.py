@@ -96,13 +96,16 @@ class ProjectTests(unittest.TestCase):
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
                          {"game", "libultra", "assets", "assets_textures", "assets_images",
-                          "assets_models", "assets_levels", "assets_music", "assets_sound",
-                          "assets_scripts", "assets_containers"})
+                          "assets_models", "assets_animations", "assets_levels", "assets_scripts",
+                          "assets_music", "assets_sound", "assets_fonts", "assets_containers"})
         by_id = {category["id"]: category for category in report["categories"]}
         self.assertEqual(by_id["assets_music"]["measures"]["matched_data"], str(0x2C19B0 - 0x29A710))
         self.assertEqual(by_id["assets_sound"]["measures"]["matched_data"], str(0x29A710 - 0x101000))
+        self.assertEqual(by_id["assets_fonts"]["measures"]["matched_data"], str(0x2D2790 - 0x2C3E50))
+        self.assertEqual(by_id["assets_images"]["measures"]["matched_data"],
+                         str((0x7E3210 - 0x7B69A0) + (0x7E76D0 - 0x7E3250) + (0x7EA060 - 0x7E7C50)))
         assets = next(category for category in report["categories"] if category["id"] == "assets")
-        self.assertEqual(assets["measures"]["matched_data"], "2157184")
+        self.assertEqual(assets["measures"]["matched_data"], "3496800")
         self.assertEqual(assets["measures"]["total_data"], "7335936")
         # The report must remain JSON serializable with protobuf-compatible
         # string encoding for every uint64 field.

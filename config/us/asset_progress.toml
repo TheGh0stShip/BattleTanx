@@ -112,3 +112,122 @@ rom_start = 0x29a710
 rom_end = 0x2c19b0
 kind = "music"
 status = "format_verified"
+
+[[range]]
+name = "resource_bundle_2d2790"
+rom_start = 0x2d2790
+rom_end = 0x2e2cd0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_3d16d0"
+rom_start = 0x3d16d0
+rom_end = 0x3d6940
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_3dc430"
+rom_start = 0x3dc430
+rom_end = 0x3dfd10
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4b4b00"
+rom_start = 0x4b4b00
+rom_end = 0x4c1930
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4c1930"
+rom_start = 0x4c1930
+rom_end = 0x4e46e0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_4e46e0"
+rom_start = 0x4e46e0
+rom_end = 0x50d930
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_50d930"
+rom_start = 0x50d930
+rom_end = 0x533870
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_533870"
+rom_start = 0x533870
+rom_end = 0x554d00
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_554d00"
+rom_start = 0x554d00
+rom_end = 0x56fdb0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_56fdb0"
+rom_start = 0x56fdb0
+rom_end = 0x58ae00
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_58ae00"
+rom_start = 0x58ae00
+rom_end = 0x596ea0
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "resource_bundle_596ea0"
+rom_start = 0x596ea0
+rom_end = 0x5a1110
+kind = "resource_bundle"
+status = "container_verified"
+
+[[range]]
+name = "font_set_0"
+rom_start = 0x2c3e50
+rom_end = 0x2cb230
+kind = "font"
+status = "format_verified"
+
+[[range]]
+name = "font_set_1"
+rom_start = 0x2cb230
+rom_end = 0x2d2790
+kind = "font"
+status = "format_verified"
+
+[[range]]
+name = "briefing_images_ci8"
+rom_start = 0x7b69a0
+rom_end = 0x7e3210
+kind = "image"
+status = "format_verified"
+
+[[range]]
+name = "level_map_images_ci4_a"
+rom_start = 0x7e3250
+rom_end = 0x7e76d0
+kind = "image"
+status = "format_verified"
+
+[[range]]
+name = "level_map_images_ci4_b"
+rom_start = 0x7e7c50
+rom_end = 0x7ea060
+kind = "image"
+status = "format_verified"

@@ -55,12 +55,14 @@ def asset_progress() -> tuple[int, int]:
 
 ASSET_CATEGORIES = (
     ("assets_textures", "Textures and palettes", ("texture", "palette")),
-    ("assets_images", "Images, sprites and fonts", ("image", "sprite", "font")),
+    ("assets_images", "Images and sprites", ("image", "sprite")),
     ("assets_models", "Models and display lists", ("model", "display_list")),
+    ("assets_animations", "Animations", ("animation",)),
     ("assets_levels", "Levels and world data", ("level", "world")),
+    ("assets_scripts", "Scripts and data tables", ("script", "table")),
     ("assets_music", "Music", ("music",)),
     ("assets_sound", "Sound effects and sample banks", ("sample_bank", "sound_effect")),
-    ("assets_scripts", "Scripts and tables", ("script", "table")),
+    ("assets_fonts", "Fonts and text", ("font", "text")),
     ("assets_containers", "Verified resource containers", ("resource_bundle",)),
 )
 

@@ -89,7 +89,7 @@ class ManifestAccountingTests(unittest.TestCase):
     def test_asset_progress_inventory(self) -> None:
         total, identified = report.asset_progress()
         self.assertEqual(total, 0x800000 - 0x101000)
-        self.assertEqual(identified, 0x20EA80)
+        self.assertEqual(identified, 0x355B60)
 
     def test_data_rows_accept_optional_section(self) -> None:
         four = "0x5EA0\t0x100\tsrc/libultra/xprintf.c\t" + "0" * 64
@@ -131,6 +131,21 @@ class RomTests(unittest.TestCase):
         for row in rows:
             self.assertLessEqual(row["expanded_size"], row["capacity"])
             self.assertEqual(row["entries"][-1]["end"], row["expanded_size"])
+
+    def test_font_sets_fill_their_blocks(self) -> None:
+        rom = assets.load_rom(ROM)
+        fonts = assets.font_sets(rom)
+        self.assertEqual([len(font["entries"]) for font in fonts], [5, 4])
+        for font in fonts:
+            self.assertEqual(font["entries"][-1]["end"], font["rom_end"] - font["rom_start"])
+
+    def test_image_streams_decode_without_overrun(self) -> None:
+        rom = assets.load_rom(ROM)
+        images = assets.image_streams(rom)
+        self.assertEqual(sum(image["name"].startswith("briefing") for image in images), 17)
+        self.assertEqual(sum(image["name"].startswith("level_map") for image in images), 14)
+        for image in images:
+            self.assertLess(image["rom_end"] - image["rom_start"] - image["data_size"], 0x40)
 
 
 if __name__ == "__main__":

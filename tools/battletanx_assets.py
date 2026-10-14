@@ -130,6 +130,19 @@ RESOURCE_BUNDLES = (
     Resource("bundle_4B39B0", 0x4B39B0, 0x4B4B00, "lzari", 0x25800, "load_resource_bundle_4B39B0 (0x800CC470)"),
     Resource("bundle_3D6940", 0x3D6940, 0x3DC430, "lzari", 0x25800, "load_resource_bundle_3D6940 (0x800C5B90)"),
     Resource("bundle_3DFD10", 0x3DFD10, 0x3EA970, "lzari", 0x25800, "load_resource_bundle_3DFD10 (0x800D9080)"),
+    Resource("bundle_2D2790", 0x2D2790, 0x2E2CD0, "lzari", 0x25800, "init_audio_mode_state (0x800AB690)"),
+    Resource("bundle_3D16D0", 0x3D16D0, 0x3D6940, "lzari", 0x25800, "load_resource_bundle_3D16D0 (0x800D6908)"),
+    Resource("bundle_3DC430", 0x3DC430, 0x3DFD10, "lzari", 0x25800,
+             "load_splash_and_random_strip_bundles (0x800C8218)"),
+    Resource("bundle_4B4B00", 0x4B4B00, 0x4C1930, "lzari", 0x3A980, "level bundle loader (0x800AC2E0)"),
+    Resource("bundle_4C1930", 0x4C1930, 0x4E46E0, "lzari", 0x3A980, "level bundle loader (0x800AC2E0)"),
+    Resource("bundle_4E46E0", 0x4E46E0, 0x50D930, "lzari", 0x493E0, "level bundle loader (0x800AC2E0)"),
+    Resource("bundle_50D930", 0x50D930, 0x533870, "lzari", 0x3A980, "level bundle loader (0x800AC2E0)"),
+    Resource("bundle_533870", 0x533870, 0x554D00, "lzari", 0x3A980, "bundle loader (0x800B9C9C)"),
+    Resource("bundle_554D00", 0x554D00, 0x56FDB0, "lzari", 0x25800, "bundle loader (0x800BD20C)"),
+    Resource("bundle_56FDB0", 0x56FDB0, 0x58AE00, "lzari", 0x3A980, "bundle loader (0x800C0898)"),
+    Resource("bundle_58AE00", 0x58AE00, 0x596EA0, "lzari", 0x3A980, "bundle loader (0x800C0898)"),
+    Resource("bundle_596EA0", 0x596EA0, 0x5A1110, "lzari", 0x25800, "run_sequence_d_loop (0x800C4AE0)"),
 )
 
 
@@ -289,6 +302,116 @@ def texture_banks(rom: bytes) -> list[dict]:
     return rows
 
 
+# ---------------------------------------------------------------------------
+# Font sets: raw blocks DMAed by load_texture_draw_font (0x801053B0).  Layout:
+# ``u32 count; u32 offset[count]`` (offsets from the block start, 0x40-aligned;
+# the last entry runs to the block end).  Each entry starts with
+# ``u32 glyph_count, glyph_height, zero, texture_width, texture_rows,
+# texture_offset``, a 128-byte character-to-glyph map (0xFF = no glyph),
+# ``glyph_count`` 4-byte records {s, t, width, unused}, and an IA8 texture.
+
+
+@dataclass(frozen=True)
+class FontSet:
+    name: str
+    rom_start: int
+    rom_end: int
+
+
+FONT_SETS = (
+    FontSet("font_set_0", 0x2C3E50, 0x2CB230),
+    FontSet("font_set_1", 0x2CB230, 0x2D2790),
+)
+FONT_ENTRY_HEADER = struct.Struct(">6I")
+FONT_MAP_OFFSET = 0x18
+FONT_MAP_SIZE = 0x80
+FONT_GLYPH_OFFSET = FONT_MAP_OFFSET + FONT_MAP_SIZE
+
+
+def parse_font_set(block: bytes) -> list[dict]:
+    count = be_u32(block, 0)
+    if not 1 <= count <= 64:
+        raise AssetError(f"implausible font entry count {count}")
+    offsets = list(be_u32_array(block, 4, count))
+    edges = [*offsets, len(block)]
+    if offsets[0] < 4 + 4 * count or any(offset % 0x40 for offset in offsets):
+        raise AssetError("font entry offsets are not 0x40-aligned after the table")
+    if any(left >= right for left, right in zip(edges, edges[1:])):
+        raise AssetError("font entry offsets are not ascending")
+    entries = []
+    for index, (left, right) in enumerate(zip(edges, edges[1:])):
+        entry = block[left:right]
+        glyphs, height, _zero, width, rows, texture = FONT_ENTRY_HEADER.unpack_from(entry, 0)
+        glyph_end = FONT_GLYPH_OFFSET + 4 * glyphs
+        if not glyph_end <= texture < glyph_end + 0x40 or texture % 8:
+            raise AssetError(f"font entry {index}: texture offset 0x{texture:X} does not follow its glyphs")
+        if not 0 < width <= 0x400 or texture + width * rows > len(entry) or len(entry) - texture - width * rows >= 0x40:
+            raise AssetError(f"font entry {index}: IA8 texture {width}x{rows} does not fill the entry")
+        glyph_map = entry[FONT_MAP_OFFSET:FONT_GLYPH_OFFSET]
+        if any(value != 0xFF and value > glyphs for value in glyph_map):
+            raise AssetError(f"font entry {index}: character map refers past glyph {glyphs}")
+        for glyph in range(glyphs):
+            s, t, glyph_width, _unused = entry[FONT_GLYPH_OFFSET + 4 * glyph:FONT_GLYPH_OFFSET + 4 * glyph + 4]
+            if s + glyph_width > width + 1 or t + height > rows + 1:
+                raise AssetError(f"font entry {index} glyph {glyph} lies outside its texture")
+        entries.append({"start": left, "end": right, "glyphs": glyphs, "height": height, "width": width,
+                        "rows": rows, "texture_offset": texture,
+                        "mapped": sum(1 for value in glyph_map if value != 0xFF)})
+    return entries
+
+
+def font_sets(rom: bytes) -> list[dict]:
+    return [{"name": font.name, "rom_start": font.rom_start, "rom_end": font.rom_end,
+             "entries": parse_font_set(rom[font.rom_start:font.rom_end])} for font in FONT_SETS]
+
+
+# ---------------------------------------------------------------------------
+# Raw colour-indexed images.  func_800F5960 DMAs a stream straight into the
+# draw buffer; func_800F5B6C draws briefing images as CI8 with a 256-colour
+# TLUT at the stream start, and func_801009E8 draws level maps as CI4 with a
+# 16-colour TLUT.  Records are {u32 pi_start, pi_end; s32 width, height}.
+
+
+@dataclass(frozen=True)
+class ImageTable:
+    name: str
+    vram: int
+    count: int
+    stride: int
+    size_id: int  # 0 = CI4, 1 = CI8
+
+
+IMAGE_TABLES = (
+    ImageTable("briefing", 0x80141768, 17, 0x10, 1),
+    ImageTable("level_map", 0x80141308, 15, 0x28, 0),
+)
+# Briefing rows 4 and 7 are never selected by the level-to-image list at
+# 0x801416F8; their table sizes (155x30, 168x30) do not fit the streams, which
+# decode exactly at the sizes below.
+IMAGE_SIZE_OVERRIDES = {("briefing", 4): (199, 80), ("briefing", 7): (210, 80)}
+IMAGE_RECORD = struct.Struct(">IIii")
+
+
+def image_streams(rom: bytes) -> list[dict]:
+    rows = []
+    for table in IMAGE_TABLES:
+        for index in range(table.count):
+            start, end, width, height = IMAGE_RECORD.unpack_from(rom, vram_to_rom(table.vram) + index * table.stride)
+            if start == 0 or end - start <= 1:
+                continue  # empty slot or terminator
+            start, end = pi_to_rom(start), pi_to_rom(end)
+            width, height = IMAGE_SIZE_OVERRIDES.get((table.name, index), (width, height))
+            colours = 256 if table.size_id else 16
+            pixels = width * height if table.size_id else (width * height + 1) // 2
+            used = 2 * colours + pixels
+            if not 0 <= (end - start) - used < 0x40:
+                raise AssetError(f"{table.name}[{index}]: {width}x{height} does not fit 0x{end - start:X} bytes")
+            rows.append({"name": f"{table.name}_{index:02d}", "rom_start": start, "rom_end": end,
+                         "data_size": used, "format": 2, "size": table.size_id,
+                         "width": width, "height": height})
+    return rows
+
+
 def catalogue(rom: bytes) -> list[dict]:
     rows = []
     for resource in (*RESOURCE_BUNDLES, *read_pi_table(rom, RESOURCE_BUNDLE_STRIP_TABLE)):
@@ -318,6 +441,10 @@ def main() -> None:
     textures = texture_banks(rom)
     (args.output / "audio.json").write_text(json.dumps(audio, indent=1) + "\n")
     (args.output / "textures.json").write_text(json.dumps(textures, indent=1) + "\n")
+    fonts = font_sets(rom)
+    images = image_streams(rom)
+    (args.output / "fonts.json").write_text(json.dumps(fonts, indent=1) + "\n")
+    (args.output / "images.json").write_text(json.dumps(images, indent=1) + "\n")
     if args.command == "extract":
         for row in rows:
             resource = Resource(**{k: row[k] for k in Resource.__dataclass_fields__})
@@ -341,6 +468,24 @@ def main() -> None:
                                                 texture["size"], texture["width"], texture["height"])
             png = n64_texture.encode_png_rgba(texture["width"], texture["height"], pixels)
             (texture_folder / f"{texture['name']}.png").write_bytes(png)
+        font_folder = args.output / "fonts"
+        font_folder.mkdir(parents=True, exist_ok=True)
+        for font in fonts:
+            block = rom[font["rom_start"]:font["rom_end"]]
+            for index, entry in enumerate(font["entries"]):
+                texture = entry["start"] + entry["texture_offset"]
+                pixels = n64_texture.decode_texture(block[texture:texture + entry["width"] * entry["rows"]], 3, 1,
+                                                    entry["width"], entry["rows"])
+                png = n64_texture.encode_png_rgba(entry["width"], entry["rows"], pixels)
+                (font_folder / f"{font['name']}_{index:02d}.png").write_bytes(png)
+        image_folder = args.output / "images"
+        image_folder.mkdir(parents=True, exist_ok=True)
+        for image in images:
+            data = rom[image["rom_start"]:image["rom_start"] + image["data_size"]]
+            pixels = n64_texture.decode_texture(data, image["format"],
+                                                image["size"], image["width"], image["height"])
+            png = n64_texture.encode_png_rgba(image["width"], image["height"], pixels)
+            (image_folder / f"{image['name']}.png").write_bytes(png)
     for row in rows:
         print(f"{row['name']:16} ROM 0x{row['rom_start']:06X}-0x{row['rom_end']:06X} "
               f"{row['encoding']:5} 0x{row['expanded_size']:05X} bytes, {len(row['entries'])} entries")
