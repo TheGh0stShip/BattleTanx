@@ -885,3 +885,19 @@
 0x10910	0x198	src/code/runtime/add_keyed_pool_item.c	-O2 -G0 -mips3 -mgp32 -mfp32	40005073852d8d9addf01db0b031d94dc7dcbe6a343c90c2deb5417ee4184539
 0x97A14	0x130	src/code/runtime/collect_flag_records_hit.c	-O2 -G0 -mips3 -mgp32 -mfp32	efd64d0ea62698146c99449c2d5580ec92af70750773205d2cfd6634fe0feb9a
 0x38940	0x348	src/code/runtime/init_controllers_and_paks.c	-O2 -G0 -mips3 -mgp32 -mfp32	5040d82ffd22f0da3785721ef004546697b9848138120dad3c3f9bbc8e97ef55
+0x30930	0x1A4	src/code/effects/break_object_into_debris.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9897452669d96d1ac047e20df57dcb3d37a5c8458f51d71ca3ce953be0b8ad27
+0x237BC	0x150	src/code/effects/face_effect_away_from_anchor.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	bdb1f127380561be609e1d9b0a7826ee9e0c578c8a3107f1c593bb31da528c50
+0x2390C	0x150	src/code/effects/face_effect_away_from_target.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	08119e34535d257241585fd67d02abf4b122a484dfc22e8011644c131111fe1e
+0x208F0	0x11C	src/code/effects/face_entity_toward_target.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	86e10ee2da4df8e27184723aca7112e1373495dba33cd6f58510f5d96244e049
+0x20A0C	0x110	src/code/effects/grid_mover_face_point.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	a9dcba58a4b5c235f67a4c4334d60cebedacd629fd7fafbd89b854dbc3869e6e
+0x23A5C	0x2D0	src/code/effects/slot_heading_effect_handle_message.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	d3a804c21ed2c5a8f29258d046b429d2147f7def6563616d4cc8223afe6ca952
+0x7D380	0x248	src/code/effects/trigger_slot_area_burst.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	349436f046215c7e85f6a52401e0cf7b8a5b35d0587056e8fb096783de418603
+0x7D5C8	0x248	src/code/effects/trigger_slot_point_burst.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	39fe1824bddc227f4b2d83b3de93038f7919f99d93678ca7a64af44d58e1c4e3
+0x99268	0xEC	src/code/entities/init_area_box.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	62df5cff81c5eb2f24b98be59623ca8178e4ab825ba35edbbb0d8b223218d7d7
+0x77490	0xD0	src/code/gameplay/ai_scale_unit_limit_by_random.c	--assembler=asn64 --section-base=.rodata:0x800746F0 -O2 -G0 -mips3 -mgp32 -mfp32	ac5ef7f6aaecd557f96c081278a9d7ddfb1025f9bffc9afbbf54f8b224185ee5
+0x71C00	0x134	src/code/gameplay/find_nearest_kind1a_item.c	--section-base=.rodata:0x800744D4 -O2 -G0 -mips3 -mgp32 -mfp32	303a07038d603e93e6d358e5b502813b6d9f7ccc1dced2a8ffc1b46d189d3aa4
+0x1ADE0	0x38	src/code/effects/effect_kind_is_unlisted.c	--section-base=.rodata:0x80071960 -O2 -G0 -mips3 -mgp32 -mfp32	a5ae50b48da1617dc70b0a2f7fa49dc63ab3bec8fa09a29d1d1e5938052ba08f
+0x96C9C	0x30	src/code/render/set_record_halfword_flags.c	-O2 -G0 -mips3 -mgp32 -mfp32	36ef28d0bb4e15ac51ac710a6e31162992a065d9133f364c0ed15038e2595f68
+0x96D18	0x27C	src/code/effects/create_effect_motion.c	-O2 -G0 -mips3 -mgp32 -mfp32	0864d1ace75e407aef0ad59390815e28ec9f3ac3034b9d21dba95eda149c93f5
+0x77FDC	0x228	src/code/gameplay/ai_squad_slot_activity.c	--section-base=.rodata:0x8007475C -O2 -G0 -mips3 -mgp32 -mfp32	c47b8deae0d07213ef694e636eb00f6ab96301005126b3904333ae8be006e014
+0x783A4	0x2D8	src/code/gameplay/ai_unit_type_parameters.c	--section-base=.rodata:0x8007477C -O2 -G0 -mips3 -mgp32 -mfp32	bde04b8d53052d6cb713679fb33af5f4f85f98d639331207cca21945fa247e94
