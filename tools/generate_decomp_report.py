@@ -40,6 +40,9 @@ def data_ranges() -> list[tuple[int, int]]:
         if not line or line.startswith("#"):
             continue
         fields = line.split("\t")
+        # START SIZE SOURCE [SECTION] SHA256; SECTION defaults to .rodata.
+        if len(fields) not in (4, 5):
+            raise ValueError(f"{MATCHING_DATA}: data row needs 4 or 5 fields: {line!r}")
         start, size = int(fields[0], 0), int(fields[1], 0)
         ranges.append((start, start + size))
     return ranges

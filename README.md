@@ -2,7 +2,7 @@
 
 This repository bootstraps a matching decompilation of **BattleTanx** for
 Nintendo 64 (USA Rev 0). It currently provides a verified ROM contract and a
-1,701-entry function catalogue covering the game's loaded 1 MiB program region.
+1,700-entry function catalogue covering the game's loaded 1 MiB program region.
 Generated disassembly is deliberately untracked; reviewed C and authentic
 source assembly will replace it incrementally.
 
@@ -45,13 +45,14 @@ The generator rejects out-of-range, unaligned, or overlapping canonical
 function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
-The initial split accounts for the full 8 MiB ROM: 1,606 non-overlapping
+The initial split accounts for the full 8 MiB ROM: 1,609 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Three hundred sixty-one reviewed C source units
-now reconstruct 24,352 retail bytes. The 45 libultra units include the
+resource area remain explicit binary regions. Three hundred ninety reviewed C source units
+now reconstruct 43,884 retail code bytes. The 74 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
-string primitives, audio bus/save processing, and low-level AI/SI/SP accessors.
+string primitives, audio synthesis and effects processing, timer services, VI
+management, audio bus/save processing, and low-level AI/SI/SP accessors.
 `make verify-matching`
 compiles every manifest entry with pinned IDO 5.3 and compares every emitted
 byte directly with the supported ROM.
@@ -61,9 +62,9 @@ Every CI run publishes an objdiff v2 progress artifact named `us_report`, with
 byte-verified matching manifests. This is the artifact contract consumed by
 decomp.dev; locally, `make report` writes the same ignored report under
 `build/` without requiring a ROM. Code and data are reported separately. Data
-progress starts at zero and advances only when reviewed data or rodata ranges
-are added to a matching-data manifest; unknown non-function bytes are never
-credited as reconstructed data.
+progress advances only when reviewed `.data` or `.rodata` ranges are added to
+the section-aware matching-data manifest; 1,440 initialized bytes are currently
+verified. Unknown non-function bytes are never credited as reconstructed data.
 
 The game-owned KMC GCC units cover string and list helpers, state initialization
 and predicates, vector copying, matrix state setup, two matrix multiplication

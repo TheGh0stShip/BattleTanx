@@ -16,6 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/us/matching_units.tsv"
 KMC_MANIFEST = ROOT / "config/us/matching_kmc_units.tsv"
 ASM_MANIFEST = ROOT / "config/us/matching_asm_units.tsv"
+DATA_MANIFEST = ROOT / "config/us/matching_data_units.tsv"
 
 
 def elf32_be_section(path: Path, wanted: str) -> bytes:
@@ -89,7 +90,12 @@ def relocate_elf32_be_section(
             location, info = struct.unpack_from(">II", data, offset)
             symbol_index, kind = info >> 8, info & 0xFF
             name, symbol_value, section_index = symbols[symbol_index]
-            if name == "":
+            symbol_section = section_name(headers[section_index]) if section_index < len(headers) else ""
+            if section_index < len(headers) and symbol_section in section_bases:
+                # Defined symbols carry section-relative values even when IDO
+                # emits their names in relocations (for example __osViCurr).
+                address = section_bases[symbol_section] + symbol_value
+            elif name == "" or name == symbol_section:
                 base = section_bases.get(section_name(headers[section_index]), 0)
                 address = base + symbol_value
             else:
@@ -135,6 +141,35 @@ def rows() -> list[tuple[str, int, int, Path, list[str], str]]:
     return result
 
 
+DATA_SECTIONS = (".rodata", ".data")
+
+
+def parse_data_row(line: str) -> tuple[int, int, str, str, str]:
+    """Parse ``START SIZE SOURCE [SECTION] SHA256``; SECTION defaults to .rodata."""
+    fields = line.split("\t")
+    if len(fields) == 4:
+        start, size, source, digest = fields
+        section = ".rodata"
+    elif len(fields) == 5:
+        start, size, source, section, digest = fields
+    else:
+        raise ValueError(f"data row needs 4 or 5 tab-separated fields: {line!r}")
+    if section not in DATA_SECTIONS:
+        raise ValueError(f"unsupported data section {section!r}")
+    return int(start, 0), int(size, 0), source, section, digest
+
+
+def data_rows() -> list[tuple[int, int, Path, str, str]]:
+    result = []
+    for line in DATA_MANIFEST.read_text().splitlines():
+        if not line or line.startswith("#"):
+            continue
+        start, size, source, section, digest = parse_data_row(line)
+        result.append((start, size, ROOT / source, section, digest))
+    result.sort(key=lambda row: row[0])
+    return result
+
+
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rom", type=Path, default=ROOT / "baseroms/us/baserom.z64")
@@ -150,14 +185,19 @@ def main() -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     known_symbols = symbol_addresses()
     matched = 0
+    compiled_units: dict[Path, tuple[Path, dict[str, int], dict[str, int]]] = {}
     for pipeline, start, size, source, flags, expected_digest in rows():
         output = output_dir / f"{source.stem}.o"
         section_bases = {".text": 0x80070000 + start}
+        unit_symbols = dict(known_symbols)
         compiler_flags = []
         for flag in flags:
             if flag.startswith("--section-base="):
                 section, address = flag.removeprefix("--section-base=").split(":", 1)
                 section_bases[section] = int(address, 0)
+            elif flag.startswith("--symbol="):
+                symbol, address = flag.removeprefix("--symbol=").split(":", 1)
+                unit_symbols[symbol] = int(address, 0)
             else:
                 compiler_flags.append(flag)
         flags = compiler_flags
@@ -176,7 +216,8 @@ def main() -> None:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
-        compiled_text = relocate_elf32_be_section(output, ".text", known_symbols, section_bases)
+        compiled_units[source] = (output, section_bases, unit_symbols)
+        compiled_text = relocate_elf32_be_section(output, ".text", unit_symbols, section_bases)
         if len(compiled_text) < size:
             raise SystemExit(f"{source}: text size 0x{len(compiled_text):X}, expected at least 0x{size:X}")
         if any(compiled_text[size:]):
@@ -191,7 +232,31 @@ def main() -> None:
             raise SystemExit(f"{source}: mismatch at ROM 0x{start + first:X}")
         matched += size
         print(f"MATCH [{pipeline.upper()}] {source.relative_to(ROOT)}: ROM 0x{start:X}-0x{start + size:X} ({size} bytes)")
-    print(f"Verified {len(rows())} matching source unit(s), {matched} bytes")
+    matched_data = 0
+    previous_end = 0
+    for start, size, source, section, expected_digest in data_rows():
+        if start < previous_end:
+            raise SystemExit(f"{DATA_MANIFEST}: overlapping data range at ROM 0x{start:X}")
+        previous_end = start + size
+        if source not in compiled_units:
+            raise SystemExit(f"{source}: matching data source has no compiled code unit")
+        output, section_bases, unit_symbols = compiled_units[source]
+        if section_bases.get(section) is not None and section_bases[section] - 0x80070000 != start:
+            raise SystemExit(f"{source}: {section} base does not match ROM 0x{start:X}")
+        data = relocate_elf32_be_section(output, section, unit_symbols, section_bases)
+        if len(data) != size:
+            raise SystemExit(f"{source}: {section} size 0x{len(data):X}, expected 0x{size:X}")
+        digest = hashlib.sha256(data).hexdigest()
+        if digest != expected_digest:
+            raise SystemExit(f"{source}: data SHA-256 {digest}, expected {expected_digest}")
+        retail = rom[start : start + size]
+        if data != retail:
+            first = next(i for i, (left, right) in enumerate(zip(data, retail)) if left != right)
+            raise SystemExit(f"{source}: data mismatch at ROM 0x{start + first:X}")
+        matched_data += size
+        print(f"MATCH [DATA {section}] {source.relative_to(ROOT)}: ROM 0x{start:X}-0x{start + size:X} ({size} bytes)")
+    print(f"Verified {len(rows())} matching source unit(s), {matched} code bytes, "
+          f"{matched_data} data bytes")
 
 
 if __name__ == "__main__":

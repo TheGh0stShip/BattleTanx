@@ -24,5 +24,5 @@ void initialize_member_link_state(MemberLinkState *state)
     state->byte14 = 0;
     state->byte15 = 0;
     state->enabled = 1;
-    state->scale = 1.0f;
+    state->scale = 16000.0f;
 }
