@@ -40,5 +40,8 @@
 0xA8830	0x28	src/libultra/os_pi_get_cmd_queue.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	567be77417b766ded7fbcf6dd2cb42b5c2d96ef93c16c442a6f39ab00b3bff52
 0xA9100	0xE0	src/libultra/os_pi_raw_start_dma.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	cfc79b03188653142344f7fe456a8633ddb621d936c3f55e74752c25f5b707d0
 0xA91E0	0x54	src/libultra/os_pi_raw_read_io.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	1c05b9785c8d993387b15fcecd7caf8a669c211dc5938cca3840e9028d7a8169
+0xABFD0	0xAC	src/libultra/os_si_raw_start_dma.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	6740ca30a6af480ecf079763390f286bba07fa1cb659ad29bb466aa9344719fc
+0xAC0B0	0x50	src/libultra/os_si_raw_read_io.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	d8bdfa6e45e7aac1e61cb01b260b575fbc46c2b4c708120f0b5bcb5c4623eecb
+0xAC100	0x4C	src/libultra/os_si_raw_write_io.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	d73fabaf35d241c7287529c70aedd98d4102f8ce4960d86f9fe8f973ece37621
 0xAEBB8	0xEC	src/libultra/al_frexpf.c	-O3 -mips2 -Wab,-r4300_mul -non_shared -G 0	4498bb6a00d9565ff10d6ae1b3fb5fc3a0aa745c4e1ed73a7e82659c640f9ba7
 0xAE6B0	0xA0	src/libultra/al_init_lpfilter.c	-O3 -mips2 -non_shared -G 0	806a712b699bb14ebb3ebbc909fb448f18c649b0937278d1a10d287ce8a1e81f
