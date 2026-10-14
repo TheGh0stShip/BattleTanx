@@ -7,6 +7,7 @@
 0xA4520	0x180	src/libultra/os_cont_crc.c	-O1 -mips2 -non_shared -G 0	2fb721fdaa55eef5c2841b16b942f22fe688eb8cf6a40636ecf086bfe1c3885c
 0xA8F80	0x50	src/libultra/os_epi_raw_read_io.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	a49df28dd1009fab8a6de0da391eb3c9906cc3c372f9118728dcb861a08b0baf
 0xA8FD0	0x50	src/libultra/os_epi_raw_write_io.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	8c551c974d74f94c0986de91da32d8a76b28070898200ea03212553acd4c970f
+0xA9020	0x18	src/libultra/os_get_thread_pri.c	-O1 -mips2 -non_shared -G 0	514508f98653f93a202562c5e232231e18037b482b51926be7bedac8ca924a38
 0xAB830	0x80	src/libultra/al_copy.c	-O2 -mips2 -non_shared -G 0	fbbd00a358ba9f6e6d467b5e9bc4cc4c42160ed2fa845082aec37f6d176aa733
 0xAC080	0x30	src/libultra/os_si_device_busy.c	-O1 -mips2 -non_shared -G 0	2e32a122560dc0bf5f956dab44ea34bd34c62194b39f957ded83be5694a5667c
 0xACFD0	0x30	src/libultra/os_sp_device_busy.c	-O1 -mips2 -non_shared -G 0	a44aec60d9645024aa1a70288e3337586a6634058e77d1d7cc8f99bc5363c031

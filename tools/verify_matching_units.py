@@ -5,9 +5,11 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import re
 import shlex
 import struct
 import subprocess
+import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -34,6 +36,78 @@ def elf32_be_section(path: Path, wanted: str) -> bytes:
         if name == wanted:
             return data[header[4] : header[4] + header[5]]
     raise ValueError(f"{path}: no {wanted} section")
+
+
+def symbol_addresses() -> dict[str, int]:
+    catalogue = tomllib.loads((ROOT / "config/us/recomp_function_boundaries.toml").read_text())
+    return {function["name"]: function["vram"] for function in catalogue["section"][0]["functions"]}
+
+
+def inferred_symbol_address(name: str, known: dict[str, int]) -> int:
+    if name in known:
+        return known[name]
+    match = re.fullmatch(r"(?:D|func)_([0-9A-Fa-f]{8})", name)
+    if match:
+        return int(match.group(1), 16)
+    raise ValueError(f"no retail address known for relocation symbol {name}")
+
+
+def relocate_elf32_be_section(path: Path, wanted: str, known: dict[str, int]) -> bytes:
+    """Apply the small subset of MIPS REL relocations emitted by matching C units."""
+    data = path.read_bytes()
+    shoff = struct.unpack_from(">I", data, 32)[0]
+    shentsize, shnum, shstrndx = struct.unpack_from(">HHH", data, 46)
+    headers = [struct.unpack_from(">IIIIIIIIII", data, shoff + i * shentsize) for i in range(shnum)]
+    strings_header = headers[shstrndx]
+    section_names = data[strings_header[4] : strings_header[4] + strings_header[5]]
+
+    def section_name(header: tuple[int, ...]) -> str:
+        end = section_names.find(b"\0", header[0])
+        return section_names[header[0] : end].decode("ascii")
+
+    target_index = next(i for i, header in enumerate(headers) if section_name(header) == wanted)
+    target = bytearray(elf32_be_section(path, wanted))
+    pending_hi: dict[int, list[tuple[int, int]]] = {}
+
+    for rel_header in headers:
+        if rel_header[1] != 9 or rel_header[7] != target_index:  # SHT_REL, sh_info target
+            continue
+        sym_header = headers[rel_header[6]]
+        str_header = headers[sym_header[6]]
+        symbol_names = data[str_header[4] : str_header[4] + str_header[5]]
+        symbols = []
+        for offset in range(sym_header[4], sym_header[4] + sym_header[5], sym_header[9]):
+            name_offset, value = struct.unpack_from(">II", data, offset)
+            end = symbol_names.find(b"\0", name_offset)
+            symbols.append((symbol_names[name_offset:end].decode("ascii"), value))
+
+        for offset in range(rel_header[4], rel_header[4] + rel_header[5], rel_header[9]):
+            location, info = struct.unpack_from(">II", data, offset)
+            symbol_index, kind = info >> 8, info & 0xFF
+            name, symbol_value = symbols[symbol_index]
+            address = symbol_value if name == "" else inferred_symbol_address(name, known)
+            word = struct.unpack_from(">I", target, location)[0]
+            if kind == 2:  # R_MIPS_32
+                struct.pack_into(">I", target, location, (word + address) & 0xFFFFFFFF)
+            elif kind == 4:  # R_MIPS_26
+                word = (word & 0xFC000000) | (((word & 0x03FFFFFF) + (address >> 2)) & 0x03FFFFFF)
+                struct.pack_into(">I", target, location, word)
+            elif kind == 5:  # R_MIPS_HI16; completed when its LO16 arrives
+                pending_hi.setdefault(symbol_index, []).append((location, word))
+            elif kind == 6:  # R_MIPS_LO16
+                low_addend = struct.unpack(">h", struct.pack(">H", word & 0xFFFF))[0]
+                full_value = address + low_addend
+                struct.pack_into(">I", target, location, (word & 0xFFFF0000) | (full_value & 0xFFFF))
+                for hi_location, hi_word in pending_hi.pop(symbol_index, []):
+                    hi_addend = (hi_word & 0xFFFF) << 16
+                    value = address + hi_addend + low_addend
+                    patched = (hi_word & 0xFFFF0000) | (((value + 0x8000) >> 16) & 0xFFFF)
+                    struct.pack_into(">I", target, hi_location, patched)
+            else:
+                raise ValueError(f"{path}: unsupported MIPS relocation type {kind}")
+    if pending_hi:
+        raise ValueError(f"{path}: unmatched R_MIPS_HI16 relocation")
+    return bytes(target)
 
 
 def rows() -> list[tuple[str, int, int, Path, list[str], str]]:
@@ -66,6 +140,7 @@ def main() -> None:
         raise SystemExit("missing pinned KMC compiler; run tools/bootstrap_kmc_gcc.sh")
     output_dir = ROOT / "build/us/matching"
     output_dir.mkdir(parents=True, exist_ok=True)
+    known_symbols = symbol_addresses()
     matched = 0
     for pipeline, start, size, source, flags, expected_digest in rows():
         output = output_dir / f"{source.stem}.o"
@@ -84,7 +159,7 @@ def main() -> None:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
-        compiled_text = elf32_be_section(output, ".text")
+        compiled_text = relocate_elf32_be_section(output, ".text", known_symbols)
         if len(compiled_text) < size:
             raise SystemExit(f"{source}: text size 0x{len(compiled_text):X}, expected at least 0x{size:X}")
         if any(compiled_text[size:]):

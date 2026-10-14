@@ -1523,7 +1523,7 @@ segments:
       - [0xA8AF0, asm, functions/__osDevMgrMain]
       - [0xA8F80, c, libultra/os_epi_raw_read_io]
       - [0xA8FD0, c, libultra/os_epi_raw_write_io]
-      - [0xA9020, asm, functions/osGetThreadPri]
+      - [0xA9020, c, libultra/os_get_thread_pri]
       - [0xA9038, bin, gaps/gap_0A9038]
       - [0xA9040, asm, functions/func_80119040]
       - [0xA9090, bin, gaps/gap_0A9090]
