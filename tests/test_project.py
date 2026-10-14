@@ -55,15 +55,15 @@ class ProjectTests(unittest.TestCase):
 
     def test_matching_manifest(self) -> None:
         rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(rows), 18)
-        self.assertEqual(sum(int(row[1], 0) for row in rows), 2588)
+        self.assertEqual(len(rows), 21)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 2800)
         for _start, _size, source, _flags, digest in rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 5)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 420)
+        self.assertEqual(len(kmc_rows), 6)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 432)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
