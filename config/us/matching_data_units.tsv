@@ -64,3 +64,4 @@
 0x5514	0x4	src/code/effects/spawn_effect_kind_2b.c	.rodata	cff611e6fecb2649fe363c0dcf79cb556a59d01303808eb1f8c0d30b102cbe3c
 0x551C	0x4	src/code/effects/tick_effect_index_cycle.c	.rodata	cff611e6fecb2649fe363c0dcf79cb556a59d01303808eb1f8c0d30b102cbe3c
 0xB6A60	0xB8B0	src/code/render/texture_bank_data.c	.data	39391043698ef102aec72c5a9722f451d57126079da07e8935cebea35869e831
+0x1350	0x28	src/code/gameplay/get_state_slot_value.c	.rodata	6a9f9134db4e9c13bd992509623693bb75d232382b5cadfa76f59dcef8bf2e6b

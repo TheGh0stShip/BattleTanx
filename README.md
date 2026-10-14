@@ -77,7 +77,7 @@ byte-verified matching manifests. This is the artifact contract consumed by
 decomp.dev; locally, `make report` writes the same ignored report under
 `build/` without requiring a ROM. Code and data are reported separately. Data
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
-the section-aware matching-data manifest; 86,916 initialized bytes are currently
+the section-aware matching-data manifest; 86,956 initialized bytes are currently
 verified. This includes effect scripts, HUD and level-map metadata, briefing text
 and image descriptors, and opponent-wave configuration. Unknown non-function
 bytes are never credited as reconstructed data.
@@ -88,9 +88,9 @@ does not claim that individual entries have already been classified as textures,
 music, sounds, images, models, or levels.
 
 ```text
-code       [██████░░░░░░░░░░░░░░]  28.06%    197,124 / 702,588 bytes
-data       [██████████░░░░░░░░░░]  49.95%     86,916 / 174,020 bytes
-functions  [█████████████░░░░░░░]  65.03%       1,101 / 1,693
+code       [██████░░░░░░░░░░░░░░]  29.59%    207,928 / 702,588 bytes
+data       [██████████░░░░░░░░░░]  49.97%     86,956 / 174,020 bytes
+functions  [██████████████░░░░░░]  68.38%       1,157 / 1,692
 assets     [██████░░░░░░░░░░░░░░]  29.41%  2,157,184 / 7,335,936 bytes
 ```
 
