@@ -53,3 +53,6 @@
 0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x381F0	0x4C	src/code/render/matrix_transpose_3x3.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3d290589223dc29703e1765648d2f96c2a02f2aab80d8c9f63651d29271af4f0
+0x6068	0x38	src/code/debug/pi_write_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	2eaa8e2601d9277f117e2f2a15447572fe27e2b7c63d4bf5db665d1203022bd1
+0x60A0	0x3C	src/code/debug/pi_read_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	72700632044ac1ef29c829aabd8b08e5ab216a96a0e17d0d28fbe8a05c0296b0
+0x6240	0x3C	src/code/debug/store_byte.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	51b6cc29401b66eb77f962f3192d1896f69943bc7b9c5b5ed71c27d6c1f0bdda

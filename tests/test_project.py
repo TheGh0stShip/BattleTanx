@@ -62,15 +62,15 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 54)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 1124)
+        self.assertEqual(len(kmc_rows), 57)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 1300)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 
         asm_rows = [line.split("\t") for line in (ROOT / "config/us/matching_asm_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(asm_rows), 5)
-        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 160)
+        self.assertEqual(len(asm_rows), 7)
+        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 296)
         for _start, _size, source, digest in asm_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
