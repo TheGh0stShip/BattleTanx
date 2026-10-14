@@ -53,6 +53,31 @@ def asset_progress() -> tuple[int, int]:
     return end - start, sum(right - left for left, right in ranges)
 
 
+ASSET_CATEGORIES = (
+    ("assets_textures", "Textures and palettes", ("texture", "palette")),
+    ("assets_images", "Images, sprites and fonts", ("image", "sprite", "font")),
+    ("assets_models", "Models and display lists", ("model", "display_list")),
+    ("assets_levels", "Levels and world data", ("level", "world")),
+    ("assets_music", "Music", ("music",)),
+    ("assets_sound", "Sound effects and sample banks", ("sample_bank", "sound_effect")),
+    ("assets_scripts", "Scripts and tables", ("script", "table")),
+    ("assets_containers", "Verified resource containers", ("resource_bundle",)),
+)
+
+
+def asset_kind_totals() -> dict[str, int]:
+    manifest = tomllib.loads(ASSET_PROGRESS.read_text())
+    totals = {category_id: 0 for category_id, _name, _kinds in ASSET_CATEGORIES}
+    for entry in manifest.get("range", []):
+        for category_id, _name, kinds in ASSET_CATEGORIES:
+            if entry.get("kind") in kinds:
+                totals[category_id] += entry["rom_end"] - entry["rom_start"]
+                break
+        else:
+            raise ValueError(f"{ASSET_PROGRESS}: unclassified asset kind {entry.get('kind')!r}")
+    return totals
+
+
 def manifest_ranges() -> list[tuple[int, int, str]]:
     ranges: list[tuple[int, int, str]] = []
     for manifest in MANIFESTS:
@@ -213,6 +238,14 @@ def build_report() -> dict:
         "measures": measures(0, 0, 0, 0, 0, 0,
                              total_data=total_assets, matched_data=identified_assets),
     })
+    kind_totals = asset_kind_totals()
+    for category_id, name, _kinds in ASSET_CATEGORIES:
+        categories.append({
+            "id": category_id,
+            "name": name,
+            "measures": measures(0, 0, 0, 0, 0, 0,
+                                 total_data=total_assets, matched_data=kind_totals[category_id]),
+        })
     total_data = image_end - section["vram"] - total_code
     matched_data = sum(range_bytes(start, end, matched_data_ranges)
                        for start, end in category_rom_spans.values())

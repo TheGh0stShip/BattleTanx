@@ -77,3 +77,38 @@ rom_start = 0x4b39b0
 rom_end = 0x4b4b00
 kind = "resource_bundle"
 status = "container_verified"
+
+[[range]]
+name = "sound_effect_samples"
+rom_start = 0x101000
+rom_end = 0x215620
+kind = "sample_bank"
+status = "format_verified"
+
+[[range]]
+name = "sound_effect_bank"
+rom_start = 0x215620
+rom_end = 0x217ec0
+kind = "sample_bank"
+status = "format_verified"
+
+[[range]]
+name = "music_instrument_samples"
+rom_start = 0x217ec0
+rom_end = 0x298d60
+kind = "sample_bank"
+status = "format_verified"
+
+[[range]]
+name = "music_instrument_bank"
+rom_start = 0x298d60
+rom_end = 0x29a710
+kind = "sample_bank"
+status = "format_verified"
+
+[[range]]
+name = "music_sequences"
+rom_start = 0x29a710
+rom_end = 0x2c19b0
+kind = "music"
+status = "format_verified"

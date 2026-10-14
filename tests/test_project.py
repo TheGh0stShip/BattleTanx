@@ -24,11 +24,11 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1759)
+        self.assertEqual(len(section["functions"]), 1764)
         canonical = canonical_functions(section)
         # 74 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1685)
+        self.assertEqual(len(canonical), 1693)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -64,8 +64,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 649)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 106000)
+        self.assertEqual(len(kmc_rows), 754)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 129680)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -78,8 +78,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(data_rows), 56)
-        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 39596)
+        self.assertEqual(len(data_rows), 65)
+        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 86916)
         for _start, _size, source, section, digest in data_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertIn(section, {".rodata", ".data"})
@@ -88,16 +88,21 @@ class ProjectTests(unittest.TestCase):
     def test_decomp_dev_report(self) -> None:
         report = build_report()
         self.assertEqual(report["version"], 2)
-        self.assertEqual(len(report["units"]), 1685)
-        self.assertEqual(report["measures"]["total_functions"], 1685)
+        self.assertEqual(len(report["units"]), 1693)
+        self.assertEqual(report["measures"]["total_functions"], 1693)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 173040)
-        self.assertEqual(report["measures"]["matched_data"], "39596")
+        self.assertEqual(int(report["measures"]["total_data"]), 174020)
+        self.assertEqual(report["measures"]["matched_data"], "86916")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
-                         {"game", "libultra", "assets"})
+                         {"game", "libultra", "assets", "assets_textures", "assets_images",
+                          "assets_models", "assets_levels", "assets_music", "assets_sound",
+                          "assets_scripts", "assets_containers"})
+        by_id = {category["id"]: category for category in report["categories"]}
+        self.assertEqual(by_id["assets_music"]["measures"]["matched_data"], str(0x2C19B0 - 0x29A710))
+        self.assertEqual(by_id["assets_sound"]["measures"]["matched_data"], str(0x29A710 - 0x101000))
         assets = next(category for category in report["categories"] if category["id"] == "assets")
-        self.assertEqual(assets["measures"]["matched_data"], "319696")
+        self.assertEqual(assets["measures"]["matched_data"], "2157184")
         self.assertEqual(assets["measures"]["total_data"], "7335936")
         # The report must remain JSON serializable with protobuf-compatible
         # string encoding for every uint64 field.

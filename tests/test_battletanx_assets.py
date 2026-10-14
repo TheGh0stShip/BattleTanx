@@ -89,7 +89,7 @@ class ManifestAccountingTests(unittest.TestCase):
     def test_asset_progress_inventory(self) -> None:
         total, identified = report.asset_progress()
         self.assertEqual(total, 0x800000 - 0x101000)
-        self.assertEqual(identified, 0x4E0D0)
+        self.assertEqual(identified, 0x20EA80)
 
     def test_data_rows_accept_optional_section(self) -> None:
         four = "0x5EA0\t0x100\tsrc/libultra/xprintf.c\t" + "0" * 64
