@@ -327,7 +327,7 @@ functions = [
     { name = "func_800911A0", vram = 0x800911a0, size = 0x20c },
     { name = "func_800913AC", vram = 0x800913ac, size = 0x25c },
     { name = "effect_handle_unit_contact", vram = 0x80091608, size = 0xb0 },
-    { name = "func_800916B8", vram = 0x800916b8, size = 0xb4 },
+    { name = "effect_handle_unit_contact_event", vram = 0x800916b8, size = 0xb4 },
     { name = "func_800917C4", vram = 0x800917c4, size = 0x14 },
     { name = "copy_record_halfword_pairs", vram = 0x800917d8, size = 0x3c },
     { name = "func_80091814", vram = 0x80091814, size = 0x88 },

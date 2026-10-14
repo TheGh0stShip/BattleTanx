@@ -331,7 +331,6 @@ segments:
       - [0x211A0, asm, functions/func_800911A0]
       - [0x213AC, asm, functions/func_800913AC]
       - [0x21608, c, code/effects/effect_handle_unit_contact]
-      - [0x216B8, asm, functions/func_800916B8]
       - [0x2176C, bin, gaps/gap_02176C]
       - [0x217C4, c, code/runtime/copy_halfword_pair]
       - [0x217D8, c, code/runtime/copy_record_halfword_pairs]

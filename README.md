@@ -58,8 +58,8 @@ catalogue but are not emitted as duplicate splat segments.
 The initial split accounts for the full 8 MiB ROM: 1,660 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
 resource area remain explicit binary regions. Five hundred ninety-three reviewed C source
-units now reconstruct 103,156 retail code bytes. Together with 17 authentic
-source-assembly units, 610 matching units reconstruct 104,504 code bytes. The
+units now reconstruct 103,336 retail code bytes. Together with 17 authentic
+source-assembly units, 610 matching units reconstruct 104,684 code bytes. The
 128 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
@@ -84,9 +84,9 @@ does not claim that individual entries have already been classified as textures,
 music, sounds, images, models, or levels.
 
 ```text
-code       [███░░░░░░░░░░░░░░░░░]  14.78%  103,916 / 702,868 bytes
+code       [███░░░░░░░░░░░░░░░░░]  14.81%  104,096 / 702,868 bytes
 data       [██░░░░░░░░░░░░░░░░░░]   8.56%   14,880 / 173,740 bytes
-functions  [██████████░░░░░░░░░░]  47.77%      793 / 1,660
+functions  [██████████░░░░░░░░░░]  47.83%      794 / 1,660
 assets     [█░░░░░░░░░░░░░░░░░░░]   4.36%  319,696 / 7,335,936 bytes
 ```
 

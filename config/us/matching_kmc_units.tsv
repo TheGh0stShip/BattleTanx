@@ -437,7 +437,7 @@
 0x7028	0x70	src/code/debug/debug_port_command_707.c	-O2 -G0 -mips3 -mgp32 -mfp32	519a7b4a89774ff9ebf9f731a7b08d6b2cf472aa05c47e914a2f58afbb16295b
 0x6634	0x1B0	src/code/debug/debug_transfer_memory.c	-O2 -G0 -mips3 -mgp32 -mfp32	46eb3d7d3016679a7d5100dc3d184c06ea8ff7e8c7b0b06da01cb0df6c0a0408
 0x9DCD0	0xC4	src/code/effects/effect_handle_timed_contact.c	-O2 -G0 -mips3 -mgp32 -mfp32	8e09b9a61f413c5aad6e922e3b0c8c71f6b6be9c0b3864b9f2492143403b996f
-0x21608	0xB0	src/code/effects/effect_handle_unit_contact.c	-O2 -G0 -mips3 -mgp32 -mfp32	7428a7a746ab545f5b9d24a840f642a9f1d3dc0af38d9df15a545b5214b8c828
+0x21608	0x164	src/code/effects/effect_handle_unit_contact.c	-O2 -G0 -mips3 -mgp32 -mfp32	2cfee15f2cd2016442014e4b6b43f64f9d20539ba7e3f1fac7899600b450b402
 0x208CC	0x24	src/code/effects/effect_report_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	6f84e8f783034a2f933bb7cde5f140f5e5b48de9c4a94c9398730b2c17a21a1a
 0x304F0	0x3C	src/code/effects/release_effect_resource.c	-O2 -G0 -mips3 -mgp32 -mfp32	f6078e957a132177b6d0a21a8328f1a48c2b715edb7496bdc3adbb421119cc02
 0x2249C	0x98	src/code/effects/scale_effect_extents.c	-O2 -G0 -mips3 -mgp32 -mfp32	81ed6d1d7ce6dd5e270bd696e7564757eb0903a4f515750bed90819230e3bb54
