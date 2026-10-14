@@ -1,0 +1,3 @@
+# ROM_START	SIZE	SOURCE	SHA256_TEXT
+0x71BC	0x38	src/boot/cache_ops.s	10f1b7ea4584755a5f0020f01f7f7a517903baab60eaae5e8cc274731e9701b9
+0x71F4	0x18	src/boot/cp0_status.s	c7e3a01658a7ab218dab3b266b1e2e2880b1be35f54a5640bcdd5da9b6782cba

@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOGUE = ROOT / "config/us/recomp_function_boundaries.toml"
 MATCHING = ROOT / "config/us/matching_units.tsv"
 MATCHING_KMC = ROOT / "config/us/matching_kmc_units.tsv"
+MATCHING_ASM = ROOT / "config/us/matching_asm_units.tsv"
 OUTPUT = ROOT / "config/us/splat.yaml"
 
 
@@ -78,14 +79,19 @@ def main() -> None:
             if not line or line.startswith("#"):
                 continue
             offset, size, source, _flags, _digest = line.split("\t")
-            matching.append((int(offset, 0), int(offset, 0) + int(size, 0), source.removeprefix("src/").removesuffix(".c")))
+            matching.append((int(offset, 0), int(offset, 0) + int(size, 0), source.removeprefix("src/").removesuffix(".c"), "c"))
+    for line in MATCHING_ASM.read_text().splitlines():
+        if not line or line.startswith("#"):
+            continue
+        offset, size, source, _digest = line.split("\t")
+        matching.append((int(offset, 0), int(offset, 0) + int(size, 0), source.removeprefix("src/").removesuffix(".s"), "hasm"))
     matching.sort()
     for left, right in zip(matching, matching[1:]):
         if left[1] > right[0]:
             raise ValueError(f"overlapping matching units: {left} and {right}")
     segments = [(rom_start + f["vram"] - vram_start, rom_start + f["vram"] - vram_start + f["size"], "asm", f"functions/{f['name']}") for f in functions]
-    segments = [segment for segment in segments if not any(segment[0] < end and segment[1] > start for start, end, _ in matching)]
-    segments.extend((start, end, "c", source) for start, end, source in matching)
+    segments = [segment for segment in segments if not any(segment[0] < end and segment[1] > start for start, end, _source, _kind in matching)]
+    segments.extend((start, end, kind, source) for start, end, source, kind in matching)
     segments.sort()
     cursor = rom_start
     for offset, end, kind, name in segments:
@@ -97,7 +103,7 @@ def main() -> None:
         lines.append(f"      - [0x{cursor:X}, bin, gaps/gap_{cursor:06X}]")
     lines.extend([f"  - [0x{rom_end:X}, bin, assets]", "  - [0x800000]", ""])
     OUTPUT.write_text("\n".join(lines))
-    print(f"Wrote {OUTPUT.relative_to(ROOT)} with {len(functions)} canonical functions and {len(matching)} matching C unit(s)")
+    print(f"Wrote {OUTPUT.relative_to(ROOT)} with {len(functions)} canonical functions and {len(matching)} matching source unit(s)")
 
 
 if __name__ == "__main__":

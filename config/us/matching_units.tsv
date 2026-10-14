@@ -20,3 +20,4 @@
 0xB0360	0x150	src/libultra/al_main_bus.c	-O3 -mips2 -non_shared -G 0 -Isrc/libultra	d71024aa6927ab6169a2bfd017ba212d3b58247deace75adceee37f92e420d7d
 0xB1400	0x34	src/libultra/al_save_param.c	-O2 -mips2 -non_shared -G 0	b7b30fe537667c0e5547257b445cba9e23aac12a7c4b9e3c2b0047c5bb57fb71
 0xB1434	0x8C	src/libultra/al_save_pull.c	-O2 -mips2 -non_shared -G 0	8e29dd8a34b471ef867750b988e1a6fe0673f8412ec86bfcecb3078970c19f8c
+0xB1560	0x40	src/libultra/os_dequeue_thread.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	6950f1d67e7328147547bdd321085cf5f0e2327d377a5d6ae2dfca3d5a3c6708

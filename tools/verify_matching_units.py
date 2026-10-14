@@ -13,6 +13,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/us/matching_units.tsv"
 KMC_MANIFEST = ROOT / "config/us/matching_kmc_units.tsv"
+ASM_MANIFEST = ROOT / "config/us/matching_asm_units.tsv"
 
 
 def elf32_be_section(path: Path, wanted: str) -> bytes:
@@ -43,6 +44,11 @@ def rows() -> list[tuple[str, int, int, Path, list[str], str]]:
                 continue
             start, size, source, flags, digest = line.split("\t")
             result.append((pipeline, int(start, 0), int(size, 0), ROOT / source, shlex.split(flags), digest))
+    for line in ASM_MANIFEST.read_text().splitlines():
+        if not line or line.startswith("#"):
+            continue
+        start, size, source, digest = line.split("\t")
+        result.append(("asm", int(start, 0), int(size, 0), ROOT / source, [], digest))
     result.sort(key=lambda row: row[1])
     return result
 
@@ -65,12 +71,14 @@ def main() -> None:
         output = output_dir / f"{source.stem}.o"
         if pipeline == "ido":
             subprocess.run([str(compiler), "-c", *flags, "-Iinclude", "-o", str(output), str(source)], check=True, cwd=ROOT)
-        else:
+        elif pipeline == "kmc":
             raw = output.with_suffix(".raw.s")
             normalized = output.with_suffix(".s")
             subprocess.run([str(kmc_root / "gcc"), f"-B{kmc_root}/", "-S", *flags, "-Iinclude", "-o", str(raw), str(source)], check=True, cwd=ROOT)
             subprocess.run([str(ROOT / "tools/normalize_kmc_gcc_asm.py"), str(raw), str(normalized)], check=True, cwd=ROOT)
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
+        else:
+            subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
         compiled_text = elf32_be_section(output, ".text")
         if len(compiled_text) < size:
             raise SystemExit(f"{source}: text size 0x{len(compiled_text):X}, expected at least 0x{size:X}")

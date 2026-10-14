@@ -55,8 +55,8 @@ class ProjectTests(unittest.TestCase):
 
     def test_matching_manifest(self) -> None:
         rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(rows), 21)
-        self.assertEqual(sum(int(row[1], 0) for row in rows), 2800)
+        self.assertEqual(len(rows), 22)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 2864)
         for _start, _size, source, _flags, digest in rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -65,6 +65,13 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(len(kmc_rows), 6)
         self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 432)
         for _start, _size, source, _flags, digest in kmc_rows:
+            self.assertTrue((ROOT / source).is_file())
+            self.assertEqual(len(digest), 64)
+
+        asm_rows = [line.split("\t") for line in (ROOT / "config/us/matching_asm_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
+        self.assertEqual(len(asm_rows), 2)
+        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 80)
+        for _start, _size, source, digest in asm_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 

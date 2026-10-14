@@ -46,8 +46,8 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,568 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Twenty-seven reviewed source
-units now reconstruct 3,232 retail bytes. The 21 libultra units include the
+resource area remain explicit binary regions. Twenty-eight reviewed C source
+units now reconstruct 3,296 retail bytes. The 22 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
 string primitives, audio bus/save processing, and low-level AI/SI/SP accessors.
@@ -60,6 +60,11 @@ initialization, matrix
 state setup, two matrix multiplication routines, a byte-sum helper, and a
 16-bit angular-distance helper. Their target-address names were corrected for
 BattleTanx rather than retaining Global Assault addresses.
+
+Two authentic source-assembly units additionally reconstruct the contiguous
+80-byte cache-maintenance and CP0-status block at ROM `0x71BC-0x720C`. These
+remain assembly because they directly use `cache`, `mfc0`, and `mtc0`; rewriting
+them as ordinary C would misrepresent the original low-level implementation.
 
 See `docs/ARCHITECTURE.md` and `docs/PROVENANCE.md` before contributing.
 
