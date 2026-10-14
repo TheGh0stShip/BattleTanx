@@ -57,8 +57,10 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,619 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Four hundred sixty-one reviewed C source units
-now reconstruct 88,020 retail code bytes. The 128 libultra units include the
+resource area remain explicit binary regions. Five hundred forty-seven reviewed C source
+units now reconstruct 97,972 retail code bytes. Together with 17 authentic
+source-assembly units, 564 matching units reconstruct 99,320 code bytes. The
+128 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
 string primitives, audio synthesis and effects processing, timer services, VI
@@ -75,6 +77,12 @@ decomp.dev; locally, `make report` writes the same ignored report under
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
 the section-aware matching-data manifest; 14,872 initialized bytes are currently
 verified. Unknown non-function bytes are never credited as reconstructed data.
+
+```text
+code       [███░░░░░░░░░░░░░░░░░]  14.05%   98,740 / 702,664 bytes
+data       [██░░░░░░░░░░░░░░░░░░]   8.55%   14,872 / 173,944 bytes
+functions  [█████████░░░░░░░░░░░]  45.40%      735 / 1,619
+```
 
 The game-owned KMC GCC units cover string and list helpers, state initialization
 and predicates, vector copying, matrix state setup, two matrix multiplication
