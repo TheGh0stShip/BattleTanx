@@ -522,3 +522,28 @@
 0xD1050	0x0	src/code/render/hud_level_map_data.c	--section-base=.data:0x80141050 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0xD1700	0x0	src/code/gameplay/briefing_text_data.c	--section-base=.data:0x80141700 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0xD2B50	0x0	src/code/gameplay/opponent_wave_data.c	--section-base=.data:0x80142B50 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xA79C	0x44	src/code/audio/init_audio_dma_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	65e8302db216ba390573a04d4dbc0c5f5e13dedaafd40089838c452c53c30c28
+0x6124	0x40	src/code/debug/debug_pi_read_byte.c	-O2 -G0 -mips3 -mgp32 -mfp32	4f410adbd0abaa3eb44a67f0790e0dd5faaa72ebe84b2a55b26744761ec9575a
+0x81670	0x74	src/code/effects/effect_delayed_spawn_tick.c	-O2 -G0 -mips3 -mgp32 -mfp32	76a20f9dab1fb270166f72e31057435dbe53b4b5de20ddb145935ce9e580bed3
+0x80958	0x78	src/code/effects/effect_report_player_slot_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	24a2098c9f52a7f8cfb3f2e28089d167a44c5e4bc5f7dc85e38390ec1045f9e1
+0x7D358	0x28	src/code/effects/effect_report_position_when_active.c	-O2 -G0 -mips3 -mgp32 -mfp32	7dbda5eaea46157d1d281a78695e344bc5f5b0a11662767dbd9762e8fc75b1a9
+0x7FCA8	0x28	src/code/effects/effect_report_position_when_idle.c	-O2 -G0 -mips3 -mgp32 -mfp32	82093fe500ef25d3c54af9b2b6bfe7aaa18e93b88c043bb4b401382f81582df0
+0x7EBEC	0xB4	src/code/effects/effect_select_spawn_points.c	-O2 -G0 -mips3 -mgp32 -mfp32	9a2f61d84840f2a95063a94a66727422f671116ee3726d94c36ed4e7e1065536
+0x82E50	0x84	src/code/effects/spawn_effect_kind_19.c	-O2 -G0 -mips3 -mgp32 -mfp32	acd02aac8231e1bc488a5a0afd3ffd095efb0644f1ab5a6a3fa2435e29be538a
+0x2F5BC	0x24	src/code/entities/copy_contact_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	ca48e9dca2b508833f91d2c501a5cc296aa222c47a427b4cc41d481929b30bd8
+0x79820	0x34	src/code/gameplay/ai_get_flagged_float_address.c	-O2 -G0 -mips3 -mgp32 -mfp32	77758de159d6fe734b8ce3313e4ca16ad1b30b3328382f4736a3244335b1e6ec
+0x963C	0x40	src/code/gameplay/reset_player_input_flags.c	-O2 -G0 -mips3 -mgp32 -mfp32	2617ae2a878d687ba587048d9bd24ce1c3612c709ca22ff398d0a75cd6f5a174
+0xC728	0x48	src/code/gameplay/runtime_mode_accepts_input.c	-O2 -G0 -mips3 -mgp32 -mfp32	773f39b980e5f3be317a3c17faab646c2dcd0f45a1d2d4c99f1917d242f99dd9
+0x1332C	0x68	src/code/levels/level_point_within_radius.c	-O2 -G0 -mips3 -mgp32 -mfp32	62ea4813d63bc20d18b1b1f4281155690ac58b76a49331d39850af45192c9f52
+0x83BA8	0x3C	src/code/math/fold_random_heading.c	-O2 -G0 -mips3 -mgp32 -mfp32	b337b0f0e92472b50841ec345b567e144799d1a5424c82388d44cea5be84ad8c
+0x1E1BC	0x6C	src/code/render/apply_record_transform.c	-O2 -G0 -mips3 -mgp32 -mfp32	fd5cd8527be4368d69d910b72b0f40d9be890ac7905160189b513e1cd4cb4d54
+0x1E228	0x74	src/code/render/apply_record_transform_if_enabled.c	-O2 -G0 -mips3 -mgp32 -mfp32	56d2787421894717383fdf52ffa602278ba3a8edf5545835f69318c5559e6aee
+0x8CF8	0x98	src/code/render/dispatch_render_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	ad5b8e04fef8229272d9e81284ea304e75a08ee32ba1d20c0d2e0fdf19413c89
+0x8D90	0x9C	src/code/render/dispatch_render_record_if_enabled.c	-O2 -G0 -mips3 -mgp32 -mfp32	b65f96c6d5e50aaddeff5224c73a102db9d13f0fd079ee441e7f62510541b035
+0x15DE4	0x34	src/code/render/enable_indexed_render_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	cbfa5ca60ee18056f32b5e0b4770b7c1f3e0c6e1ce32eb7b207a9e0a4f5413d5
+0x1CED0	0x70	src/code/render/get_active_render_table_entry.c	-O2 -G0 -mips3 -mgp32 -mfp32	036f7f1b1ae95947ce974e19f0f26f0d8ccecac861c3b121c9fa37dd9ce5f7ce
+0x2196C	0xF4	src/code/render/interpolate_render_records.c	-O2 -G0 -mips3 -mgp32 -mfp32	91e3872f4b1da7d5fad89e2ec111179fcde63f67ef6179f2c5b623b3cb4ec586
+0x15330	0x98	src/code/render/rewrite_display_list_commands.c	-O2 -G0 -mips3 -mgp32 -mfp32	7259f2f428e539a617713deadb5b89de7906a0cd9703b6e47b39fe59cedd4819
+0x11A78	0x48	src/code/runtime/allocate_aligned_runtime_memory.c	-O2 -G0 -mips3 -mgp32 -mfp32	62101289874bf4520e9ca4f2fcfdd03f72c739cdb37370aba0124c56d348ebb5
+0x16B48	0x13C	src/code/render/scale_color_channels.c	--section-base=.rodata:0x800716E0 -O2 -G0 -mips3 -mgp32 -mfp32	6d8f07fda4ab4da6fec555060d6308eafe19e6bdd428fcdb2d6f020cfffef2b6
+0x3B24C	0x178	src/code/render/lerp_color.c	--section-base=.rodata:0x800730FC -O2 -G0 -mips3 -mgp32 -mfp32	34e498df3094b6767198324064ac6174bf78e72e99d8db115ea569fbcfbdd4a2
