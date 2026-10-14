@@ -3,9 +3,8 @@ import re
 
 # --------------------------------------------------------------------------
 # func_8009FFB8 (segment_billboard_matrix): lane-proven regional allocation /
-# scheduling rules.  Generated from claude-work/output/close-9ffb8 (rules9.py,
-# rules9_blocks.py); every block rule was verified there by value-level
-# simulation (slots9.verify_slots / websafe) against whole-function liveness.
+# scheduling rules. Every block rule was verified by value-level simulation
+# against whole-function liveness.
 # ROT  : saved-register roles s4->s5, s5->s6, s6->s4 (frame save/restore lines
 #        stay tied to their physical registers).
 # P1   : entry copies scheduled into the prologue (retail order).
