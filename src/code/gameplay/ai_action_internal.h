@@ -7,6 +7,7 @@ typedef struct AiActionContext AiActionContext;
 
 extern s32 ai_assign_owner_objective(AiActionContext *context) __asm__("func_800E6970");
 extern s32 ai_set_target_from_action(AiActionContext *context) __asm__("func_800E69A4");
+extern s32 ai_select_secondary_target(AiActionContext *context) __asm__("func_800E69D4");
 extern s32 ai_reset_controlled_member(AiActionContext *context) __asm__("func_800E6AAC");
 extern s32 ai_update_member_link(AiActionContext *context) __asm__("func_800E6B14");
 extern s32 ai_resolve_member_target(AiActionContext *context) __asm__("func_800E6B3C");
@@ -19,6 +20,7 @@ extern s32 ai_set_owner_objective_from_param(AiActionContext *context) __asm__("
 extern s32 ai_set_owner_action_value_from_param(AiActionContext *context) __asm__("func_800E7064");
 extern s32 ai_copy_owner_behavior_flag(AiActionContext *context) __asm__("func_800E70B0");
 extern s32 ai_invert_owner_behavior_flag(AiActionContext *context) __asm__("func_800E70C4");
+extern s32 ai_clear_owner_command(AiActionContext *context) __asm__("func_800E72FC");
 extern s32 ai_clear_member_action_byte(AiActionContext *context) __asm__("func_800E7394");
 extern s32 ai_update_owner_after_timer_clear(AiActionContext *context) __asm__("func_800E73BC");
 extern s32 ai_clear_owner_action_timer(AiActionContext *context) __asm__("func_800E7448");

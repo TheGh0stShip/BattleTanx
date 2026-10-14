@@ -74,6 +74,13 @@
 0x7C03C	0x20	src/code/gameplay/ai_resolve_member_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	f502cf06ccb18b492c2e1675dbec72a43b8a5cf9a4faed23ace23590d28572e4
 0x7C084	0x50	src/code/gameplay/ai_set_heading_and_reset_member_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	dcf2cff93b1bafafcb73d3c6890e656442ab0063518c44589fc06b5b04c81e37
 0x7C35C	0x20	src/code/gameplay/ai_set_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	5df976dfae71dd135a54573e3812f24701d148fdd32aab867f9e1993792062e3
+0x7AC80	0x34	src/code/gameplay/ai_resolve_target_and_set_owner_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	bcac4c380f8740db70e953d12343095916ee658f4d4a572460e7c316d6e0c235
+0x7AFC4	0x20	src/code/gameplay/ai_select_secondary_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	47278c67a346ba31444d890415885eccfcb5d91fa35b44dc71da9e900af8acb4
+0x7B00C	0x20	src/code/gameplay/ai_resolve_member_target_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	f502cf06ccb18b492c2e1675dbec72a43b8a5cf9a4faed23ace23590d28572e4
+0x7B110	0x20	src/code/gameplay/ai_clear_owner_command.c	-O2 -G0 -mips3 -mgp32 -mfp32	04eb2ce706701e7382778fcdd7d60aad39caa3284e303c3dabe1f6d58dd0c73d
+0x7B158	0x20	src/code/gameplay/ai_reset_member_link_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	d657089b0b790b2bf6aa77d2d1439f9cfd11c0981c5acf9a05620878452bfd7c
+0x7B1A0	0x20	src/code/gameplay/ai_resolve_member_target_variant.c	-O2 -G0 -mips3 -mgp32 -mfp32	f502cf06ccb18b492c2e1675dbec72a43b8a5cf9a4faed23ace23590d28572e4
+0x7BBB4	0x8	src/code/gameplay/ai_action_reject.c	-O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
 0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x381F0	0x4C	src/code/render/matrix_transpose_3x3.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3d290589223dc29703e1765648d2f96c2a02f2aab80d8c9f63651d29271af4f0
