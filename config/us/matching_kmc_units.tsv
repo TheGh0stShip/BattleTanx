@@ -1,4 +1,14 @@
 # ROM_START	SIZE	SOURCE	KMC_GCC_FLAGS	SHA256_TEXT
+0x7867C	0x124	src/code/gameplay/ai_parameter_owner_objective.c	--section-base=.rodata:0x800747AC -O2 -G0 -mips3 -mgp32 -mfp32	7efebe770f6c5d8aa88f4e867da9890ffcf853feb8f4f13f2b704df9969974ce
+0x78DFC	0xB8	src/code/gameplay/ai_parameter_owner_link.c	--section-base=.rodata:0x8007481C -O2 -G0 -mips3 -mgp32 -mfp32	2f8a64f919eabf18578d246f5b852af1926b55aec666e3248dba724af497c5c4
+0x79098	0x114	src/code/gameplay/ai_parameter_member_progress.c	--section-base=.rodata:0x80074838 -O2 -G0 -mips3 -mgp32 -mfp32	10975a1aa1b3622b9c80b42c438dcad2a458220d69704f78e30d7bb4bfc3e792
+0x7925C	0xBC	src/code/gameplay/ai_parameter_member_chain.c	--section-base=.rodata:0x80074850 -O2 -G0 -mips3 -mgp32 -mfp32	4a1d94061179192ea49c3ae66c46973432b3f7158b8ba244aec15034220bd2ae
+0x79458	0x28	src/code/gameplay/ai_parameter_inverse_member_metric.c	--section-base=.rodata:0x8007486C -O2 -G0 -mips3 -mgp32 -mfp32	6ece84ab67cf1cd7ac510adb66302739830fdf2814b14a0843f0c24485a19e14
+0x79538	0x70	src/code/gameplay/ai_parameter_member_range.c	--section-base=.rodata:0x80074884 -O2 -G0 -mips3 -mgp32 -mfp32	a790b609f60ec7f1bd0589711a25565b828d890219ee8c06a25d80e748c0e48d
+0x79E5C	0x350	src/code/gameplay/ai_assign_member_play_slots.c	--section-base=.rodata:0x8007495C -O2 -G0 -mips3 -mgp32 -mfp32	acfed90c54308ae6eba8b8c31bcd33b616d925888649175257aaab86c4867b7b
+0x7A1B8	0x44	src/code/gameplay/ai_play_stack_push.c	-O2 -G0 -mips3 -mgp32 -mfp32	d904d68ebe461cde7b70a0a71635000a96dc77325d5d0a31490c309f051120b5
+0x7A1FC	0x27C	src/code/gameplay/ai_play_stack.c	--section-base=.rodata:0x80074960 -O2 -G0 -mips3 -mgp32 -mfp32	973066adac58144e29a9f728a71a12e6f5b402d4474c2e5aa426ae85f6dc7c70
+0x7A828	0x74	src/code/gameplay/ai_update_member_plays.c	-O2 -G0 -mips3 -mgp32 -mfp32	d44d3ea6410056c5f8c4be3038ee0a35d7de924dde2ea2a359f182dd3ea38537
 0x368C0	0x1C	src/code/runtime/get_record_72.c	-O2 -G0 -mips3 -mgp32 -mfp32	fcd97737cd6ee9f7b3eec07d6df923b40a9deb401dc06bce37cb6ed6659c7b04
 0x370BC	0x24	src/code/runtime/dispatch_record_byte_0c.c	-O2 -G0 -mips3 -mgp32 -mfp32	c2f380db2f75175b9c4ae7eba1e2d659a1e6a2494f977dfdc19287882e4ba066
 0x375EC	0x28	src/code/runtime/set_result_nine_if_ready.c	-O2 -G0 -mips3 -mgp32 -mfp32	57d0e45637cd5233b30dcc8a8afd38dd28dccf3a94f39fe204f0b9a32eae7c35
@@ -68,7 +78,6 @@
 0x99354	0x10	src/code/runtime/set_record_halfwords.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	767cbcd9a915ef98da58407da94a9c9f5703e0aca054e8c453d1ec79ebb3ad10
 0x799D4	0xC	src/code/runtime/clear_word_pair.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	581d7dfac4d959bb23bd23bf35902fa7dbd70e6952e5f91155cc8c98949166eb
 0x7A1B0	0x8	src/code/runtime/clear_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	f39bb13dbb0f4e24cd4f313a4df7d836d2382cf2265b7177f11735d31e0526b9
-0x7A1EC	0x10	src/code/runtime/decrement_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	aacfa8fd255b963ec532bef7d03c92c1d28a4a5647bea4c246770c38af7c132b
 0x79A00	0x9C	src/code/gameplay/ai_play_callbacks.c	--section-base=.rodata:0x800748E4 -O2 -G0 -mips3 -mgp32 -mfp32	7bf87b5bac4d35117a2054362f1ac59dd7d99ebd489067e600d6d8163640dd01
 0x79A9C	0x3C0	src/code/gameplay/ai_play_scorers.c	--section-base=.rodata:0x800748F0 -O2 -G0 -mips3 -mgp32 -mfp32	c4a4ec5a0d4c05ddab88febe11f6339dc9e31e3ca6d9ae207275f8e8aec7ce57
 0x7B228	0x20	src/code/gameplay/ai_assign_squad_plays.c	-O2 -G0 -mips3 -mgp32 -mfp32	9e96f2dfcb24e97892c657c5579cdb1c42c9b5f9e4eab5895de1de30aea9a569
