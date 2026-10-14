@@ -24,11 +24,11 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1735)
+        self.assertEqual(len(section["functions"]), 1742)
         canonical = canonical_functions(section)
         # 78 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1660)
+        self.assertEqual(len(canonical), 1668)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -64,8 +64,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 458)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 36636)
+        self.assertEqual(len(kmc_rows), 483)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 44728)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -88,8 +88,8 @@ class ProjectTests(unittest.TestCase):
     def test_decomp_dev_report(self) -> None:
         report = build_report()
         self.assertEqual(report["version"], 2)
-        self.assertEqual(len(report["units"]), 1660)
-        self.assertEqual(report["measures"]["total_functions"], 1660)
+        self.assertEqual(len(report["units"]), 1668)
+        self.assertEqual(report["measures"]["total_functions"], 1668)
         self.assertGreater(report["measures"]["matched_functions"], 0)
         self.assertEqual(int(report["measures"]["total_data"]), 173740)
         self.assertEqual(report["measures"]["matched_data"], "14880")
