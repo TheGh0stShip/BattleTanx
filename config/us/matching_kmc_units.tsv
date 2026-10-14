@@ -548,3 +548,28 @@
 0x16B48	0x13C	src/code/render/scale_color_channels.c	--section-base=.rodata:0x800716E0 -O2 -G0 -mips3 -mgp32 -mfp32	6d8f07fda4ab4da6fec555060d6308eafe19e6bdd428fcdb2d6f020cfffef2b6
 0x3B24C	0x178	src/code/render/lerp_color.c	--section-base=.rodata:0x800730FC -O2 -G0 -mips3 -mgp32 -mfp32	34e498df3094b6767198324064ac6174bf78e72e99d8db115ea569fbcfbdd4a2
 0x41520	0x6FEC	src/code/frontend/render_opening_sequence.c	--assembler=asn64 --section-base=.rodata:0x80073210 -O2 -G8 -mips3 -mgp32 -mfp32	d210d533d64c8a00b0c27008332c35693bca1d7c416cbca44b45e2d86b022a93
+0x60690	0x198	src/code/assets/controller_pak_write_save_file.c	-O2 -G0 -mips3 -mgp32 -mfp32	43075ec39b4694122f650313f643485bf69f2ef605e7f53471792f1300b1ba94
+0x18280	0xE0	src/code/assets/copy_model_group.c	-O2 -G0 -mips3 -mgp32 -mfp32	a99108489e3afd1d1252fa52d6ce0f940ddc44804c7159b24cffaaa1df521526
+0x18360	0x230	src/code/assets/copy_model_node.c	-O2 -G0 -mips3 -mgp32 -mfp32	13b48d902c9993d41deb786a62bf0e6dbb2433572d880bbdbba95f6a7e314ea5
+0x66908	0x14C	src/code/assets/load_resource_bundle_3D16D0.c	-O2 -G0 -mips3 -mgp32 -mfp32	a1313b31d42ecaf8d3dbad25f3de0ecd9e14a39be201567ca3f82563ab607af5
+0x580E0	0x124	src/code/assets/load_selected_resource_bundle.c	-O2 -G0 -mips3 -mgp32 -mfp32	f0f0263fcfb2aeb1b0fd3cc713f6d6789e62d2e7009e2fedd003189b3c60cf13
+0x58218	0x1BC	src/code/assets/load_splash_and_random_strip_bundles.c	-O2 -G0 -mips3 -mgp32 -mfp32	248cc1143421a654e582e2e3943811327d73ce733da9435061669cb81c550f27
+0x96F0	0x1D0	src/code/audio/allocate_and_play_sound.c	-O2 -G0 -mips3 -mgp32 -mfp32	b993fe6520c74518a1a843d14c3228560d4912f6d027519a8cce0dc479a43e5b
+0xA26C	0x100	src/code/audio/allocate_audio_buffers.c	-O2 -G0 -mips3 -mgp32 -mfp32	ba16d15961739b83c2f541f8e8210e8d84a570790c6ebb45e2bff61863b463a4
+0xA5A4	0x1B4	src/code/audio/build_audio_frame_task.c	-O2 -G0 -mips3 -mgp32 -mfp32	bea06803b0aa0b9e52ca9ad22ced77a58a89f95e0b40868d78f992177ca37b67
+0x9FA4	0x60	src/code/audio/create_sound_player.c	-O2 -G0 -mips3 -mgp32 -mfp32	89efb0b8dcbf437f0ad1768b38c0d46bc844505e2a3445958d66c7700708e579
+0x3B690	0x28C	src/code/audio/init_audio_mode_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	8ca8243fd83121ef1648b3aaffab202023dc593f4c6ae186e2c5caefa9c0e6dc
+0xA004	0x174	src/code/audio/load_audio_banks.c	-O2 -G0 -mips3 -mgp32 -mfp32	214d2b096b1219e49e39f6ba3acd0f42f53a21843d871860710800f39465ea17
+0x98C0	0x88	src/code/audio/set_and_trigger_sound.c	-O2 -G0 -mips3 -mgp32 -mfp32	8e39f4eb13f3f41f6f274b6d8269ca934940312eb925f9ed8e4bea1774ba6b82
+0x9AB4	0x54	src/code/audio/set_sound_duration.c	-O2 -G0 -mips3 -mgp32 -mfp32	a1567537919f27167ae91e859c9221272597334bbf69e29ebce59c4ae871da95
+0x99D0	0x8C	src/code/audio/set_sound_scaled_volume.c	-O2 -G0 -mips3 -mgp32 -mfp32	d490fd8669b49c42dc910deb4da564e1c0c8361afdfba6090758e4e6d76fce9c
+0x15C68	0x11C	src/code/audio/set_sound_volume_by_proximity.c	-O2 -G0 -mips3 -mgp32 -mfp32	33889208513738907d11b45d26849fccea36190ca93b6bb4f3436d108d4fbd80
+0x15B4C	0x11C	src/code/audio/start_sound_scaled_by_listener_distance.c	-O2 -G0 -mips3 -mgp32 -mfp32	17bf1f212acdb9a03de2ab7cf8ba0c1afde6406049330adfe010ef0008cde7a5
+0x4D19C	0x4C	src/code/audio/start_sound_with_value_bd19c.c	-O2 -G0 -mips3 -mgp32 -mfp32	898e2819f9cdcbd48c21296e1a3876c1789e6030009946ffbe03d22909681f7c
+0x5082C	0x4C	src/code/audio/start_sound_with_value_c082c.c	-O2 -G0 -mips3 -mgp32 -mfp32	898e2819f9cdcbd48c21296e1a3876c1789e6030009946ffbe03d22909681f7c
+0x64F4	0xCC	src/code/debug/debug_pi_fill.c	-O2 -G0 -mips3 -mgp32 -mfp32	835ab03c5ee3476ea2dab236dbc0670affbc3161b3b009b70479a996cba8a571
+0x6390	0x78	src/code/debug/debug_pi_write_byte.c	-O2 -G0 -mips3 -mgp32 -mfp32	2250aa85cea98a356ecf3d90dd0adc20930f716e340ca63ac3472f6cc9a39234
+0x6408	0xEC	src/code/debug/debug_pi_write_bytes.c	-O2 -G0 -mips3 -mgp32 -mfp32	4444c00ce1910579a09b8d4d96ef585e0dea60c9f0b25a0407527462b86895d4
+0x68E4	0xCC	src/code/debug/debug_port_init_memory_window.c	-O2 -G0 -mips3 -mgp32 -mfp32	eded6e872f2b77855a66698732f559acfeab0f8af759762d843c1a0a7a3d6222
+0x7ECA0	0xBC	src/code/effects/effect_select_spawn_points_on_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	a680c581c2378c43df175583990440ecdc51f7a2c6fc49cd70b364072516081d
+0x80CF0	0xF0	src/code/effects/effect_slot_message_dispatch.c	-O2 -G0 -mips3 -mgp32 -mfp32	687c689876905db51b021323608d014366a8ac4e45f1f37629bba40aefd4358f
