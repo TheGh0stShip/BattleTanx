@@ -57,9 +57,11 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,679 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Six hundred fifty-four reviewed C
+resource area remain explicit binary regions. Six hundred fifty-eight reviewed C
 source units now reconstruct 114,312 retail code bytes. Together with 17 authentic
-source-assembly units, 671 matching units reconstruct 115,660 code bytes. The
+source-assembly units, 675 matching units reconstruct 115,660 code bytes. Four of
+the C units are data-only translation units whose initialized sections are verified
+independently. The
 128 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
@@ -75,8 +77,10 @@ byte-verified matching manifests. This is the artifact contract consumed by
 decomp.dev; locally, `make report` writes the same ignored report under
 `build/` without requiring a ROM. Code and data are reported separately. Data
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
-the section-aware matching-data manifest; 14,880 initialized bytes are currently
-verified. Unknown non-function bytes are never credited as reconstructed data.
+the section-aware matching-data manifest; 39,136 initialized bytes are currently
+verified. This includes effect scripts, HUD and level-map metadata, briefing text
+and image descriptors, and opponent-wave configuration. Unknown non-function
+bytes are never credited as reconstructed data.
 Asset identification is tracked separately over the ROM's asset region. A byte
 is credited only when its container boundaries and encoding are supported by
 recovered code and validated against the retail ROM. Container identification
@@ -85,7 +89,7 @@ music, sounds, images, models, or levels.
 
 ```text
 code       [███░░░░░░░░░░░░░░░░░]  16.37%  115,072 / 702,892 bytes
-data       [██░░░░░░░░░░░░░░░░░░]   8.57%   14,880 / 173,716 bytes
+data       [█████░░░░░░░░░░░░░░░]  22.53%   39,136 / 173,716 bytes
 functions  [██████████░░░░░░░░░░]  51.82%      870 / 1,679
 assets     [█░░░░░░░░░░░░░░░░░░░]   4.36%  319,696 / 7,335,936 bytes
 ```

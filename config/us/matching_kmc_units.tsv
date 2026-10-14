@@ -518,3 +518,7 @@
 0x7BF50	0x54	src/code/gameplay/ai_step_copy_flag_schedule_timer.c	-O2 -G0 -mips3 -mgp32 -mfp32	124577d872c3666feb2f779fd26d33943470bf84a8b52dd334a64ca456c966c9
 0x7C1D0	0x48	src/code/gameplay/ai_step_select_member_plays_w1_c.c	-O2 -G0 -mips3 -mgp32 -mfp32	096ae79d406343c3a10994ba6f35c375667d8f83a5984bb5070ea00c48b5cf57
 0x7C314	0x48	src/code/gameplay/ai_step_select_member_plays_w1_d.c	-O2 -G0 -mips3 -mgp32 -mfp32	096ae79d406343c3a10994ba6f35c375667d8f83a5984bb5070ea00c48b5cf57
+0xC7900	0x0	src/code/effects/effect_script_data.c	--section-base=.data:0x80137900 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD1050	0x0	src/code/render/hud_level_map_data.c	--section-base=.data:0x80141050 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD1700	0x0	src/code/gameplay/briefing_text_data.c	--section-base=.data:0x80141700 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD2B50	0x0	src/code/gameplay/opponent_wave_data.c	--section-base=.data:0x80142B50 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
