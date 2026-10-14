@@ -1588,7 +1588,7 @@ segments:
       - [0xABA80, hasm, libultra/os_set_fpc_csr]
       - [0xABA90, asm, functions/__osSetGlobalIntMask]
       - [0xABADC, bin, gaps/gap_0ABADC]
-      - [0xABAE0, asm, functions/osSetIntMask]
+      - [0xABAE0, hasm, libultra/os_set_int_mask]
       - [0xABB80, hasm, libultra/os_set_sr]
       - [0xABB90, asm, functions/osSetThreadPri]
       - [0xABC70, asm, functions/osSetTimer]
