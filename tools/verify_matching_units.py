@@ -72,10 +72,15 @@ def main() -> None:
         if pipeline == "ido":
             subprocess.run([str(compiler), "-c", *flags, "-Iinclude", "-o", str(output), str(source)], check=True, cwd=ROOT)
         elif pipeline == "kmc":
+            legacy_normalizer = "--normalizer-legacy" in flags
+            flags = [flag for flag in flags if flag != "--normalizer-legacy"]
             raw = output.with_suffix(".raw.s")
             normalized = output.with_suffix(".s")
             subprocess.run([str(kmc_root / "gcc"), f"-B{kmc_root}/", "-S", *flags, "-Iinclude", "-o", str(raw), str(source)], check=True, cwd=ROOT)
-            subprocess.run([str(ROOT / "tools/normalize_kmc_gcc_asm.py"), str(raw), str(normalized)], check=True, cwd=ROOT)
+            normalize_command = [str(ROOT / "tools/normalize_kmc_gcc_asm.py")]
+            if legacy_normalizer:
+                normalize_command.append("--legacy")
+            subprocess.run([*normalize_command, str(raw), str(normalized)], check=True, cwd=ROOT)
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)

@@ -23,3 +23,12 @@
 0x39B44	0x2C	src/code/unknown/800A9B44.c	-O2 -G0 -mips3 -mgp32 -mfp32	cd14fc14108f3404ab2302db467b079f9b84f9261527bb8771c54d3f11b7a1ad
 0x73480	0xC	src/code/unknown/800E3480.c	-O2 -G0 -mips3 -mgp32 -mfp32	b8be99463d051832d8814a8ba993b0eeec18c8cbe7a408100f789dc7ed8590bd
 0x83D0C	0x34	src/code/math/800F3D0C_angle_distance.c	-O2 -G0 -mips3 -mgp32 -mfp32	9b222fccf87f7f7d98251bbf9eb1ec4e8dcc7755918737c09fadff01f9b8bded
+0x26760	0x8	src/code/unknown/80096760.c	-O2 -G0 -mips3 -mgp32 -mfp32	648cbc77d024f6d08bc8ff4e3bdf1cebf2a933937ee1cebef4690d015808bd9c
+0x34D1C	0x18	src/code/unknown/800A4D1C.c	-O2 -G0 -mips3 -mgp32 -mfp32	fc9f7447c20cd64651ee507c9fda9ae3968417a2d6d1d92b0a87b88263af3190
+0x36E10	0x20	src/code/unknown/800A6E10.c	-O2 -G0 -mips3 -mgp32 -mfp32	8f69915c7df7fc6464db0e48d0cc93bcbfa0efa20b0a3d8f5cbfbc517fa9550a
+0x376A0	0x1C	src/code/unknown/800A76A0.c	-O2 -G0 -mips3 -mgp32 -mfp32	e8a8056a064a840324264b8352b3857efa6ef0e0780892c36525e17a79282945
+0x71A08	0xC	src/code/unknown/800E1A08.c	-O2 -G0 -mips3 -mgp32 -mfp32	b67b5eee87fced01f82f6e0f40db29160560e0f871f0d3ced80dab59c39a8c51
+0x73460	0x10	src/code/unknown/800E3460.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3a3df890a3bf319e4fd90c86e3e4f3224ac4594614dcb77adaa828e77b544afd
+0x73470	0x10	src/code/unknown/800E3470.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6aeb14e0f11bbd9f946550550d55de3d5df99961c0e439361f2211b9ff8fbc36
+0x7349C	0x18	src/code/unknown/800E349C.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	356ee0d4455711925f1a3ceffe569f5c1dd2fb5802391795905aca50a98addb6
+0x7566C	0x1C	src/code/unknown/800E566C.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	c0fe68fc87f42db73f9b960ada8642c8cae2a18fc0b5759123ae7201ad1781f0

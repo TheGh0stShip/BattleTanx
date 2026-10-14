@@ -22,6 +22,9 @@ Game-owned candidates use the pinned KMC GCC 2.7.2 and GNU as 2.6 pipeline.
 The committed normalizer makes assembler scheduling deterministic; every
 promoted unit still has to pass a direct compiled-section comparison against
 its BattleTanx ROM range. Names are rebased to the BattleTanx target address.
+Manifest entries marked `--normalizer-legacy` use only the baseline assembler
+compatibility rules, avoiding address-gated Global Assault transformations when
+an unrelated BattleTanx function happens to occupy the same virtual address.
 
 The early cache and CP0 routines are retained as authentic source assembly.
 Their opcodes are independently assembled with the pinned big-endian MIPS
