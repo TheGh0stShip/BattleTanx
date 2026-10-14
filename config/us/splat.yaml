@@ -1441,7 +1441,7 @@ segments:
       - [0xA246C, bin, gaps/gap_0A246C]
       - [0xA2470, hasm, libultra/os_interrupt]
       - [0xA24BC, bin, gaps/gap_0A24BC]
-      - [0xA24C0, asm, functions/osWritebackDCache]
+      - [0xA24C0, hasm, libultra/os_writeback_dcache]
       - [0xA256C, bin, gaps/gap_0A256C]
       - [0xA25F8, asm, functions/func_801125F8]
       - [0xA2C94, asm, functions/func_80112C94]
