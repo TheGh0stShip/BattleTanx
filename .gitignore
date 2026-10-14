@@ -13,7 +13,7 @@
 .splache/
 .research/
 asm/
-assets/
+/assets/
 build/
 battletanx.ld
 undefined_funcs_auto.txt
