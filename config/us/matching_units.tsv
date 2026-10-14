@@ -23,3 +23,5 @@
 0xB1560	0x40	src/libultra/os_dequeue_thread.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	6950f1d67e7328147547bdd321085cf5f0e2327d377a5d6ae2dfca3d5a3c6708
 0xA954C	0x1C	src/code/runtime/copy_record_fields.c	-O1 -mips2 -non_shared -G 0	3198eac42dc6ab0b45e1a18e08486a7bee418a7ae8e403b9b758aa702698e9a3
 0xAC150	0x54	src/libultra/al_link.c	-O2 -mips2 -non_shared -G 0	5565a231c51e83753152087be4ff4d493714ce5fda6a23017d27ab9061433255
+0xA46A0	0x188	src/libultra/gu_mtx.c	-O2 -mips2 -Wab,-r4300_mul -non_shared -G 0	d82ff75135b2b1835ef6bb98f78568d82714254ef744f6c7fe8032b7391935ea
+0xA53B0	0xC4	src/libultra/os_cont_pfs_checksum.c	-O1 -mips2 -non_shared -G 0	0a2bc00bd4ce680fa23bc6b870f78a5bf69809efb988e3c74c700a22501fcb49

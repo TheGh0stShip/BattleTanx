@@ -55,8 +55,8 @@ class ProjectTests(unittest.TestCase):
 
     def test_matching_manifest(self) -> None:
         rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(rows), 24)
-        self.assertEqual(sum(int(row[1], 0) for row in rows), 2976)
+        self.assertEqual(len(rows), 26)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 3564)
         for _start, _size, source, _flags, digest in rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
