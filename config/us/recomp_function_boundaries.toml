@@ -1655,7 +1655,7 @@ functions = [
     { name = "func_80121400", vram = 0x80121400, size = 0x34 },
     { name = "func_80121434", vram = 0x80121434, size = 0x8c },
     { name = "func_801214C0", vram = 0x801214c0, size = 0x98 },
-    { name = "func_80121560", vram = 0x80121560, size = 0x40 },
+    { name = "__osDequeueThread", vram = 0x80121560, size = 0x40 },
     { name = "func_801215A0", vram = 0x801215a0, size = 0x8c },
     { name = "func_8012162C", vram = 0x8012162c, size = 0x178 },
     { name = "func_80121634", vram = 0x80121634, size = 0x170 },
