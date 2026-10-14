@@ -69,8 +69,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         asm_rows = [line.split("\t") for line in (ROOT / "config/us/matching_asm_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(asm_rows), 2)
-        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 80)
+        self.assertEqual(len(asm_rows), 5)
+        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 160)
         for _start, _size, source, digest in asm_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
