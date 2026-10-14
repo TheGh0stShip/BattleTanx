@@ -46,11 +46,12 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,568 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Six reviewed libultra source
-units now reconstruct 1,536 retail bytes, including the ten-function 64-bit
+resource area remain explicit binary regions. Fifteen reviewed libultra source
+units now reconstruct 1,840 retail bytes, including the ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
-string primitives. `make verify-matching` compiles every manifest entry with
-pinned IDO 5.3 and compares every emitted byte directly with the supported ROM.
+string primitives, plus low-level AI/SI/SP accessors. `make verify-matching`
+compiles every manifest entry with pinned IDO 5.3 and compares every emitted
+byte directly with the supported ROM.
 
 See `docs/ARCHITECTURE.md` and `docs/PROVENANCE.md` before contributing.
 
