@@ -13,4 +13,7 @@
 0xAD180	0x10	src/libultra/os_sp_get_status.c	-O1 -mips2 -non_shared -G 0	791ef91fc4d88fb2cb5c71c47984a82b411f1a747f24c7d50c2034015bdbe3db
 0xAD3B0	0xA0	src/libultra/string.c	-O2 -Wo,-loopunroll,0 -mips2 -non_shared -G 0	68696b567cdf60a5a58699ece48b7ee030a2d3ad4cc5525553abac922981ad1a
 0xAD6D0	0x10	src/libultra/al_syn_delete.c	-O3 -mips2 -non_shared -G 0	e1d58b3797e2652b6f924682d73472ec91145cf6f318f3198bad8f0141713d9b
+0xAE2E0	0x110	src/libultra/al_aux_bus.c	-O3 -mips2 -non_shared -G 0 -Isrc/libultra	440b406e5fa77fb8221752372d4fad0ebcf9c281cd520212b32a8fc5ad7c4b35
 0xAF7F0	0x20	src/libultra/al_filter_new.c	-O3 -mips2 -non_shared -G 0	fbb508e6a86134d259e851e282169a4b06c0a2c6ff878f0a829346eb89bb4ed1
+0xB0360	0x150	src/libultra/al_main_bus.c	-O3 -mips2 -non_shared -G 0 -Isrc/libultra	d71024aa6927ab6169a2bfd017ba212d3b58247deace75adceee37f92e420d7d
+0xB1434	0x8C	src/libultra/al_save_pull.c	-O2 -mips2 -non_shared -G 0	8e29dd8a34b471ef867750b988e1a6fe0673f8412ec86bfcecb3078970c19f8c

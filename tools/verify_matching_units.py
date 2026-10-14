@@ -58,10 +58,13 @@ def main() -> None:
     for start, size, source, flags, expected_digest in rows():
         output = output_dir / f"{source.stem}.o"
         subprocess.run([str(compiler), "-c", *flags, "-Iinclude", "-o", str(output), str(source)], check=True, cwd=ROOT)
-        text = elf32_be_section(output, ".text")
+        compiled_text = elf32_be_section(output, ".text")
+        if len(compiled_text) < size:
+            raise SystemExit(f"{source}: text size 0x{len(compiled_text):X}, expected at least 0x{size:X}")
+        if any(compiled_text[size:]):
+            raise SystemExit(f"{source}: nonzero compiler padding after expected 0x{size:X}-byte text")
+        text = compiled_text[:size]
         digest = hashlib.sha256(text).hexdigest()
-        if len(text) != size:
-            raise SystemExit(f"{source}: text size 0x{len(text):X}, expected 0x{size:X}")
         if digest != expected_digest:
             raise SystemExit(f"{source}: text SHA-256 {digest}, expected {expected_digest}")
         retail = rom[start : start + size]

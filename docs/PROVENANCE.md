@@ -15,5 +15,5 @@ matching claims require byte comparisons against the verified retail ROM.
 The initial `src/libultra` units were transferred from the completed matching
 Global Assault decompilation after each entire text section was found
 byte-identical in this game. Local verification recompiles each source
-independently and compares all 1,840 bytes against the supported BattleTanx
+independently and compares all 2,588 bytes against the supported BattleTanx
 ROM; cross-version identity was used only to discover candidates.
