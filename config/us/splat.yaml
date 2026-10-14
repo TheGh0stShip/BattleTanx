@@ -1453,7 +1453,7 @@ segments:
       - [0xA31A0, c, libultra/ll]
       - [0xA3460, asm, functions/func_80113460]
       - [0xA3718, asm, functions/func_80113718]
-      - [0xA3790, asm, functions/osMapTLBRdb]
+      - [0xA3790, hasm, libultra/os_map_tlb_rdb]
       - [0xA37E8, bin, gaps/gap_0A37E8]
       - [0xA37F0, asm, functions/osMotorStop]
       - [0xA3958, asm, functions/osMotorStart]
