@@ -1,4 +1,4 @@
-# BattleTanx — matching decompilation (Required Decomp for BattleTanx Studio & porting of BattleTanx assets into BattleTanx: Global Assault port)
+# BattleTanx — matching decompilation
 
 This repository bootstraps a matching decompilation of **BattleTanx** for
 Nintendo 64 (USA Rev 0). It currently provides a verified ROM contract and a
