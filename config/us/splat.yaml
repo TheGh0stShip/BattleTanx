@@ -1422,7 +1422,7 @@ segments:
       - [0xA139C, bin, gaps/gap_0A139C]
       - [0xA13A0, asm, functions/cosf]
       - [0xA1508, bin, gaps/gap_0A1508]
-      - [0xA1510, asm, functions/osCreateMesgQueue]
+      - [0xA1510, c, libultra/os_create_mesg_queue]
       - [0xA153C, bin, gaps/gap_0A153C]
       - [0xA1540, asm, functions/osCreateThread]
       - [0xA1684, bin, gaps/gap_0A1684]

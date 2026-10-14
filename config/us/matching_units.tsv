@@ -1,6 +1,7 @@
 # ROM_START	SIZE	SOURCE	IDO_FLAGS	SHA256_TEXT
 0xA0480	0x10	src/libultra/os_ai_get_length.c	-O1 -mips2 -non_shared -G 0	b794ebb66cea4f9ab8045e1dccf9609b0405c2573ac48053f8459a14044cd798
 0xA0D50	0x30	src/libultra/os_ai_device_busy.c	-O1 -mips2 -non_shared -G 0	94d8674f022e85b272c7575b4a263fd32588717bb737e3a99536d3c589db394f
+0xA1510	0x2C	src/libultra/os_create_mesg_queue.c	-O1 -mips2 -non_shared -G 0	02fb416837ab159ec89f4c6eb1dae5a151cd47f9536740f9ad5cd8535004a0a2
 0xA1FA0	0xF8	src/libultra/os_destroy_thread.c	-O1 -mips2 -non_shared -G 0 -Isrc/libultra	41b31263114663450769cfdfdd877ff8dbca40bc6a6e72844b56e6771786ad5f
 0xA20A0	0x84	src/libultra/os_get_time.c	-O1 -mips2 -non_shared -G 0	5d7d30accfd91ef289134bd762a11970ec90ba9d306cace163262539ac2f684c
 0xA2140	0x60	src/libultra/al_heap_alloc.c	-O3 -mips2 -non_shared -G 0	89e229d53e59eb1f0001821d5e54accf59730a33c1d54f2963b2e02d05fe5413
