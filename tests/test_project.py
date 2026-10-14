@@ -22,11 +22,11 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1694)
+        self.assertEqual(len(section["functions"]), 1696)
         canonical = canonical_functions(section)
-        # 101 catalogue entries are internal aliases or overlapping hypotheses;
+        # 102 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1593)
+        self.assertEqual(len(canonical), 1594)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -62,8 +62,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 138)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 6796)
+        self.assertEqual(len(kmc_rows), 163)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 8048)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
