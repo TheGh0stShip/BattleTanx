@@ -88,9 +88,9 @@ does not claim that individual entries have already been classified as textures,
 music, sounds, images, models, or levels.
 
 ```text
-code       [██████░░░░░░░░░░░░░░]  29.59%    207,928 / 702,588 bytes
+code       [██████░░░░░░░░░░░░░░]  32.00%    224,808 / 702,588 bytes
 data       [██████████░░░░░░░░░░]  49.97%     86,956 / 174,020 bytes
-functions  [██████████████░░░░░░]  68.38%       1,157 / 1,692
+functions  [██████████████░░░░░░]  71.28%       1,206 / 1,692
 assets     [██████░░░░░░░░░░░░░░]  29.41%  2,157,184 / 7,335,936 bytes
 ```
 
