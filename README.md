@@ -1,6 +1,6 @@
-# BattleTanx — matching decompilation
+# BattleTanx decompilation
 
-This repository bootstraps a matching decompilation of **BattleTanx** for
+This repository contains the decompilation of **BattleTanx** for
 Nintendo 64 (USA Rev 0). It currently provides a verified ROM contract and a
 1,700-entry function catalogue covering the game's loaded 1 MiB program region.
 Generated disassembly is deliberately untracked; reviewed C and authentic
