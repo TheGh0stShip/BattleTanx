@@ -32,3 +32,11 @@
 0x73470	0x10	src/code/unknown/800E3470.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6aeb14e0f11bbd9f946550550d55de3d5df99961c0e439361f2211b9ff8fbc36
 0x7349C	0x18	src/code/unknown/800E349C.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	356ee0d4455711925f1a3ceffe569f5c1dd2fb5802391795905aca50a98addb6
 0x7566C	0x1C	src/code/unknown/800E566C.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	c0fe68fc87f42db73f9b960ada8642c8cae2a18fc0b5759123ae7201ad1781f0
+0x3B200	0x8	src/code/unknown/800AB200.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x751B8	0x8	src/code/unknown/800E51B8.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x6DC60	0x8	src/code/unknown/800DDC60.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x76A70	0x8	src/code/unknown/800E6A70.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
+0x76FA0	0x8	src/code/unknown/800E6FA0.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
+0x76FA8	0x8	src/code/unknown/800E6FA8.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
+0x97168	0x8	src/code/unknown/80107168.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
+0x97704	0x8	src/code/unknown/80107704.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378

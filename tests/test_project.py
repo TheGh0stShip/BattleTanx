@@ -62,8 +62,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 33)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 784)
+        self.assertEqual(len(kmc_rows), 41)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 848)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
