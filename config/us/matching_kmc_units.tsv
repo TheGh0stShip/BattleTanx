@@ -62,6 +62,18 @@
 0x7B668	0x34	src/code/gameplay/ai_reset_member_and_release_target_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	efa61d22d28f543d10ea83c6a8affe4a42f2e24d6a2950120d6757fbd66f7f00
 0x7B920	0x48	src/code/gameplay/ai_set_objective_and_release_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	214f8e494d359317efd4208ca3537dc30c2847bc3786f4f83d9c60dfc9e470ca
 0x7BB80	0x34	src/code/gameplay/ai_clear_owner_timer.c	-O2 -G0 -mips3 -mgp32 -mfp32	0bb8e764481675097448be45d71f7fbf613904ceb11563d78b0e457178aad7b7
+0x7AD2C	0x20	src/code/gameplay/ai_assign_squad_plays_variant.c	-O2 -G0 -mips3 -mgp32 -mfp32	9e96f2dfcb24e97892c657c5579cdb1c42c9b5f9e4eab5895de1de30aea9a569
+0x7BBFC	0x20	src/code/gameplay/ai_assign_squad_plays_final.c	-O2 -G0 -mips3 -mgp32 -mfp32	9e96f2dfcb24e97892c657c5579cdb1c42c9b5f9e4eab5895de1de30aea9a569
+0x7BCE4	0x20	src/code/gameplay/ai_invert_owner_behavior_flag.c	-O2 -G0 -mips3 -mgp32 -mfp32	8da465eb27358cad4dc970d8dc816ca0f760a57d969998da30f2df3b4ed218ed
+0x7BD2C	0x20	src/code/gameplay/ai_copy_owner_behavior_flag.c	-O2 -G0 -mips3 -mgp32 -mfp32	5f53e3240b793274580452e7c9429cb5d1b1276d7f5909a14e5403b395214a83
+0x7BD74	0x40	src/code/gameplay/ai_set_owner_action_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	b2b6428c08aa6ce0f2dac31709d7fea662989bd2c811c195b73d2560316a0c56
+0x7BDDC	0x20	src/code/gameplay/ai_invert_owner_behavior_flag_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	8da465eb27358cad4dc970d8dc816ca0f760a57d969998da30f2df3b4ed218ed
+0x7BE24	0x20	src/code/gameplay/ai_copy_owner_behavior_flag_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	5f53e3240b793274580452e7c9429cb5d1b1276d7f5909a14e5403b395214a83
+0x7BE6C	0x40	src/code/gameplay/ai_set_owner_action_value_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	b2b6428c08aa6ce0f2dac31709d7fea662989bd2c811c195b73d2560316a0c56
+0x7BFF4	0x20	src/code/gameplay/ai_reset_member_link.c	-O2 -G0 -mips3 -mgp32 -mfp32	d657089b0b790b2bf6aa77d2d1439f9cfd11c0981c5acf9a05620878452bfd7c
+0x7C03C	0x20	src/code/gameplay/ai_resolve_member_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	f502cf06ccb18b492c2e1675dbec72a43b8a5cf9a4faed23ace23590d28572e4
+0x7C084	0x50	src/code/gameplay/ai_set_heading_and_reset_member_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	dcf2cff93b1bafafcb73d3c6890e656442ab0063518c44589fc06b5b04c81e37
+0x7C35C	0x20	src/code/gameplay/ai_set_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	5df976dfae71dd135a54573e3812f24701d148fdd32aab867f9e1993792062e3
 0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x381F0	0x4C	src/code/render/matrix_transpose_3x3.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3d290589223dc29703e1765648d2f96c2a02f2aab80d8c9f63651d29271af4f0
