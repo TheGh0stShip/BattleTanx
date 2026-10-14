@@ -46,8 +46,8 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,568 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. One hundred forty-eight reviewed C source units
-now reconstruct 11,976 retail bytes. The 45 libultra units include the
+resource area remain explicit binary regions. One hundred sixty-four reviewed C source units
+now reconstruct 13,220 retail bytes. The 45 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
 string primitives, audio bus/save processing, and low-level AI/SI/SP accessors.

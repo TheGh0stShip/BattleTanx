@@ -101,3 +101,19 @@
 0x6068	0x38	src/code/debug/pi_write_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	2eaa8e2601d9277f117e2f2a15447572fe27e2b7c63d4bf5db665d1203022bd1
 0x60A0	0x3C	src/code/debug/pi_read_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	72700632044ac1ef29c829aabd8b08e5ab216a96a0e17d0d28fbe8a05c0296b0
 0x6240	0x3C	src/code/debug/store_byte.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	51b6cc29401b66eb77f962f3192d1896f69943bc7b9c5b5ed71c27d6c1f0bdda
+0x34A64	0xC8	src/code/entities/append_entity_point_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	8d5f2150dcefff850b29fcd13055042936f2aa5a0c7cbb62240c49272bb2f48a
+0x359E8	0xBC	src/code/entities/add_entity_progress.c	-O2 -G0 -mips3 -mgp32 -mfp32	5bc41a09874d98721f2f988bf604f29619721d0c885fd224c52626c11af95877
+0x366B0	0x10	src/code/effects/get_effect_callback_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	c32d113a296ff067fdb7251560bc127bef176fecd285e622cefec4f5d86dca65
+0x37D10	0xAC	src/code/math/transform_point_3x4.c	-O2 -G0 -mips3 -mgp32 -mfp32	57ff1ec9f626e2207b4160db37c19e16398f443d3c7b000cfa2bfbd7116532b5
+0x38ECC	0x14	src/code/audio/request_audio_state_refresh.c	-O2 -G0 -mips3 -mgp32 -mfp32	355c63f7eea678907ba89db980761ccacbbd2e284aac2faec5c9461affa125a1
+0x3B61C	0x18	src/code/audio/lookup_audio_table_stride_two.c	-O2 -G0 -mips3 -mgp32 -mfp32	6e76e78a110ea939f299084757659352365b413dd9083863ca6f5ac064c0f50f
+0x3B91C	0xE0	src/code/audio/audio_state_helpers.c	--section-base=.rodata:0x80073110 -O2 -G0 -mips3 -mgp32 -mfp32	1ebcef0848fd60ee07ccee5cb00d2a0f8947f47b7434879d0d583a4fa8627c19
+0x3BF1C	0x84	src/code/audio/sound_38_controls.c	-O2 -G0 -mips3 -mgp32 -mfp32	2ddbc7643a0dbe50d18215d732b9b2adad328d7ec5440fe77a9b0674cda1861a
+0x3C2D0	0x10	src/code/audio/reset_audio_sequence_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	95de0251fe79fe86db3891515dcac0a5de36ea1aca2b08b571da6f94e1a19377
+0x71ED0	0x10	src/code/gameplay/get_ai_distance_scale.c	-O2 -G0 -mips3 -mgp32 -mfp32	94f67306fab3eba9482e0e51775cb2938fbb7a8e1b0d07c1034a87c8fe171bb4
+0x73C18	0x1C	src/code/entities/set_entity_value_once.c	-O2 -G0 -mips3 -mgp32 -mfp32	4785750ec5dc9f40e7d333583c3c0d8c60eb2b0637e92ff418c473df55fc8233
+0x9527C	0x14	src/code/render/reset_scrolling_text_offset.c	-O2 -G0 -mips3 -mgp32 -mfp32	777ecad2b34dd416b76c2f6c3ba82ff685923cecdf7de033f5e3f366b6b4ec41
+0x954C0	0x20	src/code/render/texture_draw_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	69dc03ced49cc6efa300ff1d18c77075858966676c50207032193264be5f2eee
+0x9552C	0x58	src/code/render/texture_draw_geometry.c	-O2 -G0 -mips3 -mgp32 -mfp32	cfa09e1b90c617dbcaa02a716ab95e2ca3ac5c34721315cd8b7919e3b6790904
+0x96D00	0x18	src/code/runtime/render_callback_defaults.c	-O2 -G0 -mips3 -mgp32 -mfp32	a5678cd98d6c634f531aab042fdb8b9f8bc41c8e042754d0b2a521d97193cb6b
+0x9D984	0x2C	src/code/runtime/frame_event_counter.c	-O2 -G0 -mips3 -mgp32 -mfp32	a88c821132d84e641f9b0fb514e2b35f59f1958eaeabfd39658088cf5cd81481
