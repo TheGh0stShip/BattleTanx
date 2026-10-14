@@ -179,7 +179,6 @@
 0x73C18	0x1C	src/code/entities/set_entity_value_once.c	-O2 -G0 -mips3 -mgp32 -mfp32	4785750ec5dc9f40e7d333583c3c0d8c60eb2b0637e92ff418c473df55fc8233
 0x74A18	0x20	src/code/entities/mark_entity_slot_active.c	-O2 -G0 -mips3 -mgp32 -mfp32	1969ee198cd0d13ce84729be60d5179b8f060791832a7dcfc1b616801df3b14e
 0x75A70	0x40	src/code/gameplay/set_owner_parameter_enabled.c	-O2 -G0 -mips3 -mgp32 -mfp32	493dd853fb34b3759ca491d8927b4ea145fe86facb92375c9354072360686194
-0x76A70	0x8	src/code/runtime/stubs/800E6A70_reject.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
 0x76A78	0x34	src/code/gameplay/ai_query_owner_point.c	-O2 -G0 -mips3 -mgp32 -mfp32	bfd7f8be345adb1a0abeb9e623fbe1fe8904700078ff266a50e4d101ae11a9ef
 0x76B14	0x28	src/code/gameplay/ai_update_member_link.c	-O2 -G0 -mips3 -mgp32 -mfp32	6ec05a2df83d27205ccf39f351171b38ff1113347af5ddac7d386b58d9d76720
 0x76BBC	0x34	src/code/gameplay/ai_dispatch_owner_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	fccdabbb4b7803022e545058137e437165f32793f397c7045ecea9656b34f906
@@ -243,7 +242,6 @@
 0x773BC	0x24	src/code/gameplay/ai_release_owner_resource.c	-O2 -G0 -mips3 -mgp32 -mfp32	1c78dccba6cd474bca0f08077ad26b359cdeb039614e8402321f1d650aac3167
 0x778BC	0x78	src/code/gameplay/ai_parameter_zero_providers.c	-O2 -G0 -mips3 -mgp32 -mfp32	f5b68280497444ed6f30833eb881f983163625c6f936a469050c3b642186c1b4
 0x797F0	0x30	src/code/gameplay/ai_store_owner_float_parameter.c	-O2 -G0 -mips3 -mgp32 -mfp32	f642bd2571aff8eba051248020d3171d89c593e921307e943801778d3e630c90
-0x799D4	0xC	src/code/runtime/clear_word_pair.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	581d7dfac4d959bb23bd23bf35902fa7dbd70e6952e5f91155cc8c98949166eb
 0x902C	0x38	src/code/runtime/initialize_runtime_record_1e8.c	-O2 -G0 -mips3 -mgp32 -mfp32	24eab50b12a90d97c7d1d58a6f79dc87949d73609a78aeaff8a9e5b2b06b32f0
 0x954C0	0x20	src/code/render/texture_draw_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	69dc03ced49cc6efa300ff1d18c77075858966676c50207032193264be5f2eee
 0x961C	0x20	src/code/runtime/start_worker_thread_20.c	-O2 -G0 -mips3 -mgp32 -mfp32	11bed8333f89200b865032951ac503b7312d2be9fc3c3f1ac4920f56b9c3cf66
@@ -287,7 +285,6 @@
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x73460	0x10	src/code/entities/state_is_two.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3a3df890a3bf319e4fd90c86e3e4f3224ac4594614dcb77adaa828e77b544afd
 0x73470	0x10	src/code/entities/state_is_one.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6aeb14e0f11bbd9f946550550d55de3d5df99961c0e439361f2211b9ff8fbc36
-0x73480	0xC	src/code/unknown/800E3480.c	-O2 -G0 -mips3 -mgp32 -mfp32	b8be99463d051832d8814a8ba993b0eeec18c8cbe7a408100f789dc7ed8590bd
 0x75198	0x8	src/code/unknown/800E5198.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x75688	0x28	src/code/runtime/initialize_byte_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	becccd8cd89d8f0026107b93070c16f78d21e19c65404b8cc4608f8434a042e2
 0x76970	0x34	src/code/gameplay/ai_dispatch_owner_objective.c	-O2 -G0 -mips3 -mgp32 -mfp32	1112bf33217623b4969cce102e07f1d979fb2d22d9dc7ef5f851f5318ae7fa0c
@@ -411,3 +408,24 @@
 0x83014	0xB4	src/code/effects/spawn_color_effect.c	-O2 -G0 -mips3 -mgp32 -mfp32	606c9683f82e3f9ac347b5596e8efc987178f67a2db2a0d59a6a4203cc4ee792
 0x838F4	0x4C	src/code/runtime/next_random_u32.c	-O2 -G0 -mips3 -mgp32 -mfp32	aa0b6e2d4c20c9fe683148ae6b25e9307f6341cd6d80debb3c537820249881b7
 0x9A474	0x20C	src/code/render/compute_rotated_quad.c	-O2 -G0 -mips3 -mgp32 -mfp32	08db18c9628f51fccac08e092c28eef4d596d1591be3225bbe9352e93a20d23a
+0x967C	0x10	src/code/runtime/runtime_noop_callbacks.c	-O2 -G0 -mips3 -mgp32 -mfp32	f10e5e336e5fb76e6def91eb6fe9dbb0a6adb09eaa07aced495e21d6525df078
+0xC6C4	0x14	src/code/runtime/mark_runtime_initialized.c	-O2 -G0 -mips3 -mgp32 -mfp32	0a1b28ccd1aca5facdbd323675a7bfe406121a21da6029d16fa13d8023cf9a68
+0x11AC0	0x10	src/code/runtime/get_runtime_resource.c	-O2 -G0 -mips3 -mgp32 -mfp32	10db7f0d0c3772769f2de8de043352ebfc16ed7930fcb99c06d98a75ad0d475f
+0x121C0	0x10	src/code/runtime/get_secondary_runtime_resource.c	-O2 -G0 -mips3 -mgp32 -mfp32	80d480c523b083803252f455ed85bd03f0dd5dc8f74e136e28b9a0a8f5ae56f8
+0x20F10	0x84	src/code/gameplay/select_weighted_index.c	-O2 -G0 -mips3 -mgp32 -mfp32	d9f35824989e50022f733a87f28d53a9e98f9900fe79be1feb7341680d28751d
+0x217D8	0x3C	src/code/runtime/copy_record_halfword_pairs.c	-O2 -G0 -mips3 -mgp32 -mfp32	4624d6c9a98c58f4cd3fb945cbcf674ddc1a543993a4812800f6b9974fa8b6fa
+0x249B8	0x20	src/code/runtime/update_minimum_candidate.c	-O2 -G0 -mips3 -mgp32 -mfp32	cb69c062b483f2d615c42be01735407d4c14f762004e5782846d8376d21a822d
+0x2E39C	0x8	src/code/entities/get_entity_member_54.c	-O2 -G0 -mips3 -mgp32 -mfp32	11d7a68163ad174100339c9550459dd2415b7db5c703c20dfaf47c77335b5e96
+0x63A7C	0x48	src/code/gameplay/set_menu_grid_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	5483a1424400adda31643c0e0b3cc2a2e2b042b0b10c96242a52a2a23eaca1af
+0x6D200	0x44	src/code/math/propagate_bit_stride.c	-O2 -G0 -mips3 -mgp32 -mfp32	13cfdbe88c64a8f56bb46067db796f075b30d641049b030d86b35bbd81be34b2
+0x70A48	0x3C	src/code/entities/get_object_record_by_id.c	-O2 -G0 -mips3 -mgp32 -mfp32	f9ce6c7cbd7426411361b425111b0605c9d6417f29c36d24743c40ffd53039b8
+0x73480	0x1C	src/code/gameplay/ai_reset_member_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	fcbbdd5e5f095bc0ef3b9960e24a0770d3055fcb36f4106846eb4fe7bb848fdf
+0x74814	0x8	src/code/gameplay/ai_unused_callback.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x76A30	0x48	src/code/gameplay/ai_dispatch_member_order.c	-O2 -G0 -mips3 -mgp32 -mfp32	b1e9f5ab8533774d02b6a749e86aa6d33b874c8d5e7c566acf13e4db7a798e7c
+0x78D14	0x50	src/code/gameplay/ai_parameter_member_mode.c	--section-base=.rodata:0x80074808 -O2 -G0 -mips3 -mgp32 -mfp32	f3ad92cf75d954c3ba3ea32519b873319c8e9721c3dd12d91c1cc8c3285ea6f8
+0x799D4	0x2C	src/code/gameplay/ai_action_params.c	-O2 -G0 -mips3 -mgp32 -mfp32	7ddfb92f9c3571e5f5a71cf9f167bfa042474b0f55e8ca9fb6e6a37050378b13
+0x7B4A4	0x40	src/code/gameplay/ai_prepare_action_5.c	-O2 -G0 -mips3 -mgp32 -mfp32	88f9874c3fd1668da464d25897699c92dda82068813b956424011b87ddceba5b
+0x816E4	0x24	src/code/entities/decrement_entity_countdown.c	-O2 -G0 -mips3 -mgp32 -mfp32	1ac037009e3a90613d683bfd8739f3b6032aa46c0e13187e70768885c85257b9
+0x82614	0x1C	src/code/entities/finish_entity_state_after_frame.c	-O2 -G0 -mips3 -mgp32 -mfp32	4e6add4e3c920baf2ca77960a51f1083ba3ec90bd3b947dc11fb3d0bb178150a
+0x82ED4	0x28	src/code/entities/advance_entity_state_frame.c	-O2 -G0 -mips3 -mgp32 -mfp32	20f54be9be9fd2e1c3ab46a3b68bb6b8678373829cceccabbfd01b7469359c92
+0x96CCC	0x34	src/code/runtime/clear_record_halfword_flags.c	-O2 -G0 -mips3 -mgp32 -mfp32	736012e1b96860f88a8564886a5854dd701c18515d4252a94d636bee3fc02bbc
