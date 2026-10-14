@@ -22,11 +22,11 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1685)
+        self.assertEqual(len(section["functions"]), 1686)
         canonical = canonical_functions(section)
         # 117 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1568)
+        self.assertEqual(len(canonical), 1569)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -69,8 +69,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         asm_rows = [line.split("\t") for line in (ROOT / "config/us/matching_asm_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(asm_rows), 13)
-        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 1196)
+        self.assertEqual(len(asm_rows), 14)
+        self.assertEqual(sum(int(row[1], 0) for row in asm_rows), 1212)
         for _start, _size, source, digest in asm_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
