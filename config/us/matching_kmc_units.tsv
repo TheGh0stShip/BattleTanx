@@ -1,4 +1,27 @@
 # ROM_START	SIZE	SOURCE	KMC_GCC_FLAGS	SHA256_TEXT
+0x902C	0x38	src/code/runtime/initialize_runtime_record_1e8.c	-O2 -G0 -mips3 -mgp32 -mfp32	24eab50b12a90d97c7d1d58a6f79dc87949d73609a78aeaff8a9e5b2b06b32f0
+0x95B0	0x34	src/code/runtime/wait_for_worker_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	5f9a70a1417bf06090c50f20a014b860381603bac400c66099ff81ae890f8b6c
+0x95E4	0x38	src/code/runtime/submit_worker_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	e10748293e25cc712e5329304ae3400ac0c2c811d0601a913d90e5117c6234be
+0x162B4	0x34	src/code/runtime/update_timing_square.c	-O2 -G0 -mips3 -mgp32 -mfp32	d3e8dc978ad9bf9556b62202e245bddd29ee4b7a1541e4147ebaef13ccab6c35
+0x16AE8	0x34	src/code/runtime/get_mode_halfword.c	-O2 -G0 -mips3 -mgp32 -mfp32	1d61b2b966ac9b1063f5768b4770804b4421c0f347a214ace2bea4b1ae2e35d5
+0x23EF8	0x3C	src/code/runtime/disable_record_and_set_result.c	-O2 -G0 -mips3 -mgp32 -mfp32	5bbb717c3716ff676d171c3a0dac7e6b581ed72e9c376aabfa40c11233995159
+0x26768	0x1C	src/code/entities/get_entity_record_68.c	-O2 -G0 -mips3 -mgp32 -mfp32	6ffd7be3c50c681f33ee5a0631ba97caeeb93a37749ac2beafe6f7c8a59dd8c5
+0x26834	0x38	src/code/entities/entity_slot_mask_is_full.c	-O2 -G0 -mips3 -mgp32 -mfp32	b3406166c45a0dd06ab6de380b02074f4ac9b6a945245044cb6813e0e5d1022f
+0x30380	0x38	src/code/entities/clear_entity_pool_markers.c	-O2 -G0 -mips3 -mgp32 -mfp32	a5adc6a35e92ecb6aebcb35581a6ee5799d388f53fc6db5c534758d78a7de1f5
+0x303B8	0x40	src/code/entities/get_unit.c	-O2 -G0 -mips3 -mgp32 -mfp32	28092ddffac559663ed6944f3822d8df18e71a554a612e28424f69a7fedea2d5
+0x33070	0x38	src/code/runtime/clear_four_runtime_pairs.c	-O2 -G0 -mips3 -mgp32 -mfp32	54c1070edc4b3fb22b6ee9f853bc35ae7e2d55fbd48691d1b2c44756d296d55d
+0x37614	0x34	src/code/runtime/set_result_nine_if_unblocked.c	-O2 -G0 -mips3 -mgp32 -mfp32	7755e36a8ae2f2a81eabebd91abefe8ec3e543c5424b7c0e9b78d6662f5569b4
+0x39F48	0x38	src/code/render/copy_render_record_bytes.c	-O2 -G0 -mips3 -mgp32 -mfp32	ad4d909eada555de4c0f8f32391a22c89931ce5e0a6e149278708ddd73533eae
+0x3B128	0x34	src/code/render/append_pipe_sync.c	-O2 -G0 -mips3 -mgp32 -mfp32	e60d131536200ba32f542613d2336479a73803ef42091512114d659eb1b5df7a
+0x6DB94	0x38	src/code/runtime/advance_wrapped_byte.c	-O2 -G0 -mips3 -mgp32 -mfp32	699c2813132cfc470f97f7b4dbd222f526d7668db98ed8c3768f4975484aaea2
+0x7097C	0x34	src/code/runtime/runtime_record_accessors.c	-O2 -G0 -mips3 -mgp32 -mfp32	aaaaaa107827e9ec219b31255e434a858b84bf33cba0da33cf23b907cd1b0d06
+0x71EE0	0x34	src/code/entities/initialize_member_link_state.c	--section-base=.rodata:0x800744E8 -O2 -G0 -mips3 -mgp32 -mfp32	ede2f3676d6308b52fd965b1a8c1b8e9489aeab501bac7a109a0ca35ba1e5e40
+0x7445C	0x38	src/code/entities/reset_member_status.c	-O2 -G0 -mips3 -mgp32 -mfp32	f34e28a7e26f61d7fee5fa93c64b1665a9f16cc2c2df35dca915db67dd5b117c
+0x75A70	0x40	src/code/gameplay/set_owner_parameter_enabled.c	-O2 -G0 -mips3 -mgp32 -mfp32	493dd853fb34b3759ca491d8927b4ea145fe86facb92375c9354072360686194
+0x76970	0x34	src/code/gameplay/ai_dispatch_owner_objective.c	-O2 -G0 -mips3 -mgp32 -mfp32	1112bf33217623b4969cce102e07f1d979fb2d22d9dc7ef5f851f5318ae7fa0c
+0x76A78	0x34	src/code/gameplay/ai_query_owner_point.c	-O2 -G0 -mips3 -mgp32 -mfp32	bfd7f8be345adb1a0abeb9e623fbe1fe8904700078ff266a50e4d101ae11a9ef
+0x76BBC	0x34	src/code/gameplay/ai_dispatch_owner_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	fccdabbb4b7803022e545058137e437165f32793f397c7045ecea9656b34f906
+0x77458	0x38	src/code/gameplay/ai_set_member_thresholds.c	-O2 -G0 -mips3 -mgp32 -mfp32	fe9c7a9c02d000d132b2c322b2f0c59b322aff0f2fd0adbad1580399ff08186e
 0x7867C	0x124	src/code/gameplay/ai_parameter_owner_objective.c	--section-base=.rodata:0x800747AC -O2 -G0 -mips3 -mgp32 -mfp32	7efebe770f6c5d8aa88f4e867da9890ffcf853feb8f4f13f2b704df9969974ce
 0x78DFC	0xB8	src/code/gameplay/ai_parameter_owner_link.c	--section-base=.rodata:0x8007481C -O2 -G0 -mips3 -mgp32 -mfp32	2f8a64f919eabf18578d246f5b852af1926b55aec666e3248dba724af497c5c4
 0x79098	0x114	src/code/gameplay/ai_parameter_member_progress.c	--section-base=.rodata:0x80074838 -O2 -G0 -mips3 -mgp32 -mfp32	10975a1aa1b3622b9c80b42c438dcad2a458220d69704f78e30d7bb4bfc3e792

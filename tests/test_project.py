@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import sys
 import tempfile
 import tomllib
@@ -10,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "tools"))
 
 from generate_splat_config import canonical_functions
+from generate_decomp_report import build_report
 from verify_rom import EXPECTED_SHA1, EXPECTED_SHA256, EXPECTED_SIZE, verify
 
 
@@ -22,11 +24,11 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1699)
+        self.assertEqual(len(section["functions"]), 1701)
         canonical = canonical_functions(section)
         # 95 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1604)
+        self.assertEqual(len(canonical), 1606)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -62,8 +64,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 286)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 15764)
+        self.assertEqual(len(kmc_rows), 309)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 17004)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -74,6 +76,21 @@ class ProjectTests(unittest.TestCase):
         for _start, _size, source, digest in asm_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
+
+    def test_decomp_dev_report(self) -> None:
+        report = build_report()
+        self.assertEqual(report["version"], 2)
+        self.assertEqual(len(report["units"]), 1606)
+        self.assertEqual(report["measures"]["total_functions"], 1606)
+        self.assertGreater(report["measures"]["matched_functions"], 0)
+        self.assertEqual({category["id"] for category in report["categories"]}, {"game", "libultra"})
+        # The report must remain JSON serializable with protobuf-compatible
+        # string encoding for every uint64 field.
+        encoded = json.dumps(report)
+        self.assertIn('"version": 2', encoded)
+        for unit in report["units"]:
+            self.assertIsInstance(unit["functions"][0]["size"], str)
+            self.assertIsInstance(unit["functions"][0]["address"], str)
 
 
 if __name__ == "__main__":
