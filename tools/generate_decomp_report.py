@@ -20,6 +20,10 @@ MANIFESTS = (
 DEFAULT_OUTPUT = ROOT / "build/report.json"
 MATCHING_DATA = ROOT / "config/us/matching_data_units.tsv"
 LIBULTRA_START = 0x80110480
+# The entry point (0x80071000) zeroes .bss from 0x80147040 to 0x803C8880, so
+# initialized program data ends here; the rest of the 1 MiB main copy is not
+# reconstructable static data and must not inflate decomp.dev data totals.
+INITIALIZED_DATA_END = 0x80147040
 
 
 def manifest_ranges() -> list[tuple[int, int, str]]:
@@ -152,13 +156,14 @@ def build_report() -> dict:
 
     total_code = sum(values[0] for values in category_totals.values())
     matched_code = sum(values[1] for values in category_totals.values())
+    image_end = min(section["vram"] + section["size"], INITIALIZED_DATA_END)
     category_spans = {
         "game": LIBULTRA_START - section["vram"],
-        "libultra": section["vram"] + section["size"] - LIBULTRA_START,
+        "libultra": image_end - LIBULTRA_START,
     }
     category_rom_spans = {
         "game": (section["rom"], LIBULTRA_START - rom_delta),
-        "libultra": (LIBULTRA_START - rom_delta, section["rom"] + section["size"]),
+        "libultra": (LIBULTRA_START - rom_delta, image_end - rom_delta),
     }
     total_functions = len(functions)
     matched_functions = sum(values[3] for values in category_totals.values())
@@ -174,7 +179,7 @@ def build_report() -> dict:
             "measures": measures(total, matched, count, complete, count, complete,
                                  total_data=total_data, matched_data=matched_data),
         })
-    total_data = section["size"] - total_code
+    total_data = image_end - section["vram"] - total_code
     matched_data = sum(range_bytes(start, end, matched_data_ranges)
                        for start, end in category_rom_spans.values())
     return {
