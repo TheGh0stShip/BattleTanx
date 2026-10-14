@@ -18,6 +18,12 @@ byte-identical in this game. Local verification recompiles each source
 independently and compares all 2,864 bytes against the supported BattleTanx
 ROM; cross-version identity was used only to discover candidates.
 
+Global Assault is also used as a comparative corpus for game-owned code.
+Byte-identical routines may supply a source candidate, while fuzzy matches may
+only supply hypotheses about control flow, types, subsystem ownership, and
+names. In both cases, a BattleTanx unit is promoted only after its locally
+compiled text matches the supported BattleTanx ROM range byte for byte.
+
 Game-owned candidates use the pinned KMC GCC 2.7.2 and GNU as 2.6 pipeline.
 The committed normalizer makes assembler scheduling deterministic; every
 promoted unit still has to pass a direct compiled-section comparison against
