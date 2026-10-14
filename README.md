@@ -55,11 +55,11 @@ The generator rejects out-of-range, unaligned, or overlapping canonical
 function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
-The initial split accounts for the full 8 MiB ROM: 1,679 non-overlapping
+The initial split accounts for the full 8 MiB ROM: 1,685 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Six hundred fifty-eight reviewed C
-source units now reconstruct 114,312 retail code bytes. Together with 17 authentic
-source-assembly units, 675 matching units reconstruct 115,660 code bytes. Four of
+resource area remain explicit binary regions. Six hundred eighty-four reviewed C
+source units now reconstruct 145,968 retail code bytes. Together with 17 authentic
+source-assembly units, 701 matching units reconstruct 147,316 code bytes. Four of
 the C units are data-only translation units whose initialized sections are verified
 independently. The
 128 libultra units include the
@@ -77,7 +77,7 @@ byte-verified matching manifests. This is the artifact contract consumed by
 decomp.dev; locally, `make report` writes the same ignored report under
 `build/` without requiring a ROM. Code and data are reported separately. Data
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
-the section-aware matching-data manifest; 39,176 initialized bytes are currently
+the section-aware matching-data manifest; 39,596 initialized bytes are currently
 verified. This includes effect scripts, HUD and level-map metadata, briefing text
 and image descriptors, and opponent-wave configuration. Unknown non-function
 bytes are never credited as reconstructed data.
@@ -88,9 +88,9 @@ does not claim that individual entries have already been classified as textures,
 music, sounds, images, models, or levels.
 
 ```text
-code       [███░░░░░░░░░░░░░░░░░]  16.78%  118,076 / 703,568 bytes
-data       [█████░░░░░░░░░░░░░░░]  22.64%   39,176 / 173,040 bytes
-functions  [███████████░░░░░░░░░]  53.12%      895 / 1,685
+code       [████░░░░░░░░░░░░░░░░]  20.85%  146,728 / 703,568 bytes
+data       [█████░░░░░░░░░░░░░░░]  22.88%   39,596 / 173,040 bytes
+functions  [███████████░░░░░░░░░]  53.18%      896 / 1,685
 assets     [█░░░░░░░░░░░░░░░░░░░]   4.36%  319,696 / 7,335,936 bytes
 ```
 
@@ -104,6 +104,11 @@ split, including ten no-op callbacks, a field setter, and a pointer-offset
 helper.
 The adjacent object-accessor cluster adds three typed field reads, a field
 initializer, a boolean presence check, and a constant-zero leaf.
+
+The opening narrative sequence is reconstructed as one original translation
+unit: 28,652 bytes of state-machine and display-list code plus its 420-byte
+literal pool. Its raw KMC output requires the opt-in ASN64 compatibility lane;
+both sections are still compared byte-for-byte at their retail addresses.
 
 Two authentic source-assembly units additionally reconstruct the contiguous
 80-byte cache-maintenance and CP0-status block at ROM `0x71BC-0x720C`. These

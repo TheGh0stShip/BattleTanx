@@ -64,8 +64,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 548)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 50616)
+        self.assertEqual(len(kmc_rows), 549)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 79268)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -78,8 +78,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(data_rows), 55)
-        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 39176)
+        self.assertEqual(len(data_rows), 56)
+        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 39596)
         for _start, _size, source, section, digest in data_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertIn(section, {".rodata", ".data"})
@@ -92,7 +92,7 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(report["measures"]["total_functions"], 1685)
         self.assertGreater(report["measures"]["matched_functions"], 0)
         self.assertEqual(int(report["measures"]["total_data"]), 173040)
-        self.assertEqual(report["measures"]["matched_data"], "39176")
+        self.assertEqual(report["measures"]["matched_data"], "39596")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
                          {"game", "libultra", "assets"})

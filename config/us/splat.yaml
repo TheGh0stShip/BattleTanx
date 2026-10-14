@@ -631,7 +631,7 @@ segments:
       - [0x4098C, asm, functions/func_800B098C]
       - [0x40D1C, asm, functions/func_800B0D1C]
       - [0x41264, asm, functions/func_800B1264]
-      - [0x41520, asm, functions/func_800B1520]
+      - [0x41520, c, code/frontend/render_opening_sequence]
       - [0x4850C, asm, functions/func_800B850C]
       - [0x48750, c, code/gameplay/menu_poll_input_with_sound]
       - [0x487F4, c, code/runtime/empty_stack_frame]

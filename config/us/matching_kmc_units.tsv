@@ -547,3 +547,4 @@
 0x11A78	0x48	src/code/runtime/allocate_aligned_runtime_memory.c	-O2 -G0 -mips3 -mgp32 -mfp32	62101289874bf4520e9ca4f2fcfdd03f72c739cdb37370aba0124c56d348ebb5
 0x16B48	0x13C	src/code/render/scale_color_channels.c	--section-base=.rodata:0x800716E0 -O2 -G0 -mips3 -mgp32 -mfp32	6d8f07fda4ab4da6fec555060d6308eafe19e6bdd428fcdb2d6f020cfffef2b6
 0x3B24C	0x178	src/code/render/lerp_color.c	--section-base=.rodata:0x800730FC -O2 -G0 -mips3 -mgp32 -mfp32	34e498df3094b6767198324064ac6174bf78e72e99d8db115ea569fbcfbdd4a2
+0x41520	0x6FEC	src/code/frontend/render_opening_sequence.c	--assembler=asn64 --section-base=.rodata:0x80073210 -O2 -G8 -mips3 -mgp32 -mfp32	d210d533d64c8a00b0c27008332c35693bca1d7c416cbca44b45e2d86b022a93

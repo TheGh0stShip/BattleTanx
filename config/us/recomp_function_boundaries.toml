@@ -639,7 +639,7 @@ functions = [
     { name = "func_800B0D1C", vram = 0x800b0d1c, size = 0x548 },
     { name = "func_800B0F00", vram = 0x800b0f00, size = 0x364 },
     { name = "func_800B1264", vram = 0x800b1264, size = 0x2bc },
-    { name = "func_800B1520", vram = 0x800b1520, size = 0x6fec },
+    { name = "render_opening_sequence", vram = 0x800b1520, size = 0x6fec },
     { name = "func_800B850C", vram = 0x800b850c, size = 0x244 },
     { name = "menu_poll_input_with_sound", vram = 0x800b8750, size = 0xa4 },
     { name = "empty_stack_frame", vram = 0x800b87f4, size = 0x10 },
