@@ -1,4 +1,10 @@
 # ROM_START	SIZE	SOURCE	IDO_FLAGS	SHA256_TEXT
+0xA9568	0x8	src/code/runtime/get_callback_value.c	-O1 -mips2 -non_shared -G 0	55470fa05862aa1a8b5fbd82fade6d05a71d88a08951d214e5f9d5e1dcbfdfca
+0xA9B50	0x8	src/code/runtime/get_record_halfword_32.c	-O1 -mips2 -non_shared -G 0	7f49b5769c09ee60e4a220ed87ac0702a27e4091e08a3ccf2f8b6afbd90d1f72
+0xAC300	0x20	src/code/runtime/get_current_slot_value_28.c	-O2 -mips2 -non_shared -G 0	ea101ecd19842cbb6d25f5d4cc45a50aa1dc1fc5ca5d0e0f2b5d1cc6679ecc9a
+0xACB60	0x30	src/code/runtime/set_slot_halfword_20.c	-O2 -mips2 -non_shared -G 0	bf34edda091b3e56a977525b000ddac68cd0b20540f81311a6d309524ffcdc24
+0xACB90	0x14	src/code/runtime/set_current_slot_index.c	-O2 -mips2 -non_shared -G 0	c1d7c6d0cfc837806d9f66ba52ff18ee7f1fb4018f3c8ec1aa3bf40648062740
+0xAD950	0x10	src/code/runtime/set_record_halfword_16.c	-O2 -mips2 -non_shared -G 0	2fe1dd92a1e2e51d8df2e8fd192726aadf264e78a086387d9e91b5ebf4848877
 0xA0480	0x10	src/libultra/os_ai_get_length.c	-O1 -mips2 -non_shared -G 0	b794ebb66cea4f9ab8045e1dccf9609b0405c2573ac48053f8459a14044cd798
 0xA0D50	0x30	src/libultra/os_ai_device_busy.c	-O1 -mips2 -non_shared -G 0	94d8674f022e85b272c7575b4a263fd32588717bb737e3a99536d3c589db394f
 0xA1510	0x2C	src/libultra/os_create_mesg_queue.c	-O1 -mips2 -non_shared -G 0	02fb416837ab159ec89f4c6eb1dae5a151cd47f9536740f9ad5cd8535004a0a2

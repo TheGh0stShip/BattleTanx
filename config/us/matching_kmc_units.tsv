@@ -1,4 +1,23 @@
 # ROM_START	SIZE	SOURCE	KMC_GCC_FLAGS	SHA256_TEXT
+0x368C0	0x1C	src/code/runtime/get_record_72.c	-O2 -G0 -mips3 -mgp32 -mfp32	fcd97737cd6ee9f7b3eec07d6df923b40a9deb401dc06bce37cb6ed6659c7b04
+0x370BC	0x24	src/code/runtime/dispatch_record_byte_0c.c	-O2 -G0 -mips3 -mgp32 -mfp32	c2f380db2f75175b9c4ae7eba1e2d659a1e6a2494f977dfdc19287882e4ba066
+0x375EC	0x28	src/code/runtime/set_result_nine_if_ready.c	-O2 -G0 -mips3 -mgp32 -mfp32	57d0e45637cd5233b30dcc8a8afd38dd28dccf3a94f39fe204f0b9a32eae7c35
+0x38E9C	0x30	src/code/runtime/submit_empty_io_request.c	-O2 -G0 -mips3 -mgp32 -mfp32	7ad014b94e24677d59a9ee43b93f9d7dc29689b66ad3c6abfcbda21ef74c62a6
+0x38EE0	0x18	src/code/runtime/wait_for_async_io_idle.c	-O2 -G0 -mips3 -mgp32 -mfp32	f96db65873603950c075cf9f9527b1ac1d97f859644cca6fd22a2cd335e2f323
+0x39C20	0x28	src/code/render/reset_render_record_halfwords.c	-O2 -G0 -mips3 -mgp32 -mfp32	964a11b9f3383f22c7f82d48f62d3af238915c2073045c1c5a618f8dc76efe8d
+0x3BFB0	0x20	src/code/audio/enable_audio_output.c	-O2 -G0 -mips3 -mgp32 -mfp32	7f38e039bcc5cd63d94c57c6cfa86c009f66f482aa2f7b56164763fb900da133
+0x487F4	0x10	src/code/runtime/empty_stack_frame.c	-O2 -G0 -mips3 -mgp32 -mfp32	9e0b64de6c3f86a93ef84df896a67cdb74509aa14ac2fd32aef2a9ddfb2a9b08
+0x49C0C	0x28	src/code/runtime/string_length.c	-O2 -G0 -mips3 -mgp32 -mfp32	652464be64374a620bdd343ef9ab3aa68e07603b56349818fe9f18939009b5fa
+0x55B64	0x28	src/code/runtime/query_primary_mode_active.c	-O2 -G0 -mips3 -mgp32 -mfp32	1b25781dc1841f555874b4a334695710123313613aa22f8763a44eff963d9ef7
+0x6E098	0x28	src/code/runtime/remove_last_indexed_entry.c	-O2 -G0 -mips3 -mgp32 -mfp32	e0514a8015b998733b554a5498ca12c95e611218f820b3414a8c515ee7fb2e96
+0x769A4	0x30	src/code/gameplay/dispatch_context_action.c	-O2 -G0 -mips3 -mgp32 -mfp32	9f95fe22fc30b48ad6671feb019923288906d222ad4caa3b1fb1ef3767b708b5
+0x7C3D0	0x20	src/code/runtime/game_mode_is_standard.c	-O2 -G0 -mips3 -mgp32 -mfp32	b52e78ed0fa631ff0bc0cd8138ec15aebfa0704d9a4c97caad2b7080f6652fb3
+0x7CB68	0x30	src/code/runtime/get_active_runtime_slot.c	-O2 -G0 -mips3 -mgp32 -mfp32	11af6f06ee88db05fd2074bcdabca3f49c141fab5dd9317a1d90836a59966ebe
+0x7CC10	0xC	src/code/runtime/set_result_mode_two.c	-O2 -G0 -mips3 -mgp32 -mfp32	64d73d0fbd1fac14c6e69c9c69b378fe7aeb6ce4b6ff9161acb5f8e04c6e7d07
+0x96B28	0x2C	src/code/render/end_display_list_and_finalize.c	-O2 -G0 -mips3 -mgp32 -mfp32	2aebe9724694ceabf665247a22568a95508e533bd9652b85b193c3ef8a65fda6
+0x9CB4C	0x10	src/code/runtime/clear_field_1c_if_disabled.c	-O2 -G0 -mips3 -mgp32 -mfp32	90bfaecebd11db003821a87a69629613505d5e2b65b8fd0b92dc7725efe2532a
+0x9DD94	0x20	src/code/runtime/run_shared_cleanup_a.c	-O2 -G0 -mips3 -mgp32 -mfp32	6ce33aff67c29b7dcbc8ebb8014a69bdcda85381b9bc8945b7c5d7920c224d8c
+0x9DDB4	0x20	src/code/runtime/run_shared_cleanup_b.c	-O2 -G0 -mips3 -mgp32 -mfp32	6ce33aff67c29b7dcbc8ebb8014a69bdcda85381b9bc8945b7c5d7920c224d8c
 0xC298	0x8	src/code/unknown/8007C298.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x15460	0x8	src/code/unknown/80085460.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x15468	0x8	src/code/unknown/80085468.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
