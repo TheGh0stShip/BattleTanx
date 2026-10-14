@@ -60,7 +60,10 @@ Every CI run publishes an objdiff v2 progress artifact named `us_report`, with
 `report.json` generated from the reviewed function catalogue and the three
 byte-verified matching manifests. This is the artifact contract consumed by
 decomp.dev; locally, `make report` writes the same ignored report under
-`build/` without requiring a ROM.
+`build/` without requiring a ROM. Code and data are reported separately. Data
+progress starts at zero and advances only when reviewed data or rodata ranges
+are added to a matching-data manifest; unknown non-function bytes are never
+credited as reconstructed data.
 
 The game-owned KMC GCC units cover string and list helpers, state initialization
 and predicates, vector copying, matrix state setup, two matrix multiplication

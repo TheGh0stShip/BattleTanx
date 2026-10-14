@@ -77,12 +77,20 @@ class ProjectTests(unittest.TestCase):
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 
+        data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
+        for _start, _size, source, digest in data_rows:
+            self.assertTrue((ROOT / source).is_file())
+            self.assertEqual(len(digest), 64)
+
     def test_decomp_dev_report(self) -> None:
         report = build_report()
         self.assertEqual(report["version"], 2)
         self.assertEqual(len(report["units"]), 1606)
         self.assertEqual(report["measures"]["total_functions"], 1606)
         self.assertGreater(report["measures"]["matched_functions"], 0)
+        self.assertEqual(int(report["measures"]["total_data"]), 1024 * 1024 - 702308)
+        self.assertEqual(report["measures"]["matched_data"], "0")
+        self.assertEqual(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]}, {"game", "libultra"})
         # The report must remain JSON serializable with protobuf-compatible
         # string encoding for every uint64 field.
