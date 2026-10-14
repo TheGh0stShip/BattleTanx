@@ -50,6 +50,7 @@
 0x799D4	0xC	src/code/runtime/clear_word_pair.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	581d7dfac4d959bb23bd23bf35902fa7dbd70e6952e5f91155cc8c98949166eb
 0x7A1B0	0x8	src/code/runtime/clear_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	f39bb13dbb0f4e24cd4f313a4df7d836d2382cf2265b7177f11735d31e0526b9
 0x7A1EC	0x10	src/code/runtime/decrement_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	aacfa8fd255b963ec532bef7d03c92c1d28a4a5647bea4c246770c38af7c132b
+0x79A00	0x9C	src/code/gameplay/ai_play_callbacks.c	--section-base=.rodata:0x800748E4 -O2 -G0 -mips3 -mgp32 -mfp32	7bf87b5bac4d35117a2054362f1ac59dd7d99ebd489067e600d6d8163640dd01
 0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
 0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
 0x381F0	0x4C	src/code/render/matrix_transpose_3x3.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	3d290589223dc29703e1765648d2f96c2a02f2aab80d8c9f63651d29271af4f0

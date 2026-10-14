@@ -52,7 +52,9 @@ def inferred_symbol_address(name: str, known: dict[str, int]) -> int:
     raise ValueError(f"no retail address known for relocation symbol {name}")
 
 
-def relocate_elf32_be_section(path: Path, wanted: str, known: dict[str, int]) -> bytes:
+def relocate_elf32_be_section(
+    path: Path, wanted: str, known: dict[str, int], section_bases: dict[str, int] | None = None
+) -> bytes:
     """Apply the small subset of MIPS REL relocations emitted by matching C units."""
     data = path.read_bytes()
     shoff = struct.unpack_from(">I", data, 32)[0]
@@ -65,6 +67,7 @@ def relocate_elf32_be_section(path: Path, wanted: str, known: dict[str, int]) ->
         end = section_names.find(b"\0", header[0])
         return section_names[header[0] : end].decode("ascii")
 
+    section_bases = section_bases or {}
     target_index = next(i for i, header in enumerate(headers) if section_name(header) == wanted)
     target = bytearray(elf32_be_section(path, wanted))
     pending_hi: dict[int, list[tuple[int, int]]] = {}
@@ -78,14 +81,19 @@ def relocate_elf32_be_section(path: Path, wanted: str, known: dict[str, int]) ->
         symbols = []
         for offset in range(sym_header[4], sym_header[4] + sym_header[5], sym_header[9]):
             name_offset, value = struct.unpack_from(">II", data, offset)
+            section_index = struct.unpack_from(">H", data, offset + 14)[0]
             end = symbol_names.find(b"\0", name_offset)
-            symbols.append((symbol_names[name_offset:end].decode("ascii"), value))
+            symbols.append((symbol_names[name_offset:end].decode("ascii"), value, section_index))
 
         for offset in range(rel_header[4], rel_header[4] + rel_header[5], rel_header[9]):
             location, info = struct.unpack_from(">II", data, offset)
             symbol_index, kind = info >> 8, info & 0xFF
-            name, symbol_value = symbols[symbol_index]
-            address = symbol_value if name == "" else inferred_symbol_address(name, known)
+            name, symbol_value, section_index = symbols[symbol_index]
+            if name == "":
+                base = section_bases.get(section_name(headers[section_index]), 0)
+                address = base + symbol_value
+            else:
+                address = inferred_symbol_address(name, known)
             word = struct.unpack_from(">I", target, location)[0]
             if kind == 2:  # R_MIPS_32
                 struct.pack_into(">I", target, location, (word + address) & 0xFFFFFFFF)
@@ -144,6 +152,15 @@ def main() -> None:
     matched = 0
     for pipeline, start, size, source, flags, expected_digest in rows():
         output = output_dir / f"{source.stem}.o"
+        section_bases = {".text": 0x80070000 + start}
+        compiler_flags = []
+        for flag in flags:
+            if flag.startswith("--section-base="):
+                section, address = flag.removeprefix("--section-base=").split(":", 1)
+                section_bases[section] = int(address, 0)
+            else:
+                compiler_flags.append(flag)
+        flags = compiler_flags
         if pipeline == "ido":
             subprocess.run([str(compiler), "-c", *flags, "-Iinclude", "-o", str(output), str(source)], check=True, cwd=ROOT)
         elif pipeline == "kmc":
@@ -159,7 +176,7 @@ def main() -> None:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
-        compiled_text = relocate_elf32_be_section(output, ".text", known_symbols)
+        compiled_text = relocate_elf32_be_section(output, ".text", known_symbols, section_bases)
         if len(compiled_text) < size:
             raise SystemExit(f"{source}: text size 0x{len(compiled_text):X}, expected at least 0x{size:X}")
         if any(compiled_text[size:]):
