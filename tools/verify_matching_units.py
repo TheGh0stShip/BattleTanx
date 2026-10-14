@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import re
 import shlex
 import struct
@@ -191,6 +192,7 @@ def main() -> None:
         section_bases = {".text": 0x80070000 + start}
         unit_symbols = dict(known_symbols)
         compiler_flags = []
+        assembler_pipeline = "normalizer"
         for flag in flags:
             if flag.startswith("--section-base="):
                 section, address = flag.removeprefix("--section-base=").split(":", 1)
@@ -198,6 +200,10 @@ def main() -> None:
             elif flag.startswith("--symbol="):
                 symbol, address = flag.removeprefix("--symbol=").split(":", 1)
                 unit_symbols[symbol] = int(address, 0)
+            elif flag.startswith("--assembler="):
+                assembler_pipeline = flag.removeprefix("--assembler=")
+                if assembler_pipeline not in {"normalizer", "asn64"}:
+                    raise SystemExit(f"{source}: unsupported assembler pipeline {assembler_pipeline!r}")
             else:
                 compiler_flags.append(flag)
         flags = compiler_flags
@@ -209,11 +215,27 @@ def main() -> None:
             raw = output.with_suffix(".raw.s")
             normalized = output.with_suffix(".s")
             subprocess.run([str(kmc_root / "gcc"), f"-B{kmc_root}/", "-S", *flags, "-Iinclude", "-o", str(raw), str(source)], check=True, cwd=ROOT)
-            normalize_command = [str(ROOT / "tools/normalize_kmc_gcc_asm.py")]
-            if legacy_normalizer:
-                normalize_command.append("--legacy")
-            subprocess.run([*normalize_command, str(raw), str(normalized)], check=True, cwd=ROOT)
-            subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
+            if assembler_pipeline == "asn64":
+                if legacy_normalizer:
+                    raise SystemExit(f"{source}: --normalizer-legacy cannot be combined with --assembler=asn64")
+                binutils_root = ROOT / ".toolchain/mips-binutils/usr"
+                assembler = binutils_root / "bin/mips-linux-gnu-as"
+                if not assembler.is_file():
+                    raise SystemExit("missing local MIPS binutils; run tools/bootstrap_mips_binutils.sh")
+                environment = dict(os.environ)
+                library = binutils_root / "lib/x86_64-linux-gnu"
+                environment["LD_LIBRARY_PATH"] = str(library)
+                subprocess.run([
+                    "python3", str(ROOT / "tools/modern_asn64.py"), str(assembler),
+                    "-march=vr4300", "-mabi=32", "-EB", "-G0", "--no-pad-sections",
+                    "-mips3", str(raw), "-o", str(output),
+                ], check=True, cwd=ROOT, env=environment)
+            else:
+                normalize_command = [str(ROOT / "tools/normalize_kmc_gcc_asm.py")]
+                if legacy_normalizer:
+                    normalize_command.append("--legacy")
+                subprocess.run([*normalize_command, str(raw), str(normalized)], check=True, cwd=ROOT)
+                subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
         compiled_units[source] = (output, section_bases, unit_symbols)
