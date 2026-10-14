@@ -1730,7 +1730,7 @@ segments:
       - [0xB1F0C, bin, gaps/gap_0B1F0C]
       - [0xB1F10, asm, functions/osVirtualToPhysical]
       - [0xB1F8C, bin, gaps/gap_0B1F8C]
-      - [0xB1F90, asm, functions/__osProbeTLB]
+      - [0xB1F90, hasm, libultra/os_probe_tlb]
       - [0xB2048, bin, gaps/gap_0B2048]
       - [0xB2050, asm, functions/osViSetEvent]
       - [0xB20BC, bin, gaps/gap_0B20BC]
