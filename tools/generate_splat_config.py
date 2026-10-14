@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CATALOGUE = ROOT / "config/us/recomp_function_boundaries.toml"
+MATCHING = ROOT / "config/us/matching_units.tsv"
 OUTPUT = ROOT / "config/us/splat.yaml"
 
 
@@ -70,18 +71,31 @@ def main() -> None:
         f"    vram: 0x{vram_start:X}",
         "    subsegments:",
     ]
+    matching = []
+    for line in MATCHING.read_text().splitlines():
+        if not line or line.startswith("#"):
+            continue
+        offset, size, source, _flags, _digest = line.split("\t")
+        matching.append((int(offset, 0), int(offset, 0) + int(size, 0), source.removeprefix("src/").removesuffix(".c")))
+    matching.sort()
+    for left, right in zip(matching, matching[1:]):
+        if left[1] > right[0]:
+            raise ValueError(f"overlapping matching units: {left} and {right}")
+    segments = [(rom_start + f["vram"] - vram_start, rom_start + f["vram"] - vram_start + f["size"], "asm", f"functions/{f['name']}") for f in functions]
+    segments = [segment for segment in segments if not any(segment[0] < end and segment[1] > start for start, end, _ in matching)]
+    segments.extend((start, end, "c", source) for start, end, source in matching)
+    segments.sort()
     cursor = rom_start
-    for function in functions:
-        offset = rom_start + function["vram"] - vram_start
+    for offset, end, kind, name in segments:
         if offset > cursor:
             lines.append(f"      - [0x{cursor:X}, bin, gaps/gap_{cursor:06X}]")
-        lines.append(f"      - [0x{offset:X}, asm, functions/{function['name']}]")
-        cursor = offset + function["size"]
+        lines.append(f"      - [0x{offset:X}, {kind}, {name}]")
+        cursor = end
     if cursor < rom_end:
         lines.append(f"      - [0x{cursor:X}, bin, gaps/gap_{cursor:06X}]")
     lines.extend([f"  - [0x{rom_end:X}, bin, assets]", "  - [0x800000]", ""])
     OUTPUT.write_text("\n".join(lines))
-    print(f"Wrote {OUTPUT.relative_to(ROOT)} with {len(functions)} canonical function segments")
+    print(f"Wrote {OUTPUT.relative_to(ROOT)} with {len(functions)} canonical functions and {len(matching)} matching C unit(s)")
 
 
 if __name__ == "__main__":

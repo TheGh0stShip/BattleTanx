@@ -1,0 +1,7 @@
+# ROM_START	SIZE	SOURCE	IDO_FLAGS	SHA256_TEXT
+0xA2140	0x60	src/libultra/al_heap_alloc.c	-O3 -mips2 -non_shared -G 0	89e229d53e59eb1f0001821d5e54accf59730a33c1d54f2963b2e02d05fe5413
+0xA21A0	0x40	src/libultra/al_heap_init.c	-O3 -mips2 -non_shared -G 0	0adbf5a4b2125a84c057db632ef94fc48aad8c2aad231a14fe2d24186208af4c
+0xA31A0	0x2C0	src/libultra/ll.c	-O1 -mips3 -32 -non_shared -G 0	ccf2a1fcc516893d7a2343a6fe49332f551ecb037d7de2e3dda5d2205bcd9ccc
+0xA4520	0x180	src/libultra/os_cont_crc.c	-O1 -mips2 -non_shared -G 0	2fb721fdaa55eef5c2841b16b942f22fe688eb8cf6a40636ecf086bfe1c3885c
+0xAB830	0x80	src/libultra/al_copy.c	-O2 -mips2 -non_shared -G 0	fbbd00a358ba9f6e6d467b5e9bc4cc4c42160ed2fa845082aec37f6d176aa733
+0xAD3B0	0xA0	src/libultra/string.c	-O2 -Wo,-loopunroll,0 -mips2 -non_shared -G 0	68696b567cdf60a5a58699ece48b7ee030a2d3ad4cc5525553abac922981ad1a

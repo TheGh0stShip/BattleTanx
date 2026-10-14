@@ -47,6 +47,20 @@ class ProjectTests(unittest.TestCase):
         for required in ("ARMv7-A", "ILP32", "not AArch64", "floating-point ABI", "LP64", "LLP64"):
             self.assertIn(required, text)
 
+    def test_matching_unit_is_a_c_segment(self) -> None:
+        splat = (ROOT / "config/us/splat.yaml").read_text()
+        self.assertIn("[0xA31A0, c, libultra/ll]", splat)
+        for name in ("__ull_rem", "__ull_div", "__ll_div", "__ll_mul"):
+            self.assertNotIn(f"asm, functions/{name}]", splat)
+
+    def test_matching_manifest(self) -> None:
+        rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
+        self.assertEqual(len(rows), 6)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 1536)
+        for _start, _size, source, _flags, digest in rows:
+            self.assertTrue((ROOT / source).is_file())
+            self.assertEqual(len(digest), 64)
+
 
 if __name__ == "__main__":
     unittest.main()
