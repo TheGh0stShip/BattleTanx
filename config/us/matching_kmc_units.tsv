@@ -322,3 +322,6 @@
 0xF030	0x10	src/code/render/get_render_frame_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	de9c864f429119f4e4dd29b915d10c0ecfd2072437078cc57dab0d61c6df6ad1
 0xF040	0x20	src/code/render/advance_render_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	cacc9f01c6ad6a4e6ba1dd4d48fba87170d53aa625839816e573e90d7c63108a
 0xF060	0x10	src/code/render/get_render_frame_record_alt.c	-O2 -G0 -mips3 -mgp32 -mfp32	de9c864f429119f4e4dd29b915d10c0ecfd2072437078cc57dab0d61c6df6ad1
+0xC58C0	0x0	src/code/gameplay/ai_play_tables.c	--section-base=.data:0x801358C0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xC5D30	0x0	src/code/gameplay/ai_script_data.c	--section-base=.data:0x80135D30 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xC4B88	0x0	src/code/assets/strip_bundle_tables.c	--section-base=.data:0x80134B88 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

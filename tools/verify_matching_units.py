@@ -217,7 +217,11 @@ def main() -> None:
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
         compiled_units[source] = (output, section_bases, unit_symbols)
-        compiled_text = relocate_elf32_be_section(output, ".text", unit_symbols, section_bases)
+        # Data-only translation units may omit .text entirely. A zero-sized
+        # manifest row registers the compiled object so its initialized data
+        # can still be verified below without inventing a code contribution.
+        compiled_text = (b"" if size == 0 else
+                         relocate_elf32_be_section(output, ".text", unit_symbols, section_bases))
         if len(compiled_text) < size:
             raise SystemExit(f"{source}: text size 0x{len(compiled_text):X}, expected at least 0x{size:X}")
         if any(compiled_text[size:]):
