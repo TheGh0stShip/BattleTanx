@@ -46,8 +46,8 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,568 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. Twenty-eight reviewed C source
-units now reconstruct 3,296 retail bytes. The 22 libultra units include the
+resource area remain explicit binary regions. Forty-six reviewed C source units
+now reconstruct 3,460 retail bytes. The 22 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
 string primitives, audio bus/save processing, and low-level AI/SI/SP accessors.
@@ -55,11 +55,16 @@ string primitives, audio bus/save processing, and low-level AI/SI/SP accessors.
 compiles every manifest entry with pinned IDO 5.3 and compares every emitted
 byte directly with the supported ROM.
 
-The first six game-owned KMC GCC units cover a string-length helper, state
-initialization, matrix
+The game-owned KMC GCC units cover a string-length helper, state initialization,
+matrix
 state setup, two matrix multiplication routines, a byte-sum helper, and a
 16-bit angular-distance helper. Their target-address names were corrected for
 BattleTanx rather than retaining Global Assault addresses.
+Twelve additional leaf routines were recovered directly from the BattleTanx
+split, including ten no-op callbacks, a field setter, and a pointer-offset
+helper.
+The adjacent object-accessor cluster adds three typed field reads, a field
+initializer, a boolean presence check, and a constant-zero leaf.
 
 Two authentic source-assembly units additionally reconstruct the contiguous
 80-byte cache-maintenance and CP0-status block at ROM `0x71BC-0x720C`. These

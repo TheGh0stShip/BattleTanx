@@ -1,4 +1,22 @@
 # ROM_START	SIZE	SOURCE	KMC_GCC_FLAGS	SHA256_TEXT
+0xC298	0x8	src/code/unknown/8007C298.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x15460	0x8	src/code/unknown/80085460.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x15468	0x8	src/code/unknown/80085468.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x23F34	0x8	src/code/unknown/80093F34.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x3424C	0x8	src/code/unknown/800A424C.c	-O2 -G0 -mips3 -mgp32 -mfp32	9089a2495561c44d47c5a4c46568a6fb24c3e21660da3410703ea59114740dc3
+0x342A4	0xC	src/code/unknown/800A42A4.c	-O2 -G0 -mips3 -mgp32 -mfp32	7b3e23ce2398528e8f6070c22e99ad1d27dc2cf7c48b7ae75bf9748a1b7866b3
+0x342B0	0xC	src/code/unknown/800A42B0.c	-O2 -G0 -mips3 -mgp32 -mfp32	9b8e6374fc6c59c2bc5263361d7ec88f93ad13303ae4eb5a46c3bdf015676810
+0x342BC	0x8	src/code/unknown/800A42BC.c	-O2 -G0 -mips3 -mgp32 -mfp32	8090edef6bfc280c2c49239a0db5c9d4a83e2f946383114992f26187a9744ff3
+0x342C4	0xC	src/code/unknown/800A42C4.c	-O2 -G0 -mips3 -mgp32 -mfp32	5c257a5e21a0c34692a3a2465425c521b96386bd6b9d35731cbdc21943eccbb3
+0x34368	0xC	src/code/unknown/800A4368.c	-O2 -G0 -mips3 -mgp32 -mfp32	7f4b538f1a536ff52bd3436c8ceae67be9a6d6849a9a9dc44c739efd142a54f4
+0x34D10	0xC	src/code/unknown/800A4D10.c	-O2 -G0 -mips3 -mgp32 -mfp32	d505f403880385b5533f164c400e4702d5fddcd5753e3fa7a9e7faeada026ab8
+0x366C0	0x8	src/code/unknown/800A66C0.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x37548	0x8	src/code/unknown/800A7548.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x3BFA0	0x8	src/code/unknown/800ABFA0.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x3B614	0x8	src/code/unknown/800AB614.c	-O2 -G0 -mips3 -mgp32 -mfp32	648cbc77d024f6d08bc8ff4e3bdf1cebf2a933937ee1cebef4690d015808bd9c
+0x7480C	0x8	src/code/unknown/800E480C.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x75198	0x8	src/code/unknown/800E5198.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x9BC08	0x8	src/code/unknown/8010BC08.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x6CA8	0x20	src/code/unknown/80076CA8.c	-O2 -G0 -mips3 -mgp32 -mfp32	ee119a272930ac363119547f6442b30c2feea75a81f1f0467c4c316048c64d54
 0x377D4	0x2C	src/code/render/800A77D4_matrix_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	751da3c44ae17a10712d80b7491a8659d68e88e2e92d8e5ae10fe3045c8bed1b
 0x37F3C	0xF8	src/code/render/800A7F3C_matrix_multiply.c	-O2 -G0 -mips3 -mgp32 -mfp32	4898dee8e3b8df143b1a5e336cb362dfda9492ebe60681ef2305c73276be6df8
