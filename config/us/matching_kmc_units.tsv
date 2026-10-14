@@ -40,3 +40,15 @@
 0x76FA8	0x8	src/code/runtime/stubs/800E6FA8_reject.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
 0x97168	0x8	src/code/runtime/stubs/80107168_reject.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6319e0118090063356ee2f609a9734dcfaa88c89d50c295c982f4f54af366862
 0x97704	0x8	src/code/runtime/stubs/80107704_noop.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x27C24	0x40	src/code/runtime/clear_record.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a17da6d9c8a70b56f94986d85a929334c0ea9c419c67ea25b9cfcff8f1f609ee
+0xC33C	0x8	src/code/runtime/stubs/8007C33C_return_eleven.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	6f8c00ef64aaedc417c650f06d84d0c5fc9fc1ccdc65781c71be35258519a369
+0x21D04	0xC	src/code/runtime/set_result_two.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	64d73d0fbd1fac14c6e69c9c69b378fe7aeb6ce4b6ff9161acb5f8e04c6e7d07
+0x105D0	0xC	src/code/runtime/stubs/800805D0_return_constant.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	cf0979d068e1027e5a05c9624949cf61b22c5906207b3ca5eaebcb8815fe0269
+0x217C4	0x14	src/code/runtime/copy_halfword_pair.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	76425fa861a2a07503ce41b9a2fe66392ff88093c4ecf669b743f97273bc4695
+0x82120	0x8	src/code/runtime/clear_callback_state.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	196319ab0690eee8d1189059b049b2fb47839bd0bcbce028b08d62540abe0fd8
+0x99354	0x10	src/code/runtime/set_record_halfwords.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	767cbcd9a915ef98da58407da94a9c9f5703e0aca054e8c453d1ec79ebb3ad10
+0x799D4	0xC	src/code/runtime/clear_word_pair.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	581d7dfac4d959bb23bd23bf35902fa7dbd70e6952e5f91155cc8c98949166eb
+0x7A1B0	0x8	src/code/runtime/clear_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	f39bb13dbb0f4e24cd4f313a4df7d836d2382cf2265b7177f11735d31e0526b9
+0x7A1EC	0x10	src/code/runtime/decrement_word.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	aacfa8fd255b963ec532bef7d03c92c1d28a4a5647bea4c246770c38af7c132b
+0x72614	0xC	src/code/entities/set_mode_16.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	a4003edfa7d4db2c22821bf299fb26df0d072c44ccf709a76d6d31153324b857
+0x72620	0xC	src/code/entities/set_mode_128.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	061b9601f0c64a5fcc3ec57e4039dfae688d0d52e70c1e005932f1b3a8393bba
