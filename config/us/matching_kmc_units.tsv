@@ -1010,7 +1010,7 @@
 0x809D0	0x190	src/code/effects/release_effect_facing_point.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	210ba66e2df879712c582783a2bc522d997e57bf3ab09f5b2352b93301ac0e60
 0x7CD30	0x11C	src/code/effects/spawn_area_marker_effects.c	-O2 -G0 -mips3 -mgp32 -mfp32	d5c3f90252d8714d5584355de13d3ec6f85f9a44cae136b8fbb44483d87326cf
 0x9DAA0	0x16C	src/code/effects/spawn_effect_kind1d_if_area_clear.c	-O2 -G0 -mips3 -mgp32 -mfp32	e8c7a364fcc5ef884059c770675d6243f7ee9c1504bdf2c1f13a8fe3b62f4c3b
-0x1C8D0	0x114	src/code/effects/spawn_effect_kind_01.c	--section-base=.rodata:0x80071A70 -O2 -G0 -mips3 -mgp32 -mfp32	23fbbcfe018bcd8fbb9ff83f2cff504b9e3d862c81558b36257cdaa255de0a70
+0x1C8D0	0x4E0	src/code/effects/effect_kind_01.c	--section-base=.rodata:0x80071A70 -O2 -G0 -mips3 -mgp32 -mfp32	36cbb7c9712e1effd54d3588bf4d4cd3c6d1a9f1cd14c36cb30a026596ba16be
 0x1B2C8	0x1C4	src/code/effects/update_active_effect_list.c	-O2 -G0 -mips3 -mgp32 -mfp32	8fa9b85350e5b9cd594cba3579baf1d58851ef6f5de7d592f254955813126f56
 0x32C38	0x188	src/code/effects/update_debris_emitter.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	5c84360637d1f09f68fb1de0d2b5eee043c52aa28d76e0b48750bdcc00207ba3
 0x83770	0x110	src/code/effects/visit_level_points_near_scaled_heading_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	69d7160c1c3c7edf8c64dffe21999877f350b2f589a089e0d1f188a64cc5f0ee
@@ -1063,7 +1063,7 @@
 0x1700	0x0	src/code/data/rodata_80071700.c	--assembler=asn64 --section-base=.rodata:0x80071700 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x1768	0x0	src/code/data/rodata_80071768.c	--assembler=asn64 --section-base=.rodata:0x80071768 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x1A6C	0x0	src/code/data/rodata_80071A6C.c	--assembler=asn64 --section-base=.rodata:0x80071A6C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-0x1A74	0x0	src/code/data/rodata_80071A74.c	--assembler=asn64 --section-base=.rodata:0x80071A74 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1AA0	0x0	src/code/data/rodata_80071AA0.c	--assembler=asn64 --section-base=.rodata:0x80071AA0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x1BB8	0x0	src/code/data/rodata_80071BB8.c	--assembler=asn64 --section-base=.rodata:0x80071BB8 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x1C04	0x0	src/code/data/rodata_80071C04.c	--assembler=asn64 --section-base=.rodata:0x80071C04 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x1C64	0x0	src/code/data/rodata_80071C64.c	--assembler=asn64 --section-base=.rodata:0x80071C64 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -1281,3 +1281,10 @@
 0x6E3EC	0x278	src/code/gameplay/rebuild_route_from_current_cell.c	-O2 -G0 -mips3 -mgp32 -mfp32	31b3a5425c393344fe621b11a81852276a9eb5e604230352546f3b0f48290990
 0x7004C	0x2D0	src/code/gameplay/choose_cell_exit_edges.c	--section-base=.rodata:0x80074414 -O2 -G0 -mips3 -mgp32 -mfp32	3982d9b6a5b930c4c388f06a0909a44a804340a78050c7b0ca3190f27540ede7
 0x7031C	0x240	src/code/gameplay/extend_route_three_steps.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	e266d4c883ea880e155285bdb493cdc041c0b1ea5ed1376185fe94e82d14117f
+0x9BC10	0x190	src/code/math/intersect_segments_2d.c	--assembler=asn64 --section-base=.rodata:0x80075500 -O2 -G0 -mips3 -mgp32 -mfp32	cf5a67becc37784296e27edef910aa9d4153dc4a24b0d1b51edaceef1f6011e2
+0x9AA6C	0x224	src/code/math/clip_segment_to_edge.c	--assembler=asn64 --section-base=.rodata:0x800754B8 -O2 -G0 -mips3 -mgp32 -mfp32	2e982f9c8575abcc4d8fe1fb4a8a63856adf765f8908a0efe58256214760c16d
+0x9823C	0x2FC	src/code/runtime/find_motions_near_point.c	-O2 -G0 -mips3 -mgp32 -mfp32	b223887d420ad86ac503dcc4f9bd3ba0e8025093a87a77fdfb9a496302b60854
+0x17D30	0x2D4	src/code/render/swap_player_skin_textures.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	f31e7eb986678feab4fca1ec925de23a40f9d4f558b9bf464969dee6a340df1c
+0x0B280	0x310	src/code/gameplay/run_campaign_waves.c	--section-base=.rodata:0x80071104 -O2 -G0 -mips3 -mgp32 -mfp32	50fc6257d95c1a78a5e5841d2b081b49c18cbbccab6b9037b134416b2270e460
+0x826B4	0x338	src/code/effects/draw_owner_flash.c	--section-base=.rodata:0x80074E08 -O2 -G0 -mips3 -mgp32 -mfp32	36302a116a66e8da4b7f67ca830851676c0e7f2a9b3c82aeb60ab92e456424db
+0x1716C	0x388	src/code/runtime/acquire_resource_slot.c	-O2 -G0 -mips3 -mgp32 -mfp32	554b848219d042728183fadbc94e5a24a2c075cf802c6d3319333947674ebea7

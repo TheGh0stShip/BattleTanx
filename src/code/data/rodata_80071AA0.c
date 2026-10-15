@@ -1,18 +1,7 @@
 #include "types.h"
 
-/* Initialized rodata at 0x80071A74..0x80071BB4 (ROM 0x1A74..0x1BB4). */
-typedef struct Rodata80071A74 {
-    f32 value0;
-    f32 value4;
-    f32 value8;
-    f32 valueC;
-    f32 value10;
-    f32 value14;
-    f32 value18;
-    f32 value1C;
-    f32 value20;
-    u32 word24;
-    u32 word28;
+/* Initialized rodata at 0x80071AA0..0x80071BB4 (ROM 0x1AA0..0x1BB4). */
+typedef struct Rodata80071AA0 {
     u32 word2C;
     u32 word30;
     u32 word34;
@@ -82,20 +71,9 @@ typedef struct Rodata80071A74 {
     u32 word134;
     f32 value138;
     f32 value13C;
-} Rodata80071A74;
+} Rodata80071AA0;
 
-const Rodata80071A74 D_80071A74 = {
-    50.0f,
-    -3000.0f,
-    6000.0f,
-    3000.0f,
-    6000.0f,
-    6000.0f,
-    6000.0f,
-    1000.0f,
-    0.0f,
-    0x40000000,
-    0x00000000,
+const Rodata80071AA0 D_80071AA0 = {
     0x3F800000,
     0x00000000,
     0x00000000,
