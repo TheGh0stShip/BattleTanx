@@ -1279,3 +1279,4 @@
 0x60828	0x118	src/code/assets/write_controller_pak_progress.c	-O2 -G0 -mips3 -mgp32 -mfp32	d2c9e0b3e85f7e010e217ee8e2844d27b5d39346a866cae04a2b6afdbf677191
 0x71D40	0x190	src/code/gameplay/ai_update_route_goal.c	-O2 -G0 -mips3 -mgp32 -mfp32	0f6d4ce0129262d6b59d1abd91951590bfb9eaf0bdccde9bf54967882129c7b3
 0x6E3EC	0x278	src/code/gameplay/rebuild_route_from_current_cell.c	-O2 -G0 -mips3 -mgp32 -mfp32	31b3a5425c393344fe621b11a81852276a9eb5e604230352546f3b0f48290990
+0x7004C	0x2D0	src/code/gameplay/choose_cell_exit_edges.c	--section-base=.rodata:0x80074414 -O2 -G0 -mips3 -mgp32 -mfp32	3982d9b6a5b930c4c388f06a0909a44a804340a78050c7b0ca3190f27540ede7

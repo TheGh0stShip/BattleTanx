@@ -817,7 +817,7 @@ functions = [
     { name = "sort_tree_pop_min_node", vram = 0x800df6f4, size = 0xdc },
     { name = "func_800DF7D0", vram = 0x800df7d0, size = 0x298 },
     { name = "func_800DFA68", vram = 0x800dfa68, size = 0x5e4 },
-    { name = "func_800E004C", vram = 0x800e004c, size = 0x2d0 },
+    { name = "choose_cell_exit_edges", vram = 0x800e004c, size = 0x2d0 },
     { name = "func_800E031C", vram = 0x800e031c, size = 0x240 },
     { name = "select_level_waypoint_set", vram = 0x800e055c, size = 0x48 },
     { name = "find_nearest_level_cell", vram = 0x800e05a4, size = 0x1ec },

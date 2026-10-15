@@ -965,7 +965,7 @@ segments:
       - [0x6F6F4, c, code/render/sort_tree_pop_min_node]
       - [0x6F7D0, asm, functions/func_800DF7D0]
       - [0x6FA68, asm, functions/func_800DFA68]
-      - [0x7004C, asm, functions/func_800E004C]
+      - [0x7004C, c, code/gameplay/choose_cell_exit_edges]
       - [0x7031C, asm, functions/func_800E031C]
       - [0x7055C, c, code/levels/select_level_waypoint_set]
       - [0x705A4, c, code/levels/find_nearest_level_cell]

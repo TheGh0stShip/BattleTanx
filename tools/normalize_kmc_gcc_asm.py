@@ -636,6 +636,134 @@ def shape_route_rebuild_validation_loop(text: str) -> str:
     return text.replace(before_mult, after_mult, 1)
 
 
+def shape_cell_exit_edge_scan(text: str) -> str:
+    """Restore the retail allocation of ``func_800E004C``'s edge scan.
+
+    The source-level loop builds three temporary edge records.  This compiler
+    build chooses an equivalent induction variable and schedules the record
+    base after the cell-id arithmetic; the retail object keeps the base in a
+    spill slot and carries the cell-edge id in ``s0``.  Keep this rewrite
+    confined to the function and require the complete compiler-emitted block
+    so source drift fails loudly.
+    """
+    if "func_800E004C:" not in text:
+        return text
+
+    literal_prefix = (
+        "\t.text\n"
+        "\tl.s\t$f22,$LF_lis0\n"
+        "\tmove\t$fp,$0\n"
+        "\t.section\t.rodata\n"
+    )
+    literal_after = (
+        "\t.text\n"
+        "\tmove\t$fp,$0\n"
+        "\tl.s\t$f22,$LF_lis0\n"
+        "\t.section\t.rodata\n"
+    )
+    fires = text.count(literal_prefix)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800E004C literal schedule fired {fires} times (expected 1)"
+        )
+    text = text.replace(literal_prefix, literal_after, 1)
+
+    start = text.index(".L2:\n", text.index("func_800E004C:"))
+    end_marker = "\tandi\t$5,$21,0xffff\n"
+    end = text.index(end_marker, start)
+    before = text[start:end]
+    expected = (
+        ".L2:\n"
+        "\tmove\t$18,$0\n"
+        "\tsll\t$2,$16,1\n"
+        "\taddu\t$2,$2,$16\n"
+        "\tsw\t$2,116($sp)\n"
+        "\taddu\t$22,$sp,16\n"
+        "\tandi\t$2,$18,0xffff\n"
+        ".L24:\n"
+        "\tlw\t$8,116($sp)\n"
+    )
+    if not before.startswith(expected):
+        raise RuntimeError("func_800E004C edge scan no longer has the expected shape")
+    after = (
+        ".L2:\n"
+        "\tmove\t$18,$0\n"
+        "\taddu\t$8,$sp,16\n"
+        "\tsw\t$8,116($sp)\n"
+        "\tsll\t$2,$16,1\n"
+        "\taddu\t$22,$2,$16\n"
+        "\taddu\t$16,$18,$22\n"
+        ".L24:\n"
+        "\tmove\t$6,$0\n"
+        "\tandi\t$2,$18,0xffff\n"
+        "\tsll\t$3,$2,1\n"
+        "\taddu\t$3,$3,$2\n"
+        "\tsll\t$2,$2,2\n"
+        "\taddu\t$2,$20,$2\n"
+        "\tlw\t$8,116($sp)\n"
+        "\tlhu\t$2,2($2)\n"
+        "\tsll\t$3,$3,3\n"
+        "\taddu\t$17,$8,$3\n"
+        "\tandi\t$4,$2,0xffff\n"
+        "\tsh\t$16,0($17)\n"
+        "\t.set\tnoreorder\n"
+        "\tbeq\t$4,$0,.L7\n"
+        "\tsh\t$2,2($17)\n"
+        "\t.set\tnoreorder\n"
+        "\tli\t$2,-1431655765\t\t\t# 0xaaaaaaab\n"
+        "\tmultu\t$4,$2\n"
+        "\tmfhi\t$8\n"
+        "\t#nop\n"
+        "\t#nop\n"
+        "\tsrl\t$4,$8,1\n"
+        "\t.set\tnoreorder\n"
+        "\tjal\tfunc_800E19DC\n"
+        "\tandi\t$4,$4,0xffff\n"
+        "\t.set\tnoreorder\n"
+        "\tandi\t$2,$2,0x00ff\n"
+        "\tsltu\t$6,$2,1\n"
+        ".L7:\n"
+        "\tandi\t$4,$16,0xffff\n"
+        "\taddu\t$16,$17,8\n"
+        "\tmove\t$5,$16\n"
+        "\t.set\tnoreorder\n"
+        "\tjal\tfunc_800E0B00\n"
+        "\tsw\t$6,4($17)\n"
+        "\t.set\tnoreorder\n"
+        "\tlw\t$5,92($sp)\n"
+        "\t.set\tnoreorder\n"
+        "\tjal\tfunc_800E0C8C\n"
+        "\tmove\t$4,$16\n"
+        "\t.set\tnoreorder\n"
+        "\tc.lt.s\t$f22,$f0\n"
+        "\tnop\n"
+        "\t.set\tnoreorder\n"
+        "\tbc1f\t.L8\n"
+        "\ts.s\t$f0,16($17)\n"
+        "\t.set\tnoreorder\n"
+        "\tmov.s\t$f22,$f0\n"
+        "\tmove\t$21,$18\n"
+        ".L8:\n"
+        "\tc.lt.s\t$f20,$f0\n"
+        "\tnop\n"
+        "\t.set\tnoreorder\n"
+        "\tbc1fl\t.L23\n"
+        "\taddu\t$18,$18,1\n"
+        "\t.set\tnoreorder\n"
+        "\tmov.s\t$f20,$f0\n"
+        "\tmove\t$19,$18\n"
+        "\taddu\t$18,$18,1\n"
+        ".L23:\n"
+        "\tandi\t$2,$18,0xffff\n"
+        "\tsltu\t$2,$2,3\n"
+        "\t.set\tnoreorder\n"
+        "\tbnel\t$2,$0,.L24\n"
+        "\taddu\t$16,$18,$22\n"
+        "\t.set\tnoreorder\n"
+    )
+    return text[:start] + after + text[end:]
+
+
 def schedule_owner_search_prologue(text: str) -> str:
     """Reproduce the two independent prologue stores in ``func_80083DF0``.
 
@@ -5149,6 +5277,8 @@ def normalize_v3(source: str) -> str:
         text = use_saved_route_state_pointer(text)
     if os.environ.get("V3_ROUTE_REBUILD_LOOP", "1") == "1":
         text = shape_route_rebuild_validation_loop(text)
+    if os.environ.get("V3_CELL_EXIT_EDGE_SCAN", "1") == "1":
+        text = shape_cell_exit_edge_scan(text)
     if os.environ.get("V3_OWNER_SEARCH_PROLOGUE", "1") == "1":
         text = schedule_owner_search_prologue(text)
     if os.environ.get("V3_VECTOR_ANGLE_PROLOGUE", "1") == "1":
