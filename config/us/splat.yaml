@@ -344,7 +344,7 @@ segments:
       - [0x12458, c, code/runtime/select_packed_range_index]
       - [0x124E4, c, code/render/submit_model_group_view]
       - [0x127AC, c, code/render/submit_model_group_view_layered]
-      - [0x12AA8, asm, functions/func_80082AA8]
+      - [0x12AA8, c, code/render/submit_model_group]
       - [0x12D60, c, code/render/submit_masked_model_group]
       - [0x130DC, c, code/render/place_group_corner_shapes]
       - [0x1332C, c, code/levels/level_point_within_radius]

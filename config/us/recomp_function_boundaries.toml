@@ -211,7 +211,7 @@ functions = [
     { name = "select_packed_range_index", vram = 0x80082458, size = 0x8c },
     { name = "submit_model_group_view", vram = 0x800824e4, size = 0x2c8 },
     { name = "submit_model_group_view_layered", vram = 0x800827ac, size = 0x2fc },
-    { name = "func_80082AA8", vram = 0x80082aa8, size = 0x2b8 },
+    { name = "submit_model_group", vram = 0x80082aa8, size = 0x2b8 },
     { name = "submit_masked_model_group", vram = 0x80082d60, size = 0x37c },
     { name = "place_group_corner_shapes", vram = 0x800830dc, size = 0x250 },
     { name = "level_point_within_radius", vram = 0x8008332c, size = 0x68 },

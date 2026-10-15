@@ -1178,6 +1178,7 @@
 0xC344	0x248	src/code/frontend/run_frontend_state_loop.c	--section-base=.rodata:0x80071178 -O2 -G0 -mips3 -mgp32 -mfp32	0620021d67d226972777c6d9a5c6e44babcce2932ed96c01866b5be1b8aa10d1
 0x124E4	0x2C8	src/code/render/submit_model_group_view.c	--section-base=.rodata:0x800714B4 -O2 -G0 -mips3 -mgp32 -mfp32	136f101908f39e07f8f176fa9c49ce0464e08f17aad898ef320c9a52d1405773
 0x127AC	0x2FC	src/code/render/submit_model_group_view_layered.c	--section-base=.rodata:0x800714C4 -O2 -G0 -mips3 -mgp32 -mfp32	7d70fcb171ddfc24b2142585a735f2f531c1343e9d13d42e3049ea9c51db0c01
+0x12AA8	0x2B8	src/code/render/submit_model_group.c	-O2 -G0 -mips3 -mgp32 -mfp32	5a32b6db4a1819c75a1872499a98721aeee4e12b74b48cafb4b9d5693e45774b
 0x12D60	0x37C	src/code/render/submit_masked_model_group.c	--section-base=.rodata:0x800714D4 -O2 -G0 -mips3 -mgp32 -mfp32	79106cbc7f1ebaff2df0a42c6f85004a7facdbfb07b6eb652b9f7f89d98f8eb6
 0x130DC	0x250	src/code/render/place_group_corner_shapes.c	-O2 -G0 -mips3 -mgp32 -mfp32	d1bdb7efd82c6caee35d6fe514ef24280c92dc93bcf1f9841a037b24f07b9fc6
 0x14F90	0x300	src/code/render/submit_keyed_model_group.c	-O2 -G0 -mips3 -mgp32 -mfp32	58291cf1197a68145d4a9510b13732a24ff89d7a227d34361b223bf2e3854282
