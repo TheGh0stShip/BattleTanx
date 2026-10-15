@@ -125,6 +125,35 @@ class ModernAsn64Tests(unittest.TestCase):
         )
         self.assertIn("bnel\t$2,$0,.L40", disabled)
 
+    def test_attached_camera_uses_retail_floating_registers(self) -> None:
+        body = (
+            "func_80077E94:\n"
+            "\tadd.s\t$f20,$f2,$f0\n"
+            "\ts.s\t$f20,8($18)\n"
+            "\tsub.s\t$f20,$f0,$f20\n"
+            "\tsqrt.s\t$f2,$f12\n"
+            "\tc.eq.s\t$f2,$f2\n"
+            "\tdiv.s\t$f22,$f22,$f2\n"
+            "\tmov.s\t$f2,$f0\n"
+            "\tdiv.s\t$f22,$f22,$f2\n"
+            "\tdiv.s\t$f20,$f20,$f2\n"
+            "\tsub.s\t$f20,$f0,$f20\n"
+            "\tneg.s\t$f20,$f20\n"
+            "\tmul.s\t$f20,$f20,$f0\n"
+            "\ts.s\t$f20,0($19)\n"
+            "\tmul.s\t$f0,$f0,$f22\n"
+        )
+        text = self.preprocess(body)
+        self.assertIn("add.s\t$f12,$f2,$f0", text)
+        self.assertEqual(text.count("sub.s\t$f20,$f0,$f12"), 2)
+        self.assertIn("sqrt.s\t$f4,$f12", text)
+        self.assertIn("neg.s\t$f2,$f20\n\tmul.s\t$f2,$f2,$f0", text)
+        self.assertIn("mul.s\t$f0,$f22,$f0", text)
+
+        disabled = self.preprocess(body, disabled="ATTACHED-CAMERA-FPRS")
+        self.assertIn("add.s\t$f20,$f2,$f0", disabled)
+        self.assertIn("sqrt.s\t$f2,$f12", disabled)
+
     def test_disabled_rule_leaves_symbol_load_for_gas(self) -> None:
         text = self.preprocess(
             "\tlw\t$2,D_801144A0($3)\n", disabled="MEM-SYM-BASE"

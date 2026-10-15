@@ -1102,6 +1102,37 @@ with open(input_filename, mode="r") as input_file:
                 f"func_800E0870 return-delay shaping fired {fires} times (expected 1)"
             )
         input_lines = joined.replace(tail, tail_replacement, 1).splitlines(keepends=True)
+    if any("func_80077E94:" in line for line in input_lines) and rule("ATTACHED-CAMERA-FPRS"):
+        # SN64 keeps the smoothed eye-z value in $f12 and allocates the first
+        # spin branch's square-root result to $f4.  KMC's emitted source uses
+        # equivalent $f20/$f2 temporaries.  Reproduce the retail allocation,
+        # rejecting any compiler-output drift rather than applying a broad
+        # register substitution.
+        rewrites = (
+            ("\tadd.s\t$f20,$f2,$f0\n", "\tadd.s\t$f12,$f2,$f0\n", 1),
+            ("\ts.s\t$f20,8($18)\n", "\ts.s\t$f12,8($18)\n", 1),
+            ("\tsub.s\t$f20,$f0,$f20\n", "\tsub.s\t$f20,$f0,$f12\n", 2),
+            ("\tsqrt.s\t$f2,$f12\n", "\tsqrt.s\t$f4,$f12\n", 1),
+            ("\tc.eq.s\t$f2,$f2\n", "\tc.eq.s\t$f4,$f4\n", 1),
+            ("\tdiv.s\t$f22,$f22,$f2\n", "\tdiv.s\t$f22,$f22,$f4\n", 2),
+            ("\tmov.s\t$f2,$f0\n", "\tmov.s\t$f4,$f0\n", 1),
+            ("\tdiv.s\t$f20,$f20,$f2\n", "\tdiv.s\t$f20,$f20,$f4\n", 1),
+            ("\tneg.s\t$f20,$f20\n\tmul.s\t$f20,$f20,$f0\n",
+             "\tneg.s\t$f2,$f20\n\tmul.s\t$f2,$f2,$f0\n", 1),
+            ("\ts.s\t$f20,0($19)\n", "\ts.s\t$f2,0($19)\n", 1),
+            ("\tmul.s\t$f0,$f0,$f22\n", "\tmul.s\t$f0,$f22,$f0\n", 1),
+        )
+        joined = "".join(input_lines)
+        for before, after, expected in rewrites:
+            fires = joined.count(before)
+            if fires != expected:
+                raise RuntimeError(
+                    f"func_80077E94 FPR shaping fired {fires} times "
+                    f"(expected {expected}): {before!r}"
+                )
+            joined = joined.replace(before, after, expected)
+        fire("ATTACHED-CAMERA-FPRS")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_8007BD24:" in line for line in input_lines) and rule("CAMPAIGN-RETRY-BRANCH"):
         # ASN64 emits the campaign retry as a normal branch even though KMC's
         # scheduler marks it likely.  The delay-slot value is harmless on the
