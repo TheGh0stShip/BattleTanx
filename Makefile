@@ -33,7 +33,7 @@ verify-matching: verify toolchain
 	$(PYTHON) tools/verify_matching_units.py --rom $(ROM)
 
 report:
-	$(PYTHON) tools/generate_decomp_report.py
+	$(PYTHON) tools/generate_decomp_report.py --config config/decompkit.toml
 
 asset-catalogue: verify
 	$(PYTHON) tools/battletanx_assets.py catalogue --rom $(ROM)

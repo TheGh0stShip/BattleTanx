@@ -8,17 +8,12 @@ import json
 import tomllib
 from pathlib import Path
 
+from decompkit.config import load_config
+from decompkit.tables import parse_address_ranges, read_tsv
 from generate_splat_config import canonical_functions
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOGUE = ROOT / "config/us/recomp_function_boundaries.toml"
-MANIFESTS = (
-    ROOT / "config/us/matching_units.tsv",
-    ROOT / "config/us/matching_kmc_units.tsv",
-    ROOT / "config/us/matching_asm_units.tsv",
-)
-DEFAULT_OUTPUT = ROOT / "build/report.json"
-MATCHING_DATA = ROOT / "config/us/matching_data_units.tsv"
+DEFAULT_CONFIG = ROOT / "config/decompkit.toml"
 ASSET_PROGRESS = ROOT / "config/us/asset_progress.toml"
 LIBULTRA_START = 0x80110480
 # The entry point (0x80071000) zeroes .bss from 0x80147040 to 0x803C8880, so
@@ -80,30 +75,18 @@ def asset_kind_totals() -> dict[str, int]:
     return totals
 
 
-def manifest_ranges() -> list[tuple[int, int, str]]:
-    ranges: list[tuple[int, int, str]] = []
-    for manifest in MANIFESTS:
-        for line in manifest.read_text().splitlines():
-            if not line or line.startswith("#"):
-                continue
-            fields = line.split("\t")
-            start, size = int(fields[0], 0), int(fields[1], 0)
-            ranges.append((start, start + size, fields[2]))
-    return ranges
+def manifest_ranges(config) -> list[tuple[int, int, str]]:
+    parsed = parse_address_ranges(
+        [path for path, _pipeline in config.unit_manifests], allow_empty=True
+    )
+    return [(item["start"], item["end"], item["row"]["SOURCE"]) for item in parsed]
 
 
-def data_ranges() -> list[tuple[int, int]]:
-    ranges = []
-    for line in MATCHING_DATA.read_text().splitlines():
-        if not line or line.startswith("#"):
-            continue
-        fields = line.split("\t")
-        # START SIZE SOURCE [SECTION] SHA256; SECTION defaults to .rodata.
-        if len(fields) not in (4, 5):
-            raise ValueError(f"{MATCHING_DATA}: data row needs 4 or 5 fields: {line!r}")
-        start, size = int(fields[0], 0), int(fields[1], 0)
-        ranges.append((start, start + size))
-    return ranges
+def data_ranges(config) -> list[tuple[int, int]]:
+    return [
+        (int(row["ROM_START"], 0), int(row["ROM_START"], 0) + int(row["SIZE"], 0))
+        for row in read_tsv(config.data_manifest)
+    ]
 
 
 def range_bytes(start: int, end: int, ranges: list[tuple[int, int]]) -> int:
@@ -166,11 +149,12 @@ def measures(total_code: int, matched_code: int, total_functions: int, matched_f
     }
 
 
-def build_report() -> dict:
-    section = tomllib.loads(CATALOGUE.read_text())["section"][0]
+def build_report(config_path: Path = DEFAULT_CONFIG) -> dict:
+    config = load_config(config_path)
+    section = tomllib.loads(config.functions.read_text())["section"][0]
     functions = canonical_functions(section)
-    ranges = manifest_ranges()
-    matched_data_ranges = data_ranges()
+    ranges = manifest_ranges(config)
+    matched_data_ranges = data_ranges(config)
     rom_delta = section["vram"] - section["rom"]
     units = []
     category_totals = {"game": [0, 0, 0, 0], "libultra": [0, 0, 0, 0]}
@@ -263,12 +247,15 @@ def build_report() -> dict:
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT)
+    parser.add_argument("--config", type=Path, default=DEFAULT_CONFIG)
+    parser.add_argument("--output", type=Path)
     args = parser.parse_args()
-    report = build_report()
-    args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(json.dumps(report, indent=2) + "\n")
-    print(f"wrote {args.output}: {report['measures']['matched_code']} / "
+    config = load_config(args.config)
+    output = args.output or config.report_output
+    report = build_report(args.config)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(report, indent=2) + "\n")
+    print(f"wrote {output}: {report['measures']['matched_code']} / "
           f"{report['measures']['total_code']} code bytes")
 
 

@@ -1,0 +1,22 @@
+[project]
+root = ".."
+functions = "config/us/recomp_function_boundaries.toml"
+splat = "config/us/splat.yaml"
+source_dir = "src"
+report_source_root = "src"
+data_manifest = "config/us/matching_data_units.tsv"
+report_output = "build/report.json"
+
+[report]
+vram_delta = 0x80070000
+code_end = 0x101000
+image_start = 0x1000
+image_end = 0xD7040
+source_kinds = ["c", "hasm"]
+
+[units]
+manifests = [
+  { path = "config/us/matching_units.tsv", pipeline = "ido" },
+  { path = "config/us/matching_kmc_units.tsv", pipeline = "kmc" },
+  { path = "config/us/matching_asm_units.tsv", pipeline = "assembly" },
+]

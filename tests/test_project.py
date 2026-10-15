@@ -12,6 +12,8 @@ sys.path.insert(0, str(ROOT / "tools"))
 
 from generate_splat_config import canonical_functions
 from generate_decomp_report import build_report
+from decompkit.config import load_config
+from decompkit.tables import parse_address_ranges, read_tsv
 from verify_rom import EXPECTED_SHA1, EXPECTED_SHA256, EXPECTED_SIZE, verify
 
 
@@ -126,6 +128,19 @@ class ProjectTests(unittest.TestCase):
         for unit in report["units"]:
             self.assertIsInstance(unit["functions"][0]["size"], str)
             self.assertIsInstance(unit["functions"][0]["address"], str)
+
+    def test_decompkit_configuration_and_manifests(self) -> None:
+        config = load_config(ROOT / "config/decompkit.toml")
+        self.assertEqual(config.root, ROOT)
+        self.assertEqual(config.report_output, ROOT / "build/report.json")
+        self.assertEqual([pipeline for _path, pipeline in config.unit_manifests],
+                         ["ido", "kmc", "assembly"])
+        ranges = parse_address_ranges(
+            [path for path, _pipeline in config.unit_manifests], allow_empty=True
+        )
+        self.assertEqual(len(ranges), 1153)
+        self.assertEqual(sum(int(row["SIZE"], 0)
+                             for row in read_tsv(config.data_manifest)), 88656)
 
 
 if __name__ == "__main__":

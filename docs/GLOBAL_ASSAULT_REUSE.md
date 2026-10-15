@@ -11,7 +11,7 @@ the verified USA Rev 0 ROM bytes.
 
 | Area | Global Assault material | BattleTanx use |
 | --- | --- | --- |
-| Matching infrastructure | `tools/decompkit/`, especially `units`, `tables`, `rewrite`, `registers`, and `gcc_alloc` | Replace title-specific verification internals incrementally with tested, configuration-driven components. Keep the existing verifier operational while adapters are introduced. |
+| Matching infrastructure | `tools/decompkit/`, especially `units`, `tables`, `rewrite`, `registers`, and `gcc_alloc` | Decompkit configuration and strict manifest parsing now drive the production progress report. Replace the remaining title-specific verification internals incrementally while keeping the existing byte verifier operational during adapter introduction. |
 | Candidate analysis | `decomp_compile.py`, `decomp_context.py`, `decomp_score.py`, `decomp_register_atlas.py`, and the bounded batch/beam/permuter tools | Diagnose structural, scheduling, and register-allocation differences without weakening the final byte comparison. Paths, ROM mapping, and manifests need BattleTanx adapters. |
 | Reporting and safety | `decompkit.report`, `decompkit.assembly`, `audit_assembly_segments.py`, `audit_source_names.py`, and their synthetic tests | Generate reproducible progress reports, distinguish generated code from data or authentic assembly, and enforce address-traceable semantic names. |
 | Compiler research | `docs/COMPILER.md`, `docs/MATCHING_RESEARCH.md`, the diagnostic GCC 2.7.2 scripts, and `decompkit.gcc_alloc` | The same KMC GCC family makes the documented scheduling/allocation diagnostics directly relevant. Function-specific normalizer rules must not be copied without new local evidence. |
@@ -49,8 +49,9 @@ the verified USA Rev 0 ROM bytes.
 
 ## Recommended integration order
 
-1. Add the portable table parser and unit-verifier core behind the existing
-   BattleTanx manifest and retain the current verifier as a cross-check.
+1. The portable configuration and table parser are now behind the existing
+   BattleTanx manifests and report. Add the unit-verifier adapter next and
+   retain the current verifier as a cross-check.
 2. Bring over the structured context, scoring, register-atlas, and GCC
    allocation diagnostics with synthetic tests.
 3. Add a source-layout/name ledger before broader directory normalization.

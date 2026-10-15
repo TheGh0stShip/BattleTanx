@@ -78,8 +78,10 @@ named `us_report`, with `report.json` generated from the reviewed function
 catalogue and the three byte-verified matching manifests. This is the artifact
 contract consumed by [recomp.fyi](https://recomp.fyi/); locally, `make report`
 writes the same ignored report under
-`build/` without requiring a ROM. Code and data are reported separately. Data
-progress advances only when reviewed `.data` or `.rodata` ranges are added to
+`build/` without requiring a ROM. Report policy and strict manifest validation
+are provided by [Decompkit](docs/DECOMPKIT.md) through
+`config/decompkit.toml`. Code and data are reported separately. Data progress
+advances only when reviewed `.data` or `.rodata` ranges are added to
 the section-aware matching-data manifest; 88,656 initialized bytes are currently
 verified. This includes effect scripts, HUD and level-map metadata, briefing text
 and image descriptors, and opponent-wave configuration. Unknown non-function
