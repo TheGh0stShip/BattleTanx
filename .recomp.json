@@ -1,6 +1,7 @@
 {
   "$schema": "https://recomp.fyi/schema/v1.json",
   "game": "BattleTanx",
+  "wikidata": "Q2891778",
   "system": "N64",
   "type": "decomp",
   "original": {
