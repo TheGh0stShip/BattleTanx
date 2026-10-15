@@ -1305,3 +1305,5 @@
 0x6DE88	0x210	src/code/runtime/ring_buffer_advance.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	ef71131fcc1cb3be9553d11894d98fd28d5cb1948e614a3efad4499a3978cd75
 0x71118	0x530	src/code/math/intersect_bounded_segments_2d.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	d8f0df7852117c6c63ec11b524da2222e50b36d5af6e87470e345668d04c553f
 0x29D90	0x49C	src/code/gameplay/apply_pickup.c	--section-base=.rodata:0x800723C0 -O2 -G0 -mips3 -mgp32 -mfp32	9beb847e36b69bd38899c79a29971ed5810c834c651139c0a4ff97598d38bd25
+0x10EEC	0x89C	src/code/render/draw_world_layers.c	-O2 -G0 -mips3 -mgp32 -mfp32	e766000d9dd57222811b8e2700b1275ee66cdf23cb32058a510cbddc833bd676
+0x3A518	0x7B4	src/code/render/load_table_texture_block.c	-O2 -G0 -mips3 -mgp32 -mfp32	e766002a75132745d7f493ee4a99dca17e916b32c8b04f776f51879ccbcf8be5
