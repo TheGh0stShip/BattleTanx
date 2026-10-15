@@ -27,11 +27,11 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1755)
+        self.assertEqual(len(section["functions"]), 1769)
         canonical = canonical_functions(section)
-        # 37 catalogue entries are internal aliases or overlapping hypotheses;
+        # 33 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
-        self.assertEqual(len(canonical), 1719)
+        self.assertEqual(len(canonical), 1736)
         for left, right in zip(canonical, canonical[1:]):
             self.assertLessEqual(left["vram"] + left["size"], right["vram"])
 
@@ -61,14 +61,14 @@ class ProjectTests(unittest.TestCase):
     def test_matching_manifest(self) -> None:
         rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
         self.assertEqual(len(rows), 155)
-        self.assertEqual(sum(int(row[1], 0) for row in rows), 78340)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 78356)
         for _start, _size, source, _flags, digest in rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 1126)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 225724)
+        self.assertEqual(len(kmc_rows), 1131)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 226032)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -110,10 +110,10 @@ class ProjectTests(unittest.TestCase):
     def test_recomp_fyi_report(self) -> None:
         report = build_report()
         self.assertEqual(report["version"], 2)
-        self.assertEqual(len(report["units"]), 1719)
-        self.assertEqual(report["measures"]["total_functions"], 1719)
+        self.assertEqual(len(report["units"]), 1736)
+        self.assertEqual(report["measures"]["total_functions"], 1736)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 173604)
+        self.assertEqual(int(report["measures"]["total_data"]), 173216)
         self.assertEqual(report["measures"]["matched_data"], "153924")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
@@ -148,7 +148,7 @@ class ProjectTests(unittest.TestCase):
         ranges = parse_address_ranges(
             [path for path, _pipeline in config.unit_manifests], allow_empty=True
         )
-        self.assertEqual(len(ranges), 1301)
+        self.assertEqual(len(ranges), 1306)
         self.assertEqual(sum(int(row["SIZE"], 0)
                              for row in read_tsv(config.data_manifest)), 153924)
 

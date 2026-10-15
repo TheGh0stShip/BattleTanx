@@ -21,7 +21,7 @@
 0x5A980	0x84	src/code/assets/load_raw_resource_bundle_49C740.c	-O2 -G0 -mips3 -mgp32 -mfp32	c75076742716270fb2148180597b20bc5250fca8c7f51e2d7e109dc1373065b2
 0x5C470	0x74	src/code/assets/load_resource_bundle_4B39B0.c	-O2 -G0 -mips3 -mgp32 -mfp32	8fbe2a4ba8ed8c8f0ca482874a25e2f2b2b2ccd01da0f8041db1ffa409c2aed8
 0x5E4B0	0xA4	src/code/assets/load_resource_bundle_4B1300.c	-O2 -G0 -mips3 -mgp32 -mfp32	a4aa5633be9a0e54c36979cd9369e111bc99a58669bfd71bf7e83b9f75f27506
-0x6ADBC	0x70	src/code/assets/load_resource_bundle_4AC150.c	-O2 -G0 -mips3 -mgp32 -mfp32	8b5710ec01987a153de76b70463ce4da710885dd67250053901534dc696d7b47
+0x6ADBC	0x74	src/code/assets/load_resource_bundle_4AC150.c	-O2 -G0 -mips3 -mgp32 -mfp32	16a06225f18577c953562e949b2845ef10e2fb6da3e5c110463d65c63f64f686
 0x6CA8	0x20	src/code/unknown/80076CA8.c	-O2 -G0 -mips3 -mgp32 -mfp32	ee119a272930ac363119547f6442b30c2feea75a81f1f0467c4c316048c64d54
 0x6D9E8	0x18	src/code/gameplay/publish_async_completion.c	-O2 -G0 -mips3 -mgp32 -mfp32	bc495296295d0bcc797be757c7cf0a0b09986ad757ea83f4472b54314f58ce64
 0x6DA00	0x8	src/code/runtime/async_callback_noop.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
@@ -680,6 +680,7 @@
 0x14DF4	0x158	src/code/gameplay/dispatch_nearby_sector_mask.c	-O2 -G0 -mips3 -mgp32 -mfp32	eb317715b7ae4dc00aa21ce382a7baa2aa8466f3052a5c1d17746357b59ca442
 0x16378	0x7C	src/code/runtime/format_zero_padded_number.c	-O2 -G0 -mips3 -mgp32 -mfp32	3eab3b4be9a40540ee4f1ab5440cfdf0dc0284c01bf4553223d2e7215d45c9ab
 0x1AFE4	0x4C	src/code/effects/allocate_effect_pool_node.c	-O2 -G0 -mips3 -mgp32 -mfp32	767ab6e1bc27b317bd7c58a63e1407d0c7bf5e0a9b1bbe979857a0a47e3e79b1
+0x1B030	0x50	src/code/effects/release_effect_pool_node.c	-O2 -G0 -mips3 -mgp32 -mfp32	3e128b88276285e080ae77eb8822001ce2c8fb8c7b6fe133bb77982ea6b4d500
 0x1F4EC	0xE8	src/code/math/expand_vertex_bounds.c	-O2 -G0 -mips3 -mgp32 -mfp32	fa5c0ac8aac43fd7fe7d277a354da8177aca74c8b38b3a5ee3880164e8bf5fcd
 0x241E0	0xC8	src/code/math/test_point_outside_sector.c	-O2 -G0 -mips3 -mgp32 -mfp32	6103c607b6fc18ea618b8e8dc60277918809762a9613d1c56f39c508dcc6d9a6
 0x2491C	0x9C	src/code/runtime/reset_slot_record_table.c	-O2 -G0 -mips3 -mgp32 -mfp32	0529dd7ae0de8fbdaff1c4d9e9454d32534e9915d1a1df36f8758a7b8e83e700
@@ -712,6 +713,7 @@
 0x6AD60	0x5C	src/code/runtime/reset_blank_text_buffer.c	-O2 -G0 -mips3 -mgp32 -mfp32	bccbd2472a764a812863cb04566e9508eec282ca38264ccfbe208d5a2fe701bb
 0x6D7B0	0x64	src/code/runtime/create_record_pair_states.c	-O2 -G0 -mips3 -mgp32 -mfp32	ab634d76a42cb4cfbc4f218caa03ac407d9fd9eae5603d45c8bb5ad1da297527
 0x6D814	0x4C	src/code/runtime/reset_record_pair_states.c	-O2 -G0 -mips3 -mgp32 -mfp32	7f9fa769eeb37e879ad9d96b382583531bd38d25bd5b0b03361b65cfe435b082
+0x6D860	0x58	src/code/runtime/reset_record_pair_states_alternate.c	-O2 -G0 -mips3 -mgp32 -mfp32	24557ad38b3789ec165952c0f8a271fe5380ac91a8e08f1d71ed61f42d304581
 0x6D970	0x78	src/code/effects/spawn_effect_kind_0a.c	-O2 -G0 -mips3 -mgp32 -mfp32	b99fddb05ed7d586e3ff35e964595462d9aef7175f161b1b2c6bf1d9cb24d52f
 0x6E280	0x7C	src/code/runtime/ring_queue_pop_u16.c	-O2 -G0 -mips3 -mgp32 -mfp32	2f954a0d776035a61a9a93eaea4e212c1a86455a75db244400363a3e8d0b4acb
 0x70EA8	0x54	src/code/math/planar_cross_is_negative.c	-O2 -G0 -mips3 -mgp32 -mfp32	e382830e69e1843af7c93106a60c7735b29dc449c906acd8a54bbfdeb5f810a6
@@ -1125,3 +1127,6 @@
 0xD0064	0x0	src/code/data/data_80140064.c	--assembler=asn64 --section-base=.data:0x80140064 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0xD5210	0x0	src/code/data/data_80145210.c	--assembler=asn64 --section-base=.data:0x80145210 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0xD5D80	0x0	src/code/data/data_80145D80.c	--assembler=asn64 --section-base=.data:0x80145D80 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x16340	0x38	src/code/math/integer_power.c	-O2 -G0 -mips3 -mgp32 -mfp32	68e22f3e93b3b85d111c29025e60deacd3bdf9f7c5a4e691a054aed2473adb23
+0x3B640	0x1C	src/code/runtime/link_node_insert_after.c	-O2 -G0 -mips3 -mgp32 -mfp32	4255cebaea17b72f2628577ee423b9e2879c49ae15e7705b99b40711b91872e6
+0x3B65C	0x34	src/code/runtime/link_node_remove.c	-O2 -G0 -mips3 -mgp32 -mfp32	ec477685c110dc0840c4895d1e9732de1e0312840bd646de982377621a53ca63
