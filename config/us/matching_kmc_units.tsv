@@ -554,7 +554,6 @@
 0x18360	0x230	src/code/assets/copy_model_node.c	-O2 -G0 -mips3 -mgp32 -mfp32	13b48d902c9993d41deb786a62bf0e6dbb2433572d880bbdbba95f6a7e314ea5
 0x66908	0x14C	src/code/assets/load_resource_bundle_3D16D0.c	-O2 -G0 -mips3 -mgp32 -mfp32	a1313b31d42ecaf8d3dbad25f3de0ecd9e14a39be201567ca3f82563ab607af5
 0x580E0	0x124	src/code/assets/load_selected_resource_bundle.c	-O2 -G0 -mips3 -mgp32 -mfp32	f0f0263fcfb2aeb1b0fd3cc713f6d6789e62d2e7009e2fedd003189b3c60cf13
-0x58218	0x1BC	src/code/assets/load_splash_and_random_strip_bundles.c	-O2 -G0 -mips3 -mgp32 -mfp32	248cc1143421a654e582e2e3943811327d73ce733da9435061669cb81c550f27
 0x96F0	0x1D0	src/code/audio/allocate_and_play_sound.c	-O2 -G0 -mips3 -mgp32 -mfp32	b993fe6520c74518a1a843d14c3228560d4912f6d027519a8cce0dc479a43e5b
 0xA26C	0x100	src/code/audio/allocate_audio_buffers.c	-O2 -G0 -mips3 -mgp32 -mfp32	ba16d15961739b83c2f541f8e8210e8d84a570790c6ebb45e2bff61863b463a4
 0xA5A4	0x1B4	src/code/audio/build_audio_frame_task.c	-O2 -G0 -mips3 -mgp32 -mfp32	bea06803b0aa0b9e52ca9ad22ced77a58a89f95e0b40868d78f992177ca37b67
@@ -1156,3 +1155,21 @@
 0x6E9C	0xC4	src/code/debug/debug_port_receive_data.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	0bd816f93b9b06950613763550f8206497285585b6db8629a2b99bba9e55c458
 0x6DDA8	0xE0	src/code/runtime/update_ring_status_flag.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	8595a5650cdc7dbe6fb9fc5fd2b078aaba8d92db85c79bb7f0571026ff2952a8
 0x21814	0x88	src/code/render/copy_relocated_vertex_texcoords.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9c5338458c5b73af250750893a1feb3ad221bb934bba600cfb7251a8bf01e5eb
+0x2FD94	0x14C	src/code/math/choose_heading_facing_vector.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	8dc7de9a87f5d988d4001cd6d7a9f6a318c58954b2a0530b42529ded6c4b0660
+0x70EFC	0x19C	src/code/math/intersect_lines_2d.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	d8d6dc400de13aaede9a8c2bb4a3ecf279414d56450072a032b79127e4d4ca67
+0x70790	0xE0	src/code/gameplay/select_available_unit_slot.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	18a72c17119ee6fd253dd84a6f54d0b8b77025054903c6c238d8816870d02648
+0x70870	0xE4	src/code/gameplay/select_available_current_group_slot.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	ef7aff385ac1428cdc32cc50b670156e026aad91b7c1476f78ad038410ad19cc
+0x99498	0x138	src/code/math/point_in_local_box.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	a11a37902e3371f4d06c8b34a326d36b2e272af1c015f2a6e69c41861813e891
+0x9064	0x88	src/code/runtime/wait_for_graphics_idle.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	f5b2c3339ddc89bd52cb9f823cf19465bdc151e229a44c58d4bf7e314f7d5cdc
+0x2412C	0xB4	src/code/effects/classify_point_relative_to_facing.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	7a571e702ee120e15990e40773ae3de045f18776a5cf81bf61db289c6cc9697d
+0x7F984	0x154	src/code/effects/spawn_effect_kind_6.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	f1c676bfa2fb0a4f742748d11165d218057aaf7d50b846d7b3bf5f725407ecb6
+0x63D10	0x118	src/code/frontend/draw_rank_title.c	--assembler=asn64 --section-base=.rodata:0x80073DBC -O2 -G0 -mips3 -mgp32 -mfp32	fcab1d7d60f408ec6ca57904b07f0b00c9acc289156561893090f2ddbb94b1d8
+0x58210	0x1C4	src/code/assets/load_resource_bundle_3dc430.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	32ca6302fd538a884b8a94ef6b40f7267f62be5ce22de04fd6ad497b4d62ab05
+0x15978	0x1D4	src/code/render/submit_model.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	0dfffa096dec461996aefcba513118b064111b2e89f661358a6aea82ec83e6a6
+0x79318	0x140	src/code/gameplay/ai_parameter_member_route_reachable.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	c363752cb8a7cb4ae12061d2893929fba0fab0a3150495139d37c6e97884c548
+0x7FFC8	0x200	src/code/effects/slot_effect_handle_message.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	0bc5fa402da254d186438abef1e225675da039403d25cefc5a78fc1e93b1b906
+0x7E28C	0x230	src/code/effects/draw_flat_effect_particle.c	--assembler=asn64 --section-base=.rodata:0x80074BB8 -O2 -G0 -mips3 -mgp32 -mfp32	daf4e26b69fa13bc841664a9e506f91c75e29bd62abc199f5de183c32df8b1d4
+0x23080	0x2B8	src/code/effects/zone_effect_handle_message.c	--assembler=asn64 --section-base=.rodata:0x80071EC0 -O2 -G0 -mips3 -mgp32 -mfp32	9c5fb2e94c4a3e24673111293c59d47f2f8655e7a68212b015aebaf6984649fb
+0x74104	0x240	src/code/gameplay/initialize_unit_ai_state.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	ee1bdd7832c2ccbaefb6d19759ed7dade342cd71d5dce282225d45221f97ff81
+0x73554	0x78	src/code/gameplay/initialize_ai_member_link.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	2a75852128c79d104037d7756a87d4ba262d5287582c79538002399f112d9bc8
+0x84DFC	0x164	src/code/render/draw_filled_rectangle.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	7604ebda3fb3a4a7c922b544b58adc7384719bf5c082b89e68516b568f8bcb69

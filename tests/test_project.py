@@ -27,9 +27,9 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1772)
+        self.assertEqual(len(section["functions"]), 1765)
         canonical = canonical_functions(section)
-        # 33 catalogue entries are internal aliases or overlapping hypotheses;
+        # 26 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
         self.assertEqual(len(canonical), 1739)
         for left, right in zip(canonical, canonical[1:]):
@@ -67,8 +67,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 1157)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 231796)
+        self.assertEqual(len(kmc_rows), 1174)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 237856)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -88,7 +88,7 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(data_rows), 195)
+        self.assertEqual(len(data_rows), 197)
         self.assertEqual(sum(int(row[1], 0) for row in data_rows), 153924)
         for _start, _size, source, section, digest in data_rows:
             self.assertTrue((ROOT / source).is_file())
@@ -149,7 +149,7 @@ class ProjectTests(unittest.TestCase):
         ranges = parse_address_ranges(
             [path for path, _pipeline in config.unit_manifests], allow_empty=True
         )
-        self.assertEqual(len(ranges), 1332)
+        self.assertEqual(len(ranges), 1349)
         self.assertEqual(sum(int(row["SIZE"], 0)
                              for row in read_tsv(config.data_manifest)), 153924)
 

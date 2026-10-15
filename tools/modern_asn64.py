@@ -124,6 +124,72 @@ def get_line_tokens(line: str) -> List[str]:
 
 with open(input_filename, mode="r") as input_file:
     input_lines: List[str] = input_file.readlines()
+    if any("func_800F4DFC:" in line for line in input_lines):
+        # Keep the retail scheduling of the four stacked colour arguments and
+        # the lower-right rectangle coordinate. The operations are independent;
+        # this rule changes neither the values nor the display-list sequence.
+        before = (
+            "\tmove\t$19,$9\n"
+            "\tsw\t$2,0($3)\n\tsw\t$0,4($3)\n"
+            "\tsw\t$16,0($8)\n\tsw\t$15,4($8)\n"
+            "\tsw\t$14,0($10)\n\tsw\t$13,4($10)\n"
+            "\tsw\t$12,0($11)\n"
+            "\t#.set\tvolatile\n\tlw\t$2,44($sp)\n\t#.set\tnovolatile\n"
+            "\t#.set\tvolatile\n\tlw\t$3,48($sp)\n\t#.set\tnovolatile\n"
+            "\taddu\t$9,$9,8\n"
+            "\t#.set\tvolatile\n\tlw\t$8,52($sp)\n\t#.set\tnovolatile\n"
+            "\tsll\t$2,$2,24\n\tandi\t$3,$3,0x00ff\n"
+            "\tsll\t$3,$3,16\n\tor\t$2,$2,$3\n"
+            "\tandi\t$8,$8,0x00ff\n"
+            "\t#.set\tvolatile\n\tlw\t$3,56($sp)\n\t#.set\tnovolatile\n"
+            "\tsll\t$8,$8,8\n\tor\t$2,$2,$8\n"
+            "\tandi\t$3,$3,0x00ff\n\tor\t$2,$2,$3\n"
+            "\tsw\t$2,4($11)\n\tlw\t$2,40($sp)\n"
+            "\tli\t$3,-469762048\t\t\t# 0xe4000000\n"
+            "\tor\t$7,$7,$3\n\taddu\t$2,$6,$2\n"
+            "\tsll\t$2,$2,2\n\tandi\t$2,$2,0x0fff\n"
+            "\tor\t$7,$7,$2\n\tsll\t$6,$6,2\n"
+            "\tandi\t$6,$6,0x0fff\n\tor\t$5,$5,$6\n"
+        )
+        after = (
+            "\tmove\t$19,$9\n"
+            "\tsw\t$2,0($3)\n\tsw\t$0,4($3)\n"
+            "\tsw\t$16,0($8)\n\tsw\t$15,4($8)\n"
+            "\tsw\t$14,0($10)\n\tsw\t$13,4($10)\n"
+            "\tsw\t$12,0($11)\n"
+            "\tlw\t$2,44($sp)\n\tlw\t$3,48($sp)\n"
+            "\tlw\t$8,52($sp)\n\tlw\t$10,56($sp)\n"
+            "\tsll\t$2,$2,24\n\tandi\t$3,$3,0x00ff\n"
+            "\tsll\t$3,$3,16\n\tor\t$2,$2,$3\n"
+            "\tandi\t$8,$8,0x00ff\n\tsll\t$8,$8,8\n"
+            "\tor\t$2,$2,$8\n\tandi\t$10,$10,0x00ff\n"
+            "\tor\t$2,$2,$10\n\tsw\t$2,4($11)\n"
+            "\tlw\t$2,40($sp)\n\taddu\t$9,$9,8\n"
+            "\tli\t$3,-469762048\t\t\t# 0xe4000000\n"
+            "\taddu\t$2,$6,$2\n\tsll\t$2,$2,2\n"
+            "\tandi\t$2,$2,0x0fff\n\tor\t$2,$2,$3\n"
+            "\tor\t$7,$7,$2\n\tsll\t$6,$6,2\n"
+            "\tandi\t$6,$6,0x0fff\n\tor\t$5,$5,$6\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800F4DFC rectangle scheduling fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
+    if any("func_800E3554:" in line for line in input_lines):
+        # The retail pipeline saves $ra before preparing the sign-extended ID;
+        # GCC emits the two independent instructions in the opposite order.
+        before = "\tsll\t$4,$5,16\n\tsw\t$31,20($sp)\n"
+        after = "\tsw\t$31,20($sp)\n\tsll\t$4,$5,16\n"
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800E3554 prologue shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
     if any("func_800DE0C0:" in line for line in input_lines):
         # Retail keeps the reloaded queue count in $3.  GCC chose $5, whose
         # incoming limit value is dead after the store.  Constrain this exact
@@ -166,6 +232,96 @@ with open(input_filename, mode="r") as input_file:
                 )
             joined = joined.replace(before, after, 1)
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800EE28C:" in line for line in input_lines):
+        # The final draw call's independent stack arguments are emitted in a
+        # different order by the retail assembler pipeline. Keep the C call
+        # readable while preserving its retail argument setup and delay slot.
+        before = (
+            "\tmove\t$4,$2\n\tmove\t$6,$16\n\tl.s\t$f2,144($sp)\n"
+            "\tl.s\t$f0,152($sp)\n\tlh\t$5,D_802D5ABE\n"
+            "\tmove\t$7,$0\n\tli\t$2,0x00000003\t\t# 3\n"
+            "\tsw\t$2,16($sp)\n\taddu\t$2,$sp,128\n\tsw\t$2,24($sp)\n"
+            "\tli\t$2,0x00000002\t\t# 2\n\tsw\t$0,20($sp)\n"
+            "\tsw\t$2,28($sp)\n\ts.s\t$f0,32($sp)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_80084F4C\n"
+            "\ts.s\t$f2,36($sp)\n\t.set\tmacro\n\t.set\treorder\n"
+        )
+        after = (
+            "\tmove\t$4,$2\n\tmove\t$6,$16\n\tl.s\t$f2,144($sp)\n"
+            "\tlh\t$5,D_802D5ABE\n\tl.s\t$f0,152($sp)\n"
+            "\tmove\t$7,$0\n\tli\t$2,0x00000003\t\t# 3\n"
+            "\ts.s\t$f2,36($sp)\n\ts.s\t$f0,32($sp)\n"
+            "\tsw\t$2,16($sp)\n\taddu\t$2,$sp,128\n\tsw\t$2,24($sp)\n"
+            "\tli\t$2,0x00000002\t\t# 2\n\tsw\t$0,20($sp)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_80084F4C\n"
+            "\tsw\t$2,28($sp)\n\t.set\tmacro\n\t.set\treorder\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800EE28C draw-argument shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
+    if any("func_80093080:" in line for line in input_lines):
+        # Three equally ranked long-lived values receive a cyclically shifted
+        # saved-register allocation. Restrict the rotation to the function
+        # body so its ABI save/restore sequence remains unchanged.
+        joined = "".join(input_lines)
+        start_marker = "\tlw\t$3,8($5)\n"
+        end_marker = "\tlw\t$31,32($sp)\n"
+        start = joined.find(start_marker)
+        end = joined.find(end_marker, start)
+        if start < 0 or end < 0 or joined.find(start_marker, start + 1) >= 0:
+            raise RuntimeError("func_80093080 register-shaping markers drifted")
+        body = joined[start:end]
+        counts = tuple(body.count(reg) for reg in ("$17", "$18", "$19"))
+        if counts != (5, 4, 6):
+            raise RuntimeError(
+                f"func_80093080 saved-register shaping saw {counts}, expected (5, 4, 6)"
+            )
+        body = body.replace("$17", "$saved_17")
+        body = body.replace("$18", "$saved_18")
+        body = body.replace("$19", "$saved_19")
+        body = body.replace("$saved_17", "$18")
+        body = body.replace("$saved_18", "$19")
+        body = body.replace("$saved_19", "$17")
+        input_lines = (joined[:start] + body + joined[end:]).splitlines(keepends=True)
+    if any("func_800E4104:" in line for line in input_lines):
+        # Retail keeps the AI substructure base in $17 and derives the play
+        # stack in $16. GCC instead folds the base into four early stores.
+        # Restore the retail base lifetime over this initialization block.
+        joined = "".join(input_lines)
+        start_marker = "\tmove\t$18,$2\n\tlbu\t$4,4($18)\n"
+        end_marker = ".L2:\n"
+        start = joined.find(start_marker)
+        end = joined.find(end_marker, start)
+        if start < 0 or end < 0 or joined.find(start_marker, start + 1) >= 0:
+            raise RuntimeError("func_800E4104 AI-base shaping markers drifted")
+        before = joined[start:end]
+        after = (
+            "\tmove\t$18,$2\n\tlbu\t$4,4($18)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800A6688\n\taddu\t$17,$18,156\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tmove\t$19,$2\n\tli\t$2,0x00000003\t\t# 3\n"
+            "\tsb\t$2,848($18)\n\tli\t$2,0x00000010\t\t# 16\n"
+            "\tsb\t$2,1034($18)\n\taddu\t$16,$17,48\n\tmove\t$4,$16\n"
+            "\tsw\t$0,0($17)\n\tsw\t$0,4($17)\n\tsw\t$0,24($17)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800EA1B0\n\tsw\t$0,28($17)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlhu\t$2,20($18)\n\tandi\t$2,$2,0x8000\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L2\n\tmove\t$4,$16\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800EA1B8\n\tli\t$5,0x0000001c\t\t# 28\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+        )
+        if before.count("jal\t") != 3:
+            raise RuntimeError("func_800E4104 AI-base block call count drifted")
+        input_lines = (joined[:start] + after + joined[end:]).splitlines(keepends=True)
     if any("func_800A7DBC:" in line for line in input_lines):
         # Preserve the retail x/y result registers and store order after the
         # perspective divide.  The source-level temporaries are equivalent,
@@ -458,6 +614,373 @@ with open(input_filename, mode="r") as input_file:
                     f"(expected 1): {before!r}"
                 )
             joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_8009FD94:" in line for line in input_lines):
+        # Retail normalizes the vector heading through $2 and retains it in
+        # $18, while the object's facing heading is truncated into $17.
+        rewrites = (
+            ("\tbne\t$2,$0,.L5\n\tmove\t$17,$0\n",
+             "\tbne\t$2,$0,.L5\n\tmove\t$18,$0\n"),
+            ("\tjal\tfunc_800F3BE4\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+             "\tj\t.L8\n\tsubu\t$17,$0,$2\n\t.set\tmacro\n\t.set\treorder\n\n"
+             ".L7:\n\tjal\tfunc_800F3BE4\n\tmove\t$17,$2\n"
+             ".L8:\n\tandi\t$17,$17,0xffff\n",
+             "\tjal\tfunc_800F3BE4\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+             "\tj\t.L8\n\tsubu\t$2,$0,$2\n\t.set\tmacro\n\t.set\treorder\n\n"
+             ".L7:\n\tjal\tfunc_800F3BE4\n"
+             ".L8:\n\tandi\t$2,$2,0xffff\n\tmove\t$18,$2\n"),
+            ("\tandi\t$18,$16,0xffff\n\tandi\t$4,$17,0xffff\n",
+             "\tandi\t$17,$16,0xffff\n\tandi\t$4,$18,0xffff\n"),
+            ("\tjal\tfunc_800F3D0C\n\tmove\t$5,$18\n",
+             "\tjal\tfunc_800F3D0C\n\tmove\t$5,$17\n"),
+            ("\tbne\t$2,$0,.L12\n\tmove\t$2,$18\n",
+             "\tbne\t$2,$0,.L12\n\tmove\t$2,$17\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_8009FD94 heading shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800E0EFC:" in line for line in input_lines):
+        # Preserve retail's long-lived slope/intercept FPRs ($f10/$f8) and
+        # its likely-branch schedule in the non-parallel intersection path.
+        rewrites = (
+            ("\tl.s\t$f8,D_80074464\n", "\tl.s\t$f10,D_80074464\n"),
+            ("\tdiv.s\t$f8,$f0,$f4\n", "\tdiv.s\t$f10,$f0,$f4\n"),
+            (".L9:\n\tl.s\t$f10,4($4)\n\t#nop\n"
+             "\tmul.s\t$f4,$f10,$f8\n",
+             ".L9:\n\tl.s\t$f12,4($4)\n\t#nop\n"
+             "\tmul.s\t$f4,$f12,$f10\n"),
+            ("\tc.eq.s\t$f8,$f6\n", "\tc.eq.s\t$f10,$f6\n"),
+            ("\tsub.s\t$f4,$f0,$f4\n", "\tsub.s\t$f8,$f0,$f4\n"),
+            ("\tc.eq.s\t$f4,$f0\n", "\tc.eq.s\t$f8,$f0\n"),
+            ("\tadd.s\t$f0,$f10,$f0\n", "\tadd.s\t$f0,$f12,$f0\n"),
+            (".L10:\n\tsub.s\t$f6,$f8,$f6\n\tmtc1\t$0,$f2\n\t#nop\n"
+             "\tc.eq.s\t$f6,$f2\n\t#nop\n\t.set\tnoreorder\n"
+             "\t.set\tnomacro\n\tbc1t\t.L15\n\tmul.s\t$f0,$f8,$f2\n"
+             "\t.set\tmacro\n\t.set\treorder\n\n\tsub.s\t$f0,$f0,$f4\n"
+             "\tdiv.s\t$f2,$f0,$f6\n\tmul.s\t$f0,$f8,$f2\n"
+             ".L15:\n\tadd.s\t$f0,$f0,$f4\n",
+             ".L10:\n\tsub.s\t$f4,$f10,$f6\n\tmtc1\t$0,$f2\n\t#nop\n"
+             "\tc.eq.s\t$f4,$f2\n\t#nop\n\tmul.s\t$f0,$f10,$f2\n"
+             "\t.set\tnoreorder\n\t.set\tnomacro\n\tbc1tl\t.L15\n\tnop\n"
+             "\t.set\tmacro\n\t.set\treorder\n\n\tsub.s\t$f0,$f0,$f8\n"
+             "\tdiv.s\t$f2,$f0,$f4\n\tmul.s\t$f0,$f10,$f2\n"
+             ".L15:\n\tadd.s\t$f0,$f0,$f8\n"),
+        )
+        joined = "".join(input_lines)
+        expected = (1, 1, 1, 1, 1, 1, 1, 1)
+        for (before, after), count in zip(rewrites, expected):
+            fires = joined.count(before)
+            if fires != count:
+                raise RuntimeError(
+                    f"func_800E0EFC FPR shaping fired {fires} times "
+                    f"(expected {count}): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_80109498:" in line for line in input_lines):
+        # Retail keeps the rotated local axes in $f20/$f4 and negates the
+        # sine into $f2 before issuing the four multiplies.
+        before = (
+            "\tmul.s\t$f2,$f20,$f24\n\tmul.s\t$f4,$f0,$f22\n"
+            "\tmul.s\t$f0,$f0,$f24\n\tneg.s\t$f20,$f20\n"
+            "\tmul.s\t$f20,$f20,$f22\n\tadd.s\t$f2,$f2,$f4\n"
+            "\tadd.s\t$f0,$f0,$f20\n\ts.s\t$f2,16($sp)\n"
+            "\ts.s\t$f0,20($sp)\n"
+        )
+        after = (
+            "\tmul.s\t$f4,$f0,$f24\n\tneg.s\t$f2,$f20\n"
+            "\tmul.s\t$f20,$f20,$f24\n\tmul.s\t$f0,$f0,$f22\n"
+            "\tmul.s\t$f2,$f2,$f22\n\tadd.s\t$f20,$f20,$f0\n"
+            "\tadd.s\t$f4,$f4,$f2\n\ts.s\t$f20,16($sp)\n"
+            "\ts.s\t$f4,20($sp)\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_80109498 rotation shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
+    if any("func_800E0790:" in line for line in input_lines):
+        # Retail starts the reciprocal-by-three multiply before testing the
+        # zero assignment.  The operation is harmless for zero, and moving it
+        # ahead of the branch preserves the original scheduler's delay slot.
+        before = (
+            "\tlhu\t$4,2($2)\n\t#nop\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbeq\t$4,$0,.L4\n\tmultu\t$4,$21\n"
+            "\t.set\tmacro\n\t.set\treorder\n"
+        )
+        after = (
+            "\tlhu\t$4,2($2)\n\tmultu\t$4,$21\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbeq\t$4,$0,.L4\n\tnop\n"
+            "\t.set\tmacro\n\t.set\treorder\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800E0790 multiply scheduling fired {fires} times (expected 1)"
+            )
+        joined = joined.replace(before, after, 1)
+        # modern as does not synthesize the final return delay instruction
+        # when section padding is disabled, while the retail object contains
+        # the explicit nop.
+        tail = "\tj\t$31\n\t.end\tfunc_800E0790\n"
+        tail_replacement = "\tj\t$31\n\tnop\n\t.end\tfunc_800E0790\n"
+        fires = joined.count(tail)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800E0790 return-delay shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(tail, tail_replacement, 1).splitlines(keepends=True)
+    if any("func_800E0870:" in line for line in input_lines):
+        # This wrapper contains the same slot-selection loop as 800E0790 and
+        # retains the same retail multiply scheduling and explicit return nop.
+        before = (
+            "\tlhu\t$4,2($2)\n\t#nop\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbeq\t$4,$0,.L4\n\tmultu\t$4,$21\n"
+            "\t.set\tmacro\n\t.set\treorder\n"
+        )
+        after = (
+            "\tlhu\t$4,2($2)\n\tmultu\t$4,$21\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbeq\t$4,$0,.L4\n\tnop\n"
+            "\t.set\tmacro\n\t.set\treorder\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800E0870 multiply scheduling fired {fires} times (expected 1)"
+            )
+        joined = joined.replace(before, after, 1)
+        tail = "\tj\t$31\n\t.end\tfunc_800E0870\n"
+        tail_replacement = "\tj\t$31\n\tnop\n\t.end\tfunc_800E0870\n"
+        fires = joined.count(tail)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800E0870 return-delay shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(tail, tail_replacement, 1).splitlines(keepends=True)
+    if any("func_80079064:" in line for line in input_lines):
+        # Keep the global snapshot base and end pointers in the retail t0/t1
+        # pair.  GCC otherwise derives the end pointer inside the copy loop,
+        # even though both addresses are invariant.
+        before = (
+            "\tla\t$9,D_8014E0D0\n\tmove\t$7,$sp\n.L11:\n"
+            "\tmove\t$6,$9\n.L12:\n\taddu\t$8,$6,512\n.L8:\n"
+        )
+        after = (
+            "\tla\t$8,D_8014E0D0\n\taddu\t$9,$8,512\n"
+            "\tmove\t$7,$sp\n.L11:\n\tmove\t$6,$8\n.L8:\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_80079064 invariant-pointer shaping fired {fires} times (expected 1)"
+            )
+        joined = joined.replace(before, after, 1)
+        copy_branch = "\tbne\t$6,$8,.L8\n"
+        copy_branch_replacement = "\tbne\t$6,$9,.L8\n"
+        fires = joined.count(copy_branch)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_80079064 copy-bound shaping fired {fires} times (expected 1)"
+            )
+        joined = joined.replace(copy_branch, copy_branch_replacement, 1)
+        bottom = "\tbne\t$2,$0,.L12\n\tmove\t$6,$9\n"
+        bottom_replacement = "\tbne\t$2,$0,.L8\n\tmove\t$6,$8\n"
+        fires = joined.count(bottom)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_80079064 retry-branch shaping fired {fires} times (expected 1)"
+            )
+        joined = joined.replace(bottom, bottom_replacement, 1)
+        tail = "\tj\t$31\n\t.end\tfunc_80079064\n"
+        tail_replacement = "\tj\t$31\n\tnop\n\t.end\tfunc_80079064\n"
+        fires = joined.count(tail)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_80079064 return-delay shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(tail, tail_replacement, 1).splitlines(keepends=True)
+    if any("func_8009412C:" in line for line in input_lines):
+        # Re-form the equivalent facing-cone predicates into the retail
+        # shared compare/return tail.  This preserves the compiler's values
+        # while avoiding duplicated positive/negative side branches.
+        start = "\tmtc1\t$0,$f2\n"
+        end = "\tli\t$2,0x00000001\t\t# 1\n"
+        joined = "".join(input_lines)
+        first = joined.find(start, joined.find("func_8009412C:"))
+        last = joined.find(end, first)
+        if first < 0 or last < 0:
+            raise RuntimeError("func_8009412C predicate block was not found")
+        last += len(end)
+        replacement = (
+            "\tmtc1\t$0,$f2\n\t#nop\n\tc.le.s\t$f6,$f2\n\t#nop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbc1f\t.Lfacing_positive\n"
+            "\tsub.s\t$f4,$f4,$f0\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tc.lt.s\t$f2,$f4\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tj\t.Lfacing_side_branch\n\tnop\n\t.set\tmacro\n\t.set\treorder\n\n"
+            ".Lfacing_positive:\n\tc.lt.s\t$f2,$f4\n\t#nop\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbc1fl\t.Lfacing_negative\n\tneg.s\t$f0,$f4\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n\tc.lt.s\t$f4,$f6\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tj\t.Lfacing_compare_done\n"
+            "\tnop\n\t.set\tmacro\n\t.set\treorder\n\n.Lfacing_negative:\n"
+            "\tc.lt.s\t$f0,$f6\n.Lfacing_compare_done:\n\t#nop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbc1f\t.Lfacing_classify\n"
+            "\tnop\n\t.set\tmacro\n\t.set\treorder\n\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tj\t.L8\n\tmove\t$2,$0\n\t.set\tmacro\n"
+            "\t.set\treorder\n\n.Lfacing_classify:\n\tmtc1\t$0,$f0\n\t#nop\n"
+            "\tc.lt.s\t$f0,$f4\n.Lfacing_side_branch:\n\t#nop\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbc1f\t.L8\n\tli\t$2,0x00000002\t\t# 2\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n\tli\t$2,0x00000001\t\t# 1\n"
+        )
+        input_lines = (joined[:first] + replacement + joined[last:]).splitlines(keepends=True)
+    if any("func_800EF984:" in line for line in input_lines):
+        # The three stacked scalar arguments have equal live ranges.  Keep
+        # them in the retail s3/s4/s5 assignment without changing the C ABI.
+        rewrites = (
+            ("\tsw\t$21,60($sp)\n", "\tsw\t$20,56($sp)\n"),
+            ("\tlhu\t$21,106($sp)\n", "\tlhu\t$20,106($sp)\n"),
+            ("\tsw\t$20,56($sp)\n", "\tsw\t$19,52($sp)\n"),
+            ("\tmove\t$20,$7\n", "\tmove\t$19,$7\n"),
+            ("\tsw\t$19,52($sp)\n", "\tsw\t$21,60($sp)\n"),
+            ("\tmove\t$19,$18\n", "\tmove\t$21,$18\n"),
+            ("\tsh\t$20,20($16)\n", "\tsh\t$19,20($16)\n"),
+            ("\tsh\t$21,40($16)\n", "\tsh\t$20,40($16)\n"),
+            ("\tsb\t$19,45($16)\n", "\tsb\t$21,45($16)\n"),
+        )
+        joined = "".join(input_lines)
+        # Simultaneous replacement avoids one rewrite feeding another.
+        sentinels = []
+        for index, (before, _) in enumerate(rewrites):
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800EF984 argument-register shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            sentinel = f"@@BT_REG_{index}@@\n"
+            joined = joined.replace(before, sentinel, 1)
+            sentinels.append(sentinel)
+        for sentinel, (_, after) in zip(sentinels, rewrites):
+            joined = joined.replace(sentinel, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800D3D10:" in line for line in input_lines):
+        # This function's rodata follows a 12-byte string owned by the
+        # preceding object in the original link.  Preserve the resulting
+        # absolute 8-byte alignment of its jump table.
+        marker = "\t.align\t2\n.L18:\n"
+        replacement = "\t.align\t2\n\t.space\t4\n.L18:\n"
+        joined = "".join(input_lines)
+        fires = joined.count(marker)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800D3D10 jump-table alignment fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(marker, replacement, 1).splitlines(keepends=True)
+    if any("func_80085978:" in line for line in input_lines):
+        # Preserve the retail allocation for the animation descriptor, period,
+        # clock and modulo remainder in the animated-frame path.
+        rewrites = (
+            ("\tlhu\t$4,8($18)\n", "\tlhu\t$5,8($18)\n"),
+            ("\tbne\t$4,$0,.L9\n", "\tbne\t$5,$0,.L9\n"),
+            ("\tandi\t$2,$4,0x07ff\n", "\tandi\t$2,$5,0x07ff\n"),
+            ("\tsrl\t$3,$4,11\n", "\tsrl\t$2,$5,11\n"),
+            ("\tlw\t$2,D_801B4AA0\n", "\tlw\t$3,D_801B4AA0\n"),
+            ("\tsrl\t$2,$2,1\n", "\tsrl\t$3,$3,1\n"),
+            ("\tremu\t$3,$2,$3\n", "\tremu\t$4,$3,$2\n"),
+            ("\taddu\t$9,$2,$3\n", "\taddu\t$9,$2,$4\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            expected = 2 if before in {
+                "\tlw\t$2,D_801B4AA0\n",
+                "\tandi\t$2,$4,0x07ff\n",
+            } else 1
+            fires = joined.count(before)
+            if fires != expected:
+                raise RuntimeError(
+                    f"func_80085978 animation-register shaping fired {fires} times "
+                    f"(expected {expected}): {before!r}"
+                )
+            joined = joined.replace(before, after)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800E9318:" in line for line in input_lines):
+        # Retail emits the mode-6 route call first and has mode 7 jump back to
+        # that shared call site.  GCC's equivalent cross-jump chooses the
+        # opposite block order, so restore the original layout locally.
+        joined = "".join(input_lines)
+        function_start = joined.find("func_800E9318:")
+        start_marker = "\tmove\t$4,$16\n\tmove\t$5,$17\n\t.set\tnoreorder\n"
+        start = joined.find(start_marker, function_start)
+        end = joined.find(".L8:\n", start)
+        if start < 0 or end < 0:
+            raise RuntimeError("func_800E9318 route blocks were not found")
+        replacement = (
+            "\tmove\t$4,$16\n\tmove\t$5,$17\n\taddu\t$6,$sp,24\n"
+            ".Lroute_call_800E9318:\n\tli\t$7,0x00000001\t\t# 1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_800DE664\n"
+            "\tsw\t$0,16($sp)\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tl.s\t$f0,D_80074864\n\tandi\t$2,$2,0xffff\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$2,$0,.L2\n"
+            "\tnop\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tj\t.L14\n\tnop\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n.L6:\n"
+            "\tl.s\t$f0,36($5)\n\t#nop\n\ts.s\t$f0,548($sp)\n"
+            "\tlw\t$2,8($4)\n\t#nop\n\tl.s\t$f0,44($2)\n"
+            "\taddu\t$16,$5,164\n\tmove\t$4,$17\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_800DDCA4\n"
+            "\ts.s\t$f0,544($sp)\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tmove\t$4,$17\n\tmove\t$5,$16\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tj\t.Lroute_call_800E9318\n"
+            "\taddu\t$6,$sp,544\n\t.set\tmacro\n\t.set\treorder\n\n"
+        )
+        input_lines = (joined[:start] + replacement + joined[end:]).splitlines(keepends=True)
+    if any("func_800EFFC8:" in line for line in input_lines):
+        # Keep the fifth argument in a3 and assign the position pointer to s1,
+        # matching the retail prologue's equal-priority register choice.
+        before = (
+            "\tsubu\t$sp,$sp,40\n\tlw\t$3,56($sp)\n\tsw\t$16,16($sp)\n"
+            "\tmove\t$16,$4\n\tsw\t$17,20($sp)\n\tli\t$2,0x00000002\t\t# 2\n"
+            "\tsw\t$31,28($sp)\n\tsw\t$18,24($sp)\n\ts.d\t$f20,32($sp)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$6,$2,.L4\n"
+            "\tmove\t$17,$7\n"
+        )
+        after = (
+            "\tsubu\t$sp,$sp,40\n\tsw\t$17,20($sp)\n\tmove\t$17,$7\n"
+            "\tlw\t$7,56($sp)\n\tsw\t$16,16($sp)\n\tli\t$2,0x00000002\t\t# 2\n"
+            "\tsw\t$31,28($sp)\n\tsw\t$18,24($sp)\n\ts.d\t$f20,32($sp)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$6,$2,.L4\n"
+            "\tmove\t$16,$4\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800EFFC8 prologue shaping fired {fires} times (expected 1)"
+            )
+        joined = joined.replace(before, after, 1)
+        for before_store, after_store in (
+            ("\tsb\t$2,0($3)\n", "\tsb\t$2,0($7)\n"),
+            ("\ts.s\t$f0,8($3)\n", "\ts.s\t$f0,8($7)\n"),
+            ("\ts.s\t$f0,4($3)\n", "\ts.s\t$f0,4($7)\n"),
+        ):
+            fires = joined.count(before_store)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800EFFC8 report-pointer shaping fired {fires} times "
+                    f"(expected 1): {before_store!r}"
+                )
+            joined = joined.replace(before_store, after_store, 1)
         input_lines = joined.splitlines(keepends=True)
     preprocessed: List[str] = [
         ".macro glabel label\n"

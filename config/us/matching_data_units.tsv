@@ -134,7 +134,7 @@
 0x1BB8	0x28	src/code/data/rodata_80071BB8.c	.rodata	049f8fa4d9c109d3014b4e7b7fcd7da14eabeec5368c03dcb68fe1f70acfbc2a
 0x1C04	0x54	src/code/data/rodata_80071C04.c	.rodata	601d6ae676d267e07ed1667ae1354e2775568c26f696c41f6eb412111df6c10b
 0x1C64	0x90	src/code/data/rodata_80071C64.c	.rodata	5695f826b38f0de3c3eb3687c413477f6ba211f1fe070a22b05ed74c1c6d28b1
-0x1E14	0x138	src/code/data/rodata_80071E14.c	.rodata	4d8ad5fe2d5dda2b152dd84820ecd140145628b2c926235dac933f930d116dec
+0x1E14	0xAC	src/code/data/rodata_80071E14.c	.rodata	026fa63fb2f43b56c5f2d3e817bcc5057d9d1329bd00ab9d6c5607dda011ff8a
 0x2018	0x18	src/code/data/rodata_80072018.c	.rodata	cb149ea85960767b1e9a03195dcea09e5cd03ac4c31fe45ee7a0ef03c6dc652e
 0x2034	0x1A4	src/code/data/rodata_80072034.c	.rodata	9c6511549594343f92ba6abf31a033b3dbb9f26cf1b28e3ecd8731d6a0e35cd5
 0x21E0	0x54	src/code/data/rodata_800721E0.c	.rodata	c349adb83255fb0e438aedb8c1cc29114a68a4309483cf68db375c4a01f2f30e
@@ -174,7 +174,7 @@
 0x4870	0x14	src/code/data/rodata_80074870.c	.rodata	b2d9f43df03b6834fd0e75fe0b74c1d979b3654d5c14159dcffdf45338d35659
 0x488C	0x58	src/code/data/rodata_8007488C.c	.rodata	cbcc07352b0b6df00d4a686cac2e4041132a97e360f8dfbfcbbc195efb903d7c
 0x49A0	0x1A0	src/code/data/rodata_800749A0.c	.rodata	811c3d148433cf680e3e131b01781035ed2370313f5412f850e6bdbccea4262f
-0x4B70	0x54	src/code/data/rodata_80074B70.c	.rodata	f9b599745b650cd66841554f2a29586cb6b13c503cc1831e98dd5f342d0d0270
+0x4B70	0x48	src/code/data/rodata_80074B70.c	.rodata	1eee2890ce3653cee7a1b09e30711055aa000bdd844f33bd0295a7e839fcb3fa
 0x4BD8	0x10	src/code/data/rodata_80074BD8.c	.rodata	63e70b688a8cf8355db84d4b8d6959beb5306f48022c4237e778efe4d6837875
 0x4BF4	0x1F4	src/code/data/rodata_80074BF4.c	.rodata	9460f09216303de537df1f1d3508d4c4238304b4de38423684e92e508a6f0050
 0x4DF4	0x128	src/code/data/rodata_80074DF4.c	.rodata	60df63afeb35042a0902485395548ea2ccb56e46bfd36a95fd4aaa4a22045c73
@@ -194,3 +194,5 @@
 0xD0064	0x34	src/code/data/data_80140064.c	.data	b8e6e64e3d14c89c8a9a38b372c6c3efc3bf493e21ace080dbd4d628b9054055
 0xD5210	0xB50	src/code/data/data_80145210.c	.data	6996c7b5e8f052abb544873afec4c6b5177eb911ac7a786089b8a3ca6e77c27f
 0xD5D80	0x20	src/code/data/data_80145D80.c	.data	66687aadf862bd776c8fc18b8e9f8e20089714856ee233b3902a591d0d5f2925
+0x4BB8	0xC	src/code/effects/draw_flat_effect_particle.c	.rodata	11311f6a85b276446d0da06f74cd3a77acc86cf48311fab82c74a20e9e3a544f
+0x1EC0	0x8C	src/code/effects/zone_effect_handle_message.c	.rodata	09ef649660c229436bd974d005f64776996a27130e39a74a2faa11f7de83d434

@@ -1,6 +1,6 @@
 #include "types.h"
 
-/* Initialized rodata at 0x80071E14..0x80071F4C (ROM 0x1E14..0x1F4C). */
+/* Initialized rodata at 0x80071E14..0x80071EC0 (ROM 0x1E14..0x1EC0). */
 typedef struct Rodata80071E14 {
     u32 word0;
     u32 word4;
@@ -45,41 +45,6 @@ typedef struct Rodata80071E14 {
     u32 wordA0;
     f32 valueA4;
     f32 valueA8;
-    u32 wordAC;
-    u32 wordB0;
-    u32 wordB4;
-    u32 wordB8;
-    u32 wordBC;
-    u32 wordC0;
-    u32 wordC4;
-    u32 wordC8;
-    u32 wordCC;
-    u32 wordD0;
-    u32 wordD4;
-    u32 wordD8;
-    u32 wordDC;
-    u32 wordE0;
-    u32 wordE4;
-    u32 wordE8;
-    u32 wordEC;
-    u32 wordF0;
-    u32 wordF4;
-    u32 wordF8;
-    u32 wordFC;
-    u32 word100;
-    u32 word104;
-    u32 word108;
-    u32 word10C;
-    u32 word110;
-    u32 word114;
-    u32 word118;
-    u32 word11C;
-    u32 word120;
-    u32 word124;
-    u32 word128;
-    u32 word12C;
-    u32 word130;
-    u32 word134;
 } Rodata80071E14;
 
 const Rodata80071E14 D_80071E14 = {
@@ -126,39 +91,4 @@ const Rodata80071E14 D_80071E14 = {
     0x00000000,
     1.0f,
     1.5f,
-    0x80093308,
-    0x80093314,
-    0x800930C8,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x800930C8,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x800930C8,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x80093314,
-    0x800930C8,
 };
