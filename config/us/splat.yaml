@@ -796,7 +796,7 @@ segments:
       - [0x5082C, c, code/audio/start_sound_with_value_c082c]
       - [0x50878, bin, gaps/gap_050878]
       - [0x50880, c, code/gameplay/reset_sequence_c]
-      - [0x50898, asm, functions/func_800C0898]
+      - [0x50898, c, code/frontend/init_sequence_c_screen]
       - [0x50EDC, c, code/frontend/draw_sequence_c_page1]
       - [0x510D8, c, code/frontend/draw_sequence_c_page2]
       - [0x512D4, c, code/frontend/draw_sequence_c_page3]

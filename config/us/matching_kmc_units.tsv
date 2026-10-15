@@ -1275,3 +1275,4 @@
 0x98538	0x214	src/code/math/find_nearest_segment_hit.c	--section-base=.rodata:0x80075490 -O2 -G0 -mips3 -mgp32 -mfp32	1b65a73960815978f30d12e986b6f575ff34f6cdb66ad8557992f2730054711c
 0x98B68	0x30C	src/code/runtime/sweep_motion_body.c	-O2 -G0 -mips3 -mgp32 -mfp32	cfaa592086bcb6617550e8b13dc837e243adeccb4ee03ae0f845fe4fe0810b8b
 0x9B9C8	0x240	src/code/runtime/sweep_oriented_box_against_box.c	-O2 -G0 -mips3 -mgp32 -mfp32	709e53d56473b36cc5f8cd29c25c96dfd9b2d5e29f0ac0a843275e48e783b3b2
+0x50898	0x644	src/code/frontend/init_sequence_c_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	bc3703d8a05330573f335e6746f7b4e572a224f88354a88340f2da3fd041aa35
