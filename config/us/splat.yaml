@@ -1518,7 +1518,7 @@ segments:
       - [0x9CE24, asm, functions/func_8010CE24]
       - [0x9D388, c, code/effects/emit_points_along_heading]
       - [0x9D480, c, code/effects/spawn_effect_kind_1c]
-      - [0x9D59C, asm, functions/func_8010D59C]
+      - [0x9D59C, c, code/gameplay/spawn_available_owner_unit]
       - [0x9D844, bin, gaps/gap_09D844]
       - [0x9D850, c, code/gameplay/scale_entity_records_by_counter]
       - [0x9D984, c, code/runtime/frame_event_counter]

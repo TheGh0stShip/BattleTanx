@@ -1426,7 +1426,7 @@ functions = [
     { name = "func_8010CE24", vram = 0x8010ce24, size = 0x564 },
     { name = "emit_points_along_heading", vram = 0x8010d388, size = 0xf8 },
     { name = "spawn_effect_kind_1c", vram = 0x8010d480, size = 0x11c },
-    { name = "func_8010D59C", vram = 0x8010d59c, size = 0x2a8 },
+    { name = "spawn_available_owner_unit", vram = 0x8010d59c, size = 0x2a8 },
     { name = "scale_entity_records_by_counter", vram = 0x8010d850, size = 0x134 },
     { name = "increment_frame_event_counter", vram = 0x8010d984, size = 0x1c },
     { name = "reset_frame_event_counter", vram = 0x8010d9a0, size = 0x10 },

@@ -633,6 +633,99 @@ def shape_record_quicksort_partition(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def shape_owner_unit_spawn_scan(text: str) -> str:
+    """Restore retail switch and scan layout in ``func_8010D59C``.
+
+    The recovered source is instruction-equivalent, but KMC drops a dead
+    random-bit assignment before a switch fallthrough and chooses a
+    branch-likely form that duplicates one scan initializer.  Retail retains
+    the assignment and uses the non-likely entry layout.  The switch's constant
+    also occupies ``s0`` across the possible random call instead of ``v0``.
+    """
+    if "func_8010D59C:" not in text:
+        return text
+
+    before = (
+        "\t.set\tnoreorder\n"
+        "\tbeq\t$2,$0,.L1\n"
+        "\tli\t$2,0x00000001\t\t# 1\n"
+        "\t.set\tnoreorder\n"
+        "\tlw\t$3,16($18)\n"
+        "\t#nop\n"
+        "\t.set\tnoreorder\n"
+        "\tbeql\t$3,$2,.L10\n"
+    )
+    after = before.replace(
+        "\tli\t$2,0x00000001\t\t# 1\n", "\tli\t$16,0x00000001\t\t# 1\n"
+    ).replace("\tbeql\t$3,$2,.L10\n", "\tbeql\t$3,$16,.L10\n")
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_8010D59C switch constant rewrite fired {fires} times "
+            "(expected 1)"
+        )
+    text = text.replace(before, after, 1)
+
+    before = "\tjal\tfunc_800F38F4\n\tnop\n.L38:\n"
+    after = "\tjal\tfunc_800F38F4\n\tnop\n\tandi\t$2,$2,0x0001\n.L38:\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_8010D59C retained random bit rewrite fired {fires} times "
+            "(expected 1)"
+        )
+    text = text.replace(before, after, 1)
+
+    before = (
+        "\tandi\t$2,$2,0x00ff\n"
+        "\t.set\tnoreorder\n"
+        "\tbeql\t$2,$0,.L40\n"
+        "\tmove\t$16,$20\n"
+        "\t.set\tnoreorder\n"
+        "\tlw\t$2,120($sp)\n"
+        "\t#nop\n"
+        "\t.set\tnoreorder\n"
+        "\tblez\t$2,.L17\n"
+        "\tmove\t$17,$0\n"
+        "\t.set\tnoreorder\n"
+        "\tli\t$22,0x00000005\t\t# 5\n"
+        "\tli\t$21,0x0000001a\t\t# 26\n"
+        "\taddu\t$16,$sp,32\n"
+    )
+    after = (
+        "\tandi\t$2,$2,0x00ff\n"
+        "\t.set\tnoreorder\n"
+        "\tbeq\t$2,$0,.L40\n"
+        "\tmove\t$17,$0\n"
+        "\t.set\tnoreorder\n"
+        "\tlw\t$2,120($sp)\n"
+        "\t#nop\n"
+        "\t.set\tnoreorder\n"
+        "\tblez\t$2,.L40\n"
+        "\taddu\t$16,$sp,32\n"
+        "\t.set\tnoreorder\n"
+        "\tli\t$22,0x00000005\t\t# 5\n"
+        "\tli\t$21,0x0000001a\t\t# 26\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_8010D59C result scan entry rewrite fired {fires} times "
+            "(expected 1)"
+        )
+    text = text.replace(before, after, 1)
+
+    before = ".L17:\n\tmove\t$16,$20\n.L40:\n\tmove\t$17,$0\n"
+    after = ".L17:\n\tmove\t$17,$0\n.L40:\n\tmove\t$16,$20\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_8010D59C unit scan initializer rewrite fired {fires} times "
+            "(expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
 def use_saved_route_state_pointer(text: str) -> str:
     """Use the long-lived route-state copy in ``func_800E1D40``.
 
@@ -5347,6 +5440,8 @@ def normalize_v3(source: str) -> str:
         text = schedule_pak_save_record_prologue(text)
     if os.environ.get("V3_RECORD_QUICKSORT_PARTITION", "1") == "1":
         text = shape_record_quicksort_partition(text)
+    if os.environ.get("V3_OWNER_UNIT_SPAWN_SCAN", "1") == "1":
+        text = shape_owner_unit_spawn_scan(text)
     if os.environ.get("V3_ROUTE_STATE_POINTER", "1") == "1":
         text = use_saved_route_state_pointer(text)
     if os.environ.get("V3_ROUTE_REBUILD_LOOP", "1") == "1":
