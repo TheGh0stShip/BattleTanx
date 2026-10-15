@@ -71,10 +71,12 @@ management, audio bus/save processing, and low-level AI/SI/SP accessors.
 compiles every manifest entry with pinned IDO 5.3 and compares every emitted
 byte directly with the supported ROM.
 
-Every CI run publishes an objdiff v2 progress artifact named `us_report`, with
-`report.json` generated from the reviewed function catalogue and the three
-byte-verified matching manifests. This is the artifact contract consumed by
-decomp.dev; locally, `make report` writes the same ignored report under
+The project is listed through the root [`.recomp.json`](.recomp.json) manifest.
+Every CI run on the default branch publishes an objdiff v2 progress artifact
+named `us_report`, with `report.json` generated from the reviewed function
+catalogue and the three byte-verified matching manifests. This is the artifact
+contract consumed by [recomp.fyi](https://recomp.fyi/); locally, `make report`
+writes the same ignored report under
 `build/` without requiring a ROM. Code and data are reported separately. Data
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
 the section-aware matching-data manifest; 87,236 initialized bytes are currently

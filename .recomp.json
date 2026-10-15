@@ -1,0 +1,31 @@
+{
+  "$schema": "https://recomp.fyi/schema/v1.json",
+  "game": "BattleTanx",
+  "system": "N64",
+  "type": "decomp",
+  "original": {
+    "region": "USA",
+    "revision": "Rev 0",
+    "serial": "NBXE",
+    "sha1": "535860d941738ac1210c20a9b80114fea0e0ff17"
+  },
+  "project": "BattleTanx decompilation",
+  "status": "in-progress",
+  "toolchain": "Splat",
+  "approach": "Matching decompilation with byte-verified code and initialized data.",
+  "links": [
+    {
+      "label": "Repository",
+      "url": "https://github.com/TheGh0stShip/BattleTanx"
+    }
+  ],
+  "help": [
+    "Matching remaining game functions",
+    "Identifying and reconstructing static data",
+    "Classifying resource bundle entries"
+  ],
+  "tags": [
+    "matching",
+    "MIPS"
+  ]
+}

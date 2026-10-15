@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate an objdiff v2 progress report for decomp.dev."""
+"""Generate the objdiff v2 progress report consumed by recomp.fyi."""
 
 from __future__ import annotations
 
@@ -23,7 +23,7 @@ ASSET_PROGRESS = ROOT / "config/us/asset_progress.toml"
 LIBULTRA_START = 0x80110480
 # The entry point (0x80071000) zeroes .bss from 0x80147040 to 0x803C8880, so
 # initialized program data ends here; the rest of the 1 MiB main copy is not
-# reconstructable static data and must not inflate decomp.dev data totals.
+# reconstructable static data and must not inflate reported data totals.
 INITIALIZED_DATA_END = 0x80147040
 
 

@@ -85,7 +85,19 @@ class ProjectTests(unittest.TestCase):
             self.assertIn(section, {".rodata", ".data"})
             self.assertEqual(len(digest), 64)
 
-    def test_decomp_dev_report(self) -> None:
+    def test_recomp_fyi_manifest(self) -> None:
+        manifest = json.loads((ROOT / ".recomp.json").read_text())
+        self.assertEqual(manifest["$schema"], "https://recomp.fyi/schema/v1.json")
+        self.assertEqual(manifest["game"], "BattleTanx")
+        self.assertEqual(manifest["system"], "N64")
+        self.assertEqual(manifest["type"], "decomp")
+        self.assertEqual(manifest["status"], "in-progress")
+        self.assertEqual(manifest["original"]["region"], "USA")
+        self.assertEqual(manifest["original"]["revision"], "Rev 0")
+        self.assertEqual(manifest["original"]["serial"], "NBXE")
+        self.assertEqual(manifest["original"]["sha1"], EXPECTED_SHA1)
+
+    def test_recomp_fyi_report(self) -> None:
         report = build_report()
         self.assertEqual(report["version"], 2)
         self.assertEqual(len(report["units"]), 1719)
