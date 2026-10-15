@@ -1256,6 +1256,9 @@
 0x61BA0	0x31C	src/code/frontend/draw_icon_grid.c	-O2 -G0 -mips3 -mgp32 -mfp32	a9ce0c377df794372b105959d063f2020414761c5a52d79bb106a9357aea4ff0
 0x61F20	0x1C4	src/code/frontend/classify_list_row.c	-O2 -G0 -mips3 -mgp32 -mfp32	52e988497d89faf10aa755690330b8cfeea49316d976d4e02f37d1c5c6d719f0
 0x66274	0x258	src/code/frontend/assign_player_slot_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	2297e0e966fb906f8b8274edcd542569c6521d32c3540f25bc29de6149ab7124
+0x664CC	0x3FC	src/code/frontend/update_player_slot_configuration.c	-O2 -G0 -mips3 -mgp32 -mfp32	228a664b726906c7fd1ed3768459d495d45d45bbe814a59805107a3577858f90
+0x721E4	0x430	src/code/gameplay/update_ai_combat_decision.c	--section-base=.rodata:0x80074510 -O2 -G0 -mips3 -mgp32 -mfp32	f4c0f574c69c85511e0268ef30bca59db1d492f6fd56e29a3ad46c4d4f91c59a
+0x6E664	0x5A0	src/code/gameplay/extend_route_to_target.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	1d057ee9e8d882f9b55dbc74df43c967e780fa2a3229a7c3172e60a1d82b5e6e
 0x6A9B4	0x298	src/code/frontend/run_team_select_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	13a75cfbcd6d4466d871e37fe13069c0d2112f1630df68e9a77b1f924b56ad2f
 0x6CA7C	0x244	src/code/frontend/check_entered_password.c	--section-base=.rodata:0x800742E0 -O2 -G0 -mips3 -mgp32 -mfp32	9d3de8c99e2c614da029cd03b6bc9dd6f5b9ed230df9181a4ef948b4efea2e6d
 0x6D544	0x254	src/code/gameplay/parse_password_settings.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	cac5c1227fc675d2c103ea62be22d40923a9fadbc4783772adee7fc0e89b9267
@@ -1310,6 +1313,7 @@
 0x10EEC	0x89C	src/code/render/draw_world_layers.c	-O2 -G0 -mips3 -mgp32 -mfp32	e766000d9dd57222811b8e2700b1275ee66cdf23cb32058a510cbddc833bd676
 0x3A518	0x7B4	src/code/render/load_table_texture_block.c	-O2 -G0 -mips3 -mgp32 -mfp32	e766002a75132745d7f493ee4a99dca17e916b32c8b04f776f51879ccbcf8be5
 0x11AD0	0x6F0	src/code/levels/load_level.c	--section-base=.rodata:0x80071490 -O2 -G0 -mips3 -mgp32 -mfp32	0eb6ebf867ee502963509f4a537b4eb3b25d5bfbc066339157af977362a6fc15
+0x6EE8C	0x388	src/code/gameplay/initialize_route_search_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	caafedfb26c50eac4d59c643804ad8f9fa51a72c9a1b16a922c4e7ba959441a7
 0x13F04	0x738	src/code/render/draw_visible_level_objects.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	a6491a7f0764834c7b03d8a2f1a35b9aceaa511ff9955d978a49eedecb877de5
 0x1785C	0x4D4	src/code/assets/plan_bank_record_resources.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	2132572594c988a333cef303838a64e877e522be956a55b9acb3ec3c975299f4
 0x1B9E8	0x6B4	src/code/effects/init_effect_kind_table.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9e694f6aed9cd049b0c30f284c3d0153c1d4bf0d21af459117b25998a9309198

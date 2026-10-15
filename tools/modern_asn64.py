@@ -1844,6 +1844,18 @@ with open(input_filename, mode="r") as input_file:
             elif identifier in ["mflo", "mfhi"]:
                 mfhilo_delay_count = 3 # Set to 3 so it becomes 2 after the decrement
                 mfhilo_delay_location = len(preprocessed) + 1
+            elif identifier == "li" and mfhilo_delay_count > 0:
+                # A full-width `li` expands to two physical instructions. Count
+                # both when measuring the mfhi/mflo -> multiply hazard gap.
+                operands = [s.strip() for s in tokens[1].split(",")]
+                try:
+                    value = int(operands[1], 0) & 0xFFFFFFFF
+                except (IndexError, ValueError):
+                    value = 0
+                signed = value if value < 0x80000000 else value - 0x100000000
+                if not (-0x8000 <= signed <= 0x7FFF or value <= 0xFFFF or
+                        (value & 0xFFFF) == 0):
+                    mfhilo_delay_count -= 1
             elif identifier == "mult":
                 # SN64 reorders delay slot mult instructions in noreorder to prevent mulmul bugs if the branch target starts with a multiply
                 # However, it doesn't do it needs to insert nops after a mfhi/mflo

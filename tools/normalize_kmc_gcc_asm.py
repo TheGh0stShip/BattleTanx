@@ -5586,6 +5586,255 @@ def shape_update_owner_slot_matrix(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def shape_ai_route_state_init(text: str) -> str:
+    """Reproduce retail allocation and large-offset expansion for 800DEE8C.
+
+    GCC emits the route-position stores as ``s.s`` instructions with offsets
+    outside the signed 16-bit range.  KMC as expands those pseudos with the
+    constant register first, while the retail object used the equivalent base
+    register first.  The two independent argument-preservation moves are also
+    scheduled in the opposite order.  Keep all rewrites local to this exact
+    function and fail closed if its compiler output changes.
+    """
+    if "initialize_route_search_state:" not in text:
+        return text
+
+    prologue_before = "\tmove\t$7,$17\n\tmove\t$5,$6\n"
+    prologue_after = "\tmove\t$5,$6\n\tmove\t$7,$17\n"
+    fires = text.count(prologue_before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800DEE8C prologue rewrite fired {fires} times (expected 1)"
+        )
+    text = text.replace(prologue_before, prologue_after, 1)
+
+    stores = (
+        ("\ts.s\t$f0,72004($17)\n", 0x1944),
+        ("\ts.s\t$f0,72000($17)\n", 0x1940),
+    )
+    for before, low in stores:
+        fires = text.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800DEE8C route store 0x{low:X} rewrite fired "
+                f"{fires} times (expected 1)"
+            )
+        after = (
+            "\t.set\tnoat\n"
+            "\tlui\t$1,1\n"
+            "\taddu\t$1,$17,$1\n"
+            f"\ts.s\t$f0,{low}($1)\n"
+            "\t.set\tat\n"
+        )
+        text = text.replace(before, after, 1)
+    return text
+
+
+def shape_player_slot_configuration(text: str) -> str:
+    """Preserve the two modulo-result copies used by the retail menu unit."""
+    if (
+        "update_player_slot_configuration:" not in text
+        and "func_800D64CC:" not in text
+    ):
+        return text
+
+    before = (
+        "\tandi\t$2,$2,0x01fc\n"
+        "\tsubu\t$2,$3,$2\n"
+        "\tandi\t$4,$2,0x00ff\n"
+        "\tsb\t$2,0($20)\n"
+    )
+    after = (
+        "\tandi\t$2,$2,0x01fc\n"
+        "\tsubu\t$2,$3,$2\n"
+        "\tmove\t$3,$2\n"
+        "\tandi\t$4,$3,0x00ff\n"
+        "\tsb\t$2,0($20)\n"
+    )
+    fires = text.count(before)
+    if fires != 2:
+        raise RuntimeError(
+            f"player slot modulo-copy rewrite fired {fires} times (expected 2)"
+        )
+    text = text.replace(before, after)
+
+    saved_before = (
+        "\tjal\tfunc_80096768\n"
+        "\tsb\t$2,0($21)\n"
+    )
+    saved_after = saved_before.replace(
+        "\tsb\t$2,0($21)\n", "\tsb\t$3,0($21)\n"
+    )
+    fires = text.count(saved_before)
+    if fires < 2:
+        raise RuntimeError(
+            f"player slot saved-index rewrite found {fires} candidates (expected at least 2)"
+        )
+    # The first two calls consume the modulo results rewritten above.  A third
+    # call later in the function deliberately stores the direct return value.
+    text = text.replace(saved_before, saved_after, 2)
+
+    setup_before = (
+        ".L2:\n"
+        "\tli\t$9,0x00000001\t\t# 1\n"
+        "\tla\t$20,D_803282A0\n"
+        "\tla\t$21,D_803283B8\n"
+        "\tla\t$18,D_80328290\n"
+        "\tlw\t$2,D_80126714\n"
+        "\tla\t$22,D_803282A8\n"
+        "\tmove\t$19,$0\n"
+        "\tsb\t$0,23($sp)\n"
+        "\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n"
+        "\tblez\t$2,.L4\n"
+        "\tsb\t$9,31($sp)\n"
+        "\t.set\tmacro\n"
+        "\t.set\tnoreorder\n"
+        "\tli\t$23,0x00000001\t\t# 1\n"
+        "\tli\t$fp,0x00000009\t\t# 9\n"
+    )
+    setup_after = (
+        ".L2:\n"
+        "\tlw\t$2,D_80126714\n"
+        "\tli\t$9,0x00000001\t\t# 1\n"
+        "\tmove\t$19,$0\n"
+        "\tsb\t$0,23($sp)\n"
+        "\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n"
+        "\tblez\t$2,.L4\n"
+        "\tsb\t$9,31($sp)\n"
+        "\t.set\tmacro\n"
+        "\t.set\tnoreorder\n"
+        "\tli\t$23,0x00000001\t\t# 1\n"
+        "\tli\t$fp,0x00000009\t\t# 9\n"
+        "\tla\t$20,D_803282A0\n"
+        "\tla\t$21,D_803283B8\n"
+        "\tla\t$18,D_80328290\n"
+        "\tla\t$22,D_803282A8\n"
+    )
+    fires = text.count(setup_before)
+    if fires == 1:
+        return text.replace(setup_before, setup_after, 1)
+
+    # Label numbering can move when surrounding sources change.  Match the
+    # same instruction sequence while retaining the actual entry/exit labels.
+    import re
+    setup_re = re.compile(
+        r"(?P<label>\.L\d+:\n)"
+        r"\tli\t\$9,(?:0x00000001|1)(?:\t\t# 1)?\n"
+        r"\tla\t\$20,D_803282A0\n"
+        r"\tla\t\$21,D_803283B8\n"
+        r"\tla\t\$18,D_80328290\n"
+        r"\tlw\t\$2,D_80126714\n"
+        r"\tla\t\$22,D_803282A8\n"
+        r"\tmove\t\$19,\$0\n"
+        r"\tsb\t\$0,23\(\$sp\)\n"
+        r"\t\.set\tnoreorder\n\t\.set\tnomacro\n"
+        r"\tblez\t\$2,(?P<exit>\.L\d+)\n"
+        r"\tsb\t\$9,31\(\$sp\)\n"
+        r"\t\.set\tmacro\n\t\.set\tnoreorder\n"
+        r"\tli\t\$23,(?:0x00000001|1)(?:\t\t# 1)?\n"
+        r"\tli\t\$fp,(?:0x00000009|9)(?:\t\t# 9)?\n"
+    )
+    match = setup_re.search(text)
+    if match is None:
+        raise RuntimeError("player slot setup rewrite found no candidate")
+    replacement = setup_after.replace(".L2:\n", match.group("label"), 1)
+    replacement = replacement.replace("blez\t$2,.L4", f"blez\t$2,{match.group('exit')}")
+    return text[: match.start()] + replacement + text[match.end() :]
+
+
+def shape_ai_combat_decision(text: str) -> str:
+    """Reproduce retail scheduling for the AI combat-decision unit."""
+    if "func_800E21E4:" not in text and "update_ai_combat_decision:" not in text:
+        return text
+
+    prologue_before = (
+        "\tsubu\t$sp,$sp,120\n"
+        "\tsw\t$18,72($sp)\n"
+        "\tmove\t$18,$6\n"
+        "\tsw\t$17,68($sp)\n"
+        "\tmove\t$17,$4\n"
+        "\tsw\t$31,92($sp)\n"
+        "\tsw\t$22,88($sp)\n"
+        "\tsw\t$21,84($sp)\n"
+        "\tsw\t$20,80($sp)\n"
+        "\tsw\t$19,76($sp)\n"
+        "\tsw\t$16,64($sp)\n"
+        "\ts.d\t$f24,112($sp)\n"
+        "\ts.d\t$f22,104($sp)\n"
+        "\ts.d\t$f20,96($sp)\n"
+        "\tlbu\t$4,4($17)\n"
+        "\tmove\t$19,$0\n"
+        "\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n"
+        "\tjal\tfunc_800A6688\n"
+        "\tmove\t$22,$5\n"
+        "\t.set\tmacro\n"
+        "\t.set\tnoreorder\n"
+        "\tlw\t$4,872($17)\n"
+        "\tmove\t$20,$0\n"
+        "\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n"
+        "\tjal\tfunc_800E95A8\n"
+        "\tmove\t$16,$2\n"
+        "\t.set\tmacro\n"
+        "\t.set\tnoreorder\n"
+    )
+    prologue_after = (
+        "\tsubu\t$sp,$sp,120\n"
+        "\tsw\t$17,68($sp)\n"
+        "\tmove\t$17,$4\n"
+        "\tsw\t$22,88($sp)\n"
+        "\tmove\t$22,$5\n"
+        "\tsw\t$31,92($sp)\n"
+        "\tsw\t$21,84($sp)\n"
+        "\tsw\t$20,80($sp)\n"
+        "\tsw\t$19,76($sp)\n"
+        "\tsw\t$18,72($sp)\n"
+        "\tsw\t$16,64($sp)\n"
+        "\ts.d\t$f24,112($sp)\n"
+        "\ts.d\t$f22,104($sp)\n"
+        "\ts.d\t$f20,96($sp)\n"
+        "\tlbu\t$4,4($17)\n"
+        "\tmove\t$18,$6\n"
+        "\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n"
+        "\tjal\tfunc_800A6688\n"
+        "\tmove\t$19,$0\n"
+        "\t.set\tmacro\n"
+        "\t.set\tnoreorder\n"
+        "\tlw\t$4,872($17)\n"
+        "\tmove\t$20,$0\n"
+        "\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n"
+        "\tjal\tfunc_800E95A8\n"
+        "\tmove\t$16,$2\n"
+        "\t.set\tmacro\n"
+        "\t.set\tnoreorder\n"
+    )
+    fires = text.count(prologue_before)
+    if fires != 1:
+        raise RuntimeError(f"AI combat prologue rewrite fired {fires} times (expected 1)")
+    text = text.replace(prologue_before, prologue_after, 1)
+
+    rewrites = (
+        ("\tdiv.s\t$f0,$f0,$f2\n\tc.lt.s\t$f4,$f0\n",
+         "\tdiv.s\t$f2,$f0,$f2\n\tc.lt.s\t$f4,$f2\n"),
+        ("\taddu\t$4,$17,$2\n", "\taddu\t$4,$2,$17\n"),
+        ("\tor\t$19,$20,$19\n\tbeq\t$19,$0,",
+         "\tor\t$2,$20,$19\n\tbeq\t$2,$0,"),
+    )
+    for before, after in rewrites:
+        fires = text.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"AI combat body rewrite fired {fires} times for {before!r} (expected 1)"
+            )
+        text = text.replace(before, after, 1)
+    return text
+
+
 def normalize_v3(source: str) -> str:
     import os
     if os.environ.get("V3_CONTROLS_CONFIG", "1") == "1":
@@ -5593,6 +5842,9 @@ def normalize_v3(source: str) -> str:
     if os.environ.get("V3_MUL", "1") == "1":
         source = hoist_mul(source)
     text = normalize(source)
+    text = shape_ai_route_state_init(text)
+    text = shape_player_slot_configuration(text)
+    text = shape_ai_combat_decision(text)
     text = shape_ring_buffer_peek_last(text)
     text = shape_init_unit_link_command(text)
     text = shape_draw_transformed_object_segment(text)

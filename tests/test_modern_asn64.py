@@ -63,6 +63,13 @@ class ModernAsn64Tests(unittest.TestCase):
         )
         self.assertIn("addu\t$2,$2,$17\n\tnop\n\tmultu", text)
 
+    def test_full_width_li_counts_as_two_hazard_instructions(self) -> None:
+        text = self.preprocess(
+            "\tmult\t$4,$22\n\tmfhi\t$8\n"
+            "\tli\t$2,-1431655765\n\tmultu\t$3,$2\n"
+        )
+        self.assertNotIn("li\t$2,-1431655765\n\tnop\n\tmultu", text)
+
     def test_hoisted_float_multiply_gets_spacing_nop(self) -> None:
         text = self.preprocess(
             "\tmul.s\t$f0,$f20,$f0\n"
