@@ -61,7 +61,7 @@ function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,739 non-overlapping
-function ranges produce 703,444 bytes of generated assembly, while gaps and the
+function ranges produce 703,452 bytes of generated assembly, while gaps and the
 resource area remain explicit binary regions. The 1,461 compiler-built source
 units now reconstruct 452,836 retail code bytes. Together with 17 authentic
 source-assembly units, 1,478 matching units reconstruct 454,184 code bytes.
@@ -102,7 +102,7 @@ padding and parsed-but-unreferenced data. Some bundle entries remain semanticall
 unidentified even though their enclosing format and byte range are proven.
 
 ```text
-code       [█████████████░░░░░░░]  64.49%    453,624 / 703,444 bytes
+code       [█████████████░░░░░░░]  64.49%    453,624 / 703,452 bytes
 data       [████████████████████] 100.00%    153,924 / 153,924 bytes
 functions  [███████████████████░]  94.82%       1,649 / 1,739
 assets     [████████████████████] 100.00%  7,335,936 / 7,335,936 bytes
