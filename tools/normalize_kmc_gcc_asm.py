@@ -870,36 +870,45 @@ def shape_group_object_point_assignment(text: str) -> str:
 
 
 def swap_versus_stats_saved_registers(text: str) -> str:
-    """Swap an equal-priority pointer/constant pair in ``func_80103E50``.
+    """Swap an equal-priority pointer/constant pair in the stats screens.
 
     The source produces retail-identical control flow and data accesses.  KMC
     assigns the icon-offset pointer and constant 32 to ``s7``/``s6`` in the
     opposite order from the retail object.  Limit the bijective swap to the
     initialized body, leaving the ABI save/restore sequence untouched.
     """
-    if "func_80103E50:" not in text:
+    functions = ("func_80103E50", "func_80104CD8")
+    if not any(f"{function}:" in text for function in functions):
         return text
 
     start_marker = "\tla\t$23,D_8037FD84+4\n"
     end_marker = "\tlw\t$31,108($sp)\n"
-    if text.count(start_marker) != 1 or text.count(end_marker) != 1:
-        raise RuntimeError("func_80103E50 register-swap markers changed")
-    start = text.index(start_marker)
-    end = text.index(end_marker, start)
-    body = text[start:end]
-    expected = {"$22": 5, "$23": 5}
-    counts = {
-        register: len(re.findall(re.escape(register) + r"(?!\d)", body))
-        for register in expected
-    }
-    if counts != expected:
-        raise RuntimeError(
-            f"func_80103E50 saved-register counts {counts} (expected {expected})"
-        )
-    body = body.replace("$22", "$__versus_icon_size")
-    body = body.replace("$23", "$22")
-    body = body.replace("$__versus_icon_size", "$23")
-    return text[:start] + body + text[end:]
+    for function in functions:
+        function_marker = f"{function}:\n"
+        if function_marker not in text:
+            continue
+        function_start = text.index(function_marker)
+        function_end = text.index(f"\n\t.end\t{function}", function_start)
+        function_body = text[function_start:function_end]
+        if function_body.count(start_marker) != 1 or function_body.count(end_marker) != 1:
+            raise RuntimeError(f"{function} register-swap markers changed")
+        start = function_start + function_body.index(start_marker)
+        end = function_start + function_body.index(end_marker, function_body.index(start_marker))
+        body = text[start:end]
+        expected = {"$22": 5, "$23": 5}
+        counts = {
+            register: len(re.findall(re.escape(register) + r"(?!\d)", body))
+            for register in expected
+        }
+        if counts != expected:
+            raise RuntimeError(
+                f"{function} saved-register counts {counts} (expected {expected})"
+            )
+        body = body.replace("$22", "$__versus_icon_size")
+        body = body.replace("$23", "$22")
+        body = body.replace("$__versus_icon_size", "$23")
+        text = text[:start] + body + text[end:]
+    return text
 
 
 def use_saved_route_state_pointer(text: str) -> str:

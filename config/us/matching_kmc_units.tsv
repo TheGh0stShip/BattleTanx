@@ -1298,3 +1298,4 @@
 0x9D59C	0x2A8	src/code/gameplay/spawn_available_owner_unit.c	-O2 -G0 -mips3 -mgp32 -mfp32	337da2dfc0da63300ab5f1466a00ef873247e721e4894c94138ba780a1122763
 0x34B2C	0x1E4	src/code/gameplay/assign_group_object_points.c	-O2 -G0 -mips3 -mgp32 -mfp32	ac97fa142aab5a62673af27534d5a7bb0b720d1ed4a01781c777e471e87bcc21
 0x93E50	0x50C	src/code/frontend/draw_versus_stats_screen.c	--section-base=.rodata:0x80075170 -O2 -G0 -mips3 -mgp32 -mfp32	a59103f3e982238258b9016a88fae2cce4004d0e38f5c2c74e3e146179c0b533
+0x94CD8	0x5A4	src/code/frontend/draw_party_stats_screen.c	--section-base=.rodata:0x80075178 -O2 -G0 -mips3 -mgp32 -mfp32	b243c35ac07b789f317d069e59050b0ac3077f25d00c56d60a613b72cfe9729c

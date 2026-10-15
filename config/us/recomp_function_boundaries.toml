@@ -1351,7 +1351,7 @@ functions = [
     { name = "func_8010316C", vram = 0x8010316c, size = 0xce4 },
     { name = "draw_versus_stats_screen", vram = 0x80103e50, size = 0x50c },
     { name = "func_8010435C", vram = 0x8010435c, size = 0x97c },
-    { name = "func_80104CD8", vram = 0x80104cd8, size = 0x5a4 },
+    { name = "draw_party_stats_screen", vram = 0x80104cd8, size = 0x5a4 },
     { name = "reset_scrolling_text_offset", vram = 0x8010527c, size = 0x14 },
     { name = "draw_scrolling_menu_lines", vram = 0x80105290, size = 0x120 },
     { name = "load_texture_draw_font", vram = 0x801053b0, size = 0x110 },
