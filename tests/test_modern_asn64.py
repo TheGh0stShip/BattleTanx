@@ -39,6 +39,12 @@ class ModernAsn64Tests(unittest.TestCase):
         self.assertIn("addu $at,$4,$at", text)
         self.assertIn("sw $2,-16384($at)", text)
 
+    def test_multiword_positive_offset_uses_at(self) -> None:
+        text = self.preprocess("\tlw\t$16,72008($19)\n")
+        self.assertIn("lui $at,0x1", text)
+        self.assertIn("addu $at,$19,$at", text)
+        self.assertIn("lw $16,6472($at)", text)
+
     def test_float_compare_label_hazard_gets_nop(self) -> None:
         text = self.preprocess(
             "\tc.lt.s\t$f2,$f0\n.L17:\n\tbc1f\t.L18\n\tmove\t$2,$0\n.L18:\n"

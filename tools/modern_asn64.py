@@ -103,11 +103,15 @@ def lane_expand_memory(identifier: str, operand_text: str) -> Optional[str]:
     m = LANE_CONST_BASE_RE.match(address)
     if m and (identifier in LANE_INT_LOADS or identifier in LANE_INT_STORES) and rule("MEM-BIG-CONST"):
         offset = int(m.group(1)); base = m.group(2)
-        if not (0x8000 <= offset <= 0xFFFF):
-            # Observed in ROM only for 0x8000..0xFFFF. Full 32-bit constants (e.g. -0x7FC5FFC8 in
-            # results_ready_flags_a) keep GNU as' "addu $at,$at,base" order, which the ROM shows. Other ranges unobserved.
+        if offset < 0x8000:
+            # Negative full-width constants (e.g. -0x7FC5FFC8 in
+            # results_ready_flags_a) keep GNU as' "addu $at,$at,base"
+            # order, which the ROM shows. Positive multiword offsets use the
+            # ASN64 base-first expansion; path-graph fields at 0x11948 and
+            # 0x11956 exercise that form.
             return None
-        # ASN64 adds the base first for offsets 0x8000..0xFFFF: lui $at,1; addu $at,base,$at
+        # ASN64 adds the base first for positive offsets that require an
+        # address macro: lui $at,high; addu $at,base,$at.
         fire("MEM-BIG-CONST")
         low = ((offset & 0xFFFF) ^ 0x8000) - 0x8000
         high = ((offset - low) >> 16) & 0xFFFF
@@ -219,6 +223,33 @@ with open(input_filename, mode="r") as input_file:
                 "func_800E031C call setup had neither the compiler nor "
                 f"retail shape (before={fires}, after={already_shaped})"
             )
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800DF7D0:" in line for line in input_lines):
+        # This inlined queue validator starts with a zero-valued precheck and
+        # then a persistent loop counter. GCC coalesces them into $s1; the
+        # retail object retains the short-lived precheck in $a0 and initializes
+        # $s1 in the following branch delay slot. The address addition below
+        # is commutative and is likewise emitted in the retail operand order.
+        joined = "".join(input_lines)
+        rewrites = (
+            (
+                "\tbeq\t$2,$0,.L22\n\tmove\t$17,$0\n",
+                "\tbeq\t$2,$0,.L22\n\tmove\t$4,$0\n",
+            ),
+            ("\tsltu\t$2,$17,$3\n", "\tsltu\t$2,$4,$3\n"),
+            (
+                "\tbeql\t$2,$0,.L48\n\tandi\t$3,$18,0xffff\n",
+                "\tbeq\t$2,$0,.L22\n\tmove\t$17,$0\n",
+            ),
+            ("\taddu\t$2,$2,$5\n", "\taddu\t$2,$5,$2\n"),
+        )
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800DF7D0 allocation rewrite {before.strip()} fired {fires} times"
+                )
+            joined = joined.replace(before, after, 1)
         input_lines = joined.splitlines(keepends=True)
     if any("func_800F4DFC:" in line for line in input_lines):
         # Keep the retail scheduling of the four stacked colour arguments and

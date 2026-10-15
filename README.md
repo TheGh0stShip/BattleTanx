@@ -62,9 +62,9 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,739 non-overlapping
 function ranges produce 703,444 bytes of generated assembly, while gaps and the
-resource area remain explicit binary regions. The 1,458 compiler-built source
-units now reconstruct 451,060 retail code bytes. Together with 17 authentic
-source-assembly units, 1,475 matching units reconstruct 452,408 code bytes.
+resource area remain explicit binary regions. The 1,459 compiler-built source
+units now reconstruct 451,724 retail code bytes. Together with 17 authentic
+source-assembly units, 1,476 matching units reconstruct 453,072 code bytes.
 Eighty-three of the compiler-built units are data-only translation units whose initialized sections are verified
 independently. The
 168 libultra and compiler-runtime units include the
