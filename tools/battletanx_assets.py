@@ -412,6 +412,83 @@ def image_streams(rom: bytes) -> list[dict]:
     return rows
 
 
+# ---------------------------------------------------------------------------
+# Level streams.  func_800865E0 (called from initialize_runtime_state) fills a
+# 28-record table at 0x80125A68 with {world_start, world_end, nav_start,
+# nav_end} cartridge addresses.  The level loader func_80088CF0 decodes the
+# world stream and relocates its nine section offsets (the 16-byte records of
+# section 7 are counted as (offset[8] - offset[7]) / 16); func_800DDA08 decodes
+# the navigation stream for the AI and relocates the size word and the section
+# offsets at 0x0C..0x1C.  Records 18..23 are unused.
+
+LEVEL_STREAMS = (
+    (0, (0x738900, 0x73B2ED), None),
+    (1, (0x73B2F0, 0x742D4E), (0x6F9C40, 0x6FEE7B)),
+    (2, (0x742D50, 0x7472BF), (0x6FEE80, 0x7017CF)),
+    (3, (0x7472C0, 0x74F0F3), (0x7017D0, 0x70510B)),
+    (4, (0x74F0F8, 0x754EEE), (0x705110, 0x709533)),
+    (5, (0x754EF0, 0x756FA0), (0x709538, 0x709BFE)),
+    (6, (0x756FA0, 0x75EC8F), (0x709C00, 0x70D997)),
+    (7, (0x75EC90, 0x767ED4), (0x70D998, 0x711DCF)),
+    (8, (0x767ED8, 0x76FE3E), (0x711DD0, 0x716B2E)),
+    (9, (0x76FE40, 0x771EA8), (0x716B30, 0x7175C6)),
+    (10, (0x771EA8, 0x77A36E), (0x7175C8, 0x71B3DA)),
+    (11, (0x77A370, 0x783327), (0x71B3E0, 0x722A4D)),
+    (12, (0x783328, 0x78A974), (0x722A50, 0x726272)),
+    (13, (0x78A978, 0x7909F2), (0x726278, 0x727F76)),
+    (14, (0x7909F8, 0x79731D), (0x727F78, 0x72D02C)),
+    (15, (0x797320, 0x79EB33), (0x72D030, 0x730C8C)),
+    (16, (0x79EB38, 0x7A6187), (0x731460, 0x73789B)),
+    (17, (0x7A6188, 0x7A8868), (0x730C90, 0x731460)),
+    (24, (0x7A8868, 0x7ADEE6), (0x7378A0, 0x7388F5)),
+    (25, (0x7ADEE8, 0x7B0F3F), None),
+    (26, (0x7B0F40, 0x7B4508), None),
+    (27, (0x7B4508, 0x7B69A0), None),
+)
+WORLD_SECTIONS = 9
+WORLD_RECORD_SIZE = 0x10
+NAV_HEADER = struct.Struct(">IIHHIIIII")  # size, size, two counts, five section offsets
+NAV_HEADER_SIZE = 0x28  # the header is followed by two more words before section 0
+
+
+def decode_stream(rom: bytes, start: int, end: int) -> bytes:
+    result = lzari.decompress_with_info(rom[start:end])
+    if result.consumed_bytes > end - start or len(result.data) != LZARI_HEADER.unpack_from(rom, start)[0]:
+        raise AssetError(f"0x{start:X}: LZARI stream does not fit its range")
+    return result.data
+
+
+def parse_world_stream(data: bytes) -> dict:
+    offsets = be_u32_array(data, 0, WORLD_SECTIONS)
+    if offsets[0] != 4 * WORLD_SECTIONS or list(offsets) != sorted(offsets) or offsets[-1] != len(data):
+        raise AssetError("world stream section offsets are not an ascending table ending at the stream size")
+    if (offsets[8] - offsets[7]) % WORLD_RECORD_SIZE:
+        raise AssetError("world stream record section is not a whole number of 16-byte records")
+    return {"size": len(data), "sections": list(offsets), "records": (offsets[8] - offsets[7]) // WORLD_RECORD_SIZE}
+
+
+def parse_nav_stream(data: bytes) -> dict:
+    size, size_again, count_a, count_b, *offsets = NAV_HEADER.unpack_from(data, 0)
+    if size != len(data) or size_again != len(data):
+        raise AssetError("navigation stream size words do not match the stream")
+    if offsets[0] != NAV_HEADER_SIZE or list(offsets) != sorted(offsets) or offsets[-1] > len(data):
+        raise AssetError("navigation stream section offsets are not ascending within the stream")
+    return {"size": len(data), "counts": [count_a, count_b], "sections": offsets}
+
+
+def level_streams(rom: bytes) -> list[dict]:
+    rows = []
+    for index, world, nav in LEVEL_STREAMS:
+        row = {"index": index, "world": None, "nav": None}
+        if world:
+            row["world"] = {"rom_start": world[0], "rom_end": world[1],
+                            **parse_world_stream(decode_stream(rom, *world))}
+        if nav:
+            row["nav"] = {"rom_start": nav[0], "rom_end": nav[1], **parse_nav_stream(decode_stream(rom, *nav))}
+        rows.append(row)
+    return rows
+
+
 def catalogue(rom: bytes) -> list[dict]:
     rows = []
     for resource in (*RESOURCE_BUNDLES, *read_pi_table(rom, RESOURCE_BUNDLE_STRIP_TABLE)):
@@ -445,6 +522,8 @@ def main() -> None:
     images = image_streams(rom)
     (args.output / "fonts.json").write_text(json.dumps(fonts, indent=1) + "\n")
     (args.output / "images.json").write_text(json.dumps(images, indent=1) + "\n")
+    levels = level_streams(rom)
+    (args.output / "levels.json").write_text(json.dumps(levels, indent=1) + "\n")
     if args.command == "extract":
         for row in rows:
             resource = Resource(**{k: row[k] for k in Resource.__dataclass_fields__})
@@ -486,6 +565,13 @@ def main() -> None:
                                                 image["size"], image["width"], image["height"])
             png = n64_texture.encode_png_rgba(image["width"], image["height"], pixels)
             (image_folder / f"{image['name']}.png").write_bytes(png)
+        level_folder = args.output / "levels"
+        level_folder.mkdir(parents=True, exist_ok=True)
+        for level in levels:
+            for part in ("world", "nav"):
+                if level[part]:
+                    data = decode_stream(rom, level[part]["rom_start"], level[part]["rom_end"])
+                    (level_folder / f"level_{level['index']:02d}_{part}.bin").write_bytes(data)
     for row in rows:
         print(f"{row['name']:16} ROM 0x{row['rom_start']:06X}-0x{row['rom_end']:06X} "
               f"{row['encoding']:5} 0x{row['expanded_size']:05X} bytes, {len(row['entries'])} entries")

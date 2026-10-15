@@ -89,7 +89,7 @@ class ManifestAccountingTests(unittest.TestCase):
     def test_asset_progress_inventory(self) -> None:
         total, identified = report.asset_progress()
         self.assertEqual(total, 0x800000 - 0x101000)
-        self.assertEqual(identified, 0x355B60)
+        self.assertEqual(identified, 0x355B60 + (0x7388F5 - 0x6F9C40) + (0x7B69A0 - 0x738900))
 
     def test_data_rows_accept_optional_section(self) -> None:
         four = "0x5EA0\t0x100\tsrc/libultra/xprintf.c\t" + "0" * 64
@@ -138,6 +138,15 @@ class RomTests(unittest.TestCase):
         self.assertEqual([len(font["entries"]) for font in fonts], [5, 4])
         for font in fonts:
             self.assertEqual(font["entries"][-1]["end"], font["rom_end"] - font["rom_start"])
+
+    def test_level_streams_parse(self) -> None:
+        rom = assets.load_rom(ROM)
+        levels = assets.level_streams(rom)
+        self.assertEqual(sum(level["world"] is not None for level in levels), 22)
+        self.assertEqual(sum(level["nav"] is not None for level in levels), 18)
+        for level in levels:
+            if level["world"]:
+                self.assertEqual(level["world"]["sections"][-1], level["world"]["size"])
 
     def test_image_streams_decode_without_overrun(self) -> None:
         rom = assets.load_rom(ROM)

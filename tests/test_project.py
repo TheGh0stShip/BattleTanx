@@ -13,6 +13,7 @@ sys.path.insert(0, str(ROOT / "tools"))
 from generate_splat_config import canonical_functions
 from generate_decomp_report import build_report
 from decompkit.config import load_config
+from decompkit.adapters import CommandBuildAdapter, ImageReference
 from decompkit.tables import parse_address_ranges, read_tsv
 from verify_rom import EXPECTED_SHA1, EXPECTED_SHA256, EXPECTED_SIZE, verify
 
@@ -26,9 +27,9 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1766)
+        self.assertEqual(len(section["functions"]), 1759)
         canonical = canonical_functions(section)
-        # 51 catalogue entries are internal aliases or overlapping hypotheses;
+        # 40 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
         self.assertEqual(len(canonical), 1719)
         for left, right in zip(canonical, canonical[1:]):
@@ -66,8 +67,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 989)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 202264)
+        self.assertEqual(len(kmc_rows), 1045)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 221988)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -80,8 +81,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(data_rows), 99)
-        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 88656)
+        self.assertEqual(len(data_rows), 120)
+        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 89620)
         for _start, _size, source, section, digest in data_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertIn(section, {".rodata", ".data"})
@@ -105,8 +106,8 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(len(report["units"]), 1719)
         self.assertEqual(report["measures"]["total_functions"], 1719)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 173480)
-        self.assertEqual(report["measures"]["matched_data"], "88656")
+        self.assertEqual(int(report["measures"]["total_data"]), 173464)
+        self.assertEqual(report["measures"]["matched_data"], "89620")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
                          {"game", "libultra", "assets", "assets_textures", "assets_images",
@@ -116,10 +117,12 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(by_id["assets_music"]["measures"]["matched_data"], str(0x2C19B0 - 0x29A710))
         self.assertEqual(by_id["assets_sound"]["measures"]["matched_data"], str(0x29A710 - 0x101000))
         self.assertEqual(by_id["assets_fonts"]["measures"]["matched_data"], str(0x2D2790 - 0x2C3E50))
+        self.assertEqual(by_id["assets_levels"]["measures"]["matched_data"],
+                         str((0x7388F5 - 0x6F9C40) + (0x7B69A0 - 0x738900)))
         self.assertEqual(by_id["assets_images"]["measures"]["matched_data"],
                          str((0x7E3210 - 0x7B69A0) + (0x7E76D0 - 0x7E3250) + (0x7EA060 - 0x7E7C50)))
         assets = next(category for category in report["categories"] if category["id"] == "assets")
-        self.assertEqual(assets["measures"]["matched_data"], "3496800")
+        self.assertEqual(assets["measures"]["matched_data"], "4270261")
         self.assertEqual(assets["measures"]["total_data"], "7335936")
         # The report must remain JSON serializable with protobuf-compatible
         # string encoding for every uint64 field.
@@ -138,9 +141,32 @@ class ProjectTests(unittest.TestCase):
         ranges = parse_address_ranges(
             [path for path, _pipeline in config.unit_manifests], allow_empty=True
         )
-        self.assertEqual(len(ranges), 1153)
+        self.assertEqual(len(ranges), 1209)
         self.assertEqual(sum(int(row["SIZE"], 0)
-                             for row in read_tsv(config.data_manifest)), 88656)
+                             for row in read_tsv(config.data_manifest)), 89620)
+
+    def test_decompkit_adapter_protocol(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            directory = Path(directory)
+            source = directory / "unit.c"
+            source.write_text("void unit(void) {}\n")
+            adapter_script = directory / "adapter.py"
+            adapter_script.write_text(
+                "import json,sys\n"
+                "request=json.load(open(sys.argv[1]))\n"
+                "json.dump({'format':'decompkit-build-response-v1',"
+                "'text_hex':'54455854','text_size':4,'rodata_hex':'44415441',"
+                "'rodata_vram':'0x1008'},open(sys.argv[2],'w'))\n"
+            )
+            adapter = CommandBuildAdapter(
+                [sys.executable, str(adapter_script), "{request}", "{response}"]
+            )
+            built = adapter(str(source), 0x1000, pipeline="test")
+            self.assertEqual((built["text"], built["rodata"]), (b"TEXT", b"DATA"))
+            image = directory / "image.bin"
+            image.write_bytes(b"TEXT----DATA")
+            reference = ImageReference(image, lambda address: address - 0x1000)
+            self.assertEqual(reference(0x1008, 4), b"DATA")
 
 
 if __name__ == "__main__":

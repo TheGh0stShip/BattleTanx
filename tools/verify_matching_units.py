@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 import os
 import re
 import shlex
@@ -174,6 +175,10 @@ def data_rows() -> list[tuple[int, int, Path, str, str]]:
 def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--rom", type=Path, default=ROOT / "baseroms/us/baserom.z64")
+    parser.add_argument("--source", action="append", default=[],
+                        help="verify only this repository-relative source (repeatable)")
+    parser.add_argument("--response", type=Path,
+                        help="write one selected unit using the Decompkit adapter protocol")
     args = parser.parse_args()
     rom = args.rom.read_bytes()
     compiler = ROOT / ".toolchain/ido5.3/cc"
@@ -187,7 +192,18 @@ def main() -> None:
     known_symbols = symbol_addresses()
     matched = 0
     compiled_units: dict[Path, tuple[Path, dict[str, int], dict[str, int]]] = {}
-    for pipeline, start, size, source, flags, expected_digest in rows():
+    selected_rows = rows()
+    if args.source:
+        requested = {str((ROOT / source).resolve()) for source in args.source}
+        selected_rows = [row for row in selected_rows if str(row[3].resolve()) in requested]
+        found = {str(row[3].resolve()) for row in selected_rows}
+        missing = sorted(requested - found)
+        if missing:
+            raise SystemExit("sources absent from matching manifests: " + ", ".join(missing))
+    if args.response and len(selected_rows) != 1:
+        raise SystemExit("--response requires exactly one selected source")
+    adapter_payload = None
+    for pipeline, start, size, source, flags, expected_digest in selected_rows:
         output = output_dir / f"{source.stem}.o"
         section_bases = {".text": 0x80070000 + start}
         unit_symbols = dict(known_symbols)
@@ -257,10 +273,20 @@ def main() -> None:
             first = next(i for i, (left, right) in enumerate(zip(text, retail)) if left != right)
             raise SystemExit(f"{source}: mismatch at ROM 0x{start + first:X}")
         matched += size
+        adapter_payload = {
+            "format": "decompkit-build-response-v1",
+            "source": str(source.relative_to(ROOT)),
+            "pipeline": pipeline,
+            "vram": 0x80070000 + start,
+            "text_size": size,
+            "text_hex": text.hex(),
+        }
         print(f"MATCH [{pipeline.upper()}] {source.relative_to(ROOT)}: ROM 0x{start:X}-0x{start + size:X} ({size} bytes)")
     matched_data = 0
     previous_end = 0
     for start, size, source, section, expected_digest in data_rows():
+        if args.source and source not in compiled_units:
+            continue
         if start < previous_end:
             raise SystemExit(f"{DATA_MANIFEST}: overlapping data range at ROM 0x{start:X}")
         previous_end = start + size
@@ -280,8 +306,14 @@ def main() -> None:
             first = next(i for i, (left, right) in enumerate(zip(data, retail)) if left != right)
             raise SystemExit(f"{source}: data mismatch at ROM 0x{start + first:X}")
         matched_data += size
+        if adapter_payload is not None:
+            adapter_payload[f"{section[1:]}_hex"] = data.hex()
+            adapter_payload[f"{section[1:]}_vram"] = 0x80070000 + start
         print(f"MATCH [DATA {section}] {source.relative_to(ROOT)}: ROM 0x{start:X}-0x{start + size:X} ({size} bytes)")
-    print(f"Verified {len(rows())} matching source unit(s), {matched} code bytes, "
+    if args.response:
+        args.response.parent.mkdir(parents=True, exist_ok=True)
+        args.response.write_text(json.dumps(adapter_payload, indent=2) + "\n")
+    print(f"Verified {len(selected_rows)} matching source unit(s), {matched} code bytes, "
           f"{matched_data} data bytes")
 
 

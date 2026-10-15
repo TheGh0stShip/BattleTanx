@@ -93,10 +93,10 @@ does not claim that individual entries have already been classified as textures,
 music, sounds, images, models, or levels.
 
 ```text
-code       [████████░░░░░░░░░░░░]  39.72%    279,264 / 703,128 bytes
-data       [██████████░░░░░░░░░░]  51.10%     88,656 / 173,480 bytes
-functions  [████████████████░░░░]  79.93%       1,374 / 1,719
-assets     [██████████░░░░░░░░░░]  47.67%  3,496,800 / 7,335,936 bytes
+code       [█████████░░░░░░░░░░░]  42.52%    298,988 / 703,144 bytes
+data       [██████████░░░░░░░░░░]  51.66%     89,620 / 173,464 bytes
+functions  [█████████████████░░░]  83.19%       1,430 / 1,719
+assets     [████████████░░░░░░░░]  58.21%  4,270,261 / 7,335,936 bytes
 ```
 
 The game-owned KMC GCC units cover string and list helpers, state initialization

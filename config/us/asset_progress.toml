@@ -231,3 +231,17 @@ rom_start = 0x7e7c50
 rom_end = 0x7ea060
 kind = "image"
 status = "format_verified"
+
+[[range]]
+name = "level_navigation_streams"
+rom_start = 0x6f9c40
+rom_end = 0x7388f5
+kind = "level"
+status = "format_verified"
+
+[[range]]
+name = "level_world_streams"
+rom_start = 0x738900
+rom_end = 0x7b69a0
+kind = "level"
+status = "format_verified"

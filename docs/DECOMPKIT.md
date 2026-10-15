@@ -18,12 +18,14 @@ make report
 make check
 ```
 
-The existing compiler-specific verifier remains the byte-exact authority while
-the portable build-adapter interface is introduced. Decompkit does not weaken
+The existing compiler-specific verifier remains the byte-exact authority. Its
+single-source mode is exposed through `tools/decompkit_build_adapter.py` using
+Decompkit's JSON subprocess protocol; this was cross-checked against a retail
+unit through the pinned compiler pipeline. Decompkit does not weaken
 the matching gate: every completed code or data unit must still reproduce the
 verified USA Rev 0 ROM bytes.
 
-Planned adapters, in order, are narrow unit verification, register-allocation
-diagnostics, assembly classification, and deterministic resource rebuilding.
+The next adapters are register-allocation diagnostics, assembly classification,
+and deterministic resource rebuilding.
 Each adapter must be checked against the existing BattleTanx result before it
 replaces project-specific code.
