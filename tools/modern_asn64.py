@@ -1133,6 +1133,73 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, expected)
         fire("ATTACHED-CAMERA-FPRS")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_80097038:" in line for line in input_lines) and rule("SPAWN-UNIT-SCHEDULING"):
+        # Match SN64's store scheduling, unsigned-double conversion registers,
+        # and switch delay slots in the recovered unit initializer.  These are
+        # exact, function-scoped compiler-output patterns; abort if the C shape
+        # changes instead of silently rewriting a similar sequence elsewhere.
+        rewrites = (
+            (
+                "\tsw\t$0,1256($17)\n\tsw\t$0,1260($17)\n"
+                "\tsw\t$2,1264($17)\n\ts.s\t$f0,1020($17)\n",
+                "\ts.s\t$f0,1020($17)\n\tsw\t$0,1256($17)\n"
+                "\tsw\t$0,1260($17)\n\tsw\t$2,1264($17)\n",
+            ),
+            (
+                "\tsw\t$2,1140($17)\n\tli\t$2,0x00000001\t\t# 1\n"
+                "\tsh\t$2,1164($17)\n\tli\t$2,0x0000003c\t\t# 60\n"
+                "\tsh\t$2,1176($17)\n\tli\t$2,0x00000003\t\t# 3\n"
+                "\tsh\t$2,1178($17)\n\tli\t$2,0x00000032\t\t# 50\n"
+                "\tsh\t$2,1162($17)\n\tsh\t$2,1160($17)\n"
+                "\tsh\t$2,1174($17)\n\tli\t$2,0x00000063\t\t# 99\n"
+                "\tsh\t$2,1166($17)\n",
+                "\tli\t$3,0x00000032\t\t# 50\n\tsw\t$2,1140($17)\n"
+                "\tli\t$2,0x00000001\t\t# 1\n\tsh\t$2,1164($17)\n"
+                "\tli\t$2,0x0000003c\t\t# 60\n\tsh\t$2,1176($17)\n"
+                "\tli\t$2,0x00000003\t\t# 3\n\tsh\t$2,1178($17)\n"
+                "\tli\t$2,0x00000063\t\t# 99\n\tsh\t$3,1162($17)\n"
+                "\tsh\t$3,1160($17)\n\tsh\t$3,1174($17)\n"
+                "\tsh\t$2,1166($17)\n",
+            ),
+            ("\tmfc1\t$4,$f0\n", "\tmfc1\t$3,$f0\n"),
+            ("\tmfc1\t$4,$f2\n", "\tmfc1\t$3,$f2\n"),
+            ("\tor\t$4,$4,$2\n.L34:\n\tlw\t$3,24($17)\n",
+             "\tor\t$3,$3,$2\n.L34:\n\tlw\t$4,24($17)\n"),
+            (
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeql\t$3,$2,.L36\n"
+                "\tli\t$2,0x00000002\t\t# 2\n\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tbeq\t$3,$0,.L37\n",
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$4,$2,.L36\n"
+                "\tmove\t$5,$3\n\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tbeq\t$4,$0,.L37\n",
+            ),
+            ("\tbeq\t$3,$2,.L38\n", "\tbeq\t$4,$2,.L38\n"),
+            (
+                ".L36:\n\tl.s\t$f0,36($17)\n\tl.s\t$f2,44($17)\n"
+                "\tsw\t$2,1128($17)\n",
+                ".L36:\n\tl.s\t$f0,36($17)\n\tl.s\t$f2,44($17)\n"
+                "\tli\t$2,0x00000002\t\t# 2\n\tsw\t$2,1128($17)\n",
+            ),
+            ("\tandi\t$2,$4,0xffff\n", "\tandi\t$2,$5,0xffff\n"),
+            (
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$2,$0,.L69\n"
+                "\tli\t$2,0x00000010\t\t# 16\n\t.set\tmacro\n\t.set\treorder\n",
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$2,$0,.L42\n"
+                "\tnop\n\t.set\tmacro\n\t.set\treorder\n",
+            ),
+        )
+        joined = "".join(input_lines)
+        expected = (1, 1, 1, 1, 1, 1, 1, 1, 3, 1)
+        for (before, after), count in zip(rewrites, expected):
+            fires = joined.count(before)
+            if fires != count:
+                raise RuntimeError(
+                    f"func_80097038 scheduling shaping fired {fires} times "
+                    f"(expected {count}): {before!r}"
+                )
+            joined = joined.replace(before, after, count)
+        fire("SPAWN-UNIT-SCHEDULING")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_8007BD24:" in line for line in input_lines) and rule("CAMPAIGN-RETRY-BRANCH"):
         # ASN64 emits the campaign retry as a normal branch even though KMC's
         # scheduler marks it likely.  The delay-slot value is harmless on the

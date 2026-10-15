@@ -154,6 +154,43 @@ class ModernAsn64Tests(unittest.TestCase):
         self.assertIn("add.s\t$f20,$f2,$f0", disabled)
         self.assertIn("sqrt.s\t$f2,$f12", disabled)
 
+    def test_spawn_unit_uses_retail_scheduling(self) -> None:
+        body = (
+            "func_80097038:\n"
+            "\tsw\t$0,1256($17)\n\tsw\t$0,1260($17)\n"
+            "\tsw\t$2,1264($17)\n\ts.s\t$f0,1020($17)\n"
+            "\tsw\t$2,1140($17)\n\tli\t$2,0x00000001\t\t# 1\n"
+            "\tsh\t$2,1164($17)\n\tli\t$2,0x0000003c\t\t# 60\n"
+            "\tsh\t$2,1176($17)\n\tli\t$2,0x00000003\t\t# 3\n"
+            "\tsh\t$2,1178($17)\n\tli\t$2,0x00000032\t\t# 50\n"
+            "\tsh\t$2,1162($17)\n\tsh\t$2,1160($17)\n"
+            "\tsh\t$2,1174($17)\n\tli\t$2,0x00000063\t\t# 99\n"
+            "\tsh\t$2,1166($17)\n"
+            "\tmfc1\t$4,$f0\n\tmfc1\t$4,$f2\n"
+            "\tor\t$4,$4,$2\n.L34:\n\tlw\t$3,24($17)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeql\t$3,$2,.L36\n\tli\t$2,0x00000002\t\t# 2\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n\tbeq\t$3,$0,.L37\n"
+            "\tbeq\t$3,$2,.L38\n"
+            ".L36:\n\tl.s\t$f0,36($17)\n\tl.s\t$f2,44($17)\n"
+            "\tsw\t$2,1128($17)\n"
+            + "\tandi\t$2,$4,0xffff\n" * 3
+            + "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbne\t$2,$0,.L69\n\tli\t$2,0x00000010\t\t# 16\n"
+            "\t.set\tmacro\n\t.set\treorder\n"
+        )
+        text = self.preprocess(body)
+        self.assertIn("s.s\t$f0,1020($17)\n\tsw\t$0,1256($17)", text)
+        self.assertIn("li\t$3,0x00000032", text)
+        self.assertIn("beq\t$4,$2,.L36\n\tmove\t$5,$3", text)
+        self.assertIn("li\t$2,0x00000002\t\t# 2\n\tsw\t$2,1128($17)", text)
+        self.assertEqual(text.count("andi\t$2,$5,0xffff"), 3)
+        self.assertIn("bne\t$2,$0,.L42\n\tnop", text)
+
+        disabled = self.preprocess(body, disabled="SPAWN-UNIT-SCHEDULING")
+        self.assertIn("beql\t$3,$2,.L36", disabled)
+        self.assertIn("andi\t$2,$4,0xffff", disabled)
+
     def test_disabled_rule_leaves_symbol_load_for_gas(self) -> None:
         text = self.preprocess(
             "\tlw\t$2,D_801144A0($3)\n", disabled="MEM-SYM-BASE"

@@ -388,7 +388,7 @@ functions = [
     { name = "read_player_menu_directions", vram = 0x80096920, size = 0x3e4 },
     { name = "build_area_box_by_shape", vram = 0x80096e80, size = 0x148 },
     { name = "owner_slot_entry_enabled", vram = 0x80096fc8, size = 0x70 },
-    { name = "func_80097038", vram = 0x80097038, size = 0xacc },
+    { name = "spawn_unit", vram = 0x80097038, size = 0xacc },
     { name = "stop_entity_sound_handles", vram = 0x80097b04, size = 0x78 },
     { name = "stop_all_unit_sounds", vram = 0x80097b7c, size = 0xa8 },
     { name = "func_80097C24", vram = 0x80097c24, size = 0x40 },

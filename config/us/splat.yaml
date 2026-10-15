@@ -528,7 +528,7 @@ segments:
       - [0x26D04, bin, gaps/gap_026D04]
       - [0x26E80, c, code/entities/build_area_box_by_shape]
       - [0x26FC8, c, code/gameplay/owner_slot_entry_enabled]
-      - [0x27038, asm, functions/func_80097038]
+      - [0x27038, c, code/gameplay/spawn_unit]
       - [0x27B04, c, code/audio/stop_entity_sound_handles]
       - [0x27B7C, c, code/audio/stop_all_unit_sounds]
       - [0x27C24, c, code/runtime/clear_record]

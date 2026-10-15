@@ -948,6 +948,7 @@
 0x2EEC0	0x240	src/code/entities/unit_handle_hit_message.c	--section-base=.rodata:0x80072988 -O2 -G0 -mips3 -mgp32 -mfp32	e72525c7c1f2ccb435a8021a37c46bf378725c9cc475e2f5abf103c2e1f13fb0
 0x728DC	0x1F0	src/code/gameplay/ai_measure_relative_point.c	--section-base=.rodata:0x8007459C -O2 -G0 -mips3 -mgp32 -mfp32	48797dfdbd3ace6f22a76a72c2bc63572540b5d755d08a904cc8fb20e9c0511a
 0x72AF0	0x20C	src/code/gameplay/ai_steer_toward_target.c	--section-base=.rodata:0x800745B0 -O2 -G0 -mips3 -mgp32 -mfp32	09adc72896c0a17fa8b77d5617a62ca3b950132db52b256d4353a48612c343a0
+0x27038	0xACC	src/code/gameplay/spawn_unit.c	--assembler=asn64 --section-base=.rodata:0x80072150 -O2 -G0 -mips3 -mgp32 -mfp32	9926eb29c2bf3686cc9937ecbbf07088329a9688e9b32ffd1ab7909b644ced19
 0x2A22C	0x128	src/code/gameplay/dispatch_owner_event_variant.c	--section-base=.rodata:0x80072418 -O2 -G0 -mips3 -mgp32 -mfp32	2ede8349156a1c41d918fffc127a36f11c91a4d5dcf799bdbb88cea9f2cf0e22
 0x2F5E0	0x30C	src/code/gameplay/unit_handle_message.c	--section-base=.rodata:0x80072A88 -O2 -G0 -mips3 -mgp32 -mfp32	e9716f81528b85057bb444da7e5652c0d311a6f5628e50b832d5a5e5032ae41a
 0x756B0	0x3C0	src/code/gameplay/update_unit_pair_link.c	--section-base=.rodata:0x80074650 -O2 -G0 -mips3 -mgp32 -mfp32	ea3e29cab923e7f0765edd6a92596c9ddaaece732f10441d605abd1586036286
