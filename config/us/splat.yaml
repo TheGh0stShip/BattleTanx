@@ -477,7 +477,6 @@ segments:
       - [0x21D6C, c, code/effects/spawn_effect_kind_09]
       - [0x21E98, c, code/effects/spawn_effect_kind_5]
       - [0x2201C, asm, functions/func_8009201C]
-      - [0x22400, c, code/runtime/stubs/80092400_noop]
       - [0x22408, c, code/render/scale_quad_around_center]
       - [0x2249C, c, code/effects/scale_effect_extents]
       - [0x22534, c, code/effects/effect_dispatch_area_contacts]

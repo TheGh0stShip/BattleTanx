@@ -457,7 +457,6 @@
 0x1001C	0x100	src/code/render/draw_screen_overlay.c	-O2 -G0 -mips3 -mgp32 -mfp32	a78312f438cb71857de89b7cd30cfdf7715b67e49ff740883095f065092fe56d
 0xEAA4	0x60	src/code/render/load_current_matrix_list_a.c	-O2 -G0 -mips3 -mgp32 -mfp32	3a27dcea43a5d325674c755226ac9e3dfdac5f4b345ca6262b92a75992ba7fb2
 0xEB64	0x78	src/code/render/load_matrix_list_a.c	-O2 -G0 -mips3 -mgp32 -mfp32	1c6091fdd1f9f8d05b07463893c5a2cf03cde449faecea14dfa001482c551208
-0x22400	0x8	src/code/runtime/stubs/80092400_noop.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x60994	0x178	src/code/assets/controller_pak_find_save_file.c	-O2 -G0 -mips3 -mgp32 -mfp32	762c0863367d8ff6904def15e487e7c361ad0173196b6f1d407f3c515b64c693
 0x39B70	0xA4	src/code/assets/controller_pak_free_blocks.c	-O2 -G0 -mips3 -mgp32 -mfp32	604785d94f2714c07521dad9ae19878fcfc37a73695130e688ef4d7d0f3e0c49
 0x3942C	0x718	src/code/assets/controller_pak_io.c	-O2 -G0 -mips3 -mgp32 -mfp32	06baf2353dc1dd759f826b928e7c48ec4b0b5a8ca0abde20e400775e93e58d74
