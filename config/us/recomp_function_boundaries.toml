@@ -709,7 +709,7 @@ functions = [
     { name = "func_800CFEB0", vram = 0x800cfeb0, size = 0x72c },
     { name = "reset_session_state_defaults", vram = 0x800d05dc, size = 0xb4 },
     { name = "controller_pak_write_save_file", vram = 0x800d0690, size = 0x198 },
-    { name = "func_800D0828", vram = 0x800d0828, size = 0x118 },
+    { name = "write_controller_pak_progress", vram = 0x800d0828, size = 0x118 },
     { name = "wait_for_loading_state_change", vram = 0x800d0940, size = 0x54 },
     { name = "controller_pak_find_save_file", vram = 0x800d0994, size = 0x178 },
     { name = "load_controller_pak_save_settings", vram = 0x800d0b0c, size = 0xc8 },

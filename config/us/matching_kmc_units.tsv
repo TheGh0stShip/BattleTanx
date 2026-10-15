@@ -1276,3 +1276,4 @@
 0x98B68	0x30C	src/code/runtime/sweep_motion_body.c	-O2 -G0 -mips3 -mgp32 -mfp32	cfaa592086bcb6617550e8b13dc837e243adeccb4ee03ae0f845fe4fe0810b8b
 0x9B9C8	0x240	src/code/runtime/sweep_oriented_box_against_box.c	-O2 -G0 -mips3 -mgp32 -mfp32	709e53d56473b36cc5f8cd29c25c96dfd9b2d5e29f0ac0a843275e48e783b3b2
 0x50898	0x644	src/code/frontend/init_sequence_c_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	bc3703d8a05330573f335e6746f7b4e572a224f88354a88340f2da3fd041aa35
+0x60828	0x118	src/code/assets/write_controller_pak_progress.c	-O2 -G0 -mips3 -mgp32 -mfp32	d2c9e0b3e85f7e010e217ee8e2844d27b5d39346a866cae04a2b6afdbf677191

@@ -531,6 +531,36 @@ def schedule_resource_copy_prologue(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def schedule_pak_save_record_prologue(text: str) -> str:
+    """Preserve KMC's retail entry schedule in ``func_800D0828``.
+
+    GCC emits the save-buffer pointer load before the sixth stack argument.
+    The generic normalizer otherwise pulls the independent argument load ahead
+    while expanding the symbolic global load. The retail object retains the
+    compiler order, so restore it for this exact, label-gated prologue.
+    """
+    if "func_800D0828:" not in text:
+        return text
+    before = (
+        "\tsubu\t$sp,$sp,24\n"
+        "\tlw\t$11,44($sp)\n"
+        "\tlw\t$2,D_80134E78\n"
+        "\tlbu\t$10,43($sp)\n"
+    )
+    after = (
+        "\tsubu\t$sp,$sp,24\n"
+        "\tlw\t$2,D_80134E78\n"
+        "\tlw\t$11,44($sp)\n"
+        "\tlbu\t$10,43($sp)\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800D0828 prologue schedule fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
 def schedule_owner_search_prologue(text: str) -> str:
     """Reproduce the two independent prologue stores in ``func_80083DF0``.
 
@@ -5038,6 +5068,8 @@ def normalize_v3(source: str) -> str:
         text = normalize_race_map_entry(text)
     if os.environ.get("V3_RESOURCE_COPY_PROLOGUE", "1") == "1":
         text = schedule_resource_copy_prologue(text)
+    if os.environ.get("V3_PAK_SAVE_RECORD_PROLOGUE", "1") == "1":
+        text = schedule_pak_save_record_prologue(text)
     if os.environ.get("V3_OWNER_SEARCH_PROLOGUE", "1") == "1":
         text = schedule_owner_search_prologue(text)
     if os.environ.get("V3_VECTOR_ANGLE_PROLOGUE", "1") == "1":

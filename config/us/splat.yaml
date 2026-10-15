@@ -849,7 +849,7 @@ segments:
       - [0x5FEB0, asm, functions/func_800CFEB0]
       - [0x605DC, c, code/runtime/reset_session_state_defaults]
       - [0x60690, c, code/assets/controller_pak_write_save_file]
-      - [0x60828, asm, functions/func_800D0828]
+      - [0x60828, c, code/assets/write_controller_pak_progress]
       - [0x60940, c, code/runtime/wait_for_loading_state_change]
       - [0x60994, c, code/assets/controller_pak_find_save_file]
       - [0x60B0C, c, code/assets/load_controller_pak_save_settings]
