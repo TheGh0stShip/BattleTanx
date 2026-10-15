@@ -745,7 +745,7 @@ functions = [
     { name = "draw_centered_formatted_label", vram = 0x800d3c84, size = 0x50 },
     { name = "draw_menu_label_10", vram = 0x800d3cd4, size = 0x3c },
     { name = "draw_rank_title", vram = 0x800d3d10, size = 0x118 },
-    { name = "func_800D3E28", vram = 0x800d3e28, size = 0x5e0 },
+    { name = "draw_round_over_screen", vram = 0x800d3e28, size = 0x5e0 },
     { name = "copy_four_session_records", vram = 0x800d4410, size = 0xbc },
     { name = "load_resource_bundle_4AD7E0", vram = 0x800d44cc, size = 0x90 },
     { name = "func_800D455C", vram = 0x800d455c, size = 0x1b04 },

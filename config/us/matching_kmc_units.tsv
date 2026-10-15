@@ -1166,6 +1166,7 @@
 0x2412C	0xB4	src/code/effects/classify_point_relative_to_facing.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	7a571e702ee120e15990e40773ae3de045f18776a5cf81bf61db289c6cc9697d
 0x7F984	0x154	src/code/effects/spawn_effect_kind_6.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	f1c676bfa2fb0a4f742748d11165d218057aaf7d50b846d7b3bf5f725407ecb6
 0x63D10	0x118	src/code/frontend/draw_rank_title.c	--assembler=asn64 --section-base=.rodata:0x80073DBC -O2 -G0 -mips3 -mgp32 -mfp32	fcab1d7d60f408ec6ca57904b07f0b00c9acc289156561893090f2ddbb94b1d8
+0x63E28	0x5E0	src/code/frontend/draw_round_over_screen.c	--section-base=.rodata:0x80073F30 -O2 -G0 -mips3 -mgp32 -mfp32	851c859c2a1d179946cc3cc7d7d883e03e55d112d356c609db804ebc46f0bf19
 0x58210	0x1C4	src/code/assets/load_resource_bundle_3dc430.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	32ca6302fd538a884b8a94ef6b40f7267f62be5ce22de04fd6ad497b4d62ab05
 0x15978	0x1D4	src/code/render/submit_model.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	0dfffa096dec461996aefcba513118b064111b2e89f661358a6aea82ec83e6a6
 0x79318	0x140	src/code/gameplay/ai_parameter_member_route_reachable.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	c363752cb8a7cb4ae12061d2893929fba0fab0a3150495139d37c6e97884c548

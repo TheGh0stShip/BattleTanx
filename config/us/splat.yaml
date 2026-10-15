@@ -886,7 +886,7 @@ segments:
       - [0x63C84, c, code/render/draw_centered_formatted_label]
       - [0x63CD4, c, code/render/draw_menu_label_10]
       - [0x63D10, c, code/frontend/draw_rank_title]
-      - [0x63E28, asm, functions/func_800D3E28]
+      - [0x63E28, c, code/frontend/draw_round_over_screen]
       - [0x64408, bin, gaps/gap_064408]
       - [0x64410, c, code/runtime/copy_four_session_records]
       - [0x644CC, c, code/assets/load_resource_bundle_4AD7E0]
