@@ -1091,7 +1091,7 @@
 0x44DC	0x0	src/code/data/rodata_800744DC.c	--assembler=asn64 --section-base=.rodata:0x800744DC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x44EC	0x0	src/code/data/rodata_800744EC.c	--assembler=asn64 --section-base=.rodata:0x800744EC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x45D0	0x0	src/code/data/rodata_800745D0.c	--assembler=asn64 --section-base=.rodata:0x800745D0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
-0x4600	0x0	src/code/data/rodata_80074600.c	--assembler=asn64 --section-base=.rodata:0x80074600 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4628	0x0	src/code/data/rodata_80074628.c	--assembler=asn64 --section-base=.rodata:0x80074628 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x4658	0x0	src/code/data/rodata_80074658.c	--assembler=asn64 --section-base=.rodata:0x80074658 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x46C4	0x0	src/code/data/rodata_800746C4.c	--assembler=asn64 --section-base=.rodata:0x800746C4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
 0x46FC	0x0	src/code/data/rodata_800746FC.c	--assembler=asn64 --section-base=.rodata:0x800746FC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
@@ -1130,3 +1130,29 @@
 0x16340	0x38	src/code/math/integer_power.c	-O2 -G0 -mips3 -mgp32 -mfp32	68e22f3e93b3b85d111c29025e60deacd3bdf9f7c5a4e691a054aed2473adb23
 0x3B640	0x1C	src/code/runtime/link_node_insert_after.c	-O2 -G0 -mips3 -mgp32 -mfp32	4255cebaea17b72f2628577ee423b9e2879c49ae15e7705b99b40711b91872e6
 0x3B65C	0x34	src/code/runtime/link_node_remove.c	-O2 -G0 -mips3 -mgp32 -mfp32	ec477685c110dc0840c4895d1e9732de1e0312840bd646de982377621a53ca63
+0x24704	0x70	src/code/math/point_off_edge.c	-O2 -G0 -mips3 -mgp32 -mfp32	6f38302910bc777f01f9ef5a0132ffa998886795379285edb29e3f29e0440fd7
+0x6F55C	0x30	src/code/runtime/find_terminal_link_field.c	-O2 -G0 -mips3 -mgp32 -mfp32	4a46bedff276f384ad366f542bb1986ad47d68cb0f2fad102d5c9a2f9953fca0
+0x6DD30	0x78	src/code/runtime/ring_buffer_peek_last.c	-O2 -G0 -mips3 -mgp32 -mfp32	a246686881ab40a0828cb5b33a1a4d2c3636bbde4d30ca1bbc0742b6cee78f0e
+0x736FC	0x80	src/code/gameplay/init_unit_link_command.c	-O2 -G0 -mips3 -mgp32 -mfp32	82e2a6c4d7fe34576dbcc409933b84b0df8fb97b010d81fa6a47eda8a5fe55f3
+0x7F380	0xC0	src/code/render/draw_transformed_object_segment.c	-O2 -G0 -mips3 -mgp32 -mfp32	33b6fef7285a16682ca5cea390e89f6fb0dd09532225cd620210905e9e82fe4c
+0x11788	0x1AC	src/code/render/draw_cached_render_batches.c	-O2 -G0 -mips3 -mgp32 -mfp32	2366f2ef96a31ad9c59624e7e23135bc1c5ed4708164a435f30ec0bac5907c7c
+0x6E2FC	0xF0	src/code/math/point_inside_triangle.c	-O2 -G0 -mips3 -mgp32 -mfp32	2321c7d8bbd23cb50943d548ad32f4c49e1df8808f94713861be87e091b415b5
+0x30218	0x164	src/code/gameplay/unit_footprint_is_clear.c	--section-base=.rodata:0x80072AD4 -O2 -G0 -mips3 -mgp32 -mfp32	c14646d39bbb0e7c8dc84556e36af097d12711b91c6d76be088e3ef933c60aed
+0x31170	0x174	src/code/gameplay/find_nearest_enemy_unit.c	-O2 -G0 -mips3 -mgp32 -mfp32	f4681b7986c49ed4d2a4c8d66ca74907c317d85e87df41ca6e5796037a22b094
+0x70954	0x28	src/code/runtime/advance_runtime_data_offset.c	-O2 -G0 -mips3 -mgp32 -mfp32	71d18282458e11611a19395a631d64c2899c50c6a6168137c9ca85ba5294535f
+0x7377C	0x204	src/code/gameplay/ai_find_object_position.c	-O2 -G0 -mips3 -mgp32 -mfp32	85e7aeb79f0fc0fc61a7304c171119ee3b5d2a8f2711d5471e417d81a99e29b2
+0x240AC	0x80	src/code/levels/level_point_inside_wedge.c	-O2 -G0 -mips3 -mgp32 -mfp32	d307f43fe837240407ffbc12ac217684fb8a85f69281cddfcfcb71e03f43bacc
+0x83BE4	0x128	src/code/math/cosine_to_angle.c	--section-base=.rodata:0x80074F58 -O2 -G0 -mips3 -mgp32 -mfp32	b29695219ea0fd7121df5580f8e6f0ebaf4548c08979311db815f2b8f5531855
+0x7F2D0	0xB0	src/code/render/update_owner_slot_matrix.c	-O2 -G0 -mips3 -mgp32 -mfp32	de09fece97fe57a3a7f005c2e12217dcf8bd941311d12750e39d6a35ed40cdb5
+0x6E0C0	0xF4	src/code/runtime/limit_scan_queue.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	ca41158e718e430077af67101301bac63287f982716b345c818d16037c41cb3b
+0x22408	0x94	src/code/render/scale_quad_around_center.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	254c60c6eacdab9fd76505d2aa985f7a221aa77bb6c1342c7a93a337951986c9
+0x37DBC	0x110	src/code/render/transform_project_point.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	08c979cf508a2f7d85ac59b88194e16cf1c9933cacda7a52b5fb019a1640c239
+0x7360C	0xF0	src/code/gameplay/update_action_goal.c	--assembler=asn64 --section-base=.rodata:0x80074600 -O2 -G0 -mips3 -mgp32 -mfp32	be9a07ee1d5683c7d9f9b37e08beaac7950a643d4d70f1ff07223de948398970
+0xE8EC	0xDC	src/code/render/emit_object_matrix_commands.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	464ff209e7dad3e35e22fdbbb79e8bc25473f501f56c2fd4da528d7c57bc0969
+0x82EFC	0x118	src/code/render/update_color_fade_overlay.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	2594d902a1db5f656df92fc214f00d71ed19225ad6e5090fa825606328317cd0
+0x34D58	0xE8	src/code/entities/refresh_entity_owner_model.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	994012053efd13394c0a6725a6d967631b94e1f4c91552e406c680ae65e883d6
+0x34E40	0x104	src/code/entities/refresh_owner_handle_event.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	caf2362c4d1335d8320c5a6b9d3d08a70da8e97822305a175dfcd61615079567
+0x7A89C	0xA0	src/code/gameplay/ai_update_owner_play_stack.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	3cf798d6e2746ac38b48b09073879e987f304287e2e56df89c280b9d58a1c8a9
+0x6E9C	0xC4	src/code/debug/debug_port_receive_data.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	0bd816f93b9b06950613763550f8206497285585b6db8629a2b99bba9e55c458
+0x6DDA8	0xE0	src/code/runtime/update_ring_status_flag.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	8595a5650cdc7dbe6fb9fc5fd2b078aaba8d92db85c79bb7f0571026ff2952a8
+0x21814	0x88	src/code/render/copy_relocated_vertex_texcoords.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9c5338458c5b73af250750893a1feb3ad221bb934bba600cfb7251a8bf01e5eb

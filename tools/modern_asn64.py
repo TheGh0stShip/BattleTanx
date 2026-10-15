@@ -124,6 +124,341 @@ def get_line_tokens(line: str) -> List[str]:
 
 with open(input_filename, mode="r") as input_file:
     input_lines: List[str] = input_file.readlines()
+    if any("func_800DE0C0:" in line for line in input_lines):
+        # Retail keeps the reloaded queue count in $3.  GCC chose $5, whose
+        # incoming limit value is dead after the store.  Constrain this exact
+        # function before the asn64 compatibility pass; every replacement is
+        # counted so compiler/source drift fails loudly.
+        rewrites = (
+            ("\tlhu\t$5,8($16)\n", "\tlhu\t$3,8($16)\n", 2),
+            ("\tbeq\t$5,$0,.L2\n", "\tbeq\t$3,$0,.L2\n", 1),
+            ("\tsltu\t$2,$4,$5\n", "\tsltu\t$2,$4,$3\n", 1),
+            ("\tsltu\t$2,$2,$5\n", "\tsltu\t$2,$2,$3\n", 1),
+        )
+        joined = "".join(input_lines)
+        for before, after, expected in rewrites:
+            fires = joined.count(before)
+            if fires != expected:
+                raise RuntimeError(
+                    f"func_800DE0C0 queue-count shaping fired {fires} times "
+                    f"(expected {expected}): {before!r}"
+                )
+            joined = joined.replace(before, after)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_80092408:" in line for line in input_lines):
+        # GCC interchanges the two equal-priority floating-point temporaries
+        # holding centerY and scale.  Constrain only their six uses.
+        rewrites = (
+            ("\tdiv.s\t$f8,$f0,$f4\n", "\tdiv.s\t$f6,$f0,$f4\n"),
+            ("\tl.s\t$f6,D_80071E98\n", "\tl.s\t$f8,D_80071E98\n"),
+            ("\tsub.s\t$f0,$f0,$f8\n", "\tsub.s\t$f0,$f0,$f6\n"),
+            ("\tmul.s\t$f0,$f0,$f6\n", "\tmul.s\t$f0,$f0,$f8\n"),
+            ("\tmul.s\t$f2,$f2,$f6\n", "\tmul.s\t$f2,$f2,$f8\n"),
+            ("\tadd.s\t$f0,$f8,$f0\n", "\tadd.s\t$f0,$f6,$f0\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_80092408 FPR shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800A7DBC:" in line for line in input_lines):
+        # Preserve the retail x/y result registers and store order after the
+        # perspective divide.  The source-level temporaries are equivalent,
+        # but GCC schedules the z load before the y store.
+        before = (
+            "\tl.s\t$f0,0($6)\n\t#nop\n\tmul.s\t$f0,$f0,$f4\n"
+            "\tl.s\t$f2,4($6)\n\t#nop\n\tmul.s\t$f2,$f2,$f4\n"
+            "\ts.s\t$f0,0($6)\n\tl.s\t$f0,8($6)\n\t#nop\n"
+            "\tmul.s\t$f0,$f0,$f4\n\ts.s\t$f2,4($6)\n"
+        )
+        after = (
+            "\tl.s\t$f2,0($6)\n\t#nop\n\tmul.s\t$f2,$f2,$f4\n"
+            "\tl.s\t$f0,4($6)\n\t#nop\n\tmul.s\t$f0,$f0,$f4\n"
+            "\ts.s\t$f2,0($6)\n\ts.s\t$f0,4($6)\n"
+            "\tl.s\t$f0,8($6)\n\t#nop\n\tmul.s\t$f0,$f0,$f4\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800A7DBC projection-tail shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
+    if any("func_800E360C:" in line for line in input_lines):
+        # Retail assigns the action pointer to $3 and the switch discriminator
+        # to $5; GCC chose the opposite equal-priority pair.
+        rewrites = (
+            ("\taddu\t$5,$17,156\n", "\taddu\t$3,$17,156\n"),
+            ("\tlw\t$3,156($17)\n", "\tlw\t$5,156($17)\n"),
+            ("\tsltu\t$2,$3,10\n", "\tsltu\t$2,$5,10\n"),
+            ("\tsll\t$2,$3,2\n", "\tsll\t$2,$5,2\n"),
+            ("\tlw\t$3,16($5)\n", "\tlw\t$3,16($3)\n"),
+            ("\tl.s\t$f0,12($5)\n", "\tl.s\t$f0,12($3)\n"),
+            ("\tl.s\t$f0,8($5)\n", "\tl.s\t$f0,8($3)\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800E360C register shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800F2EFC:" in line for line in input_lines):
+        # Keep the fade index in $8 and the state base copy in $3, matching
+        # the indexed branch's retail allocation.
+        rewrites = (
+            ("\tlw\t$3,24($16)\n", "\tlw\t$8,24($16)\n"),
+            ("\tbne\t$3,$2,.L2\n", "\tbne\t$8,$2,.L2\n"),
+            ("\tmove\t$8,$3\n", "\tmove\t$3,$16\n"),
+            (".L2:\n\tlw\t$7,20($16)\n\tlw\t$2,16($16)\n",
+             ".L2:\n\tlw\t$7,20($3)\n\tlw\t$2,16($3)\n"),
+            (".L2:\n\tlw\t$7,20($3)\n\tlw\t$2,16($3)\n\tsll\t$7,$7,8\n"
+             "\tdiv\t$7,$7,$2\n\tlbu\t$4,12($16)\n\tlbu\t$5,13($16)\n\tlbu\t$6,14($16)\n\tsw\t$8,16($sp)\n",
+             ".L2:\n\tlw\t$7,20($3)\n\tlw\t$2,16($3)\n\tsll\t$7,$7,8\n"
+             "\tdiv\t$7,$7,$2\n\tlbu\t$4,12($3)\n\tlbu\t$5,13($3)\n\tlbu\t$6,14($3)\n\tsw\t$8,16($sp)\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800F2EFC register shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800A4D58:" in line for line in input_lines):
+        # Retail keeps the entity in $17 and its current unit in $16.  GCC's
+        # otherwise equivalent allocation swaps those saved registers.
+        rewrites = (
+            ("\tsw\t$16,16($sp)\n\tmove\t$16,$4\n\tsw\t$31,24($sp)\n\tsw\t$17,20($sp)\n",
+             "\tsw\t$17,20($sp)\n\tmove\t$17,$4\n\tsw\t$31,24($sp)\n\tsw\t$16,16($sp)\n"),
+            ("\tlw\t$2,236($16)\n", "\tlw\t$2,236($17)\n"),
+            ("\tlhu\t$3,68($16)\n", "\tlhu\t$3,68($17)\n"),
+            ("\tlw\t$17,12($2)\n", "\tlw\t$16,12($2)\n"),
+            ("\tlw\t$2,24($17)\n", "\tlw\t$2,24($16)\n"),
+            ("\taddu\t$16,$16,72\n", "\taddu\t$16,$17,72\n"),
+            ("\tjal\tfunc_800786B0\n\tmove\t$4,$16\n",
+             "\tjal\tfunc_800786B0\n\taddu\t$4,$17,72\n"),
+            ("\tjal\tfunc_80078654\n\taddu\t$4,$16,72\n",
+             "\tjal\tfunc_80078654\n\taddu\t$4,$17,72\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800A4D58 saved-register shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800A4E40:" in line for line in input_lines):
+        # Retail keeps the owner in $17 and its refresh record in $16.  GCC's
+        # equivalent allocation swaps those saved registers.  It also emits
+        # the independent difficulty-table address before the comparison.
+        rewrites = (
+            ("\tsw\t$16,16($sp)\n\tmove\t$16,$4\n\tsw\t$31,28($sp)\n"
+             "\tsw\t$18,24($sp)\n\tsw\t$17,20($sp)\n",
+             "\tsw\t$17,20($sp)\n\tmove\t$17,$4\n\tsw\t$31,28($sp)\n"
+             "\tsw\t$18,24($sp)\n\tsw\t$16,16($sp)\n"),
+            ("\tlbu\t$2,240($16)\n", "\tlbu\t$2,240($17)\n"),
+            ("\tsw\t$5,236($16)\n", "\tsw\t$5,236($17)\n"),
+            ("\taddu\t$17,$16,72\n", "\taddu\t$16,$17,72\n"),
+            ("\tmove\t$4,$17\n", "\tmove\t$4,$16\n"),
+            ("\tlw\t$2,236($16)\n", "\tlw\t$2,236($17)\n"),
+            ("\tlhu\t$3,68($16)\n", "\tlhu\t$3,68($17)\n"),
+            ("\tslt\t$2,$2,3\n\tla\t$3,D_80126128\n",
+             "\tla\t$3,D_80126128\n\tslt\t$2,$2,3\n"),
+            ("\taddu\t$4,$16,72\n", "\taddu\t$4,$17,72\n"),
+        )
+        joined = "".join(input_lines)
+        expected_fires = (1, 1, 1, 1, 4, 1, 1, 1, 1)
+        for (before, after), expected in zip(rewrites, expected_fires):
+            fires = joined.count(before)
+            if fires != expected:
+                raise RuntimeError(
+                    f"func_800A4E40 saved-register shaping fired {fires} times "
+                    f"(expected {expected}): {before!r}"
+                )
+            joined = joined.replace(before, after)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800EA89C:" in line for line in input_lines):
+        # Retail keeps the owner pointer live in $5 and initializes the stack
+        # context in field order.  The C build is semantically identical but
+        # gives the pointer to $4 and interleaves the independent stores.
+        before = (
+            "\tmove\t$4,$2\n\tsw\t$4,20($sp)\n\tlw\t$2,24($4)\n\t#nop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$2,$0,.L3\n"
+            "\tli\t$2,0x00000001\t\t# 1\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tsw\t$2,36($sp)\n\tsh\t$16,42($sp)\n\tlbu\t$3,430($4)\n"
+            "\taddu\t$2,$4,336\n\tsw\t$2,32($sp)\n"
+            "\tli\t$2,0x000000ff\t\t# 255\n\tsh\t$2,40($sp)\n"
+            "\tsw\t$0,24($sp)\n\tsw\t$0,28($sp)\n\tsw\t$0,80($sp)\n"
+            "\tsw\t$0,84($sp)\n\tsb\t$3,44($sp)\n\tlbu\t$3,430($4)\n"
+            "\taddu\t$4,$sp,16\n"
+        )
+        after = (
+            "\tmove\t$5,$2\n\tsw\t$5,20($sp)\n\tlw\t$2,24($5)\n\t#nop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$2,$0,.L3\n"
+            "\tli\t$2,0x00000001\t\t# 1\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tsw\t$2,36($sp)\n\tsh\t$16,42($sp)\n\tlbu\t$2,430($5)\n"
+            "\tsb\t$2,44($sp)\n\tlbu\t$3,430($5)\n\taddu\t$4,$sp,16\n"
+            "\taddu\t$2,$5,336\n\tsw\t$2,32($sp)\n"
+            "\tli\t$2,0x000000ff\t\t# 255\n\tsh\t$2,40($sp)\n"
+            "\tsw\t$0,24($sp)\n\tsw\t$0,28($sp)\n\tsw\t$0,80($sp)\n"
+            "\tsw\t$0,84($sp)\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800EA89C context shaping fired {fires} times (expected 1)"
+            )
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
+    if any("func_80076E9C:" in line for line in input_lines):
+        # Four loop values have paired, equal-priority saved-register choices:
+        # address/status use $21/$20 and destination/total use $19/$18 in
+        # retail.  Swap only this function's complete allocation.
+        joined = "".join(input_lines)
+        expected = {"$18": 6, "$19": 6, "$20": 4, "$21": 4}
+        for register, count in expected.items():
+            fires = joined.count(register)
+            if fires != count:
+                raise RuntimeError(
+                    f"func_80076E9C register shaping saw {fires} uses of "
+                    f"{register} (expected {count})"
+                )
+        joined = joined.replace("$18", "$__swap18")
+        joined = joined.replace("$19", "$18").replace("$__swap18", "$19")
+        joined = joined.replace("$20", "$__swap20")
+        joined = joined.replace("$21", "$20").replace("$__swap20", "$21")
+        rewrites = (
+            ("\tsw\t$21,32($sp)\n", "\tsw\t$21,36($sp)\n"),
+            ("\tsw\t$19,24($sp)\n", "\tsw\t$19,28($sp)\n"),
+            ("\tsw\t$20,36($sp)\n", "\tsw\t$20,32($sp)\n"),
+            ("\tsw\t$18,28($sp)\n", "\tsw\t$18,24($sp)\n"),
+            ("\taddu\t$18,$18,$16\n\tsubu\t$17,$17,$16\n"
+             "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$17,$0,.L4\n"
+             "\taddu\t$19,$19,$16\n",
+             "\taddu\t$19,$19,$16\n\tsubu\t$17,$17,$16\n"
+             "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$17,$0,.L4\n"
+             "\taddu\t$18,$18,$16\n"),
+            ("\tlw\t$20,36($sp)\n\tlw\t$21,32($sp)\n",
+             "\tlw\t$21,36($sp)\n\tlw\t$20,32($sp)\n"),
+            ("\tlw\t$18,28($sp)\n\tlw\t$19,24($sp)\n",
+             "\tlw\t$19,28($sp)\n\tlw\t$18,24($sp)\n"),
+        )
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_80076E9C schedule shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_800DDDA8:" in line for line in input_lines):
+        # The retail loop carries the count in $3 and rebuilds its truncated
+        # position from $17 at the header.  GCC's equivalent source emits a
+        # redundant initial move and count reload; remove only that exact
+        # loop shape and restore the independent bottom-of-loop load order.
+        rewrites = (
+            ("\tmove\t$4,$0\n\tli\t$18,-1431655765\t\t\t# 0xaaaaaaab\n"
+             ".L3:\n\tlhu\t$2,8($16)\n\tandi\t$4,$4,0xffff\n"
+             "\tsltu\t$2,$4,$2\n",
+             "\tli\t$18,-1431655765\t\t\t# 0xaaaaaaab\n"
+             "\tandi\t$4,$17,0xffff\n.L3:\n\tsltu\t$2,$4,$3\n"),
+            (".L7:\n\taddu\t$17,$17,1\n\tlhu\t$3,8($16)\n",
+             ".L7:\n\tlhu\t$3,8($16)\n\taddu\t$17,$17,1\n"),
+            ("\tbne\t$2,$0,.L3\n\tmove\t$4,$17\n",
+             "\tbne\t$2,$0,.L3\n\tandi\t$4,$17,0xffff\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800DDDA8 loop shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_80091814:" in line for line in input_lines):
+        # Retail keeps command, source, destination, count, and index in the
+        # t1/a2/a3/v1/t0 allocation and schedules the two halfword copies
+        # directly from offsets 8 and 10.  Constrain this complete leaf body;
+        # the recovered C expresses the same relocation walk.
+        joined = "".join(input_lines)
+        start = joined.index("\tlw\t$3,0($4)\n", joined.index("func_80091814:"))
+        end_marker = "\tj\t$31\n\t.end\tfunc_80091814\n"
+        end = joined.index(end_marker, start) + len("\tj\t$31\n")
+        replacement = (
+            "\tlw\t$3,0($4)\n\tli\t$2,-1207959552\t\t\t# 0xb8000000\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$3,$2,.L2\n"
+            "\tsubu\t$sp,$sp,8\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tli\t$11,0x00000004\t\t# 4\n"
+            "\tli\t$10,-1207959552\t\t\t# 0xb8000000\n"
+            "\tmove\t$9,$4\n.L3:\n\tlbu\t$2,0($9)\n\t#nop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbnel\t$2,$11,.L13\n"
+            "\taddu\t$9,$9,8\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlw\t$6,4($9)\n\tlhu\t$3,2($9)\n\tmove\t$8,$0\n"
+            "\tsubu\t$2,$6,$4\n\tsrl\t$3,$3,10\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$3,$0,.L6\n"
+            "\taddu\t$2,$5,$2\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tmove\t$7,$2\n.L8:\n\tlhu\t$2,8($6)\n\t#nop\n"
+            "\tsh\t$2,8($7)\n\tlhu\t$2,10($6)\n\taddu\t$8,$8,1\n"
+            "\taddu\t$6,$6,16\n\tsh\t$2,10($7)\n\tslt\t$2,$8,$3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$2,$0,.L8\n"
+            "\taddu\t$7,$7,16\n\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L6:\n\taddu\t$9,$9,8\n.L13:\n\tlw\t$2,0($9)\n\t#nop\n"
+            "\tbne\t$2,$10,.L3\n.L2:\n\taddu\t$sp,$sp,8\n\tj\t$31\n"
+        )
+        original = joined[start:end]
+        if original.count("\n") < 25:
+            raise RuntimeError("func_80091814 body shaping found an unexpected body")
+        joined = joined[:start] + replacement + joined[end:]
+        input_lines = joined.splitlines(keepends=True)
+    if any("func_8007E8EC:" in line for line in input_lines):
+        # Retail loads the object's matrix into $6 before preserving the
+        # perspective argument, then uses $3/$4 for command pointer/opcode.
+        rewrites = (
+            ("\tmove\t$18,$5\n\tlw\t$5,64($17)\n",
+             "\tlw\t$6,64($17)\n\tmove\t$18,$5\n"),
+            ("\tbne\t$5,$0,.L2\n", "\tbne\t$6,$0,.L2\n"),
+            ("\tlw\t$5,232($16)\n\t#nop\n\tsw\t$5,64($17)\n",
+             "\tlw\t$6,232($16)\n\t#nop\n\tsw\t$6,64($17)\n"),
+            (".L2:\n\tlw\t$4,216($16)\n\tli\t$3,-1140850688\t\t\t# 0xbc000000\n"
+             "\tori\t$3,$3,0x000e\n\taddu\t$2,$4,8\n",
+             ".L2:\n\tlw\t$3,216($16)\n\tli\t$4,-1140850688\t\t\t# 0xbc000000\n"
+             "\tori\t$4,$4,0x000e\n\taddu\t$2,$3,8\n"),
+            ("\tsw\t$3,0($4)\n\tsw\t$2,4($4)\n\tlw\t$4,216($16)\n"
+             "\tli\t$3,0x01030000\t\t# 16973824\n\tori\t$3,$3,0x0040\n"
+             "\taddu\t$2,$4,8\n",
+             "\tsw\t$4,0($3)\n\tsw\t$2,4($3)\n\tlw\t$3,216($16)\n"
+             "\tli\t$4,0x01030000\t\t# 16973824\n\tori\t$4,$4,0x0040\n"
+             "\taddu\t$2,$3,8\n"),
+            ("\tsubu\t$2,$5,$2\n\tsw\t$3,0($4)\n\tsw\t$2,4($4)\n",
+             "\tsubu\t$2,$6,$2\n\tsw\t$4,0($3)\n\tsw\t$2,4($3)\n"),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_8007E8EC register shaping fired {fires} times "
+                    f"(expected 1): {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
     preprocessed: List[str] = [
         ".macro glabel label\n"
         "    .global \\label\n"

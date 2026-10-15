@@ -4747,6 +4747,262 @@ def shape_race_message_style_dispatch(text: str) -> str:
     return text[:match.start()] + body + text[match.end():]
 
 
+def shape_ring_buffer_peek_last(text: str) -> str:
+    """Rotate the two guard blocks to the retail layout for func_800DDD30."""
+    if "func_800DDD30:" not in text:
+        return text
+    before = (
+        "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$3,$0,.L5\n"
+        "\taddu\t$2,$2,-1\n\t.set\tmacro\n\t.set\tnoreorder\n"
+        "\tandi\t$5,$2,0xffff\n\tsltu\t$2,$5,$3\n"
+        "\tbne\t$2,$0,.L3\n\tnop\n.L5:\n\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n\tj\t.L4\n\tmove\t$2,$0\n"
+        "\t.set\tmacro\n\t.set\tnoreorder\n.L3:\n"
+    )
+    after = (
+        "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$3,$0,.L3\n"
+        "\taddu\t$2,$2,-1\n\t.set\tmacro\n\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n\tj\t.L4\n\tmove\t$2,$0\n\t.set\tmacro\n"
+        "\t.set\tnoreorder\n.L3:\n\tandi\t$5,$2,0xffff\n"
+        "\tsltu\t$2,$5,$3\n\tbeq\t$2,$0,.L4\n\tmove\t$2,$0\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800DDD30 guard rotation fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_init_unit_link_command(text: str) -> str:
+    """Use the retail save order and first-argument sign extension."""
+    if "func_800E36FC:" not in text:
+        return text
+    before = (
+        "\tsw\t$18,24($sp)\n\tmove\t$18,$4\n\tsw\t$17,20($sp)\n"
+        "\tmove\t$17,$5\n\tsw\t$16,16($sp)\n\tmove\t$16,$6\n"
+        "\tsll\t$4,$17,16\n\tsw\t$31,28($sp)\n\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n\tjal\tfunc_800A03B8\n\tsra\t$4,$4,16\n"
+    )
+    after = (
+        "\tsw\t$18,24($sp)\n\tmove\t$18,$4\n\tsw\t$16,16($sp)\n"
+        "\tmove\t$16,$6\n\tsw\t$17,20($sp)\n\tmove\t$17,$5\n"
+        "\tsw\t$31,28($sp)\n\tsll\t$5,$5,16\n\t.set\tnoreorder\n"
+        "\t.set\tnomacro\n\tjal\tfunc_800A03B8\n\tsra\t$4,$5,16\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800E36FC prologue shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_draw_transformed_object_segment(text: str) -> str:
+    """Schedule the two setup sequences as in the retail object."""
+    if "func_800EF380:" not in text:
+        return text
+    first = (
+        "\t#.set\tvolatile\n\tsw\t$0,216($sp)\n\t#.set\tnovolatile\n"
+        "\tjal\tfunc_800A7650\n\tnop\n"
+    )
+    first_retail = (
+        "\t#.set\tvolatile\n\t#.set\tnovolatile\n"
+        "\tjal\tfunc_800A7650\n\tsw\t$0,216($sp)\n"
+    )
+    second = (
+        "\tlw\t$5,16($17)\n\tlw\t$7,12($17)\n\taddu\t$4,$sp,24\n"
+        "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_800A7744\n"
+        "\tmove\t$6,$0\n"
+    )
+    second_retail = (
+        "\tlw\t$5,16($17)\n\tlw\t$7,12($17)\n\tmove\t$6,$0\n"
+        "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_800A7744\n"
+        "\taddu\t$4,$sp,24\n"
+    )
+    if text.count(first) != 1 or text.count(second) != 1:
+        raise RuntimeError("func_800EF380 setup shaping did not match exactly once")
+    return text.replace(first, first_retail, 1).replace(second, second_retail, 1)
+
+
+def shape_draw_cached_render_batches(text: str) -> str:
+    """Use the retail source-operand order for one commutative address add."""
+    if "func_80081788:" not in text:
+        return text
+    before = "\taddu\t$4,$fp,$3\n"
+    after = "\taddu\t$4,$3,$fp\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_80081788 address add shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_point_inside_triangle(text: str) -> str:
+    """Use retail operand order for the two commutative slot-address adds."""
+    if "func_800DE2FC:" not in text:
+        return text
+    rewrites = (
+        ("\taddu\t$4,$4,$17\n", "\taddu\t$4,$17,$4\n"),
+        ("\taddu\t$5,$5,$17\n", "\taddu\t$5,$17,$5\n"),
+    )
+    for before, after in rewrites:
+        fires = text.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800DE2FC address add shaping fired {fires} times (expected 1)"
+            )
+        text = text.replace(before, after, 1)
+    return text
+
+
+def shape_unit_footprint_is_clear(text: str) -> str:
+    """Load the cached Z coordinate before the unit kind, as in retail."""
+    if "func_800A0218:" not in text:
+        return text
+    before = "\tl.s\t$f2,36($16)\n\tlw\t$3,24($16)\n\tl.s\t$f4,44($16)\n"
+    after = "\tl.s\t$f2,36($16)\n\tl.s\t$f4,44($16)\n\tlw\t$3,24($16)\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800A0218 cached load shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_find_nearest_enemy_unit(text: str) -> str:
+    """Keep the final truncated range limit in the retail temporary register."""
+    if "func_800A1170:" not in text:
+        return text
+    before = (
+        "\ttrunc.w.s $f2,$f0,$3\n\tmfc1\t$2,$f2\n\t#nop\n"
+        "\tmtc1\t$2,$f0\n\tcvt.s.w\t$f0,$f0\n"
+    )
+    after = (
+        "\ttrunc.w.s $f2,$f0,$3\n\tmfc1\t$3,$f2\n\t#nop\n"
+        "\tmtc1\t$3,$f0\n\tcvt.s.w\t$f0,$f0\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800A1170 range temporary shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_advance_runtime_data_offset(text: str) -> str:
+    """Use the retail temporary allocation for the two low-bit adjustments."""
+    if "func_800E0954:" not in text:
+        return text
+    before = (
+        "\tlw\t$3,4($5)\n\t#nop\n\tandi\t$2,$3,0x0007\n"
+        "\taddu\t$3,$3,$2\n\tandi\t$2,$4,0x0007\n"
+        "\taddu\t$2,$2,$4\n\taddu\t$3,$3,$2\n"
+    )
+    after = (
+        "\tlw\t$2,4($5)\n\t#nop\n\tandi\t$3,$2,0x0007\n"
+        "\taddu\t$2,$2,$3\n\tandi\t$3,$4,0x0007\n"
+        "\taddu\t$3,$3,$4\n\taddu\t$3,$2,$3\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800E0954 temporary shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_ai_find_object_position(text: str) -> str:
+    """Return the known-null bounds local through its allocated register."""
+    if "func_800E377C:" not in text:
+        return text
+    before = "\tbeq\t$19,$0,.L20\n\tmove\t$2,$0\n"
+    after = "\tbeq\t$19,$0,.L20\n\tmove\t$2,$18\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800E377C null return shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
+def shape_level_point_inside_wedge(text: str) -> str:
+    """Keep the signed side distance in the retail floating-point register."""
+    if "func_800940AC:" not in text:
+        return text
+    rewrites = (
+        ("\tbne\t$2,$0,.L6\n\tmove\t$2,$0\n",
+         "\tbnel\t$2,$0,.L6\n\tmove\t$2,$0\n"),
+        ("\tsub.s\t$f4,$f4,$f0\n", "\tsub.s\t$f0,$f4,$f0\n"),
+        ("\tc.lt.s\t$f2,$f4\n", "\tc.lt.s\t$f2,$f0\n"),
+        ("\tneg.s\t$f4,$f4\n", "\tneg.s\t$f0,$f0\n"),
+        ("\tc.le.s\t$f6,$f4\n", "\tc.le.s\t$f6,$f0\n"),
+    )
+    for before, after in rewrites:
+        fires = text.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_800940AC side register shaping fired {fires} times (expected 1)"
+            )
+        text = text.replace(before, after, 1)
+    return text
+
+
+def shape_cosine_to_angle(text: str) -> str:
+    """Use retail temporaries in the binary-search probe and final sum."""
+    if "func_800F3BE4:" not in text:
+        return text
+    first = (
+        "\tbeq\t$2,$0,.L3\n\txor\t$2,$5,$4\n\t.set\tmacro\n\t.set\tnoreorder\n"
+        "\tandi\t$3,$2,0xffff\n\tsll\t$2,$3,2\n"
+    )
+    first_retail = (
+        "\tbeq\t$2,$0,.L3\n\txor\t$3,$5,$4\n\t.set\tmacro\n\t.set\tnoreorder\n"
+        "\tandi\t$2,$3,0xffff\n\tsll\t$2,$2,2\n"
+    )
+    if text.count(first) != 1:
+        raise RuntimeError("func_800F3BE4 probe shaping did not match exactly once")
+    text = text.replace(first, first_retail, 1)
+    before = "\taddu\t$2,$4,$3\n"
+    fires = text.count(before)
+    if fires != 2:
+        raise RuntimeError(
+            f"func_800F3BE4 final add shaping fired {fires} times (expected 2)"
+        )
+    return text.replace(before, "\taddu\t$2,$3,$4\n")
+
+
+def shape_update_owner_slot_matrix(text: str) -> str:
+    """Allocate the session and entry index pseudo-registers as in retail."""
+    if "func_800EF2D0:" not in text:
+        return text
+    before = (
+        "\tlw\t$3,32($16)\n\tmove\t$6,$2\n\tlw\t$4,1384($6)\n"
+        "\tsll\t$2,$3,1\n\taddu\t$2,$2,$3\n\tsll\t$2,$2,2\n"
+        "\tsubu\t$2,$2,$3\n\tsll\t$2,$2,3\n\taddu\t$17,$4,$2\n"
+        "\tlh\t$5,82($17)\n\tli\t$2,-1\t\t\t# 0xffffffff\n"
+        "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$5,$2,.L2\n"
+        "\tsll\t$2,$5,2\n\t.set\tmacro\n\t.set\tnoreorder\n"
+        "\tlw\t$4,1388($6)\n"
+    )
+    after = (
+        "\tlw\t$3,32($16)\n\tmove\t$5,$2\n\tlw\t$4,1384($5)\n"
+        "\tsll\t$2,$3,1\n\taddu\t$2,$2,$3\n\tsll\t$2,$2,2\n"
+        "\tsubu\t$2,$2,$3\n\tsll\t$2,$2,3\n\taddu\t$17,$4,$2\n"
+        "\tlh\t$4,82($17)\n\tli\t$2,-1\t\t\t# 0xffffffff\n"
+        "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$4,$2,.L2\n"
+        "\tsll\t$4,$4,2\n\t.set\tmacro\n\t.set\tnoreorder\n"
+        "\tlw\t$2,1388($5)\n"
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800EF2D0 register shaping fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
 def normalize_v3(source: str) -> str:
     import os
     if os.environ.get("V3_CONTROLS_CONFIG", "1") == "1":
@@ -4754,6 +5010,18 @@ def normalize_v3(source: str) -> str:
     if os.environ.get("V3_MUL", "1") == "1":
         source = hoist_mul(source)
     text = normalize(source)
+    text = shape_ring_buffer_peek_last(text)
+    text = shape_init_unit_link_command(text)
+    text = shape_draw_transformed_object_segment(text)
+    text = shape_draw_cached_render_batches(text)
+    text = shape_point_inside_triangle(text)
+    text = shape_unit_footprint_is_clear(text)
+    text = shape_find_nearest_enemy_unit(text)
+    text = shape_advance_runtime_data_offset(text)
+    text = shape_ai_find_object_position(text)
+    text = shape_level_point_inside_wedge(text)
+    text = shape_cosine_to_angle(text)
+    text = shape_update_owner_slot_matrix(text)
     if os.environ.get("V3_HILO", "1") == "1":
         text = hilo_nops(text)
     if os.environ.get("V3_MACRO", "1") == "1":

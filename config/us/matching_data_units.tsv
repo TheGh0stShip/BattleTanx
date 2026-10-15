@@ -157,7 +157,8 @@
 0x44DC	0xC	src/code/data/rodata_800744DC.c	.rodata	a298e1b9b0087e7059b9d1bdf458616bce4ca3ef0fa12cf961428f2ab95f7b06
 0x44EC	0xB0	src/code/data/rodata_800744EC.c	.rodata	e7f99b9faf37f5e25b445f103edf8bb286d66ab402bae83105e9ae6c10f01c5c
 0x45D0	0x24	src/code/data/rodata_800745D0.c	.rodata	3f0911f37d344ced70e28a06ba6426efa820bcc1d9b92dc25b624f80fde3ce5a
-0x4600	0x50	src/code/data/rodata_80074600.c	.rodata	556ede7ffdddc175f6ee391ef5dcf11d384aca137f5e29211776fea675b48689
+0x4600	0x28	src/code/gameplay/update_action_goal.c	.rodata	6dcd1af5800a9a780c3e4b5b4b78a4088352f4a13d36e982f164b2c7b5a13ccc
+0x4628	0x28	src/code/data/rodata_80074628.c	.rodata	4c6b01cf0773d6b61f3105c7d92f7d770bb53959bc4054b6a200378d9201780b
 0x4658	0x68	src/code/data/rodata_80074658.c	.rodata	da0459fc72203efd90c0d9429eb74de76e1011569bb48981d49982cbd1cb6c54
 0x46C4	0x2C	src/code/data/rodata_800746C4.c	.rodata	c022225dc93ba4fa2e46816ea17ed51cb995759835fa11ceb1b123c408a6fe57
 0x46FC	0x4	src/code/data/rodata_800746FC.c	.rodata	2412b43a42f11c1cb3ef7956d3e293016e671a9061fbb76a4282c8b15139cc48
