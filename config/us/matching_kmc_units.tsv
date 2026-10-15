@@ -541,6 +541,7 @@
 0x8CF8	0x98	src/code/render/dispatch_render_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	ad5b8e04fef8229272d9e81284ea304e75a08ee32ba1d20c0d2e0fdf19413c89
 0x8D90	0x9C	src/code/render/dispatch_render_record_if_enabled.c	-O2 -G0 -mips3 -mgp32 -mfp32	b65f96c6d5e50aaddeff5224c73a102db9d13f0fd079ee441e7f62510541b035
 0x15DE4	0x34	src/code/render/enable_indexed_render_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	cbfa5ca60ee18056f32b5e0b4770b7c1f3e0c6e1ce32eb7b207a9e0a4f5413d5
+0x15E18	0x49C	src/code/render/enable_shared_effect_records.c	-O2 -G0 -mips3 -mgp32 -mfp32	65cbd27f54cba4c0f6ae2dc4c9ec5bd1baced5c8ae7a513628dd005370854fbd
 0x1CED0	0x70	src/code/render/get_active_render_table_entry.c	-O2 -G0 -mips3 -mgp32 -mfp32	036f7f1b1ae95947ce974e19f0f26f0d8ccecac861c3b121c9fa37dd9ce5f7ce
 0x2196C	0xF4	src/code/render/interpolate_render_records.c	-O2 -G0 -mips3 -mgp32 -mfp32	91e3872f4b1da7d5fad89e2ec111179fcde63f67ef6179f2c5b623b3cb4ec586
 0x15330	0x98	src/code/render/rewrite_display_list_commands.c	-O2 -G0 -mips3 -mgp32 -mfp32	7259f2f428e539a617713deadb5b89de7906a0cd9703b6e47b39fe59cedd4819

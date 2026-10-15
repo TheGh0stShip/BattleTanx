@@ -239,7 +239,7 @@ functions = [
     { name = "set_sound_volume_by_proximity", vram = 0x80085c68, size = 0x11c },
     { name = "point_in_level_bounds", vram = 0x80085d84, size = 0x60 },
     { name = "enable_indexed_render_record", vram = 0x80085de4, size = 0x34 },
-    { name = "func_80085E18", vram = 0x80085e18, size = 0x49c },
+    { name = "enable_shared_effect_records", vram = 0x80085e18, size = 0x49c },
     { name = "update_timing_square", vram = 0x800862b4, size = 0x34 },
     { name = "grow_proximity_radius", vram = 0x800862e8, size = 0x54 },
     { name = "integer_power", vram = 0x80086340, size = 0x38 },

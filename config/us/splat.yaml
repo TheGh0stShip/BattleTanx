@@ -372,7 +372,7 @@ segments:
       - [0x15C68, c, code/audio/set_sound_volume_by_proximity]
       - [0x15D84, c, code/levels/point_in_level_bounds]
       - [0x15DE4, c, code/render/enable_indexed_render_record]
-      - [0x15E18, asm, functions/func_80085E18]
+      - [0x15E18, c, code/render/enable_shared_effect_records]
       - [0x162B4, c, code/runtime/update_timing_square]
       - [0x162E8, c, code/gameplay/grow_proximity_radius]
       - [0x1633C, bin, gaps/gap_01633C]
