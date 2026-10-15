@@ -1294,3 +1294,4 @@
 0x165E0	0x508	src/code/levels/init_level_rom_ranges.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	963e4269191dd6e6b401ef744a703936b20bfc7bab77ceec99f0161541b7b154
 0x15470	0x508	src/code/render/update_object_area.c	--assembler=asn64 --section-base=.rodata:0x800714E8 -O2 -G0 -mips3 -mgp32 -mfp32	9ddf915d535ff562d30c88558cfc12419276d378364923848323151f3778929c
 0x1F6F4	0x428	src/code/effects/spawn_part_debris.c	--assembler=asn64 --section-base=.rodata:0x80071C80 -O2 -G0 -mips3 -mgp32 -mfp32	63ce7eee20fc300164082b447c194daa0a84f207dcf08b15f3b6956228bceeb8
+0x1C09C	0x240	src/code/runtime/sort_records_by_key.c	-O2 -G0 -mips3 -mgp32 -mfp32	e8aac8b6a7188a09e2b8db3f2eb0936fcf60d19f4cea38e65e17d1c7db73f6a4

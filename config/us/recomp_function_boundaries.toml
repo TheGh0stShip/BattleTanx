@@ -279,7 +279,7 @@ functions = [
     { name = "broadcast_effect_message_4", vram = 0x8008b66c, size = 0x230 },
     { name = "release_effect", vram = 0x8008b89c, size = 0x14c },
     { name = "func_8008B9E8", vram = 0x8008b9e8, size = 0x6b4 },
-    { name = "func_8008C09C", vram = 0x8008c09c, size = 0x240 },
+    { name = "sort_records_by_key", vram = 0x8008c09c, size = 0x240 },
     { name = "set_effect_result_value", vram = 0x8008c2dc, size = 0x10 },
     { name = "func_8008C2EC", vram = 0x8008c2ec, size = 0x404 },
     { name = "notify_targets_in_radius", vram = 0x8008c6f0, size = 0x1e0 },

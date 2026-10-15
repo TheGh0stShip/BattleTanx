@@ -561,6 +561,78 @@ def schedule_pak_save_record_prologue(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def shape_record_quicksort_partition(text: str) -> str:
+    """Restore retail register choices in ``func_8008C09C``.
+
+    The reconstructed quicksort has identical control flow and instruction
+    count, but GCC gives the partition's ``j`` counter and ``high`` pointer
+    the opposite members of an equal-priority register pair.  Swap only those
+    registers inside the partition loop, then restore the retail operand order
+    for the independent midpoint address calculation.
+    """
+    if "func_8008C09C:" not in text:
+        return text
+
+    start_label = ".L3:\n"
+    end_label = ".L5:\n"
+    starts = text.count(start_label)
+    ends = text.count(end_label)
+    if starts != 1 or ends != 1:
+        raise RuntimeError(
+            "func_8008C09C partition labels occurred "
+            f"{starts}/{ends} times (expected 1/1)"
+        )
+
+    start = text.index(start_label)
+    end = text.index(end_label, start)
+    block = text[start:end]
+    expected_5 = 7
+    expected_7 = 3
+    if block.count("$5") != expected_5 or block.count("$7") != expected_7:
+        raise RuntimeError(
+            "func_8008C09C partition register counts were "
+            f"{block.count('$5')}/{block.count('$7')} "
+            f"(expected {expected_5}/{expected_7})"
+        )
+    block = block.replace("$5", "$__record_sort_swap")
+    block = block.replace("$7", "$5")
+    block = block.replace("$__record_sort_swap", "$7")
+    copy_start = block.index(".L11:\n")
+    copy_end = block.index(".L10:\n", copy_start)
+    copy_block = block[copy_start:copy_end]
+    for offset in (4, 0, 8):
+        load_before = f"\tlw\t$2,{offset}($3)\n"
+        load_after = f"\tlw\t$2,{offset}($5)\n"
+        store_before = f"\tsw\t$2,{offset}($3)\n"
+        store_after = f"\tsw\t$2,{offset}($5)\n"
+        if copy_block.count(load_before) != 1 or copy_block.count(store_before) != 1:
+            raise RuntimeError(
+                "func_8008C09C high-record copy did not match the expected "
+                f"load/store pair at offset {offset}"
+            )
+        copy_block = copy_block.replace(load_before, load_after, 1)
+        copy_block = copy_block.replace(store_before, store_after, 1)
+    block = block[:copy_start] + copy_block + block[copy_end:]
+    high_address_before = "\taddu\t$5,$6,$2\n"
+    high_address_after = "\taddu\t$5,$2,$6\n"
+    if block.count(high_address_before) != 1:
+        raise RuntimeError(
+            "func_8008C09C high address calculation did not match once"
+        )
+    block = block.replace(high_address_before, high_address_after, 1)
+    text = text[:start] + block + text[end:]
+
+    before = "\taddu\t$16,$6,$2\n"
+    after = "\taddu\t$16,$2,$6\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_8008C09C midpoint address reorder fired {fires} times "
+            "(expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
 def use_saved_route_state_pointer(text: str) -> str:
     """Use the long-lived route-state copy in ``func_800E1D40``.
 
@@ -5273,6 +5345,8 @@ def normalize_v3(source: str) -> str:
         text = schedule_resource_copy_prologue(text)
     if os.environ.get("V3_PAK_SAVE_RECORD_PROLOGUE", "1") == "1":
         text = schedule_pak_save_record_prologue(text)
+    if os.environ.get("V3_RECORD_QUICKSORT_PARTITION", "1") == "1":
+        text = shape_record_quicksort_partition(text)
     if os.environ.get("V3_ROUTE_STATE_POINTER", "1") == "1":
         text = use_saved_route_state_pointer(text)
     if os.environ.get("V3_ROUTE_REBUILD_LOOP", "1") == "1":

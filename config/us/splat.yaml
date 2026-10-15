@@ -415,7 +415,7 @@ segments:
       - [0x1B66C, c, code/effects/broadcast_effect_message_4]
       - [0x1B89C, c, code/effects/release_effect]
       - [0x1B9E8, asm, functions/func_8008B9E8]
-      - [0x1C09C, asm, functions/func_8008C09C]
+      - [0x1C09C, c, code/runtime/sort_records_by_key]
       - [0x1C2DC, c, code/effects/set_effect_result_value]
       - [0x1C2EC, asm, functions/func_8008C2EC]
       - [0x1C6F0, c, code/effects/notify_targets_in_radius]
