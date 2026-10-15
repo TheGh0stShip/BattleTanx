@@ -67,8 +67,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 1331)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 427276)
+        self.assertEqual(len(kmc_rows), 1332)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 428444)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -149,7 +149,7 @@ class ProjectTests(unittest.TestCase):
         ranges = parse_address_ranges(
             [path for path, _pipeline in config.unit_manifests], allow_empty=True
         )
-        self.assertEqual(len(ranges), 1506)
+        self.assertEqual(len(ranges), 1507)
         self.assertEqual(sum(int(row["SIZE"], 0)
                              for row in read_tsv(config.data_manifest)), 153924)
 

@@ -442,7 +442,7 @@ functions = [
     { name = "break_object_into_debris", vram = 0x800a0930, size = 0x1a4 },
     { name = "release_kind_object_effect", vram = 0x800a0ad4, size = 0xb8 },
     { name = "shot_effect_handle_message", vram = 0x800a0b8c, size = 0x148 },
-    { name = "func_800A0CE0", vram = 0x800a0ce0, size = 0x490 },
+    { name = "draw_bonus_crate", vram = 0x800a0ce0, size = 0x490 },
     { name = "find_nearest_enemy_unit", vram = 0x800a1170, size = 0x174 },
     { name = "is_area_unoccupied_scaled", vram = 0x800a12e4, size = 0x98 },
     { name = "is_area_unoccupied", vram = 0x800a137c, size = 0x8c },

@@ -229,6 +229,41 @@ class ModernAsn64Tests(unittest.TestCase):
         self.assertIn("lw\t$17,1284($sp)", disabled)
         self.assertIn("la\t$10,.L136", disabled)
 
+    def test_bonus_crate_uses_retail_allocation(self) -> None:
+        prologue = (
+            "func_800A0CE0:\n"
+            "\tsw\t$18,272($sp)\n\tmove\t$18,$4\n"
+            "\tsw\t$17,268($sp)\n\tsw\t$16,264($sp)\n"
+            ".L2:\n"
+        )
+        body = (
+            "\taddu\t$19,$18,28\n\tsw\t$19,24($sp)\n"
+            "\taddu\t$16,$17,$2\n\tlw\t$4,0($16)\n"
+            "\tsw\t$19,24($sp)\n\ts.s\t$f22,28($sp)\n"
+            "\tsw\t$19,24($sp)\n.L12:\n\ts.s\t$f22,28($sp)\n"
+            "\tlw\t$2,0($16)\n\t#nop\n\tsll\t$2,$2,1\n"
+            "\taddu\t$2,$17,$2\n"
+            "\tli.s\t$f22,8.00000000000000000000e1\n\tmove\t$4,$20\n"
+            "\taddu\t$6,$sp,32\n\tli.s\t$f0,8.00000000000000000000e1\n"
+            "\tmove\t$6,$19\n\tli.s\t$f0,8.00000000000000000000e1\n"
+            + "\tmul.s\t$f22,$f20,$f0\n" * 2
+        )
+        targets = {"$17": 18, "$18": 25, "$f20": 14, "$f22": 8}
+        for token, target in targets.items():
+            body += ("\tmove\t$0," + token + "\n") * (target - body.count(token))
+        body = prologue + body + ".L1:\n"
+
+        text = self.preprocess(body)
+        self.assertIn("sw\t$17,268($sp)\n\tmove\t$17,$4", text)
+        self.assertIn("addu\t$16,$17,28\n\tsw\t$16,24($sp)", text)
+        self.assertIn("addu\t$19,$18,$2\n\tlw\t$4,0($19)", text)
+        self.assertEqual(text.count("lwc1 $f20, %lo(RODATA_SYM_"), 3)
+        self.assertEqual(text.count("mul.s\t$f20,$f22,$f20"), 2)
+
+        disabled = self.preprocess(body, disabled="BONUS-CRATE-ALLOCATION")
+        self.assertIn("sw\t$18,272($sp)\n\tmove\t$18,$4", disabled)
+        self.assertEqual(disabled.count("mul.s\t$f22,$f20,$f0"), 2)
+
     def test_disabled_rule_leaves_symbol_load_for_gas(self) -> None:
         text = self.preprocess(
             "\tlw\t$2,D_801144A0($3)\n", disabled="MEM-SYM-BASE"

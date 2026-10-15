@@ -585,7 +585,7 @@ segments:
       - [0x30AD4, c, code/entities/release_kind_object_effect]
       - [0x30B8C, c, code/effects/shot_effect_handle_message]
       - [0x30CD4, bin, gaps/gap_030CD4]
-      - [0x30CE0, asm, functions/func_800A0CE0]
+      - [0x30CE0, c, code/render/draw_bonus_crate]
       - [0x31170, c, code/gameplay/find_nearest_enemy_unit]
       - [0x312E4, c, code/entities/is_area_unoccupied_scaled]
       - [0x3137C, c, code/entities/is_area_unoccupied]

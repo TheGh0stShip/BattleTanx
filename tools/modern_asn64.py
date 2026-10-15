@@ -1279,6 +1279,75 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, count)
         fire("SPAWN-UNIT-SCHEDULING")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800A0CE0:" in line for line in input_lines) and rule("BONUS-CRATE-ALLOCATION"):
+        # The retail allocator assigns the crate/kind pseudos and the two
+        # long-lived scale values in the opposite order.  Apply the permutation
+        # only to this function's body (not its ABI save/restore sequence), then
+        # reproduce three independent-load schedules from the SN64 output.
+        joined = "".join(input_lines)
+        function_start = joined.index("func_800A0CE0:")
+        body_start = joined.index(".L2:\n", function_start)
+        body_end = joined.index(".L1:\n", body_start)
+        body = joined[body_start:body_end]
+        counts = tuple(body.count(token) for token in ("$17", "$18", "$f20", "$f22"))
+        if counts != (18, 25, 14, 8):
+            raise RuntimeError(f"func_800A0CE0 allocation shape changed: {counts}")
+        body = body.replace("$17", "$__bt_s1").replace("$18", "$17").replace("$__bt_s1", "$18")
+        body = body.replace("$f20", "$__bt_f20").replace("$f22", "$f20").replace("$__bt_f20", "$f22")
+        rewrites = (
+            ("\taddu\t$19,$17,28\n\tsw\t$19,24($sp)\n",
+             "\taddu\t$16,$17,28\n\tsw\t$16,24($sp)\n"),
+            ("\taddu\t$16,$18,$2\n\tlw\t$4,0($16)\n",
+             "\taddu\t$19,$18,$2\n\tlw\t$4,0($19)\n"),
+            ("\tsw\t$19,24($sp)\n\ts.s\t$f20,28($sp)\n",
+             "\tsw\t$16,24($sp)\n\ts.s\t$f20,28($sp)\n"),
+            ("\tsw\t$19,24($sp)\n.L12:\n\ts.s\t$f20,28($sp)\n",
+             "\tsw\t$16,24($sp)\n.L12:\n\ts.s\t$f20,28($sp)\n"),
+            (
+                "\tlw\t$2,0($16)\n\t#nop\n\tsll\t$2,$2,1\n"
+                "\taddu\t$2,$18,$2\n",
+                "\tlw\t$2,0($19)\n\t#nop\n\tsll\t$2,$2,1\n"
+                "\taddu\t$2,$18,$2\n",
+            ),
+            (
+                "\tli.s\t$f20,8.00000000000000000000e1\n\tmove\t$4,$20\n",
+                "\tmove\t$4,$20\n\tli.s\t$f20,8.00000000000000000000e1\n",
+            ),
+            (
+                "\taddu\t$6,$sp,32\n\tli.s\t$f0,8.00000000000000000000e1\n",
+                "\tli.s\t$f20,8.00000000000000000000e1\n\taddu\t$6,$sp,32\n",
+            ),
+            (
+                "\tmove\t$6,$19\n\tli.s\t$f0,8.00000000000000000000e1\n",
+                "\tli.s\t$f20,8.00000000000000000000e1\n\tmove\t$6,$19\n",
+            ),
+            ("\tmul.s\t$f20,$f22,$f0\n", "\tmul.s\t$f20,$f22,$f20\n"),
+        )
+        expected = (1, 1, 1, 1, 1, 1, 1, 1, 2)
+        for (before, after), count in zip(rewrites, expected):
+            fires = body.count(before)
+            if fires != count:
+                raise RuntimeError(
+                    f"func_800A0CE0 allocation shaping fired {fires} times "
+                    f"(expected {count}): {before!r}"
+                )
+            body = body.replace(before, after, count)
+        joined = joined[:body_start] + body + joined[body_end:]
+        prologue_rewrites = (
+            ("\tsw\t$18,272($sp)\n\tmove\t$18,$4\n",
+             "\tsw\t$17,268($sp)\n\tmove\t$17,$4\n"),
+            ("\tsw\t$17,268($sp)\n\tsw\t$16,264($sp)\n",
+             "\tsw\t$18,272($sp)\n\tsw\t$16,264($sp)\n"),
+        )
+        for before, after in prologue_rewrites:
+            fires = joined.count(before, function_start)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800A0CE0 prologue shaping fired {fires} times: {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        fire("BONUS-CRATE-ALLOCATION")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_8007BD24:" in line for line in input_lines) and rule("CAMPAIGN-RETRY-BRANCH"):
         # ASN64 emits the campaign retry as a normal branch even though KMC's
         # scheduler marks it likely.  The delay-slot value is harmless on the
