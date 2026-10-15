@@ -540,7 +540,7 @@ segments:
       - [0x287D8, asm, functions/func_800987D8]
       - [0x29A08, c, code/entities/update_sway_motion]
       - [0x29CD8, c, code/gameplay/unit_threshold_sound]
-      - [0x29D90, asm, functions/func_80099D90]
+      - [0x29D90, c, code/gameplay/apply_pickup]
       - [0x2A22C, c, code/gameplay/dispatch_owner_event_variant]
       - [0x2A354, asm, functions/func_8009A354]
       - [0x2BB5C, c, code/entities/stop_unit_sound_and_set_owner_timer]

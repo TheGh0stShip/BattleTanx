@@ -400,7 +400,7 @@ functions = [
     { name = "func_800987D8", vram = 0x800987d8, size = 0x1230 },
     { name = "update_sway_motion", vram = 0x80099a08, size = 0x2d0 },
     { name = "unit_update_sound_ramp", vram = 0x80099cd8, size = 0xb8 },
-    { name = "func_80099D90", vram = 0x80099d90, size = 0x49c },
+    { name = "apply_pickup", vram = 0x80099d90, size = 0x49c },
     { name = "dispatch_owner_event_variant", vram = 0x8009a22c, size = 0x128 },
     { name = "func_8009A354", vram = 0x8009a354, size = 0x1808 },
     { name = "stop_unit_sound_and_set_owner_timer", vram = 0x8009bb5c, size = 0x64 },
