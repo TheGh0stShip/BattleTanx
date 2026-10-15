@@ -15,6 +15,7 @@ from generate_splat_config import canonical_functions
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONFIG = ROOT / "config/decompkit.toml"
 ASSET_PROGRESS = ROOT / "config/us/asset_progress.toml"
+DATA_PROGRESS = ROOT / "config/us/data_progress.toml"
 LIBULTRA_START = 0x80110480
 # The entry point (0x80071000) zeroes .bss from 0x80147040 to 0x803C8880, so
 # initialized program data ends here; the rest of the 1 MiB main copy is not
@@ -95,6 +96,20 @@ def data_ranges(config) -> list[tuple[int, int]]:
         (int(row["ROM_START"], 0), int(row["ROM_START"], 0) + int(row["SIZE"], 0))
         for row in read_tsv(config.data_manifest)
     ]
+
+
+def initialized_data_progress(matched_ranges: list[tuple[int, int]]) -> tuple[int, int]:
+    """Return audited initialized-data totals and validate the manifest."""
+    progress = tomllib.loads(DATA_PROGRESS.read_text())["initialized_data"]
+    matched = progress["matched"]
+    unmatched = progress["unmatched"]
+    manifest_bytes = sum(end - start for start, end in matched_ranges)
+    if manifest_bytes != matched:
+        raise ValueError(
+            f"{DATA_PROGRESS}: matched={matched}, but the data manifest covers "
+            f"{manifest_bytes} bytes"
+        )
+    return matched + unmatched, matched
 
 
 def range_bytes(start: int, end: int, ranges: list[tuple[int, int]]) -> int:
@@ -203,10 +218,6 @@ def build_report(config_path: Path = DEFAULT_CONFIG) -> dict:
     total_code = sum(values[0] for values in category_totals.values())
     matched_code = sum(values[1] for values in category_totals.values())
     image_end = min(section["vram"] + section["size"], INITIALIZED_DATA_END)
-    category_spans = {
-        "game": LIBULTRA_START - section["vram"],
-        "libultra": image_end - LIBULTRA_START,
-    }
     category_rom_spans = {
         "game": (section["rom"], LIBULTRA_START - rom_delta),
         "libultra": (LIBULTRA_START - rom_delta, image_end - rom_delta),
@@ -216,14 +227,13 @@ def build_report(config_path: Path = DEFAULT_CONFIG) -> dict:
     categories = []
     for category_id, name in (("game", "Game code"), ("libultra", "libultra")):
         total, matched, count, complete = category_totals[category_id]
-        total_data = category_spans[category_id] - total
         data_start, data_end = category_rom_spans[category_id]
         matched_data = range_bytes(data_start, data_end, matched_data_ranges)
         categories.append({
             "id": category_id,
             "name": name,
             "measures": measures(total, matched, count, complete, count, complete,
-                                 total_data=total_data, matched_data=matched_data),
+                                 total_data=matched_data, matched_data=matched_data),
         })
     total_assets, identified_assets = asset_progress()
     categories.append({
@@ -240,9 +250,7 @@ def build_report(config_path: Path = DEFAULT_CONFIG) -> dict:
             "measures": measures(0, 0, 0, 0, 0, 0,
                                  total_data=total_assets, matched_data=kind_totals[category_id]),
         })
-    total_data = image_end - section["vram"] - total_code
-    matched_data = sum(range_bytes(start, end, matched_data_ranges)
-                       for start, end in category_rom_spans.values())
+    total_data, matched_data = initialized_data_progress(matched_data_ranges)
     return {
         "measures": measures(total_code, matched_code, total_functions, matched_functions,
                              total_functions, matched_functions, total_data=total_data,

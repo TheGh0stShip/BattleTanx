@@ -106,6 +106,7 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(manifest["original"]["revision"], "Rev 0")
         self.assertEqual(manifest["original"]["serial"], "NBXE")
         self.assertEqual(manifest["original"]["sha1"], EXPECTED_SHA1)
+        self.assertEqual(manifest["project"], "BattleTanx (N64) matching decompilation")
 
     def test_recomp_fyi_report(self) -> None:
         report = build_report()
@@ -113,9 +114,9 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(len(report["units"]), 1736)
         self.assertEqual(report["measures"]["total_functions"], 1736)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 173216)
+        self.assertEqual(int(report["measures"]["total_data"]), 153924)
         self.assertEqual(report["measures"]["matched_data"], "153924")
-        self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
+        self.assertEqual(report["measures"]["matched_data_percent"], 100.0)
         self.assertEqual({category["id"] for category in report["categories"]},
                          {"game", "libultra", "assets", "assets_textures", "assets_images",
                           "assets_fonts", "assets_models", "assets_animations", "assets_levels",

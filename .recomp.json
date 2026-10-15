@@ -10,13 +10,14 @@
     "serial": "NBXE",
     "sha1": "535860d941738ac1210c20a9b80114fea0e0ff17"
   },
-  "project": "BattleTanx decompilation",
+  "project": "BattleTanx (N64) matching decompilation",
   "status": "in-progress",
   "toolchain": [
     "Splat",
     "Decompkit"
   ],
   "approach": "Matching decompilation with byte-verified code and initialized data.",
+  "notes": "USA Rev 0 matching decompilation. Initialized data and the complete asset region are fully accounted for; code reconstruction remains active.",
   "maintainers": [
     {
       "name": "TheGh0stShip",

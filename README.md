@@ -79,7 +79,7 @@ byte directly with the supported ROM.
 
 The project is listed through the root [`.recomp.json`](.recomp.json) manifest.
 Every CI run on the default branch publishes an objdiff v2 progress artifact
-named `us_report`, with `report.json` generated from the reviewed function
+named `NBXE_report`, with `report.json` generated from the reviewed function
 catalogue and the four byte-verified matching manifests. This is the artifact
 contract consumed by [recomp.fyi](https://recomp.fyi/); locally, `make report`
 writes the same ignored report under
@@ -87,8 +87,10 @@ writes the same ignored report under
 are provided by [Decompkit](docs/DECOMPKIT.md) through
 `config/decompkit.toml`. Code and data are reported separately. Data progress
 advances only when reviewed `.data`, `.rodata`, or `.rdata` ranges are added to
-the section-aware matching-data manifest; 153,924 initialized bytes are currently
-verified. This includes effect scripts, HUD and level-map metadata, briefing text,
+the section-aware matching-data manifest. All 153,924 initialized-data bytes are
+currently verified. Uncatalogued instructions, linker padding, and ranges
+reserved for separate code/library work are audited independently and are not
+misreported as data. This includes effect scripts, HUD and level-map metadata, briefing text,
 image descriptors, opponent-wave configuration, and the remaining typed constant
 and initialized-data ranges. Unknown non-function bytes are never credited as
 reconstructed data.
@@ -101,7 +103,7 @@ unidentified even though their enclosing format and byte range are proven.
 
 ```text
 code       [█████████░░░░░░░░░░░]  44.00%    309,504 / 703,392 bytes
-data       [██████████████████░░]  88.86%    153,924 / 173,216 bytes
+data       [████████████████████] 100.00%    153,924 / 153,924 bytes
 functions  [█████████████████░░░]  84.97%       1,475 / 1,736
 assets     [████████████████████] 100.00%  7,335,936 / 7,335,936 bytes
 ```

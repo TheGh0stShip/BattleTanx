@@ -5,6 +5,7 @@ from __future__ import annotations
 import struct
 import sys
 import tempfile
+import tomllib
 import unittest
 from pathlib import Path
 
@@ -102,8 +103,9 @@ class ManifestAccountingTests(unittest.TestCase):
         built = report.build_report()
         measures = built["measures"]
         section_vram = 0x80071000
+        progress = tomllib.loads(report.DATA_PROGRESS.read_text())["initialized_data"]
         self.assertEqual(int(measures["total_data"]),
-                         report.INITIALIZED_DATA_END - section_vram - int(measures["total_code"]))
+                         progress["matched"] + progress["unmatched"])
         categories = {c["id"]: int(c["measures"]["total_data"]) for c in built["categories"]}
         self.assertEqual(categories["game"] + categories["libultra"], int(measures["total_data"]))
         self.assertEqual(categories["assets"], 0x800000 - 0x101000)

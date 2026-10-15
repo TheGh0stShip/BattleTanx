@@ -16,7 +16,7 @@ jobs:
       - run: python tools/generate_decomp_report.py
       - uses: actions/upload-artifact@v4
         with:
-          name: us_report
+          name: NBXE_report
           path: build/report.json
           if-no-files-found: error
 
