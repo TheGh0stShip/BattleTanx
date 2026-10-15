@@ -1004,7 +1004,7 @@ segments:
       - [0x71A84, c, code/gameplay/find_nearest_available_item]
       - [0x71C00, c, code/gameplay/find_nearest_kind1a_item]
       - [0x71D34, bin, gaps/gap_071D34]
-      - [0x71D40, asm, functions/func_800E1D40]
+      - [0x71D40, c, code/gameplay/ai_update_route_goal]
       - [0x71ED0, c, code/gameplay/get_ai_distance_scale]
       - [0x71EE0, c, code/entities/initialize_member_link_state]
       - [0x71F14, c, code/gameplay/resolve_unit_pair]

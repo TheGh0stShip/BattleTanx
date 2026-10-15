@@ -853,7 +853,7 @@ functions = [
     { name = "ai_member_horizontal_distance", vram = 0x800e1a20, size = 0x64 },
     { name = "find_nearest_available_item", vram = 0x800e1a84, size = 0x17c },
     { name = "find_nearest_kind1a_item", vram = 0x800e1c00, size = 0x134 },
-    { name = "func_800E1D40", vram = 0x800e1d40, size = 0x190 },
+    { name = "ai_update_route_goal", vram = 0x800e1d40, size = 0x190 },
     { name = "get_ai_distance_scale", vram = 0x800e1ed0, size = 0x10 },
     { name = "initialize_member_link_state", vram = 0x800e1ee0, size = 0x34 },
     { name = "resolve_unit_pair", vram = 0x800e1f14, size = 0x144 },

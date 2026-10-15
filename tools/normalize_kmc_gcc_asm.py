@@ -561,6 +561,26 @@ def schedule_pak_save_record_prologue(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def use_saved_route_state_pointer(text: str) -> str:
+    """Use the long-lived route-state copy in ``func_800E1D40``.
+
+    The pointer is copied to ``s3`` at entry and remains live across the later
+    calls. GCC's reload pass nevertheless uses the still-equal incoming
+    ``a1`` for the first field access; the retail object consistently uses the
+    saved copy. The surrounding function is otherwise byte-identical.
+    """
+    if "func_800E1D40:" not in text:
+        return text
+    before = "\tlw\t$3,0($5)\n"
+    after = "\tlw\t$3,0($19)\n"
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800E1D40 route-state load fired {fires} times (expected 1)"
+        )
+    return text.replace(before, after, 1)
+
+
 def schedule_owner_search_prologue(text: str) -> str:
     """Reproduce the two independent prologue stores in ``func_80083DF0``.
 
@@ -5070,6 +5090,8 @@ def normalize_v3(source: str) -> str:
         text = schedule_resource_copy_prologue(text)
     if os.environ.get("V3_PAK_SAVE_RECORD_PROLOGUE", "1") == "1":
         text = schedule_pak_save_record_prologue(text)
+    if os.environ.get("V3_ROUTE_STATE_POINTER", "1") == "1":
+        text = use_saved_route_state_pointer(text)
     if os.environ.get("V3_OWNER_SEARCH_PROLOGUE", "1") == "1":
         text = schedule_owner_search_prologue(text)
     if os.environ.get("V3_VECTOR_ANGLE_PROLOGUE", "1") == "1":
