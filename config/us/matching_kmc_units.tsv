@@ -1289,3 +1289,5 @@
 0x826B4	0x338	src/code/effects/draw_owner_flash.c	--section-base=.rodata:0x80074E08 -O2 -G0 -mips3 -mgp32 -mfp32	36302a116a66e8da4b7f67ca830851676c0e7f2a9b3c82aeb60ab92e456424db
 0x1716C	0x388	src/code/runtime/acquire_resource_slot.c	-O2 -G0 -mips3 -mgp32 -mfp32	554b848219d042728183fadbc94e5a24a2c075cf802c6d3319333947674ebea7
 0x3C070	0x258	src/code/frontend/show_message_until_ready.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	c4329cb2b9c6daec741a08a41c29f70f30e8ccd48b554dbb5c851f19dfdb0fb0
+0xC864	0x46C	src/code/debug/write_team_tuning_report.c	--assembler=asn64 --section-base=.rodata:0x800711DC -O2 -G0 -mips3 -mgp32 -mfp32	3d064974086065a4c8d291a9e28db1f392a0254cabc781023f9f14832754013e
+0xCCD0	0x528	src/code/runtime/apply_team_tuning.c	--assembler=asn64 --section-base=.rodata:0x80071348 -O2 -G0 -mips3 -mgp32 -mfp32	024cb8d63a89cd6757b423093c969605436b2ff95724def6b4a52fd2d29b925d
