@@ -12,7 +12,10 @@
   },
   "project": "BattleTanx decompilation",
   "status": "in-progress",
-  "toolchain": "Splat",
+  "toolchain": [
+    "Splat",
+    "Decompkit"
+  ],
   "approach": "Matching decompilation with byte-verified code and initialized data.",
   "maintainers": [
     {
