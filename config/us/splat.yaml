@@ -966,7 +966,7 @@ segments:
       - [0x6F7D0, asm, functions/func_800DF7D0]
       - [0x6FA68, asm, functions/func_800DFA68]
       - [0x7004C, c, code/gameplay/choose_cell_exit_edges]
-      - [0x7031C, asm, functions/func_800E031C]
+      - [0x7031C, c, code/gameplay/extend_route_three_steps]
       - [0x7055C, c, code/levels/select_level_waypoint_set]
       - [0x705A4, c, code/levels/find_nearest_level_cell]
       - [0x70790, c, code/gameplay/select_available_unit_slot]

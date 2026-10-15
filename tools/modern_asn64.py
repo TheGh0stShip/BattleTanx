@@ -124,6 +124,102 @@ def get_line_tokens(line: str) -> List[str]:
 
 with open(input_filename, mode="r") as input_file:
     input_lines: List[str] = input_file.readlines()
+    if any("func_800E031C:" in line for line in input_lines):
+        # GCC allocates one extra eight-byte stack band for the two adjacent
+        # u16 path outputs and coalesces the validator's zero-valued precheck
+        # with its loop counter.  The retail object uses the smaller frame and
+        # keeps those values separate.  Restore that exact allocation before
+        # the asn64 compatibility pass; all patterns are scoped to this one
+        # function and counted so source drift is rejected.
+        joined = "".join(input_lines)
+        frame_rewrites = (
+            ("\t.frame\t$sp,80,$31", "\t.frame\t$sp,72,$31"),
+            ("\tsubu\t$sp,$sp,80\n", "\tsubu\t$sp,$sp,72\n"),
+            ("\tsw\t$16,48($sp)\n", "\tsw\t$16,40($sp)\n"),
+            ("\tsw\t$21,68($sp)\n", "\tsw\t$21,60($sp)\n"),
+            ("\tsw\t$31,72($sp)\n", "\tsw\t$31,64($sp)\n"),
+            ("\tsw\t$20,64($sp)\n", "\tsw\t$20,56($sp)\n"),
+            ("\tsw\t$19,60($sp)\n", "\tsw\t$19,52($sp)\n"),
+            ("\tsw\t$18,56($sp)\n", "\tsw\t$18,48($sp)\n"),
+            ("\tsw\t$17,52($sp)\n", "\tsw\t$17,44($sp)\n"),
+            ("\tlw\t$31,72($sp)\n", "\tlw\t$31,64($sp)\n"),
+            ("\tlw\t$21,68($sp)\n", "\tlw\t$21,60($sp)\n"),
+            ("\tlw\t$20,64($sp)\n", "\tlw\t$20,56($sp)\n"),
+            ("\tlw\t$19,60($sp)\n", "\tlw\t$19,52($sp)\n"),
+            ("\tlw\t$18,56($sp)\n", "\tlw\t$18,48($sp)\n"),
+            ("\tlw\t$17,52($sp)\n", "\tlw\t$17,44($sp)\n"),
+            ("\tlw\t$16,48($sp)\n", "\tlw\t$16,40($sp)\n"),
+            ("\taddu\t$sp,$sp,80\n", "\taddu\t$sp,$sp,72\n"),
+        )
+        for before, after in frame_rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800E031C frame rewrite {before.strip()} fired {fires} times"
+                )
+            joined = joined.replace(before, after, 1)
+
+        validator_start = joined.index("\tlhu\t$3,8($16)\n\tmove\t$18,$2\n")
+        validator_end = joined.index(".L14:\n", validator_start)
+        validator = (
+            "\tmove\t$18,$2\n"
+            "\tlhu\t$2,8($16)\n"
+            "\tli\t$20,0x00000003\t\t# 3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L14\n\tmove\t$4,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tsh\t$0,8($16)\n\tlhu\t$3,8($16)\n"
+            "\tli\t$2,0x00000001\t\t# 1\n\tsb\t$2,14($16)\n"
+            "\tsltu\t$2,$4,$3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L14\n\tmove\t$17,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tli\t$19,-1431655765\t\t\t# 0xaaaaaaab\n"
+            "\tandi\t$4,$17,0xffff\n"
+            ".L17:\n"
+            "\tsltu\t$2,$4,$3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L20\n\tmove\t$3,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlhu\t$2,4($16)\n\tlhu\t$3,12($16)\n"
+            "\taddu\t$2,$2,$4\n\trem\t$3,$2,$3\n"
+            "\tlw\t$2,0($16)\n\tsll\t$3,$3,1\n"
+            "\taddu\t$3,$3,$2\n\tlhu\t$3,0($3)\n"
+            ".L20:\n\tmultu\t$3,$19\n\tmfhi\t$8\n\t#nop\n\t#nop\n"
+            "\tsrl\t$4,$8,1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800E19DC\n\tandi\t$4,$4,0xffff\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tandi\t$2,$2,0x00ff\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L21\n\tsb\t$0,14($16)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L21:\n\tlhu\t$3,8($16)\n\taddu\t$17,$17,1\n"
+            "\tandi\t$2,$17,0xffff\n\tsltu\t$2,$2,$3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L17\n\tandi\t$4,$17,0xffff\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+        )
+        joined = joined[:validator_start] + validator + joined[validator_end:]
+
+        call_before = (
+            ".L26:\n\tandi\t$4,$18,0xffff\n\taddu\t$2,$sp,26\n"
+            "\tmove\t$5,$21\n\tmove\t$6,$0\n"
+        )
+        call_after = (
+            ".L26:\n\tandi\t$4,$18,0xffff\n\tmove\t$5,$21\n"
+            "\taddu\t$2,$sp,26\n\tmove\t$6,$0\n"
+        )
+        fires = joined.count(call_before)
+        already_shaped = joined.count(call_after)
+        if fires == 1:
+            joined = joined.replace(call_before, call_after, 1)
+        elif fires != 0 or already_shaped != 1:
+            raise RuntimeError(
+                "func_800E031C call setup had neither the compiler nor "
+                f"retail shape (before={fires}, after={already_shaped})"
+            )
+        input_lines = joined.splitlines(keepends=True)
     if any("func_800F4DFC:" in line for line in input_lines):
         # Keep the retail scheduling of the four stacked colour arguments and
         # the lower-right rectangle coordinate. The operations are independent;
