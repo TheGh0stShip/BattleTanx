@@ -76,6 +76,30 @@ class ModernAsn64Tests(unittest.TestCase):
             text,
         )
 
+    def test_inlined_intersection_uses_retail_likely_branch(self) -> None:
+        text = self.preprocess(
+            "func_800E1118:\n"
+            "\tsub.s\t$f4,$f10,$f6\n"
+            "\tmtc1\t$0,$f2\n"
+            "\t#nop\n"
+            "\tc.eq.s\t$f4,$f2\n"
+            "\t#nop\n"
+            "\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n"
+            "\tbc1t\t.L61\n"
+            "\tmul.s\t$f0,$f10,$f2\n"
+            "\t.set\tmacro\n"
+            "\t.set\treorder\n"
+            ".L61:\n"
+        )
+        self.assertIn(
+            "mul.s\t$f0,$f10,$f2\n"
+            "\t.set\tnomacro\n"
+            "\tbc1tl\t.L61\n"
+            "\tnop\n",
+            text,
+        )
+
     def test_disabled_rule_leaves_symbol_load_for_gas(self) -> None:
         text = self.preprocess(
             "\tlw\t$2,D_801144A0($3)\n", disabled="MEM-SYM-BASE"

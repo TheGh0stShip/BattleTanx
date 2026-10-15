@@ -841,7 +841,7 @@ functions = [
     { name = "intersect_lines_2d", vram = 0x800e0efc, size = 0x19c },
     { name = "points_equal_2d", vram = 0x800e1098, size = 0x38 },
     { name = "transfer_step_when_below_limit", vram = 0x800e10d0, size = 0x48 },
-    { name = "func_800E1118", vram = 0x800e1118, size = 0x530 },
+    { name = "intersect_bounded_segments_2d", vram = 0x800e1118, size = 0x530 },
     { name = "compute_waypoint_triangle_centroid", vram = 0x800e1648, size = 0x94 },
     { name = "midpoint_2d", vram = 0x800e16dc, size = 0x34 },
     { name = "scale_offset_by_approx_distance", vram = 0x800e171c, size = 0xfc },

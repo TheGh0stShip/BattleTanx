@@ -987,7 +987,7 @@ segments:
       - [0x70EFC, c, code/math/intersect_lines_2d]
       - [0x71098, c, code/levels/points_equal_2d]
       - [0x710D0, c, code/math/transfer_step_when_below_limit]
-      - [0x71118, asm, functions/func_800E1118]
+      - [0x71118, c, code/math/intersect_bounded_segments_2d]
       - [0x71648, c, code/levels/compute_waypoint_triangle_centroid]
       - [0x716DC, c, code/levels/midpoint_2d]
       - [0x71710, bin, gaps/gap_071710]

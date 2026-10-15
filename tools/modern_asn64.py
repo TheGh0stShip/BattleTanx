@@ -992,6 +992,32 @@ with open(input_filename, mode="r") as input_file:
                 )
             joined = joined.replace(before, after, 1)
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800E1118:" in line for line in input_lines):
+        # This function inlines the line-intersection calculation above. SN64
+        # hoists the multiply out of the COP1 branch delay slot and selects the
+        # likely form for the now-empty slot. Modern GAS preserves `bc1t`, even
+        # though the slot is a nop and the two forms behave identically here.
+        before = (
+            "\tsub.s\t$f4,$f10,$f6\n\tmtc1\t$0,$f2\n\t#nop\n"
+            "\tc.eq.s\t$f4,$f2\n\t#nop\n\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n\tbc1t\t.L61\n\tmul.s\t$f0,$f10,$f2\n"
+            "\t.set\tmacro\n\t.set\treorder\n"
+        )
+        after = (
+            "\tsub.s\t$f4,$f10,$f6\n\tmtc1\t$0,$f2\n\t#nop\n"
+            "\tc.eq.s\t$f4,$f2\n\t#nop\n\tmul.s\t$f0,$f10,$f2\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbc1tl\t.L61\n\tnop\n\t.set\tmacro\n\t.set\treorder\n"
+        )
+        joined = "".join(input_lines)
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                "func_800E1118 COP1 branch schedule fired "
+                f"{fires} times (expected 1)"
+            )
+        joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
     if any("func_80109498:" in line for line in input_lines):
         # Retail keeps the rotated local axes in $f20/$f4 and negates the
         # sine into $f2 before issuing the four multiplies.
