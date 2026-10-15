@@ -1307,3 +1307,18 @@
 0x29D90	0x49C	src/code/gameplay/apply_pickup.c	--section-base=.rodata:0x800723C0 -O2 -G0 -mips3 -mgp32 -mfp32	9beb847e36b69bd38899c79a29971ed5810c834c651139c0a4ff97598d38bd25
 0x10EEC	0x89C	src/code/render/draw_world_layers.c	-O2 -G0 -mips3 -mgp32 -mfp32	e766000d9dd57222811b8e2700b1275ee66cdf23cb32058a510cbddc833bd676
 0x3A518	0x7B4	src/code/render/load_table_texture_block.c	-O2 -G0 -mips3 -mgp32 -mfp32	e766002a75132745d7f493ee4a99dca17e916b32c8b04f776f51879ccbcf8be5
+0x11AD0	0x6F0	src/code/levels/load_level.c	--section-base=.rodata:0x80071490 -O2 -G0 -mips3 -mgp32 -mfp32	0eb6ebf867ee502963509f4a537b4eb3b25d5bfbc066339157af977362a6fc15
+0x13F04	0x738	src/code/render/draw_visible_level_objects.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	a6491a7f0764834c7b03d8a2f1a35b9aceaa511ff9955d978a49eedecb877de5
+0x1785C	0x4D4	src/code/assets/plan_bank_record_resources.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	2132572594c988a333cef303838a64e877e522be956a55b9acb3ec3c975299f4
+0x1B9E8	0x6B4	src/code/effects/init_effect_kind_table.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9e694f6aed9cd049b0c30f284c3d0153c1d4bf0d21af459117b25998a9309198
+0x1CF40	0x648	src/code/effects/update_shell_effect.c	--assembler=asn64 --section-base=.rodata:0x80071B00 -O2 -G0 -mips3 -mgp32 -mfp32	b108931ee7fb34ee9e8732afde31ffab1b24284d1ac554de6c200ad72bd43207
+0x1D768	0x664	src/code/effects/update_missile_effect.c	--assembler=asn64 --section-base=.rodata:0x80071B54 -O2 -G0 -mips3 -mgp32 -mfp32	5c9c26b2daacb7a5228cc9d03de5539ff868c998973061d336cc1e30bcd66662
+0x1E480	0x720	src/code/effects/update_bullet_effect.c	--assembler=asn64 --section-base=.rodata:0x80071BC0 -O2 -G0 -mips3 -mgp32 -mfp32	df8bef0fcb1b902360667261bef9192833637119297f1c45f631d3b4650ed535
+0x27DD0	0x610	src/code/gameplay/destroy_unit.c	--section-base=.rodata:0x800721E0 -O2 -G0 -mips3 -mgp32 -mfp32	09af41dbdaf83b2c14eb497a899b8a791db00a0c643b9d2aa60b624f9fd79c5f
+0x35FF0	0x698	src/code/gameplay/setup_players.c	--assembler=asn64 --section-base=.rodata:0x80073020 -O2 -G0 -mips3 -mgp32 -mfp32	c60e8941a3655dd54652463c99346256bb239b9dac793067e7553a1dceb1e084
+0x5AA04	0x13B8	src/code/frontend/draw_main_menu_screen.c	--assembler=asn64 --section-base=.rodata:0x80073710 -O2 -G0 -mips3 -mgp32 -mfp32	de46fcf4106093c5e33ba018cd172b01afd53df9ee973c40da9bbacfd851533c
+0x5E554	0x8D8	src/code/frontend/draw_controller_pak_screen.c	--assembler=asn64 --section-base=.rodata:0x800738F0 -O2 -G0 -mips3 -mgp32 -mfp32	8249421e2842836e6589ba6eec748b4003f6b89ec81660b392f2e7e85296f132
+0x5EE2C	0x548	src/code/frontend/run_link_session_screen.c	--assembler=asn64 --section-base=.rodata:0x80073BB8 -O2 -G0 -mips3 -mgp32 -mfp32	ffb59f624317a5418d54e966fa421c2b89946f6b4f3f148ba05b9eadaee79b32
+0x5FEB0	0x72C	src/code/frontend/draw_pak_note_list.c	--assembler=asn64 --section-base=.rodata:0x80073C48 -O2 -G0 -mips3 -mgp32 -mfp32	840bca4925c44d3c5f17c81a314af874246ff5d4f8ca4a8ae22bf2b4bab7d92b
+0x68C20	0x404	src/code/frontend/poll_player_role_selection.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9ded9204858af199c4598417751735b097bdb55562d7663da3f7a032e65d5516
+0x69134	0x1880	src/code/frontend/draw_territory_select_screen.c	--assembler=asn64 --section-base=.rodata:0x80074130 -O2 -G0 -mips3 -mgp32 -mfp32	c909b14b42106d442255b52a2dba593161e79ecc0de373900d383c2c7eb39e2b
