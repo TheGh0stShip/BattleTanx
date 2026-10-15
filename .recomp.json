@@ -26,11 +26,6 @@
       "url": "https://github.com/TheGh0stShip/BattleTanx"
     }
   ],
-  "help": [
-    "Matching remaining game functions",
-    "Identifying and reconstructing static data",
-    "Classifying resource bundle entries"
-  ],
   "tags": [
     "matching",
     "MIPS"
