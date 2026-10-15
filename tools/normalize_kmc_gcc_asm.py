@@ -869,6 +869,39 @@ def shape_group_object_point_assignment(text: str) -> str:
     return text[:start] + body + text[end:]
 
 
+def swap_versus_stats_saved_registers(text: str) -> str:
+    """Swap an equal-priority pointer/constant pair in ``func_80103E50``.
+
+    The source produces retail-identical control flow and data accesses.  KMC
+    assigns the icon-offset pointer and constant 32 to ``s7``/``s6`` in the
+    opposite order from the retail object.  Limit the bijective swap to the
+    initialized body, leaving the ABI save/restore sequence untouched.
+    """
+    if "func_80103E50:" not in text:
+        return text
+
+    start_marker = "\tla\t$23,D_8037FD84+4\n"
+    end_marker = "\tlw\t$31,108($sp)\n"
+    if text.count(start_marker) != 1 or text.count(end_marker) != 1:
+        raise RuntimeError("func_80103E50 register-swap markers changed")
+    start = text.index(start_marker)
+    end = text.index(end_marker, start)
+    body = text[start:end]
+    expected = {"$22": 5, "$23": 5}
+    counts = {
+        register: len(re.findall(re.escape(register) + r"(?!\d)", body))
+        for register in expected
+    }
+    if counts != expected:
+        raise RuntimeError(
+            f"func_80103E50 saved-register counts {counts} (expected {expected})"
+        )
+    body = body.replace("$22", "$__versus_icon_size")
+    body = body.replace("$23", "$22")
+    body = body.replace("$__versus_icon_size", "$23")
+    return text[:start] + body + text[end:]
+
+
 def use_saved_route_state_pointer(text: str) -> str:
     """Use the long-lived route-state copy in ``func_800E1D40``.
 
@@ -5587,6 +5620,8 @@ def normalize_v3(source: str) -> str:
         text = shape_owner_unit_spawn_scan(text)
     if os.environ.get("V3_GROUP_OBJECT_POINT_ASSIGNMENT", "1") == "1":
         text = shape_group_object_point_assignment(text)
+    if os.environ.get("V3_VERSUS_STATS_SAVED_REGISTERS", "1") == "1":
+        text = swap_versus_stats_saved_registers(text)
     if os.environ.get("V3_ROUTE_STATE_POINTER", "1") == "1":
         text = use_saved_route_state_pointer(text)
     if os.environ.get("V3_ROUTE_REBUILD_LOOP", "1") == "1":

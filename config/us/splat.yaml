@@ -1444,7 +1444,7 @@ segments:
       - [0x92A30, asm, functions/func_80102A30]
       - [0x92F8C, c, code/frontend/draw_player_stats_screen]
       - [0x9316C, asm, functions/func_8010316C]
-      - [0x93E50, asm, functions/func_80103E50]
+      - [0x93E50, c, code/frontend/draw_versus_stats_screen]
       - [0x9435C, asm, functions/func_8010435C]
       - [0x94CD8, asm, functions/func_80104CD8]
       - [0x9527C, c, code/render/reset_scrolling_text_offset]
