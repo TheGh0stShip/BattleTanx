@@ -800,7 +800,7 @@ functions = [
     { name = "ring_buffer_push_u16", vram = 0x800de1b4, size = 0xcc },
     { name = "ring_queue_pop_u16", vram = 0x800de280, size = 0x7c },
     { name = "point_inside_triangle", vram = 0x800de2fc, size = 0xf0 },
-    { name = "func_800DE3EC", vram = 0x800de3ec, size = 0x278 },
+    { name = "rebuild_route_from_current_cell", vram = 0x800de3ec, size = 0x278 },
     { name = "func_800DE664", vram = 0x800de664, size = 0x5a0 },
     { name = "clear_runtime_workspace", vram = 0x800dec04, size = 0x24 },
     { name = "update_runtime_workspace_byte", vram = 0x800dec28, size = 0x34 },

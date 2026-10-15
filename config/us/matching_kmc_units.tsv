@@ -1278,3 +1278,4 @@
 0x50898	0x644	src/code/frontend/init_sequence_c_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	bc3703d8a05330573f335e6746f7b4e572a224f88354a88340f2da3fd041aa35
 0x60828	0x118	src/code/assets/write_controller_pak_progress.c	-O2 -G0 -mips3 -mgp32 -mfp32	d2c9e0b3e85f7e010e217ee8e2844d27b5d39346a866cae04a2b6afdbf677191
 0x71D40	0x190	src/code/gameplay/ai_update_route_goal.c	-O2 -G0 -mips3 -mgp32 -mfp32	0f6d4ce0129262d6b59d1abd91951590bfb9eaf0bdccde9bf54967882129c7b3
+0x6E3EC	0x278	src/code/gameplay/rebuild_route_from_current_cell.c	-O2 -G0 -mips3 -mgp32 -mfp32	31b3a5425c393344fe621b11a81852276a9eb5e604230352546f3b0f48290990

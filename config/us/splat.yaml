@@ -948,7 +948,7 @@ segments:
       - [0x6E1B4, c, code/runtime/ring_buffer_push_u16]
       - [0x6E280, c, code/runtime/ring_queue_pop_u16]
       - [0x6E2FC, c, code/math/point_inside_triangle]
-      - [0x6E3EC, asm, functions/func_800DE3EC]
+      - [0x6E3EC, c, code/gameplay/rebuild_route_from_current_cell]
       - [0x6E664, asm, functions/func_800DE664]
       - [0x6EC04, c, code/runtime/clear_runtime_workspace]
       - [0x6EC28, c, code/runtime/update_runtime_workspace_byte]

@@ -581,6 +581,61 @@ def use_saved_route_state_pointer(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def shape_route_rebuild_validation_loop(text: str) -> str:
+    """Restore the retail precheck schedule in ``func_800DE3EC``.
+
+    The inlined queue validator carries separate zero-valued position and loop
+    variables. GCC coalesces them in this build, while the retail object keeps
+    the precheck in ``a0`` and initializes the saved loop counter afterward.
+    The retail assembler also accepts the label-adjacent ``multu`` without the
+    load-delay nop inserted by the available KMC assembler.
+    """
+    if "func_800DE3EC:" not in text:
+        return text
+    before = (
+        "\tbeq\t$2,$0,.L22\n"
+        "\tmove\t$17,$0\n"
+        "\t.set\tnoreorder\n"
+        "\tsh\t$0,8($16)\n"
+        "\tlhu\t$3,8($16)\n"
+        "\tli\t$2,0x00000001\t\t# 1\n"
+        "\tsb\t$2,14($16)\n"
+        "\tsltu\t$2,$17,$3\n"
+        "\t.set\tnoreorder\n"
+        "\tbeq\t$2,$0,.L22\n"
+        "\tandi\t$4,$17,0xffff\n"
+        "\t.set\tnoreorder\n"
+        "\tli\t$18,-1431655765\t\t\t# 0xaaaaaaab\n"
+        ".L40:\n"
+    )
+    after = before.replace(
+        "\tmove\t$17,$0\n", "\tmove\t$4,$0\n", 1
+    ).replace(
+        "\tsltu\t$2,$17,$3\n", "\tsltu\t$2,$4,$3\n", 1
+    ).replace(
+        "\tandi\t$4,$17,0xffff\n", "\tmove\t$17,$0\n", 1
+    ).replace(
+        ".L40:\n", "\tandi\t$4,$17,0xffff\n.L40:\n", 1
+    )
+    fires = text.count(before)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800DE3EC validation precheck fired {fires} times (expected 1)"
+        )
+    text = text.replace(before, after, 1)
+    before_mult = ".L29:\n\tmultu\t$3,$18\n"
+    after_mult = (
+        ".L29:\n"
+        "\t.word\t0x00720019\t# multu $3,$18; retail as omits load-delay nop\n"
+    )
+    fires = text.count(before_mult)
+    if fires != 1:
+        raise RuntimeError(
+            f"func_800DE3EC validation multiply fired {fires} times (expected 1)"
+        )
+    return text.replace(before_mult, after_mult, 1)
+
+
 def schedule_owner_search_prologue(text: str) -> str:
     """Reproduce the two independent prologue stores in ``func_80083DF0``.
 
@@ -5092,6 +5147,8 @@ def normalize_v3(source: str) -> str:
         text = schedule_pak_save_record_prologue(text)
     if os.environ.get("V3_ROUTE_STATE_POINTER", "1") == "1":
         text = use_saved_route_state_pointer(text)
+    if os.environ.get("V3_ROUTE_REBUILD_LOOP", "1") == "1":
+        text = shape_route_rebuild_validation_loop(text)
     if os.environ.get("V3_OWNER_SEARCH_PROLOGUE", "1") == "1":
         text = schedule_owner_search_prologue(text)
     if os.environ.get("V3_VECTOR_ANGLE_PROLOGUE", "1") == "1":
