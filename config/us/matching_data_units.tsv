@@ -96,3 +96,5 @@
 0x2418	0x80	src/code/gameplay/dispatch_owner_event_variant.c	.rodata	38ba11d81a47ce19af5bc58c24319973d7c0c6eae3b1a4c056f16b6a4b05f42a
 0x2A88	0x48	src/code/gameplay/unit_handle_message.c	.rodata	bb85ec7b88a132d18be18defbc6d4cc0127f402d4ce53130100c8bc81ea2b82e
 0x4650	0x8	src/code/gameplay/update_unit_pair_link.c	.rodata	4860b567877c8dca7202f1813c49446bcfc14197174e81aaeb915a0c2165f7e0
+0xD5D60	0x10	src/libultra/os_ai_set_next_buffer.c	.data	374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb
+0xD5D70	0x10	src/libultra/os_controller.c	.data	374708fff7719dd5979ec875d56cd2286f6d3cf7ec317a3b25632aab28ec37bb

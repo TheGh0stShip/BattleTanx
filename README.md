@@ -55,18 +55,19 @@ The generator rejects out-of-range, unaligned, or overlapping canonical
 function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
-The initial split accounts for the full 8 MiB ROM: 1,697 non-overlapping
+The initial split accounts for the full 8 MiB ROM: 1,719 non-overlapping
 function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. One thousand twenty-one reviewed C
-source units now reconstruct 236,080 retail code bytes. Together with 17 authentic
-source-assembly units, 1,038 matching units reconstruct 237,428 code bytes. Five of
-the C units are data-only translation units whose initialized sections are verified
+resource area remain explicit binary regions. One thousand one hundred thirty-six
+reviewed C source units now reconstruct 278,560 retail code bytes. Together with 17
+authentic source-assembly units, 1,153 matching units reconstruct 279,908 code
+bytes. Twelve of the C units are data-only translation units whose initialized sections are verified
 independently. The
-128 libultra units include the
+160 libultra units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
 string primitives, audio synthesis and effects processing, timer services, VI
-management, audio bus/save processing, and low-level AI/SI/SP accessors.
+management, audio bus/save processing, low-level AI/SI/SP accessors, controller
+polling, Controller Pak file operations, and motor support.
 `make verify-matching`
 compiles every manifest entry with pinned IDO 5.3 and compares every emitted
 byte directly with the supported ROM.
@@ -79,7 +80,7 @@ contract consumed by [recomp.fyi](https://recomp.fyi/); locally, `make report`
 writes the same ignored report under
 `build/` without requiring a ROM. Code and data are reported separately. Data
 progress advances only when reviewed `.data` or `.rodata` ranges are added to
-the section-aware matching-data manifest; 87,236 initialized bytes are currently
+the section-aware matching-data manifest; 88,656 initialized bytes are currently
 verified. This includes effect scripts, HUD and level-map metadata, briefing text
 and image descriptors, and opponent-wave configuration. Unknown non-function
 bytes are never credited as reconstructed data.
@@ -90,10 +91,10 @@ does not claim that individual entries have already been classified as textures,
 music, sounds, images, models, or levels.
 
 ```text
-code       [██████░░░░░░░░░░░░░░]  32.00%    224,808 / 702,588 bytes
-data       [██████████░░░░░░░░░░]  49.97%     86,956 / 174,020 bytes
-functions  [██████████████░░░░░░]  71.28%       1,206 / 1,692
-assets     [██████░░░░░░░░░░░░░░]  29.41%  2,157,184 / 7,335,936 bytes
+code       [████████░░░░░░░░░░░░]  39.72%    279,264 / 703,128 bytes
+data       [██████████░░░░░░░░░░]  51.10%     88,656 / 173,480 bytes
+functions  [████████████████░░░░]  79.93%       1,374 / 1,719
+assets     [██████████░░░░░░░░░░]  47.67%  3,496,800 / 7,335,936 bytes
 ```
 
 The game-owned KMC GCC units cover string and list helpers, state initialization
