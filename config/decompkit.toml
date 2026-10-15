@@ -18,5 +18,6 @@ source_kinds = ["c", "hasm"]
 manifests = [
   { path = "config/us/matching_units.tsv", pipeline = "ido" },
   { path = "config/us/matching_kmc_units.tsv", pipeline = "kmc" },
+  { path = "config/us/matching_sn_units.tsv", pipeline = "sn" },
   { path = "config/us/matching_asm_units.tsv", pipeline = "assembly" },
 ]

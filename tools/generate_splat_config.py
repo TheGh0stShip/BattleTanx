@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CATALOGUE = ROOT / "config/us/recomp_function_boundaries.toml"
 MATCHING = ROOT / "config/us/matching_units.tsv"
 MATCHING_KMC = ROOT / "config/us/matching_kmc_units.tsv"
+MATCHING_SN = ROOT / "config/us/matching_sn_units.tsv"
 MATCHING_ASM = ROOT / "config/us/matching_asm_units.tsv"
 OUTPUT = ROOT / "config/us/splat.yaml"
 
@@ -74,7 +75,7 @@ def main() -> None:
         "    subsegments:",
     ]
     matching = []
-    for manifest in (MATCHING, MATCHING_KMC):
+    for manifest in (MATCHING, MATCHING_KMC, MATCHING_SN):
         for line in manifest.read_text().splitlines():
             if not line or line.startswith("#"):
                 continue

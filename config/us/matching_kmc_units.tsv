@@ -1,4 +1,8 @@
 # ROM_START	SIZE	SOURCE	KMC_GCC_FLAGS	SHA256_TEXT
+0x96B4	0x3C	src/code/audio/submit_audio_command.c	-O2 -G0 -mips3 -mgp32 -mfp32	6c33f0cae242a0e8b5472b0593c74f8dde755dbb3078f261b90b1f717e8e0631
+0x16B20	0x28	src/code/runtime/delay_empty_iterations.c	-O2 -G0 -mips3 -mgp32 -mfp32	cbc065e58b2009bdae984c0fb5c46561f4bfc8791b23ab3f26e2d393c232eacc
+0x7DADC	0x3C	src/code/debug/delay_with_saved_arguments.c	-O2 -G0 -mips3 -mgp32 -mfp32	6a6bc1c592a01df1c5eb547048168a4641302b059b78c08b6b68fd425f6f43ee
+0x57FC0	0x120	src/code/frontend/update_compressed_selection_digit.c	-O2 -G0 -mips3 -mgp32 -mfp32	672195ad8b36f83b0bccab851c8f1fe1d2f81ac8e01aa7c3bb2aead794dea6eb
 0x1C2DC	0x10	src/code/effects/set_effect_result_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	9625765e3aa5e13345bb074019ca1d7e1a73bb68d6bbe345b6d64bad560a214e
 0x2D4B4	0x28	src/code/entities/refresh_entity_target.c	-O2 -G0 -mips3 -mgp32 -mfp32	5d6f950386107c239a371f502223c0f972b5bafc5801f8319d96d00047e1619c
 0x2EDAC	0x24	src/code/entities/process_context_member.c	-O2 -G0 -mips3 -mgp32 -mfp32	19e7464311cb527aaf90738f86c6a3d63cef1a5b1c3451f761ccd96d27fc1a67
@@ -200,7 +204,6 @@
 0x95B0	0x34	src/code/runtime/wait_for_worker_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	5f9a70a1417bf06090c50f20a014b860381603bac400c66099ff81ae890f8b6c
 0x95E4	0x38	src/code/runtime/submit_worker_message.c	-O2 -G0 -mips3 -mgp32 -mfp32	e10748293e25cc712e5329304ae3400ac0c2c811d0601a913d90e5117c6234be
 0x96B28	0x2C	src/code/render/end_display_list_and_finalize.c	-O2 -G0 -mips3 -mgp32 -mfp32	2aebe9724694ceabf665247a22568a95508e533bd9652b85b193c3ef8a65fda6
-0x96C0	0x30	src/code/audio/submit_audio_command.c	-O2 -G0 -mips3 -mgp32 -mfp32	2c4398dc95731039f54d252097817da9b37ab86d3e8a50c71ab58cd8e827dcd6
 0x96D00	0x18	src/code/runtime/render_callback_defaults.c	-O2 -G0 -mips3 -mgp32 -mfp32	a5678cd98d6c634f531aab042fdb8b9f8bc41c8e042754d0b2a521d97193cb6b
 0x99C0	0x10	src/code/audio/set_audio_control_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	c9226039b4d0a0fc6a452450a4c187b196905fdc05ac2e1fb1e0f5f7ef1bb807
 0x105D0	0xC	src/code/runtime/stubs/800805D0_return_constant.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	cf0979d068e1027e5a05c9624949cf61b22c5906207b3ca5eaebcb8815fe0269
@@ -253,7 +256,7 @@
 0x7097C	0x34	src/code/runtime/runtime_record_accessors.c	-O2 -G0 -mips3 -mgp32 -mfp32	aaaaaa107827e9ec219b31255e434a858b84bf33cba0da33cf23b907cd1b0d06
 0x7349C	0x18	src/code/entities/clear_transient_state.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	356ee0d4455711925f1a3ceffe569f5c1dd2fb5802391795905aca50a98addb6
 0x7445C	0x38	src/code/entities/reset_member_status.c	-O2 -G0 -mips3 -mgp32 -mfp32	f34e28a7e26f61d7fee5fa93c64b1665a9f16cc2c2df35dca915db67dd5b117c
-0x7480C	0x8	src/code/unknown/800E480C.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x7480C	0x8	src/code/entities/entity_motion_postprocess_noop.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x7566C	0x1C	src/code/gameplay/clear_link_record.c	--normalizer-legacy -O2 -G0 -mips3 -mgp32 -mfp32	c0fe68fc87f42db73f9b960ada8642c8cae2a18fc0b5759123ae7201ad1781f0
 0x7775C	0x20	src/code/gameplay/ai_parameter_elapsed_time.c	-O2 -G0 -mips3 -mgp32 -mfp32	db6a8d2d9b79ada57aad3783cfb04f27d357b662b9d8606c7495bc9ce5a03bd8
 0x7867C	0x124	src/code/gameplay/ai_parameter_owner_objective.c	--section-base=.rodata:0x800747AC -O2 -G0 -mips3 -mgp32 -mfp32	7efebe770f6c5d8aa88f4e867da9890ffcf853feb8f4f13f2b704df9969974ce
@@ -263,7 +266,7 @@
 0x8814	0x20	src/code/runtime/reset_motion_accumulator.c	-O2 -G0 -mips3 -mgp32 -mfp32	919b17af51c96e981cb2d9fc8d6e3fe4a83819f044cf33add5e2101eb0edb5d5
 0x9527C	0x14	src/code/render/reset_scrolling_text_offset.c	-O2 -G0 -mips3 -mgp32 -mfp32	777ecad2b34dd416b76c2f6c3ba82ff685923cecdf7de033f5e3f366b6b4ec41
 0x9552C	0x58	src/code/render/texture_draw_geometry.c	-O2 -G0 -mips3 -mgp32 -mfp32	cfa09e1b90c617dbcaa02a716ab95e2ca3ac5c34721315cd8b7919e3b6790904
-0x15460	0x8	src/code/unknown/80085460.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
+0x15460	0x8	src/code/assets/resource_variant_callback_noop.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x15468	0x8	src/code/unknown/80085468.c	-O2 -G0 -mips3 -mgp32 -mfp32	78aa5094d5ec7291c79f799c009d04f06c2f20187988e3dcc8d35ee5efdbb378
 0x26760	0x8	src/code/runtime/callback_return_zero.c	-O2 -G0 -mips3 -mgp32 -mfp32	648cbc77d024f6d08bc8ff4e3bdf1cebf2a933937ee1cebef4690d015808bd9c
 0x26768	0x1C	src/code/entities/get_entity_record_68.c	-O2 -G0 -mips3 -mgp32 -mfp32	6ffd7be3c50c681f33ee5a0631ba97caeeb93a37749ac2beafe6f7c8a59dd8c5
@@ -363,7 +366,7 @@
 0x3A328	0xA8	src/code/render/emit_triangle_overlay.c	-O2 -G0 -mips3 -mgp32 -mfp32	fbbf26341f4bf4a84ef1f4f697286056024ef85e506c379b223501da460a7cfe
 0x3B208	0x44	src/code/render/set_cycle_type_overlay.c	-O2 -G0 -mips3 -mgp32 -mfp32	ad16e2520a88be4c6ee073d412a91cb94f36a67e38b7afe5f31a6314cac6e75c
 0x3BFD0	0xA0	src/code/render/draw_fullscreen_text_panel.c	-O2 -G0 -mips3 -mgp32 -mfp32	379d7e4d93292e9ac8be21c97aeb0ceae9de5667de9abbbd77acdff61122f613
-0x48750	0xA4	src/code/gameplay/menu_poll_input_with_sound.c	-O2 -G0 -mips3 -mgp32 -mfp32	94c821fdcecc9da4e74cf140a3c65035413af86b59dde8cb13f77d94add64cff
+0x48750	0xA4	src/code/frontend/menu_poll_input_with_sound.c	-O2 -G0 -mips3 -mgp32 -mfp32	94c821fdcecc9da4e74cf140a3c65035413af86b59dde8cb13f77d94add64cff
 0x4C448	0x60	src/code/gameplay/menu_poll_input_a.c	-O2 -G0 -mips3 -mgp32 -mfp32	b825a5b01b43fa1d4612fae0a7232eacf1ea53afc48f12680dee0f46f5374d20
 0x4FF68	0x60	src/code/gameplay/menu_poll_input_b.c	-O2 -G0 -mips3 -mgp32 -mfp32	85029346ae2faadb003c739b4c58ef90b9796d6f4e8601e5f44616f6d3786adf
 0x5F374	0xE0	src/code/assets/controller_pak_probe_status.c	-O2 -G0 -mips3 -mgp32 -mfp32	99b5ea5d32f9f36a854e41ec5ad9db9e6bb7d1d6b75f0b91ffc5325dea165712
@@ -1044,3 +1047,81 @@
 0x77CA8	0x12C	src/code/gameplay/entity3_score_bonus.c	-O2 -G0 -mips3 -mgp32 -mfp32	68e1b44351f58775a6a8cf60d98845c9bf7ef890f93c2cded3a9ac6eae596ee8
 0x6DA08	0x18C	src/code/levels/load_level_data.c	-O2 -G0 -mips3 -mgp32 -mfp32	44c94c11c4132f713bbdb71d49549d564943c66e86c5f44dd7002bb24d40d90e
 0x9A8A8	0x1C4	src/code/levels/oriented_boxes_overlap.c	-O2 -G0 -mips3 -mgp32 -mfp32	af6a87c0ef6748f2503276842463c93d239f7e730a2b2754a74a6104621fc447
+0xD430	0x5C	src/code/runtime/set_runtime_rgb_bytes.c	-O0 -G0 -mips3 -mgp32 -mfp32	cb99de415d839d8ca9363145166955199cc5baf9ad1c5e9e28101c9b0a18de83
+0xD48C	0x5C	src/code/runtime/get_runtime_rgb_bytes.c	-O0 -G0 -mips3 -mgp32 -mfp32	7284dafea7d6b38786ead41792535b912adc3e5562a186c2b5dc80006387d8a5
+0xD4E8	0x368	src/code/runtime/initialize_runtime_buffers.c	-O0 -G0 -mips3 -mgp32 -mfp32	8f89bbf4ad0ee2fe65363119f36cf4483521fa45681494fcda63bea3f121525d
+0xD850	0x148	src/code/runtime/init_runtime_color_record.c	-O0 -G0 -mips3 -mgp32 -mfp32	a8052d587d03f7275375acf27076fbb1d3478f6c49ba1eac9e798dad90417b80
+0xD998	0x22C	src/code/runtime/finalize_runtime_frame.c	-O0 -G0 -mips3 -mgp32 -mfp32	c691ac8fb7b92b3271104532c2f763ada45e342363163a331cc612d11eae476a
+0xDBC4	0x98	src/code/runtime/runtime_record_timer_expired.c	-O0 -G0 -mips3 -mgp32 -mfp32	18703571afb870385ebb4de91ee50a10d5edab96a6bc42df1a66188e5f414976
+0xDC5C	0x4DC	src/code/runtime/build_runtime_display_list.c	--symbol=D_3DA800:0x003DA800 --symbol=D_1000080:0x01000080 -O0 -G0 -mips3 -mgp32 -mfp32	8e60ae4eff84a58019e7643740bc1481e1133c45bc0915f08aaeaffcb8614810
+0x10D4	0x0	src/code/data/rodata_800710D4.c	--assembler=asn64 --section-base=.rodata:0x800710D4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x10F0	0x0	src/code/data/rodata_800710F0.c	--assembler=asn64 --section-base=.rodata:0x800710F0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x11DC	0x0	src/code/data/rodata_800711DC.c	--assembler=asn64 --section-base=.rodata:0x800711DC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x13C8	0x0	src/code/data/rodata_800713C8.c	--assembler=asn64 --section-base=.rodata:0x800713C8 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x16D8	0x0	src/code/data/rodata_800716D8.c	--assembler=asn64 --section-base=.rodata:0x800716D8 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1700	0x0	src/code/data/rodata_80071700.c	--assembler=asn64 --section-base=.rodata:0x80071700 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1768	0x0	src/code/data/rodata_80071768.c	--assembler=asn64 --section-base=.rodata:0x80071768 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1A6C	0x0	src/code/data/rodata_80071A6C.c	--assembler=asn64 --section-base=.rodata:0x80071A6C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1A74	0x0	src/code/data/rodata_80071A74.c	--assembler=asn64 --section-base=.rodata:0x80071A74 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1BB8	0x0	src/code/data/rodata_80071BB8.c	--assembler=asn64 --section-base=.rodata:0x80071BB8 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1C04	0x0	src/code/data/rodata_80071C04.c	--assembler=asn64 --section-base=.rodata:0x80071C04 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1C64	0x0	src/code/data/rodata_80071C64.c	--assembler=asn64 --section-base=.rodata:0x80071C64 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x1E14	0x0	src/code/data/rodata_80071E14.c	--assembler=asn64 --section-base=.rodata:0x80071E14 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2018	0x0	src/code/data/rodata_80072018.c	--assembler=asn64 --section-base=.rodata:0x80072018 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2034	0x0	src/code/data/rodata_80072034.c	--assembler=asn64 --section-base=.rodata:0x80072034 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x21E0	0x0	src/code/data/rodata_800721E0.c	--assembler=asn64 --section-base=.rodata:0x800721E0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2238	0x0	src/code/data/rodata_80072238.c	--assembler=asn64 --section-base=.rodata:0x80072238 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x23B0	0x0	src/code/data/rodata_800723B0.c	--assembler=asn64 --section-base=.rodata:0x800723B0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2498	0x0	src/code/data/rodata_80072498.c	--assembler=asn64 --section-base=.rodata:0x80072498 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x273C	0x0	src/code/data/rodata_8007273C.c	--assembler=asn64 --section-base=.rodata:0x8007273C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2AD0	0x0	src/code/data/rodata_80072AD0.c	--assembler=asn64 --section-base=.rodata:0x80072AD0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2BDC	0x0	src/code/data/rodata_80072BDC.c	--assembler=asn64 --section-base=.rodata:0x80072BDC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2DE4	0x0	src/code/data/rodata_80072DE4.c	--assembler=asn64 --section-base=.rodata:0x80072DE4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x2E34	0x0	src/code/data/rodata_80072E34.c	--assembler=asn64 --section-base=.rodata:0x80072E34 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x310C	0x0	src/code/data/rodata_8007310C.c	--assembler=asn64 --section-base=.rodata:0x8007310C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x3150	0x0	src/code/data/rodata_80073150.c	--assembler=asn64 --section-base=.rodata:0x80073150 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x33B4	0x0	src/code/data/rodata_800733B4.c	--assembler=asn64 --section-base=.rodata:0x800733B4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x35A4	0x0	src/code/data/rodata_800735A4.c	--assembler=asn64 --section-base=.rodata:0x800735A4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x3D34	0x0	src/code/data/rodata_80073D34.c	--assembler=asn64 --section-base=.rodata:0x80073D34 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x43A0	0x0	src/code/data/rodata_800743A0.c	--assembler=asn64 --section-base=.rodata:0x800743A0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x43F4	0x0	src/code/data/rodata_800743F4.c	--assembler=asn64 --section-base=.rodata:0x800743F4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4428	0x0	src/code/data/rodata_80074428.c	--assembler=asn64 --section-base=.rodata:0x80074428 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x44DC	0x0	src/code/data/rodata_800744DC.c	--assembler=asn64 --section-base=.rodata:0x800744DC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x44EC	0x0	src/code/data/rodata_800744EC.c	--assembler=asn64 --section-base=.rodata:0x800744EC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x45D0	0x0	src/code/data/rodata_800745D0.c	--assembler=asn64 --section-base=.rodata:0x800745D0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4600	0x0	src/code/data/rodata_80074600.c	--assembler=asn64 --section-base=.rodata:0x80074600 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4658	0x0	src/code/data/rodata_80074658.c	--assembler=asn64 --section-base=.rodata:0x80074658 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x46C4	0x0	src/code/data/rodata_800746C4.c	--assembler=asn64 --section-base=.rodata:0x800746C4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x46FC	0x0	src/code/data/rodata_800746FC.c	--assembler=asn64 --section-base=.rodata:0x800746FC -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4704	0x0	src/code/data/rodata_80074704.c	--assembler=asn64 --section-base=.rodata:0x80074704 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x470C	0x0	src/code/data/rodata_8007470C.c	--assembler=asn64 --section-base=.rodata:0x8007470C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4720	0x0	src/code/data/rodata_80074720.c	--assembler=asn64 --section-base=.rodata:0x80074720 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4768	0x0	src/code/data/rodata_80074768.c	--assembler=asn64 --section-base=.rodata:0x80074768 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x47C4	0x0	src/code/data/rodata_800747C4.c	--assembler=asn64 --section-base=.rodata:0x800747C4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4810	0x0	src/code/data/rodata_80074810.c	--assembler=asn64 --section-base=.rodata:0x80074810 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4828	0x0	src/code/data/rodata_80074828.c	--assembler=asn64 --section-base=.rodata:0x80074828 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4844	0x0	src/code/data/rodata_80074844.c	--assembler=asn64 --section-base=.rodata:0x80074844 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4864	0x0	src/code/data/rodata_80074864.c	--assembler=asn64 --section-base=.rodata:0x80074864 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4870	0x0	src/code/data/rodata_80074870.c	--assembler=asn64 --section-base=.rodata:0x80074870 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x488C	0x0	src/code/data/rodata_8007488C.c	--assembler=asn64 --section-base=.rodata:0x8007488C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x49A0	0x0	src/code/data/rodata_800749A0.c	--assembler=asn64 --section-base=.rodata:0x800749A0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4B70	0x0	src/code/data/rodata_80074B70.c	--assembler=asn64 --section-base=.rodata:0x80074B70 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4BD8	0x0	src/code/data/rodata_80074BD8.c	--assembler=asn64 --section-base=.rodata:0x80074BD8 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4BF4	0x0	src/code/data/rodata_80074BF4.c	--assembler=asn64 --section-base=.rodata:0x80074BF4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4DF4	0x0	src/code/data/rodata_80074DF4.c	--assembler=asn64 --section-base=.rodata:0x80074DF4 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x4F3C	0x0	src/code/data/rodata_80074F3C.c	--assembler=asn64 --section-base=.rodata:0x80074F3C -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x5518	0x0	src/code/data/rodata_80075518.c	--assembler=asn64 --section-base=.rodata:0x80075518 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x5520	0x0	src/code/data/rodata_80075520.c	--assembler=asn64 --section-base=.rodata:0x80075520 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x5624	0x0	src/code/data/rodata_80075624.c	--assembler=asn64 --section-base=.rodata:0x80075624 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x5948	0x0	src/code/data/rodata_80075948.c	--assembler=asn64 --section-base=.rodata:0x80075948 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0x59A0	0x0	src/code/data/rodata_800759A0.c	--assembler=asn64 --section-base=.rodata:0x800759A0 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xB5550	0x0	src/code/data/data_80125550.c	--assembler=asn64 --section-base=.data:0x80125550 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xC2310	0x0	src/code/data/data_80132310.c	--assembler=asn64 --section-base=.data:0x80132310 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xC4BD8	0x0	src/code/data/data_80134BD8.c	--assembler=asn64 --section-base=.data:0x80134BD8 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xC9600	0x0	src/code/data/data_80139600.c	--assembler=asn64 --section-base=.data:0x80139600 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD0001	0x0	src/code/data/data_80140001.c	--assembler=asn64 --section-base=.data:0x80140001 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD0009	0x0	src/code/data/data_80140009.c	--assembler=asn64 --section-base=.data:0x80140009 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD0014	0x0	src/code/data/data_80140014.c	--assembler=asn64 --section-base=.data:0x80140014 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD0064	0x0	src/code/data/data_80140064.c	--assembler=asn64 --section-base=.data:0x80140064 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD5210	0x0	src/code/data/data_80145210.c	--assembler=asn64 --section-base=.data:0x80145210 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+0xD5D80	0x0	src/code/data/data_80145D80.c	--assembler=asn64 --section-base=.data:0x80145D80 -O2 -G0 -mips3 -mgp32 -mfp32	e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855

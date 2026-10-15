@@ -21,12 +21,11 @@ ROM = ROOT / "baseroms/us/baserom.z64"
 
 def synthetic_bundle(entries: list[bytes]) -> bytes:
     count = len(entries)
-    header = struct.pack(">II", count, assets.bundle_header_size(count))
-    boundaries, cursor = [], 0
-    for entry in entries[:-1]:
+    offsets, cursor = [], assets.bundle_header_size(count)
+    for entry in entries:
+        offsets.append(cursor)
         cursor += len(entry)
-        boundaries.append(cursor)
-    header += struct.pack(f">{count}I", *boundaries, 0)
+    header = struct.pack(f">I{count}I", count, *offsets) + struct.pack(">I", 0)
     header += b"\0" * (assets.bundle_header_size(count) - len(header))
     return header + b"".join(entries)
 
@@ -89,7 +88,7 @@ class ManifestAccountingTests(unittest.TestCase):
     def test_asset_progress_inventory(self) -> None:
         total, identified = report.asset_progress()
         self.assertEqual(total, 0x800000 - 0x101000)
-        self.assertEqual(identified, 0x355B60 + (0x7388F5 - 0x6F9C40) + (0x7B69A0 - 0x738900))
+        self.assertEqual(identified, total)
 
     def test_data_rows_accept_optional_section(self) -> None:
         four = "0x5EA0\t0x100\tsrc/libultra/xprintf.c\t" + "0" * 64

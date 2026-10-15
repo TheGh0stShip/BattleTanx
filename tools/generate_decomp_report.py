@@ -22,56 +22,64 @@ LIBULTRA_START = 0x80110480
 INITIALIZED_DATA_END = 0x80147040
 
 
-def asset_progress() -> tuple[int, int]:
+ASSET_CLASSES = ("payload", "container", "padding", "unused", "unknown")
+
+
+def asset_ledger() -> tuple[int, int, list[tuple[int, int, str, str]]]:
     manifest = tomllib.loads(ASSET_PROGRESS.read_text())
     region = manifest["region"]
     start, end = region["rom_start"], region["rom_end"]
     if start < 0 or end <= start:
         raise ValueError(f"{ASSET_PROGRESS}: invalid asset region")
+    path = ROOT / manifest["ledger"]["path"]
+    runs = []
+    cursor = start
+    for line in path.read_text().splitlines():
+        if not line or line.startswith("#") or line.startswith("rom_start"):
+            continue
+        left, right, kind, category = line.split("\t")
+        left, right = int(left, 16), int(right, 16)
+        if left != cursor or right <= left:
+            raise ValueError(f"{path}: gap or overlap at 0x{min(left, cursor):X}")
+        if kind not in ASSET_CLASSES:
+            raise ValueError(f"{path}: unknown class {kind!r}")
+        runs.append((left, right, kind, category))
+        cursor = right
+    if cursor != end:
+        raise ValueError(f"{path}: ledger ends at 0x{cursor:X}, region ends at 0x{end:X}")
+    return start, end, runs
 
-    ranges: list[tuple[int, int]] = []
-    names: set[str] = set()
-    for entry in manifest.get("range", []):
-        name = entry["name"]
-        left, right = entry["rom_start"], entry["rom_end"]
-        if name in names:
-            raise ValueError(f"{ASSET_PROGRESS}: duplicate range name {name!r}")
-        if not start <= left < right <= end:
-            raise ValueError(f"{ASSET_PROGRESS}: {name!r} lies outside the asset region")
-        names.add(name)
-        ranges.append((left, right))
 
-    ranges.sort()
-    for previous, current in zip(ranges, ranges[1:]):
-        if current[0] < previous[1]:
-            raise ValueError(f"{ASSET_PROGRESS}: overlapping asset ranges")
-    return end - start, sum(right - left for left, right in ranges)
+def asset_progress() -> tuple[int, int]:
+    start, end, runs = asset_ledger()
+    return end - start, sum(right - left for left, right, kind, _ in runs if kind != "unknown")
 
 
 ASSET_CATEGORIES = (
-    ("assets_textures", "Textures and palettes", ("texture", "palette")),
-    ("assets_images", "Images and sprites", ("image", "sprite")),
-    ("assets_models", "Models and display lists", ("model", "display_list")),
-    ("assets_animations", "Animations", ("animation",)),
-    ("assets_levels", "Levels and world data", ("level", "world")),
-    ("assets_scripts", "Scripts and data tables", ("script", "table")),
+    ("assets_textures", "Textures and palettes", ("textures",)),
+    ("assets_images", "Images, sprites and screens", ("images",)),
+    ("assets_fonts", "Fonts and text", ("fonts",)),
+    ("assets_models", "Models and display lists", ("models",)),
+    ("assets_animations", "Animations and recordings", ("animations",)),
+    ("assets_levels", "Levels and world data", ("levels",)),
+    ("assets_navigation", "Navigation", ("navigation",)),
+    ("assets_scripts", "Scripts and data tables", ("scripts",)),
     ("assets_music", "Music", ("music",)),
-    ("assets_sound", "Sound effects and sample banks", ("sample_bank", "sound_effect")),
-    ("assets_fonts", "Fonts and text", ("font", "text")),
-    ("assets_containers", "Verified resource containers", ("resource_bundle",)),
+    ("assets_sound", "Sound effects and sample banks", ("sound_effects",)),
 )
 
 
 def asset_kind_totals() -> dict[str, int]:
-    manifest = tomllib.loads(ASSET_PROGRESS.read_text())
     totals = {category_id: 0 for category_id, _name, _kinds in ASSET_CATEGORIES}
-    for entry in manifest.get("range", []):
-        for category_id, _name, kinds in ASSET_CATEGORIES:
-            if entry.get("kind") in kinds:
-                totals[category_id] += entry["rom_end"] - entry["rom_start"]
+    for left, right, kind, category in asset_ledger()[2]:
+        if kind not in ("payload", "container"):
+            continue
+        for category_id, _name, categories in ASSET_CATEGORIES:
+            if category in categories:
+                totals[category_id] += right - left
                 break
         else:
-            raise ValueError(f"{ASSET_PROGRESS}: unclassified asset kind {entry.get('kind')!r}")
+            raise ValueError(f"{ASSET_PROGRESS}: unclassified asset category {category!r}")
     return totals
 
 

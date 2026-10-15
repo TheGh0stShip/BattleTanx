@@ -37,6 +37,11 @@ regenerates the splat configuration from the reviewed catalogue. `make split`
 produces ignored assembly for analysis. `make check` runs ROM-independent
 metadata, architecture, and repository-safety tests.
 
+`make verify-matching` installs the hash-pinned IDO, KMC GCC, and SN Systems
+GCC matching toolchains under ignored `.toolchain/` paths. The SN lane builds
+the GCC 2.8.0 runtime sources through Wibo and converts its Psy-Q objects to
+big-endian ELF before the same relocation-aware ROM comparison used elsewhere.
+
 `make asset-catalogue` validates and decodes the currently identified retail
 resource bundles into an ignored JSON catalogue under `build/us/assets/`.
 `make data-survey` produces ignored JSON and Markdown maps of the initialized
@@ -56,13 +61,13 @@ function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,719 non-overlapping
-function ranges produce about 701 KiB of generated assembly, while gaps and the
-resource area remain explicit binary regions. One thousand one hundred thirty-six
-reviewed C source units now reconstruct 278,560 retail code bytes. Together with 17
-authentic source-assembly units, 1,153 matching units reconstruct 279,908 code
-bytes. Twelve of the C units are data-only translation units whose initialized sections are verified
+function ranges produce 703,004 bytes of generated assembly, while gaps and the
+resource area remain explicit binary regions. The 1,284 compiler-built source
+units now reconstruct 308,392 retail code bytes. Together with 17 authentic
+source-assembly units, 1,301 matching units reconstruct 309,740 code bytes.
+Eighty-three of the compiler-built units are data-only translation units whose initialized sections are verified
 independently. The
-160 libultra units include the
+168 libultra and compiler-runtime units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
 string primitives, audio synthesis and effects processing, timer services, VI
@@ -75,28 +80,30 @@ byte directly with the supported ROM.
 The project is listed through the root [`.recomp.json`](.recomp.json) manifest.
 Every CI run on the default branch publishes an objdiff v2 progress artifact
 named `us_report`, with `report.json` generated from the reviewed function
-catalogue and the three byte-verified matching manifests. This is the artifact
+catalogue and the four byte-verified matching manifests. This is the artifact
 contract consumed by [recomp.fyi](https://recomp.fyi/); locally, `make report`
 writes the same ignored report under
 `build/` without requiring a ROM. Report policy and strict manifest validation
 are provided by [Decompkit](docs/DECOMPKIT.md) through
 `config/decompkit.toml`. Code and data are reported separately. Data progress
-advances only when reviewed `.data` or `.rodata` ranges are added to
-the section-aware matching-data manifest; 88,656 initialized bytes are currently
-verified. This includes effect scripts, HUD and level-map metadata, briefing text
-and image descriptors, and opponent-wave configuration. Unknown non-function
-bytes are never credited as reconstructed data.
+advances only when reviewed `.data`, `.rodata`, or `.rdata` ranges are added to
+the section-aware matching-data manifest; 153,924 initialized bytes are currently
+verified. This includes effect scripts, HUD and level-map metadata, briefing text,
+image descriptors, opponent-wave configuration, and the remaining typed constant
+and initialized-data ranges. Unknown non-function bytes are never credited as
+reconstructed data.
 Asset identification is tracked separately over the ROM's asset region. A byte
-is credited only when its container boundaries and encoding are supported by
-recovered code and validated against the retail ROM. Container identification
-does not claim that individual entries have already been classified as textures,
-music, sounds, images, models, or levels.
+is classified only when its boundaries and encoding are supported by recovered
+code and validated against the retail ROM. The canonical ledger covers every
+asset-region byte exactly once, distinguishing payloads and containers from
+padding and parsed-but-unreferenced data. Some bundle entries remain semantically
+unidentified even though their enclosing format and byte range are proven.
 
 ```text
-code       [█████████░░░░░░░░░░░]  42.52%    298,988 / 703,144 bytes
-data       [██████████░░░░░░░░░░]  51.66%     89,620 / 173,464 bytes
-functions  [█████████████████░░░]  83.19%       1,430 / 1,719
-assets     [████████████░░░░░░░░]  58.21%  4,270,261 / 7,335,936 bytes
+code       [█████████░░░░░░░░░░░]  43.97%    309,096 / 703,004 bytes
+data       [██████████████████░░]  88.66%    153,924 / 173,604 bytes
+functions  [█████████████████░░░]  84.53%       1,453 / 1,719
+assets     [████████████████████] 100.00%  7,335,936 / 7,335,936 bytes
 ```
 
 The game-owned KMC GCC units cover string and list helpers, state initialization

@@ -22,6 +22,7 @@ setup: $(VENV_STAMP) config
 toolchain:
 	tools/bootstrap_ido.sh
 	tools/bootstrap_kmc_gcc.sh
+	tools/bootstrap_sn_gcc.sh
 
 verify:
 	$(PYTHON) tools/verify_rom.py $(ROM)

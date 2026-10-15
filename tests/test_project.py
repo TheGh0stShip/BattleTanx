@@ -27,9 +27,9 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(section["rom"], 0x1000)
         self.assertEqual(section["vram"], 0x80071000)
         self.assertEqual(section["size"], 0x100000)
-        self.assertEqual(len(section["functions"]), 1759)
+        self.assertEqual(len(section["functions"]), 1755)
         canonical = canonical_functions(section)
-        # 40 catalogue entries are internal aliases or overlapping hypotheses;
+        # 37 catalogue entries are internal aliases or overlapping hypotheses;
         # they remain documented but cannot be independent linker segments.
         self.assertEqual(len(canonical), 1719)
         for left, right in zip(canonical, canonical[1:]):
@@ -60,16 +60,23 @@ class ProjectTests(unittest.TestCase):
 
     def test_matching_manifest(self) -> None:
         rows = [line.split("\t") for line in (ROOT / "config/us/matching_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(rows), 147)
-        self.assertEqual(sum(int(row[1], 0) for row in rows), 76296)
+        self.assertEqual(len(rows), 155)
+        self.assertEqual(sum(int(row[1], 0) for row in rows), 78340)
         for _start, _size, source, _flags, digest in rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 1045)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 221988)
+        self.assertEqual(len(kmc_rows), 1126)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 225724)
         for _start, _size, source, _flags, digest in kmc_rows:
+            self.assertTrue((ROOT / source).is_file())
+            self.assertEqual(len(digest), 64)
+
+        sn_rows = [line.split("\t") for line in (ROOT / "config/us/matching_sn_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
+        self.assertEqual(len(sn_rows), 3)
+        self.assertEqual(sum(int(row[1], 0) for row in sn_rows), 4328)
+        for _start, _size, source, _flags, digest in sn_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
 
@@ -81,11 +88,11 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         data_rows = [line.split("\t") for line in (ROOT / "config/us/matching_data_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(data_rows), 120)
-        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 89620)
+        self.assertEqual(len(data_rows), 194)
+        self.assertEqual(sum(int(row[1], 0) for row in data_rows), 153924)
         for _start, _size, source, section, digest in data_rows:
             self.assertTrue((ROOT / source).is_file())
-            self.assertIn(section, {".rodata", ".data"})
+            self.assertIn(section, {".rodata", ".rdata", ".data"})
             self.assertEqual(len(digest), 64)
 
     def test_recomp_fyi_manifest(self) -> None:
@@ -106,23 +113,23 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(len(report["units"]), 1719)
         self.assertEqual(report["measures"]["total_functions"], 1719)
         self.assertGreater(report["measures"]["matched_functions"], 0)
-        self.assertEqual(int(report["measures"]["total_data"]), 173464)
-        self.assertEqual(report["measures"]["matched_data"], "89620")
+        self.assertEqual(int(report["measures"]["total_data"]), 173604)
+        self.assertEqual(report["measures"]["matched_data"], "153924")
         self.assertGreater(report["measures"]["matched_data_percent"], 0.0)
         self.assertEqual({category["id"] for category in report["categories"]},
                          {"game", "libultra", "assets", "assets_textures", "assets_images",
-                          "assets_models", "assets_animations", "assets_levels", "assets_scripts",
-                          "assets_music", "assets_sound", "assets_fonts", "assets_containers"})
+                          "assets_fonts", "assets_models", "assets_animations", "assets_levels",
+                          "assets_navigation", "assets_scripts", "assets_music", "assets_sound"})
         by_id = {category["id"]: category for category in report["categories"]}
-        self.assertEqual(by_id["assets_music"]["measures"]["matched_data"], str(0x2C19B0 - 0x29A710))
-        self.assertEqual(by_id["assets_sound"]["measures"]["matched_data"], str(0x29A710 - 0x101000))
-        self.assertEqual(by_id["assets_fonts"]["measures"]["matched_data"], str(0x2D2790 - 0x2C3E50))
-        self.assertEqual(by_id["assets_levels"]["measures"]["matched_data"],
-                         str((0x7388F5 - 0x6F9C40) + (0x7B69A0 - 0x738900)))
-        self.assertEqual(by_id["assets_images"]["measures"]["matched_data"],
-                         str((0x7E3210 - 0x7B69A0) + (0x7E76D0 - 0x7E3250) + (0x7EA060 - 0x7E7C50)))
+        expected = {"assets_textures": 1399768, "assets_images": 1671170,
+                    "assets_fonts": 59712, "assets_models": 725520,
+                    "assets_animations": 752496, "assets_levels": 516211,
+                    "assets_navigation": 257151, "assets_scripts": 0,
+                    "assets_music": 694320, "assets_sound": 1141682}
+        for category_id, size in expected.items():
+            self.assertEqual(by_id[category_id]["measures"]["matched_data"], str(size))
         assets = next(category for category in report["categories"] if category["id"] == "assets")
-        self.assertEqual(assets["measures"]["matched_data"], "4270261")
+        self.assertEqual(assets["measures"]["matched_data"], "7335936")
         self.assertEqual(assets["measures"]["total_data"], "7335936")
         # The report must remain JSON serializable with protobuf-compatible
         # string encoding for every uint64 field.
@@ -137,13 +144,13 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(config.root, ROOT)
         self.assertEqual(config.report_output, ROOT / "build/report.json")
         self.assertEqual([pipeline for _path, pipeline in config.unit_manifests],
-                         ["ido", "kmc", "assembly"])
+                         ["ido", "kmc", "sn", "assembly"])
         ranges = parse_address_ranges(
             [path for path, _pipeline in config.unit_manifests], allow_empty=True
         )
-        self.assertEqual(len(ranges), 1209)
+        self.assertEqual(len(ranges), 1301)
         self.assertEqual(sum(int(row["SIZE"], 0)
-                             for row in read_tsv(config.data_manifest)), 89620)
+                             for row in read_tsv(config.data_manifest)), 153924)
 
     def test_decompkit_adapter_protocol(self) -> None:
         with tempfile.TemporaryDirectory() as directory:

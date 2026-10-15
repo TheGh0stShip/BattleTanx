@@ -75,11 +75,11 @@ BUNDLE_HEADER = struct.Struct(">II")  # entry count, payload offset
 class Bundle:
     """Decompressed resource bundle.
 
-    ``u32 count; u32 payload_offset; u32 boundary[count];`` padded to 8
-    bytes.  ``boundary[0..count-2]`` are ascending entry boundaries relative
-    to ``payload_offset``; ``boundary[count-1]`` is zero.  Entry ``i`` spans
-    from the previous boundary (0 for the first) to ``boundary[i]``, and the
-    last entry runs to the end of the payload.
+    ``u32 count; u32 offset[count]; u32 0;`` padded to 8 bytes.  Each
+    ``offset[i]`` is relative to the start of the bundle (consumers fetch entry
+    ``i`` as ``base + *(u32 *)(base + 4 + 4 * i)``); ``offset[0]`` equals the
+    aligned header size.  Entry ``i`` spans ``offset[i]`` to ``offset[i + 1]``
+    and the last entry runs to the end of the bundle.
     """
 
     count: int
@@ -97,16 +97,13 @@ def parse_bundle(data: bytes) -> Bundle:
         raise AssetError(f"implausible bundle entry count {count}")
     if payload != bundle_header_size(count):
         raise AssetError(f"payload offset 0x{payload:X} != aligned header 0x{bundle_header_size(count):X}")
-    boundaries = be_u32_array(data, BUNDLE_HEADER.size, count)
-    if boundaries[-1] != 0:
-        raise AssetError("bundle boundary table is not zero-terminated")
-    cuts = list(boundaries[:-1])
-    if cuts != sorted(cuts) or (cuts and cuts[0] == 0):
-        raise AssetError("bundle boundaries are not strictly ascending")
-    edges = [0, *cuts, len(data) - payload]
-    if edges[-2] > edges[-1]:
-        raise AssetError("bundle boundary exceeds payload")
-    entries = tuple((payload + left, payload + right) for left, right in zip(edges, edges[1:]))
+    offsets = be_u32_array(data, 4, count)
+    if be_u32(data, 4 + 4 * count) != 0:
+        raise AssetError("bundle offset table is not zero-terminated")
+    edges = [*offsets, len(data)]
+    if any(left >= right for left, right in zip(edges, edges[1:])):
+        raise AssetError("bundle offsets are not strictly ascending within the bundle")
+    entries = tuple(zip(edges, edges[1:]))
     return Bundle(count, payload, entries)
 
 

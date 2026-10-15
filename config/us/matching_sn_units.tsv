@@ -1,0 +1,4 @@
+# ROM_START	SIZE	SOURCE	SN_GCC_FLAGS	SHA256_TEXT
+0xB4350	0x5EC	src/libgcc/divdi3.c	--section-base=.rdata:0x80075630 -O2 -G0 -mcpu=vr4300 -mips3 -mhard-float -meb	36f04b436ff94f484fa8603f86d7e3e35087e526537f1d0aada85dc5317c82b9
+0xB4940	0x578	src/libgcc/moddi3.c	--section-base=.rdata:0x80075730 -O2 -G0 -mcpu=vr4300 -mips3 -mhard-float -meb	2ca7f45a37ed94f4b136d98ab1497d133f3946979644b43291b64121ed62d084
+0xB4EC0	0x584	src/libgcc/udivdi3.c	--section-base=.rdata:0x80075830 -O2 -G0 -mcpu=vr4300 -mips3 -mhard-float -meb	0c1df68b4d071df2d354e1879e0a2fa848f5ec408699eeb5230b0edeb81843f8

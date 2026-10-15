@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "config/us/matching_units.tsv"
 KMC_MANIFEST = ROOT / "config/us/matching_kmc_units.tsv"
+SN_MANIFEST = ROOT / "config/us/matching_sn_units.tsv"
 ASM_MANIFEST = ROOT / "config/us/matching_asm_units.tsv"
 DATA_MANIFEST = ROOT / "config/us/matching_data_units.tsv"
 
@@ -128,7 +129,7 @@ def relocate_elf32_be_section(
 
 def rows() -> list[tuple[str, int, int, Path, list[str], str]]:
     result = []
-    for pipeline, manifest in (("ido", MANIFEST), ("kmc", KMC_MANIFEST)):
+    for pipeline, manifest in (("ido", MANIFEST), ("kmc", KMC_MANIFEST), ("sn", SN_MANIFEST)):
         for line in manifest.read_text().splitlines():
             if not line or line.startswith("#"):
                 continue
@@ -143,7 +144,7 @@ def rows() -> list[tuple[str, int, int, Path, list[str], str]]:
     return result
 
 
-DATA_SECTIONS = (".rodata", ".data")
+DATA_SECTIONS = (".rodata", ".rdata", ".data")
 
 
 def parse_data_row(line: str) -> tuple[int, int, str, str, str]:
@@ -187,6 +188,7 @@ def main() -> None:
     kmc_root = ROOT / ".toolchain/kmc-gcc-2.7.2"
     if not (kmc_root / "gcc").is_file() or not (kmc_root / "as").is_file():
         raise SystemExit("missing pinned KMC compiler; run tools/bootstrap_kmc_gcc.sh")
+    sn_root = ROOT / ".toolchain/sn-gcc-2.8"
     output_dir = ROOT / "build/us/matching"
     output_dir.mkdir(parents=True, exist_ok=True)
     known_symbols = symbol_addresses()
@@ -252,6 +254,30 @@ def main() -> None:
                     normalize_command.append("--legacy")
                 subprocess.run([*normalize_command, str(raw), str(normalized)], check=True, cwd=ROOT)
                 subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(normalized)], check=True, cwd=ROOT)
+        elif pipeline == "sn":
+            required = (sn_root / "wibo", sn_root / "cc1n64.exe", sn_root / "asn64.exe",
+                        sn_root / "psyq-obj-parser")
+            if not all(path.is_file() for path in required):
+                raise SystemExit("missing pinned SN compiler; run tools/bootstrap_sn_gcc.sh")
+            preprocessed = output.with_suffix(".i")
+            assembly = output.with_suffix(".s")
+            psyq_object = output.with_suffix(".obj")
+            subprocess.run([
+                "gcc", "-E", "-P", "-undef", "-D__GNUC__=2", "-D__GNUC_MINOR__=8",
+                str(source), "-o", str(preprocessed),
+            ], check=True, cwd=ROOT)
+            subprocess.run([
+                str(sn_root / "wibo"), str(sn_root / "cc1n64.exe"),
+                "-quiet", *flags, str(preprocessed), "-o", str(assembly),
+            ], check=True, cwd=ROOT)
+            subprocess.run([
+                str(sn_root / "wibo"), str(sn_root / "asn64.exe"),
+                "-o", str(psyq_object), str(assembly),
+            ], check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
+            subprocess.run([
+                str(sn_root / "psyq-obj-parser"), str(psyq_object),
+                "-b", "-n", "-o", str(output),
+            ], check=True, cwd=ROOT, stdout=subprocess.DEVNULL)
         else:
             subprocess.run([str(kmc_root / "as"), "-mips3", "-G0", "-o", str(output), str(source)], check=True, cwd=ROOT)
         compiled_units[source] = (output, section_bases, unit_symbols)
@@ -307,8 +333,9 @@ def main() -> None:
             raise SystemExit(f"{source}: data mismatch at ROM 0x{start + first:X}")
         matched_data += size
         if adapter_payload is not None:
-            adapter_payload[f"{section[1:]}_hex"] = data.hex()
-            adapter_payload[f"{section[1:]}_vram"] = 0x80070000 + start
+            response_section = "rodata" if section == ".rdata" else section[1:]
+            adapter_payload[f"{response_section}_hex"] = data.hex()
+            adapter_payload[f"{response_section}_vram"] = 0x80070000 + start
         print(f"MATCH [DATA {section}] {source.relative_to(ROOT)}: ROM 0x{start:X}-0x{start + size:X} ({size} bytes)")
     if args.response:
         args.response.parent.mkdir(parents=True, exist_ok=True)
