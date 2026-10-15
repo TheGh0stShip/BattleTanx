@@ -1173,3 +1173,105 @@
 0x74104	0x240	src/code/gameplay/initialize_unit_ai_state.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	ee1bdd7832c2ccbaefb6d19759ed7dade342cd71d5dce282225d45221f97ff81
 0x73554	0x78	src/code/gameplay/initialize_ai_member_link.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	2a75852128c79d104037d7756a87d4ba262d5287582c79538002399f112d9bc8
 0x84DFC	0x164	src/code/render/draw_filled_rectangle.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	7604ebda3fb3a4a7c922b544b58adc7384719bf5c082b89e68516b568f8bcb69
+0x69B0	0x240	src/code/debug/run_debug_host_command_loop.c	--section-base=.rodata:0x80071040 -O2 -G0 -mips3 -mgp32 -mfp32	374c0455207a4b65b5bb192be5e8941f30d5b8bc39097819ab1c98d9947c8c9b
+0x7C78	0x21C	src/code/math/clamp_target_to_segment_hit.c	--section-base=.rodata:0x80071074 -O2 -G0 -mips3 -mgp32 -mfp32	cb9598201e1e85afed1bda457273582b3c63868bcf3bbf355d8ddb0ff30afc74
+0xC344	0x248	src/code/frontend/run_frontend_state_loop.c	--section-base=.rodata:0x80071178 -O2 -G0 -mips3 -mgp32 -mfp32	0620021d67d226972777c6d9a5c6e44babcce2932ed96c01866b5be1b8aa10d1
+0x124E4	0x2C8	src/code/render/submit_model_group_view.c	--section-base=.rodata:0x800714B4 -O2 -G0 -mips3 -mgp32 -mfp32	136f101908f39e07f8f176fa9c49ce0464e08f17aad898ef320c9a52d1405773
+0x127AC	0x2FC	src/code/render/submit_model_group_view_layered.c	--section-base=.rodata:0x800714C4 -O2 -G0 -mips3 -mgp32 -mfp32	7d70fcb171ddfc24b2142585a735f2f531c1343e9d13d42e3049ea9c51db0c01
+0x12D60	0x37C	src/code/render/submit_masked_model_group.c	--section-base=.rodata:0x800714D4 -O2 -G0 -mips3 -mgp32 -mfp32	79106cbc7f1ebaff2df0a42c6f85004a7facdbfb07b6eb652b9f7f89d98f8eb6
+0x130DC	0x250	src/code/render/place_group_corner_shapes.c	-O2 -G0 -mips3 -mgp32 -mfp32	d1bdb7efd82c6caee35d6fe514ef24280c92dc93bcf1f9841a037b24f07b9fc6
+0x14F90	0x300	src/code/render/submit_keyed_model_group.c	-O2 -G0 -mips3 -mgp32 -mfp32	58291cf1197a68145d4a9510b13732a24ff89d7a227d34361b223bf2e3854282
+0x16DC0	0x17C	src/code/render/scale_display_list_vertex_colors.c	--section-base=.rodata:0x80071700 -O2 -G0 -mips3 -mgp32 -mfp32	0571055675d79848d1b0b8d06da82b95362f455203c64729f9d66e36da5e94a3
+0x1B66C	0x230	src/code/effects/broadcast_effect_message_4.c	-O2 -G0 -mips3 -mgp32 -mfp32	99d4910f502e8a4c1da09bcdcaaba415e994084b79ed91a70442ecb1e1c8b014
+0x1F040	0x208	src/code/effects/spawn_effect_kind_08_burst.c	--section-base=.rodata:0x80071C50 -O2 -G0 -mips3 -mgp32 -mfp32	25447754cbcc2d13b69b9b280fbecdc20a22038939f80fa5f65ec5bccf18c456
+0x21A60	0x244	src/code/render/morph_display_list_vertices.c	-O2 -G0 -mips3 -mgp32 -mfp32	125baa1cee7c10da3f0e19a90085a8eded3d128412c7f4af64900d22735e3c10
+0x242A8	0x294	src/code/render/polygon_outside_view.c	-O2 -G0 -mips3 -mgp32 -mfp32	4f2c8603c0e5c02a9f9876e93595b7b9a203bb510aeee516774a3947ac6ffc91
+0x249D8	0x280	src/code/levels/lower_profile_span.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	d6ec1229fa0c10424e2eeef50112836e57d998c79df228d0202464f9ea478154
+0x25768	0x4B4	src/code/gameplay/query_rect_edges_near_zone.c	-O2 -G0 -mips3 -mgp32 -mfp32	5064c52ae97eaeff6fbbd5828603312786d68429a1e8918520cd0f4252202c67
+0x25CDC	0x1D0	src/code/gameplay/is_profile_blocked.c	-O2 -G0 -mips3 -mgp32 -mfp32	446bb31d8a063184e0e89a6ee526813f4dc67a8a910e52497558f0be7f118ba9
+0x262B4	0x4AC	src/code/gameplay/test_rect_edges_facing_listener_in_range.c	-O2 -G0 -mips3 -mgp32 -mfp32	b78e0c0a9310b7dcb36c9f50dd242045142d46a911a61c4e796ffd3a2ad080c6
+0x2FEE0	0x254	src/code/gameplay/try_place_unit.c	--section-base=.rodata:0x80072AD0 -O2 -G0 -mips3 -mgp32 -mfp32	78f287ebf5e44ee73a98e58a6648716948227b2ed0f81211a2b9ba53aafb00a5
+0x31408	0x2B8	src/code/gameplay/spawn_squad_unit_at.c	--section-base=.rodata:0x80072C88 -O2 -G0 -mips3 -mgp32 -mfp32	2904e98297bbaa6510081d4fd89f9e241b35bd61eda4d005290152432cd8dd18
+0x327D0	0x258	src/code/gameplay/bonus_crate_handle_message.c	--section-base=.rodata:0x80072CD8 -O2 -G0 -mips3 -mgp32 -mfp32	6f123aaf10793d198fe549d34b4f2fa1c25505c7646c9f41697fb80af5ff6686
+0x32A44	0x1F4	src/code/effects/update_distance_scaled_debris_emitter.c	--assembler=asn64 --section-base=.rodata:0x80072D88 -O2 -G0 -mips3 -mgp32 -mfp32	13fc04a032faefe956d19401609c53253ba7b541d49a27e8de1c9af6311b964b
+0x33DE0	0x46C	src/code/gameplay/update_squad_state.c	--section-base=.rodata:0x80072DD0 -O2 -G0 -mips3 -mgp32 -mfp32	78272be7be0e6144a8ab80acc9546c22a59bb7063c8696aa9199bcdc2c2f4176
+0x34374	0x18C	src/code/gameplay/select_squad_unit_for_mode.c	-O2 -G0 -mips3 -mgp32 -mfp32	33dc0c5f3b32aac8c9a70f8b529d56273c78f0d3d7b690c577cd3a3c7e9c494e
+0x35348	0x43C	src/code/gameplay/respawn_squad_unit.c	--section-base=.rodata:0x80072DF0 -O2 -G0 -mips3 -mgp32 -mfp32	a7e2380adb599fa020a9ec6972c2cf5c7e0577f43260902f3dcba6eb6000a7a4
+0x35784	0x264	src/code/gameplay/respawn_squad_member.c	--section-base=.rodata:0x80072DF8 -O2 -G0 -mips3 -mgp32 -mfp32	b01215cc56df2f94e7ab2830dce4dfae4e7ae448e4ea5848a25c8a635672dda9
+0x386E4	0x250	src/code/math/build_pivot_rotation_matrix.c	-O2 -G0 -mips3 -mgp32 -mfp32	e2c60ff05ac22531e19cd23945d3b81ed5d367b34f2f98ca067e620cd024e434
+0x38C88	0x214	src/code/runtime/controller_rumble_thread.c	-O2 -G0 -mips3 -mgp32 -mfp32	86db69dc41b1cf187830ea6ccfe04f4cac3c3bab4ae8f2f5c2cd127f6fc5bfc2
+0x3ACCC	0x3D8	src/code/render/load_table_texture.c	-O2 -G0 -mips3 -mgp32 -mfp32	4aac21ca34c47cc17783daf8d5bed5c40558a710767fcd86934e74dc76c22a7d
+0x3BAB8	0x464	src/code/frontend/slide_screen_transition.c	--section-base=.rodata:0x80073150 -O2 -G0 -mips3 -mgp32 -mfp32	4693e18677fbb4dcf9d7faeb84f2ed7a1292e939f0cfa0407fee5610b66d0d65
+0x3C2E0	0x1060	src/code/frontend/init_opening_sequence.c	-O2 -G0 -mips3 -mgp32 -mfp32	1a054d64c7ac82e9ec27031e8171f71d3d581395eeb6a885dfb92b10755ebbca
+0x3D340	0x260	src/code/frontend/draw_opening_page_01.c	--section-base=.rodata:0x800731D8 -O2 -G0 -mips3 -mgp32 -mfp32	ae4124ded6a7586492ffa005d8c7f221f84ff7f03a280bbd4e6f0e48c221d323
+0x3D5A0	0x288	src/code/frontend/draw_opening_page_02.c	--section-base=.rodata:0x800731DC -O2 -G0 -mips3 -mgp32 -mfp32	8b810287079b8af035cf34e285068b35fb0bb70005a3b60e0f9d6c9050193284
+0x3D828	0x548	src/code/frontend/draw_opening_page_03.c	--section-base=.rodata:0x800731E0 -O2 -G0 -mips3 -mgp32 -mfp32	d8ceb133b81fced9da8445ecff010ecebf633916292e38de919f38ecbf068c16
+0x3DD70	0x548	src/code/frontend/draw_opening_page_04.c	--section-base=.rodata:0x800731E4 -O2 -G0 -mips3 -mgp32 -mfp32	1dca65ca60b59e2d98974a706d7c08af55c8c7c9fa3b9733422b3f3f3980e889
+0x3E2B8	0x548	src/code/frontend/draw_opening_page_05.c	--section-base=.rodata:0x800731E8 -O2 -G0 -mips3 -mgp32 -mfp32	ab3278b8e2ca37e7899d1564f88c34d93344b7b8b76d13d48f39973bc11da452
+0x3E800	0x250	src/code/frontend/draw_opening_page_06.c	--section-base=.rodata:0x800731EC -O2 -G0 -mips3 -mgp32 -mfp32	d12ebd9cc136c220cba8e138a3ca6a089b1167cc5c7f0c4de418fa85df1d05f2
+0x3EA50	0x548	src/code/frontend/draw_opening_page_07.c	--section-base=.rodata:0x800731F0 -O2 -G0 -mips3 -mgp32 -mfp32	ac7c80fd44c5822c5c247bac18a3277215cbf5bf255c90487c32359486bbff34
+0x3EF98	0x59C	src/code/frontend/draw_opening_page_08.c	--section-base=.rodata:0x800731F4 -O2 -G0 -mips3 -mgp32 -mfp32	824bc60bfadfec705544d2f8a169403b7f50bd323ded7fd6b8e43a76a07c7f36
+0x3F534	0x5D4	src/code/frontend/draw_opening_page_09.c	--section-base=.rodata:0x800731F8 -O2 -G0 -mips3 -mgp32 -mfp32	fd4902d8d220f66b648476b66134f1e336518d2bf4470a6b98bb6884bc4bcad7
+0x3FB08	0x708	src/code/frontend/draw_opening_page_10.c	--section-base=.rodata:0x800731FC -O2 -G0 -mips3 -mgp32 -mfp32	b5e7f71bb763c18a22f1a4698861922f5a8e6569be7242fc9bdcd22b00616ffe
+0x40210	0x230	src/code/frontend/draw_opening_page_11.c	--section-base=.rodata:0x80073200 -O2 -G0 -mips3 -mgp32 -mfp32	29ba1a52fbe91ddddbfabe0276aa5c4dfbf870033c692d34bfa91333d431aa32
+0x40440	0x54C	src/code/frontend/draw_opening_page_12.c	--section-base=.rodata:0x80073204 -O2 -G0 -mips3 -mgp32 -mfp32	1c5bc82d1028a424d611d4edb8854be462717b414b45c1d9d73465f5df2fa6c4
+0x4098C	0x390	src/code/frontend/draw_opening_page_13.c	--section-base=.rodata:0x80073208 -O2 -G0 -mips3 -mgp32 -mfp32	06c78f6f5618302576cf0f4bdb522037e9bbc743f29570b4a91787fbad2474e3
+0x40D1C	0x548	src/code/frontend/draw_opening_page_14.c	--section-base=.rodata:0x8007320C -O2 -G0 -mips3 -mgp32 -mfp32	5eb79eedd09acd78940f96ae0d996f8f2f021b05405f371cfc71abcbb6a114c3
+0x41264	0x2BC	src/code/frontend/draw_opening_page_15.c	--section-base=.rodata:0x80073210 -O2 -G0 -mips3 -mgp32 -mfp32	0103dcb61d984e6bb6a240819e9c600827a12c97b45cc2b44e0a57fc04e77fc3
+0x48804	0x1408	src/code/frontend/draw_opening_captions.c	--section-base=.rodata:0x800733B8 -O2 -G0 -mips3 -mgp32 -mfp32	68c1337e97cb4109c3173b1e03875f7cf677bd7dc84b4b5394fefd5a1ae0a459
+0x49C9C	0xAC8	src/code/frontend/init_sequence_a_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	f9994f7bf12425b781654e80cb6797f3042c52ce9f393ce6796873143dfa9d23
+0x4A764	0x1FC	src/code/frontend/draw_sequence_a_page1.c	--section-base=.rodata:0x80073410 -O2 -G0 -mips3 -mgp32 -mfp32	b150afebb621e4ee1ac18487c3899e14d1eae628f929bd9bdcb023129415d9f2
+0x4A960	0x1FC	src/code/frontend/draw_sequence_a_page2.c	--section-base=.rodata:0x80073414 -O2 -G0 -mips3 -mgp32 -mfp32	c6a3b5c08123e79c9f416a33063d88ca3c4f850140734d9658e13d9fe917c739
+0x4AB5C	0x1FC	src/code/frontend/draw_sequence_a_page3.c	--section-base=.rodata:0x80073418 -O2 -G0 -mips3 -mgp32 -mfp32	b25267027546e38e64c6c03c76229ccd26493f25aa1bd4a3ee35ef63367b0f5b
+0x4AD58	0x4FC	src/code/frontend/draw_sequence_a_page5.c	--section-base=.rodata:0x8007341C -O2 -G0 -mips3 -mgp32 -mfp32	b565105a11ae9f419d1d961cc5724a2c3888977e38d8b5ea8845dafaf922abf2
+0x4B254	0x1FC	src/code/frontend/draw_sequence_a_page7.c	--section-base=.rodata:0x80073420 -O2 -G0 -mips3 -mgp32 -mfp32	e80bb9ba1b9ccb0f0dde1d1d4dd18858293ea82a950ec860e261dae6b3feaa10
+0x4B450	0x24C	src/code/frontend/draw_sequence_a_page9.c	--section-base=.rodata:0x80073424 -O2 -G0 -mips3 -mgp32 -mfp32	60c9525ee4096e985abb211d7e8d926fb39f4dd3361e945e6689f642b4b739fe
+0x4B69C	0xB78	src/code/frontend/update_sequence_a.c	--section-base=.rodata:0x80073428 -O2 -G0 -mips3 -mgp32 -mfp32	e2b0e2f976facb24036f5a2dac176b3b51d2bbd692e58e5e55ce42dc55ba21e3
+0x4C4A8	0xCF4	src/code/frontend/draw_sequence_a_captions.c	--section-base=.rodata:0x80073444 -O2 -G0 -mips3 -mgp32 -mfp32	5c1e997fdf5bba26114d2614ec10fb24c184c0f6c7d5ce3bfccb690b52298af6
+0x4D20C	0x788	src/code/frontend/init_sequence_b_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	646b3f1bb91f30be77a826c925133a8c90e61704100c1eb6f613e23f34ffc049
+0x4D994	0x564	src/code/frontend/draw_sequence_b_page2.c	--section-base=.rodata:0x8007347C -O2 -G0 -mips3 -mgp32 -mfp32	1e17c4d26a90212f1e5f4e59f0ae45193f74bad9695efc4f06b6daa188f61a37
+0x4DEF8	0x564	src/code/frontend/draw_sequence_b_page3.c	--section-base=.rodata:0x80073480 -O2 -G0 -mips3 -mgp32 -mfp32	b62569e5a3c959a0f7c4daecfcaf8a7c205e6e9c821cbee3d0aa857d383f5cc9
+0x4E45C	0x540	src/code/frontend/draw_sequence_b_page4.c	--section-base=.rodata:0x80073484 -O2 -G0 -mips3 -mgp32 -mfp32	4c62db2b6cc6e37f3a5a578a391f102e0163e51ac42e39abe8140783b8a00c22
+0x4E99C	0x1418	src/code/frontend/update_sequence_b.c	--section-base=.rodata:0x80073490 -O2 -G0 -mips3 -mgp32 -mfp32	4cec34332f68d1b0ecf2c66e63e03be126eaf05f80cddc119c622d987d69d100
+0x4FFC8	0x864	src/code/frontend/draw_sequence_b_captions.c	--section-base=.rodata:0x800734D4 -O2 -G0 -mips3 -mgp32 -mfp32	fba2b2fae708e347caf5cfc605b87b2cb60b33d0d38dce8754ee2dffe81731ab
+0x50EDC	0x1FC	src/code/frontend/draw_sequence_c_page1.c	--section-base=.rodata:0x80073510 -O2 -G0 -mips3 -mgp32 -mfp32	62322c93740be452844afdbddeeb59362a0dfd3e0e8fb56b418192b51fad6d34
+0x510D8	0x1FC	src/code/frontend/draw_sequence_c_page2.c	--section-base=.rodata:0x80073514 -O2 -G0 -mips3 -mgp32 -mfp32	eae2bf2c6acc27eb2b839dce83ba05eed670a31121c3646700f64db7d87fd862
+0x512D4	0x4FC	src/code/frontend/draw_sequence_c_page3.c	--section-base=.rodata:0x80073518 -O2 -G0 -mips3 -mgp32 -mfp32	e5621ead2c1a215730afdefe10be71b896b8fca96a764552651f957e6afadec5
+0x517D0	0x384	src/code/frontend/draw_sequence_c_page4.c	--section-base=.rodata:0x8007351C -O2 -G0 -mips3 -mgp32 -mfp32	5b684c236e27ee54114c2b87914a1ac6310d02c0fa3fd99c7d29af997ce1f4b3
+0x51B54	0x4FC	src/code/frontend/draw_sequence_c_page6.c	--section-base=.rodata:0x80073520 -O2 -G0 -mips3 -mgp32 -mfp32	7feb8ed7ee367d9121c6fed9d42ceb4006997a3a47153aed3e68d453710a6509
+0x52050	0x1FC	src/code/frontend/draw_sequence_c_page7.c	--section-base=.rodata:0x80073524 -O2 -G0 -mips3 -mgp32 -mfp32	b087c1fb0803b1bd4a554cc7d5450bb263f083510111d911845baf1b71bc799e
+0x5224C	0x12E8	src/code/frontend/update_sequence_c.c	--section-base=.rodata:0x80073528 -O2 -G0 -mips3 -mgp32 -mfp32	e89a3a055235d1629f02c8f4c63faaf8de6adf6f80d07a3e3c49a4da55a1a321
+0x53730	0x774	src/code/frontend/draw_sequence_c_captions.c	--section-base=.rodata:0x80073574 -O2 -G0 -mips3 -mgp32 -mfp32	4f52411510e082163f68e3b975adf669b91397c8e81d8514b47ad9ceb4f6f501
+0x54254	0x88C	src/code/frontend/update_sequence_d.c	--section-base=.rodata:0x800735A4 -O2 -G0 -mips3 -mgp32 -mfp32	7071aeec6ec7ded1d1475b0d0e52ed97b30db7d2fa3a43c426bf2e3d99ba9efd
+0x54E44	0x6A4	src/code/frontend/draw_sequence_d_captions.c	--section-base=.rodata:0x800735B0 -O2 -G0 -mips3 -mgp32 -mfp32	486d789beaa193db95708e4f362d9db7951c677108390da0ba0b87f4425cd315
+0x55580	0x2C8	src/code/frontend/draw_attract_screen.c	--section-base=.rodata:0x800735DC -O2 -G0 -mips3 -mgp32 -mfp32	00b38ea1f95526fba138fcabd25a6dc6bedc67871fec94149b1fa5c5aa79c7be
+0x55848	0x31C	src/code/frontend/run_attract_screen_loop.c	-O2 -G0 -mips3 -mgp32 -mfp32	712f01cbe119d48c615461134b31af59443762527414b0697b3f3c307875329d
+0x5BDBC	0x3EC	src/code/frontend/run_game_setup_screen.c	--section-base=.rodata:0x800737A8 -O2 -G0 -mips3 -mgp32 -mfp32	9ef475399a349aa23d4e86bb3ebdd5701d10c26a2b25cbcd0470a78a092ec6d6
+0x5C1A8	0x2C8	src/code/frontend/update_game_setup_menu_input.c	-O2 -G0 -mips3 -mgp32 -mfp32	a543e03168b456bde9c5462f8213e34031e7e26fc774af7376b98cb23890908f
+0x5E214	0x29C	src/code/frontend/update_options_menu_input.c	--section-base=.rodata:0x800738C8 -O2 -G0 -mips3 -mgp32 -mfp32	ea8010e5b14aaead1202243267d45de77f2a97b7cbc4ca6605ecb8f0cdf73fcd
+0x60DAC	0x404	src/code/frontend/draw_timed_splash_frame.c	--section-base=.rodata:0x80073C70 -O2 -G0 -mips3 -mgp32 -mfp32	825201c103f18a7c1897e21b26b4dae0fdea8fb236e5928aa086106696ee46bf
+0x61BA0	0x31C	src/code/frontend/draw_icon_grid.c	-O2 -G0 -mips3 -mgp32 -mfp32	a9ce0c377df794372b105959d063f2020414761c5a52d79bb106a9357aea4ff0
+0x61F20	0x1C4	src/code/frontend/classify_list_row.c	-O2 -G0 -mips3 -mgp32 -mfp32	52e988497d89faf10aa755690330b8cfeea49316d976d4e02f37d1c5c6d719f0
+0x66274	0x258	src/code/frontend/assign_player_slot_value.c	-O2 -G0 -mips3 -mgp32 -mfp32	2297e0e966fb906f8b8274edcd542569c6521d32c3540f25bc29de6149ab7124
+0x6A9B4	0x298	src/code/frontend/run_team_select_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	13a75cfbcd6d4466d871e37fe13069c0d2112f1630df68e9a77b1f924b56ad2f
+0x6CA7C	0x244	src/code/frontend/check_entered_password.c	--section-base=.rodata:0x800742E0 -O2 -G0 -mips3 -mgp32 -mfp32	9d3de8c99e2c614da029cd03b6bc9dd6f5b9ed230df9181a4ef948b4efea2e6d
+0x6D544	0x254	src/code/gameplay/parse_password_settings.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	cac5c1227fc675d2c103ea62be22d40923a9fadbc4783772adee7fc0e89b9267
+0x75AB0	0xF0	src/code/gameplay/update_unit_tracked_kind1b.c	-O2 -G0 -mips3 -mgp32 -mfp32	5a20fd8c29a74bc836aa55c49d068a0616b09ada84ef939bf657ab914661bc54
+0x7A93C	0x26C	src/code/gameplay/choose_weighted_rule.c	-O2 -G0 -mips3 -mgp32 -mfp32	2468f08d48dd478079b722e811ec111399196a275fd684fad7aa2b74007a8645
+0x7C410	0x234	src/code/runtime/load_demo_recording.c	--section-base=.rodata:0x800749B0 -O2 -G0 -mips3 -mgp32 -mfp32	10a16ca89f287cf1e26cdb7e8f78533e7ac320a4f3e415f4c1ec8300bbabce6d
+0x7C8C4	0x270	src/code/runtime/advance_demo_frame.c	-O2 -G0 -mips3 -mgp32 -mfp32	0c2bbdcc9e01c923459d5e89d582cf74b500c948abb1160c75c7f9d49705bb50
+0x803B4	0x240	src/code/effects/update_gate_object.c	-O2 -G0 -mips3 -mgp32 -mfp32	68dc76def4798ff211efe2bf542e6622dc54a81d339704c087a96d0334a9b828
+0x80738	0x220	src/code/effects/gate_object_handle_message.c	--section-base=.rodata:0x80074C80 -O2 -G0 -mips3 -mgp32 -mfp32	abd3fa4a39229e8f360e90aed0564ac80fa8e7eb8066b78413120cca53dcea71
+0x81708	0x254	src/code/effects/draw_streak_effect.c	-O2 -G0 -mips3 -mgp32 -mfp32	d35bfd32c25359c19ef25338c04db1217861300eba82ecade5ed6173c8e8b702
+0x8195C	0x258	src/code/effects/create_streak_effect.c	--section-base=.rodata:0x80074DDC -O2 -G0 -mips3 -mgp32 -mfp32	4940deac9b48d9fa44c9cae67fdb1a543b3bc794a8d2c3cfc88922d77c2a5ca0
+0x82AE4	0x274	src/code/effects/update_bouncing_debris.c	--section-base=.rodata:0x80074E78 -O2 -G0 -mips3 -mgp32 -mfp32	935c87a11d8363d614a0e170efff1c9234d5a2889ff58ca0644bb6bd3c257b7c
+0x83490	0x2E0	src/code/effects/update_bouncing_grenade.c	--section-base=.rodata:0x80074EEC -O2 -G0 -mips3 -mgp32 -mfp32	5a8a88a787cb7447c14f298cbed3800caa6b836b9f461d57245bc57d5b4e335f
+0x85960	0x20C	src/code/levels/load_level_support_assets.c	-O2 -G0 -mips3 -mgp32 -mfp32	8a091506338529bb609b95116dc60d271d6dbbfa461a4c3a127ac5e788eb688f
+0x866F0	0x244	src/code/render/draw_split_screen_dividers.c	-O2 -G0 -mips3 -mgp32 -mfp32	ef68bcb486da918dfeb15fc6402f849c9262ec38ec4b1da8d61d8ba899e66666
+0x8F73C	0x41C	src/code/frontend/draw_segment_bar.c	--section-base=.rodata:0x8007504C -O2 -G0 -mips3 -mgp32 -mfp32	9177a5d08700293cdd5cf63164e53b8530add8d1145cb7ee902d71b078608df9
+0x8FB58	0x420	src/code/frontend/draw_short_segment_bar.c	--section-base=.rodata:0x80075050 -O2 -G0 -mips3 -mgp32 -mfp32	5dd7a7ca330c2a7f24ce98f9520981658a5a2d21f984d3b7492a170516f1de21
+0x96F94	0x1D4	src/code/effects/create_point_motion.c	-O2 -G0 -mips3 -mgp32 -mfp32	15322d88ae8d364f2c470c94458ce45cc2e31a3a949907152c7262bafc6f7394
+0x97F14	0x328	src/code/runtime/find_first_motion_contact.c	-O2 -G0 -mips3 -mgp32 -mfp32	0868d113b46bbe632dceea3ba2cf88106933d4268318b6865c8c802d9718e8a2
+0x98538	0x214	src/code/math/find_nearest_segment_hit.c	--section-base=.rodata:0x80075490 -O2 -G0 -mips3 -mgp32 -mfp32	1b65a73960815978f30d12e986b6f575ff34f6cdb66ad8557992f2730054711c
+0x98B68	0x30C	src/code/runtime/sweep_motion_body.c	-O2 -G0 -mips3 -mgp32 -mfp32	cfaa592086bcb6617550e8b13dc837e243adeccb4ee03ae0f845fe4fe0810b8b
+0x9B9C8	0x240	src/code/runtime/sweep_oriented_box_against_box.c	-O2 -G0 -mips3 -mgp32 -mfp32	709e53d56473b36cc5f8cd29c25c96dfd9b2d5e29f0ac0a843275e48e783b3b2
