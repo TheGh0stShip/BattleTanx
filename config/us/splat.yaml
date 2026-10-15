@@ -1099,7 +1099,7 @@ segments:
       - [0x76C5C, c, code/gameplay/ai_release_target]
       - [0x76C80, c, code/gameplay/ai_reset_owner_state]
       - [0x76CA4, c, code/gameplay/ai_point_near_member_segment]
-      - [0x76D58, asm, functions/func_800E6D58]
+      - [0x76D58, c, code/gameplay/ai_select_owner_target_member]
       - [0x76FA0, c, code/runtime/stubs/800E6FA0_reject]
       - [0x76FA8, c, code/runtime/stubs/800E6FA8_reject]
       - [0x76FB0, c, code/gameplay/ai_clear_owner_float_parameter]

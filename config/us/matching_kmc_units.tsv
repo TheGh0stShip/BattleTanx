@@ -1300,3 +1300,4 @@
 0x93E50	0x50C	src/code/frontend/draw_versus_stats_screen.c	--section-base=.rodata:0x80075170 -O2 -G0 -mips3 -mgp32 -mfp32	a59103f3e982238258b9016a88fae2cce4004d0e38f5c2c74e3e146179c0b533
 0x94CD8	0x5A4	src/code/frontend/draw_party_stats_screen.c	--section-base=.rodata:0x80075178 -O2 -G0 -mips3 -mgp32 -mfp32	b243c35ac07b789f317d069e59050b0ac3077f25d00c56d60a613b72cfe9729c
 0x6F7D0	0x298	src/code/gameplay/build_route_from_path.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	0da5ae65d7696854d2f551a458cec1361a9084f8269a499427af8e88c4b879b3
+0x76D58	0x248	src/code/gameplay/ai_select_owner_target_member.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	1f4c31e17fdbbfb052366a30eca29144e0a9d57edb0b07c0e58f9f62ff6aa5d1

@@ -251,6 +251,90 @@ with open(input_filename, mode="r") as input_file:
                 )
             joined = joined.replace(before, after, 1)
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800E6D58:" in line for line in input_lines):
+        # Keep the retail allocation of the stack-backed target search state.
+        # The source-level values are identical, but GCC otherwise stores the
+        # member count before the branch (leaving a nop delay slot) and
+        # coalesces the signed and unsigned member-id reads. Retail schedules
+        # the store in the delay slot and retains both typed reads.
+        joined = "".join(input_lines)
+        setup_before = (
+            "\tlhu\t$2,78($3)\n\tmove\t$5,$19\n\tsh\t$2,46($sp)\n"
+            "\tli\t$2,0x000000ff\t\t# 255\n\tbeq\t$5,$2,.L2\n"
+        )
+        setup_after = (
+            "\tlhu\t$3,78($3)\n\tli\t$2,0x000000ff\t\t# 255\n"
+            "\tmove\t$5,$19\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$5,$2,.L2\n\tsh\t$3,46($sp)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+        )
+        fires = joined.count(setup_before)
+        if fires != 1:
+            raise RuntimeError(f"func_800E6D58 setup rewrite fired {fires} times")
+        joined = joined.replace(setup_before, setup_after, 1)
+
+        init_before = (
+            ".L2:\n\tl.s\t$f22,D_800746CC\n\tlw\t$4,8($21)\n"
+            "\tli\t$22,0x000000ff\t\t# 255\n\tsw\t$0,52($sp)\n"
+            "\tlw\t$3,180($4)\n\tli\t$2,0x00000001\t\t# 1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$3,$2,.L4\n"
+            "\tli\t$23,0x000000ff\t\t# 255\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlw\t$2,196($4)\n\t#nop\n\tsw\t$2,52($sp)\n"
+        )
+        init_after = (
+            ".L2:\n\tli\t$22,0x000000ff\t\t# 255\n"
+            "\tl.s\t$f22,D_800746CC\n\tlw\t$4,8($21)\n"
+            "\tlw\t$3,180($4)\n\tli\t$23,0x000000ff\t\t# 255\n"
+            "\tli\t$2,0x00000001\t\t# 1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbne\t$3,$2,.L4\n"
+            "\tsw\t$0,52($sp)\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlw\t$4,196($4)\n\tsw\t$4,52($sp)\n"
+        )
+        fires = joined.count(init_before)
+        if fires != 1:
+            raise RuntimeError(f"func_800E6D58 initialization rewrite fired {fires} times")
+        joined = joined.replace(init_before, init_after, 1)
+
+        loop_before = (
+            ".L4:\n\tlhu\t$2,46($sp)\n\tmove\t$20,$0\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$2,$0,.L6\n"
+            "\tmove\t$fp,$0\n\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L8:\n\tlw\t$2,36($sp)\n\tandi\t$3,$20,0xffff\n"
+            "\tsll\t$3,$3,1\n\taddu\t$3,$3,$2\n\tlh\t$19,0($3)\n"
+            "\tlh\t$4,24($21)\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800E52A0\n\tmove\t$5,$19\n"
+        )
+        loop_after = (
+            ".L4:\n\tlhu\t$6,46($sp)\n\tmove\t$20,$0\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tbeq\t$6,$0,.L6\n"
+            "\tmove\t$fp,$0\n\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L8:\n\tlw\t$6,36($sp)\n\tandi\t$2,$20,0xffff\n"
+            "\tsll\t$2,$2,1\n\taddu\t$2,$2,$6\n\tlh\t$16,0($2)\n"
+            "\tlh\t$4,24($21)\n\tlhu\t$19,0($2)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800E52A0\n\tmove\t$5,$16\n"
+        )
+        fires = joined.count(loop_before)
+        if fires != 1:
+            raise RuntimeError(f"func_800E6D58 loop rewrite fired {fires} times")
+        joined = joined.replace(loop_before, loop_after, 1)
+
+        tail_rewrites = (
+            ("\tmove\t$4,$19\n", "\tmove\t$4,$16\n"),
+            ("\tlw\t$3,52($sp)\n", "\tlw\t$6,52($sp)\n"),
+            ("\tbne\t$17,$3,.L11\n", "\tbne\t$17,$6,.L11\n"),
+            (".L7:\n\tlhu\t$3,46($sp)\n", ".L7:\n\tlhu\t$6,46($sp)\n"),
+            ("\tsltu\t$2,$2,$3\n", "\tsltu\t$2,$2,$6\n"),
+        )
+        for before, after in tail_rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800E6D58 tail rewrite {before.strip()} fired {fires} times"
+                )
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
     if any("func_800F4DFC:" in line for line in input_lines):
         # Keep the retail scheduling of the four stacked colour arguments and
         # the lower-right rectangle coordinate. The operations are independent;
