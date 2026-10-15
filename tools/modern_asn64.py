@@ -1133,6 +1133,85 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, expected)
         fire("ATTACHED-CAMERA-FPRS")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_80088670:" in line for line in input_lines) and rule("BANK-SPAWN-SWITCHES"):
+        # SN64 keeps the outer kind-switch offset as an induction variable and
+        # leaves both indexed jump-table loads for ASN64 to expand through
+        # $at.  KMC's emitted source shape instead materializes the first table
+        # base in a saved register.  Preserve the retail allocation and CFG for
+        # this exact function-scoped sequence, and fail loudly on source drift.
+        rewrites = (
+            (
+                "\tlw\t$17,1284($sp)\n\tli\t$18,-20\t\t\t# 0xffffffec\n",
+                "\tlw\t$18,1284($sp)\n\tli\t$19,-20\t\t\t# 0xffffffec\n",
+            ),
+            (
+                ".L104:\n\tlw\t$2,644($17)\n\t#nop\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tblez\t$2,.L103\n"
+                "\tmove\t$16,$0\n\t.set\tmacro\n\t.set\treorder\n\n"
+                "\taddu\t$23,$20,-5\n\tla\t$10,.L136\n"
+                "\taddu\t$22,$18,$10\n\tmove\t$19,$17\n",
+                ".L104:\n\tlw\t$2,644($18)\n\t#nop\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tblez\t$2,.L103\n"
+                "\tmove\t$17,$0\n\t.set\tmacro\n\t.set\treorder\n\n"
+                "\taddu\t$23,$20,-5\n\tmove\t$22,$19\n",
+            ),
+            (
+                "\taddu\t$4,$fp,$2\n\tlw\t$3,8($4)\n"
+                "\tli\t$2,0x00000017\t\t# 23\n"
+                "\tbne\t$3,$2,.L109\n\tl.s\t$f0,4($4)\n",
+                "\taddu\t$3,$fp,$2\n\tlw\t$2,8($3)\n"
+                "\tli\t$10,0x00000017\t\t# 23\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbne\t$2,$10,.L109\n\tmove\t$16,$20\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tl.s\t$f0,4($3)\n",
+            ),
+            (
+                "\ts.s\t$f0,44($sp)\n\tl.s\t$f0,0($4)\n\t#nop\n"
+                "\ts.s\t$f0,40($sp)\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbeq\t$2,$0,.L112\n\tsw\t$20,8($4)\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tsltu\t$2,$23,12\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbeq\t$2,$0,.L111\n\tmove\t$5,$20\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tlw\t$2,0($22)\n",
+                "\ts.s\t$f0,44($sp)\n\tl.s\t$f0,0($3)\n\t#nop\n"
+                "\ts.s\t$f0,40($sp)\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbne\t$2,$0,.LBT88670\n\tsw\t$20,8($3)\n"
+                "\tj\t.L111\n\tmove\t$5,$20\n"
+                ".LBT88670:\n\tsltu\t$2,$23,12\n"
+                "\tbeq\t$2,$0,.L111\n\tmove\t$5,$16\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tlw\t$2,.L136($22)\n",
+            ),
+            (
+                "\tla\t$10,.L134\n\taddu\t$2,$2,$10\n\tlw\t$2,0($2)\n",
+                "\tlw\t$2,.L134($2)\n",
+            ),
+            (".L112:\n\tmove\t$5,$20\n", ".L112:\n\tmove\t$5,$16\n"),
+            (
+                "\tlw\t$2,644($19)\n\taddu\t$16,$16,1\n"
+                "\tslt\t$2,$16,$2\n\tbne\t$2,$0,.L109\n.L103:\n"
+                "\taddu\t$17,$17,4\n\taddu\t$20,$20,1\n",
+                "\tlw\t$2,644($18)\n\taddu\t$17,$17,1\n"
+                "\tslt\t$2,$17,$2\n\tbne\t$2,$0,.L109\n.L103:\n"
+                "\taddu\t$18,$18,4\n\taddu\t$20,$20,1\n",
+            ),
+            (
+                "\tbne\t$2,$0,.L104\n\taddu\t$18,$18,4\n",
+                "\tbne\t$2,$0,.L104\n\taddu\t$19,$19,4\n",
+            ),
+        )
+        joined = "".join(input_lines)
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_80088670 switch shaping fired {fires} times: {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        fire("BANK-SPAWN-SWITCHES")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_80097038:" in line for line in input_lines) and rule("SPAWN-UNIT-SCHEDULING"):
         # Match SN64's store scheduling, unsigned-double conversion registers,
         # and switch delay slots in the recovered unit initializer.  These are

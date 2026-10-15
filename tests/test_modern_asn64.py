@@ -191,6 +191,44 @@ class ModernAsn64Tests(unittest.TestCase):
         self.assertIn("beql\t$3,$2,.L36", disabled)
         self.assertIn("andi\t$2,$4,0xffff", disabled)
 
+    def test_bank_spawn_uses_indexed_retail_switches(self) -> None:
+        body = (
+            "func_80088670:\n"
+            "\tlw\t$17,1284($sp)\n\tli\t$18,-20\t\t\t# 0xffffffec\n"
+            ".L104:\n\tlw\t$2,644($17)\n\t#nop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n\tblez\t$2,.L103\n"
+            "\tmove\t$16,$0\n\t.set\tmacro\n\t.set\treorder\n\n"
+            "\taddu\t$23,$20,-5\n\tla\t$10,.L136\n"
+            "\taddu\t$22,$18,$10\n\tmove\t$19,$17\n"
+            "\taddu\t$4,$fp,$2\n\tlw\t$3,8($4)\n"
+            "\tli\t$2,0x00000017\t\t# 23\n"
+            "\tbne\t$3,$2,.L109\n\tl.s\t$f0,4($4)\n"
+            "\ts.s\t$f0,44($sp)\n\tl.s\t$f0,0($4)\n\t#nop\n"
+            "\ts.s\t$f0,40($sp)\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L112\n\tsw\t$20,8($4)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tsltu\t$2,$23,12\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L111\n\tmove\t$5,$20\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n\tlw\t$2,0($22)\n"
+            "\tla\t$10,.L134\n\taddu\t$2,$2,$10\n\tlw\t$2,0($2)\n"
+            ".L112:\n\tmove\t$5,$20\n"
+            "\tlw\t$2,644($19)\n\taddu\t$16,$16,1\n"
+            "\tslt\t$2,$16,$2\n\tbne\t$2,$0,.L109\n.L103:\n"
+            "\taddu\t$17,$17,4\n\taddu\t$20,$20,1\n"
+            "\tbne\t$2,$0,.L104\n\taddu\t$18,$18,4\n"
+        )
+        text = self.preprocess(body)
+        self.assertIn("lw\t$18,1284($sp)", text)
+        self.assertIn("move\t$22,$19", text)
+        self.assertIn("bne\t$2,$10,.L109\n\tmove\t$16,$20", text)
+        self.assertIn("lw $2,%lo(.L136)($at)", text)
+        self.assertIn("lw $2,%lo(.L134)($at)", text)
+        self.assertIn(".L112:\n\tmove\t$5,$16", text)
+
+        disabled = self.preprocess(body, disabled="BANK-SPAWN-SWITCHES")
+        self.assertIn("lw\t$17,1284($sp)", disabled)
+        self.assertIn("la\t$10,.L136", disabled)
+
     def test_disabled_rule_leaves_symbol_load_for_gas(self) -> None:
         text = self.preprocess(
             "\tlw\t$2,D_801144A0($3)\n", disabled="MEM-SYM-BASE"

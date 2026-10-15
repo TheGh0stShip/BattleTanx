@@ -400,7 +400,7 @@ segments:
       - [0x18280, c, code/assets/copy_model_group]
       - [0x18360, c, code/assets/copy_model_node]
       - [0x18590, c, code/gameplay/randomize_kind_if_enabled]
-      - [0x18670, asm, functions/func_80088670]
+      - [0x18670, c, code/gameplay/spawn_bank_record_entries]
       - [0x18CF0, asm, functions/func_80088CF0]
       - [0x1AD0C, bin, gaps/gap_01AD0C]
       - [0x1AD10, c, code/effects/allocate_effect]

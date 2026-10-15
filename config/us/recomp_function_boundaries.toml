@@ -265,7 +265,7 @@ functions = [
     { name = "copy_model_group", vram = 0x80088280, size = 0xe0 },
     { name = "copy_model_node", vram = 0x80088360, size = 0x230 },
     { name = "randomize_kind_if_enabled", vram = 0x80088590, size = 0xe0 },
-    { name = "func_80088670", vram = 0x80088670, size = 0x680 },
+    { name = "spawn_bank_record_entries", vram = 0x80088670, size = 0x680 },
     { name = "func_80088CF0", vram = 0x80088cf0, size = 0x201c },
     { name = "allocate_effect", vram = 0x8008ad10, size = 0xd0 },
     { name = "effect_kind_is_unlisted", vram = 0x8008ade0, size = 0x38 },
