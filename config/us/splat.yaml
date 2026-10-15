@@ -379,7 +379,7 @@ segments:
       - [0x16340, c, code/math/integer_power]
       - [0x16378, c, code/runtime/format_zero_padded_number]
       - [0x163F4, c, code/levels/get_level_name]
-      - [0x165E0, asm, functions/func_800865E0]
+      - [0x165E0, c, code/levels/init_level_rom_ranges]
       - [0x16AE8, c, code/runtime/get_mode_halfword]
       - [0x16B1C, bin, gaps/gap_016B1C]
       - [0x16B20, c, code/runtime/delay_empty_iterations]

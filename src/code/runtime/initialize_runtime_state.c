@@ -14,7 +14,7 @@ extern void start_graphics_thread(s32 id, s32 priority, u8 viMode, u8 retraceCou
 extern void start_worker_thread_20(void) __asm__("func_8007961C");
 extern void reset_player_input_flags(s32 unused) __asm__("func_8007963C");
 extern void func_8007D4E8(void);
-extern void func_800865E0(void);
+extern void init_level_rom_ranges(void) __asm__("func_800865E0");
 extern PlayerInput *read_player_controller(s32 player) __asm__("func_80096784");
 extern void func_800A8940(void);
 extern void request_audio_state_refresh(void) __asm__("func_800A8ECC");
@@ -48,7 +48,7 @@ void initialize_runtime_state(void)
     } else {
         start_graphics_thread(3, 0x1E, 2, 1, 2);
     }
-    func_800865E0();
+    init_level_rom_ranges();
     func_800D4410();
     func_800D05DC();
     set_runtime_selection(osGetTime());

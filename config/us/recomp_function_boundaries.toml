@@ -245,7 +245,7 @@ functions = [
     { name = "integer_power", vram = 0x80086340, size = 0x38 },
     { name = "format_zero_padded_number", vram = 0x80086378, size = 0x7c },
     { name = "get_level_name", vram = 0x800863f4, size = 0x1ec },
-    { name = "func_800865E0", vram = 0x800865e0, size = 0x508 },
+    { name = "init_level_rom_ranges", vram = 0x800865e0, size = 0x508 },
     { name = "get_mode_halfword", vram = 0x80086ae8, size = 0x34 },
     { name = "delay_empty_iterations", vram = 0x80086b20, size = 0x28 },
     { name = "scale_color_channels", vram = 0x80086b48, size = 0x13c },
