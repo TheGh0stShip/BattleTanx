@@ -794,7 +794,7 @@ functions = [
     { name = "ring_buffer_get_u16", vram = 0x800ddccc, size = 0x64 },
     { name = "ring_buffer_peek_last", vram = 0x800ddd30, size = 0x78 },
     { name = "update_ring_status_flag", vram = 0x800ddda8, size = 0xe0 },
-    { name = "func_800DDE88", vram = 0x800dde88, size = 0x210 },
+    { name = "ring_buffer_advance", vram = 0x800dde88, size = 0x210 },
     { name = "remove_last_indexed_entry", vram = 0x800de098, size = 0x28 },
     { name = "limit_scan_queue", vram = 0x800de0c0, size = 0xf4 },
     { name = "ring_buffer_push_u16", vram = 0x800de1b4, size = 0xcc },

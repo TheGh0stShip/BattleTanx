@@ -941,7 +941,7 @@ segments:
       - [0x6DCCC, c, code/runtime/ring_buffer_get_u16]
       - [0x6DD30, c, code/runtime/ring_buffer_peek_last]
       - [0x6DDA8, c, code/runtime/update_ring_status_flag]
-      - [0x6DE88, asm, functions/func_800DDE88]
+      - [0x6DE88, c, code/runtime/ring_buffer_advance]
       - [0x6E098, c, code/runtime/remove_last_indexed_entry]
       - [0x6E0C0, c, code/runtime/limit_scan_queue]
       - [0x6E1B4, c, code/runtime/ring_buffer_push_u16]

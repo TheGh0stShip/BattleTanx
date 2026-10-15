@@ -5,11 +5,12 @@ typedef struct IndexedCollection {
     u16 count;
 } IndexedCollection;
 
-extern void func_800DDE88(IndexedCollection *collection, u16 index);
+extern s32 ring_buffer_advance(IndexedCollection *collection, u16 amount)
+    __asm__("func_800DDE88");
 
 void remove_last_indexed_entry(IndexedCollection *collection) __asm__("func_800DE098");
 
 void remove_last_indexed_entry(IndexedCollection *collection)
 {
-    func_800DDE88(collection, (u16)(collection->count - 1));
+    ring_buffer_advance(collection, (u16)(collection->count - 1));
 }

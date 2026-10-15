@@ -37,7 +37,7 @@ typedef struct AiRouteState {
     u8 pending;
 } AiRouteState;
 
-extern s32 func_800DDE88(U16RingBuffer *, u16);
+extern s32 ring_buffer_advance(U16RingBuffer *, u16) __asm__("func_800DDE88");
 extern u16 ring_buffer_get_u16(U16RingBuffer *, u16) __asm__("func_800DDCCC");
 extern void get_waypoint_midpoint(u16, RouteGoal *) __asm__("func_800E0B00");
 extern f32 ai_horizontal_distance(f32 *, f32 *) __asm__("func_800E0C8C");
@@ -96,7 +96,7 @@ f32 ai_update_route_goal(AiUnit *unit, AiRouteState *state, f32 *position)
     goal->active = 0;
     goal->pending = 0;
     goal->waypoint = 0;
-    if (active && func_800DDE88(route, 1) == 0) {
+    if (active && ring_buffer_advance(route, 1) == 0) {
         goto done;
     }
     waypoint = ring_buffer_get_u16(route, 0);

@@ -251,6 +251,103 @@ with open(input_filename, mode="r") as input_file:
                 )
             joined = joined.replace(before, after, 1)
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800DDE88:" in line for line in input_lines):
+        # The source expands the same ring-status scan on both exits. GCC
+        # coalesces the entry count with the amount argument and rotates the
+        # loop induction values, while retail keeps the argument in $a1 and
+        # uses the standalone validator's allocation. Restore that allocation
+        # and its equivalent delay-slot schedule for this function only.
+        joined = "".join(input_lines)
+        start_signature = "\tlhu\t$7,8($16)\n"
+        end_signature = ".L28:\n"
+        start_fires = joined.count(start_signature)
+        end_fires = joined.count(end_signature)
+        if start_fires != 1 or end_fires != 1:
+            raise RuntimeError(
+                "func_800DDE88 body signature drifted "
+                f"(start={start_fires}, end={end_fires})"
+            )
+        start = joined.index(start_signature)
+        end = joined.index(end_signature, start)
+        body = (
+            "\tlhu\t$3,8($16)\n\tsltu\t$2,$3,2\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L10\n\tmove\t$17,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlhu\t$3,8($16)\n\tli\t$2,0x00000001\t\t# 1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$3,$0,.L11\n\tsb\t$2,14($16)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tli\t$18,-1431655765\t\t\t# 0xaaaaaaab\n"
+            "\tandi\t$4,$17,0xffff\n"
+            ".L13:\n\tsltu\t$2,$4,$3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L16\n\tmove\t$3,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlhu\t$2,4($16)\n\tlhu\t$3,12($16)\n"
+            "\taddu\t$2,$2,$4\n\trem\t$3,$2,$3\n"
+            "\tlw\t$2,0($16)\n\tsll\t$3,$3,1\n"
+            "\taddu\t$3,$3,$2\n\tlhu\t$3,0($3)\n"
+            ".L16:\n\tmultu\t$3,$18\n\tmfhi\t$7\n\t#nop\n\t#nop\n"
+            "\tsrl\t$4,$7,1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800E19DC\n\tandi\t$4,$4,0xffff\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tandi\t$2,$2,0x00ff\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L17\n\tsb\t$0,14($16)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L17:\n\tlhu\t$3,8($16)\n\taddu\t$17,$17,1\n"
+            "\tandi\t$2,$17,0xffff\n\tsltu\t$2,$2,$3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbne\t$2,$0,.L13\n\tandi\t$4,$17,0xffff\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L11:\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tj\t.L28\n\tmove\t$2,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L10:\n\tandi\t$5,$5,0xffff\n\taddu\t$3,$3,-1\n"
+            "\tslt\t$2,$3,$5\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L19\n\tmove\t$5,$3\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L19:\n\tlhu\t$2,4($16)\n\tlhu\t$4,12($16)\n"
+            "\tandi\t$3,$5,0xffff\n\taddu\t$2,$2,$3\n"
+            "\trem\t$4,$2,$4\n\tlhu\t$2,8($16)\n"
+            "\tlhu\t$3,10($16)\n\tmove\t$17,$0\n"
+            "\tsubu\t$2,$2,$5\n\tsh\t$2,8($16)\n"
+            "\tlhu\t$6,8($16)\n\tli\t$2,0x00000001\t\t# 1\n"
+            "\taddu\t$3,$3,$5\n\tsb\t$2,14($16)\n\tsh\t$3,10($16)\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$6,$0,.L20\n\tsh\t$4,4($16)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tli\t$18,-1431655765\t\t\t# 0xaaaaaaab\n"
+            "\tandi\t$4,$17,0xffff\n"
+            ".L22:\n\tsltu\t$2,$4,$6\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$2,$0,.L25\n\tmove\t$3,$0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tlhu\t$2,4($16)\n\tlhu\t$3,12($16)\n"
+            "\taddu\t$2,$2,$4\n\trem\t$3,$2,$3\n"
+            "\tlw\t$2,0($16)\n\tsll\t$3,$3,1\n"
+            "\taddu\t$3,$3,$2\n\tlhu\t$3,0($3)\n"
+            ".L25:\n\tmultu\t$3,$18\n\tmfhi\t$7\n\t#nop\n\t#nop\n"
+            "\tsrl\t$4,$7,1\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tjal\tfunc_800E19DC\n\tandi\t$4,$4,0xffff\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tandi\t$2,$2,0x00ff\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L26\n\tsb\t$0,14($16)\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L26:\n\tlhu\t$6,8($16)\n\taddu\t$17,$17,1\n"
+            "\tandi\t$2,$17,0xffff\n\tsltu\t$2,$2,$6\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L22\n\tandi\t$4,$17,0xffff\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L20:\n\tli\t$2,0x00000001\t\t# 1\n"
+        )
+        joined = joined[:start] + body + joined[end:]
+        input_lines = joined.splitlines(keepends=True)
     if any("func_800E6D58:" in line for line in input_lines):
         # Keep the retail allocation of the stack-backed target search state.
         # The source-level values are identical, but GCC otherwise stores the
