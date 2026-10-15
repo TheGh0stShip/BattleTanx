@@ -1296,3 +1296,4 @@
 0x1F6F4	0x428	src/code/effects/spawn_part_debris.c	--assembler=asn64 --section-base=.rodata:0x80071C80 -O2 -G0 -mips3 -mgp32 -mfp32	63ce7eee20fc300164082b447c194daa0a84f207dcf08b15f3b6956228bceeb8
 0x1C09C	0x240	src/code/runtime/sort_records_by_key.c	-O2 -G0 -mips3 -mgp32 -mfp32	e8aac8b6a7188a09e2b8db3f2eb0936fcf60d19f4cea38e65e17d1c7db73f6a4
 0x9D59C	0x2A8	src/code/gameplay/spawn_available_owner_unit.c	-O2 -G0 -mips3 -mgp32 -mfp32	337da2dfc0da63300ab5f1466a00ef873247e721e4894c94138ba780a1122763
+0x34B2C	0x1E4	src/code/gameplay/assign_group_object_points.c	-O2 -G0 -mips3 -mgp32 -mfp32	ac97fa142aab5a62673af27534d5a7bb0b720d1ed4a01781c777e471e87bcc21

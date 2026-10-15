@@ -726,6 +726,149 @@ def shape_owner_unit_spawn_scan(text: str) -> str:
     return text.replace(before, after, 1)
 
 
+def shape_group_object_point_assignment(text: str) -> str:
+    """Restore KMC's tied saved-register allocation in ``func_800A4B2C``.
+
+    The recovered body has the retail control flow and data accesses.  Four
+    loop-lived pointers/counters have equal allocation priority, however, and
+    this compiler invocation cycles them relative to the retail object.  The
+    unused 16-byte local also leaves the live volatile offset at 16 instead of
+    retail's equivalent slot at 36.  Restrict both changes to the function
+    body and assert its exact register/stack-use shape before rewriting it.
+    """
+    if "func_800A4B2C:" not in text:
+        return text
+
+    start_marker = "\tmove\t$22,$2\n"
+    end_marker = ".L3:\n"
+    if text.count(start_marker) != 1 or text.count(end_marker) != 1:
+        raise RuntimeError("func_800A4B2C body markers changed")
+    start = text.index(start_marker)
+    end = text.index(end_marker, start)
+    body = text[start:end]
+
+    expected = {"$22": 6, "$21": 4, "$20": 2, "$19": 5}
+    counts = {
+        register: len(re.findall(re.escape(register) + r"(?!\d)", body))
+        for register in expected
+    }
+    if counts != expected:
+        raise RuntimeError(
+            f"func_800A4B2C saved-register counts {counts} (expected {expected})"
+        )
+    body = body.replace("$22", "$__group_session")
+    body = body.replace("$21", "$__group_base")
+    body = body.replace("$20", "$__group_point")
+    body = body.replace("$19", "$__group_index")
+    body = body.replace("$__group_session", "$20")
+    body = body.replace("$__group_base", "$22")
+    body = body.replace("$__group_point", "$19")
+    body = body.replace("$__group_index", "$21")
+
+    if body.count("16($sp)") != 4:
+        raise RuntimeError("func_800A4B2C volatile offset use count changed")
+    body = body.replace("16($sp)", "36($sp)")
+
+    before = (
+        "\tlbu\t$2,0($22)\n"
+        "\t#nop\n"
+        "\tbeq\t$2,$0,.L7\n"
+        "\tnop\n"
+        "\tmove\t$21,$0\n"
+    )
+    after = (
+        "\tlbu\t$2,0($22)\n"
+        "\t#nop\n"
+        "\tblez\t$2,.L7\n"
+        "\tmove\t$21,$0\n"
+    )
+    if body.count(before) != 1:
+        raise RuntimeError("func_800A4B2C inner-loop entry shape changed")
+    body = body.replace(before, after, 1)
+
+    before = (
+        "\t#.set\tvolatile\n"
+        "\tlw\t$3,36($sp)\n"
+        "\t#.set\tnovolatile\n"
+        "\t#nop\n"
+        "\taddu\t$22,$2,$3\n"
+    )
+    after = before.replace("$3,36($sp)", "$8,36($sp)").replace(
+        "$22,$2,$3", "$22,$2,$8"
+    )
+    if body.count(before) != 1:
+        raise RuntimeError("func_800A4B2C offset register load changed")
+    body = body.replace(before, after, 1)
+    branch_before = "\tblez\t$2,.L7\n"
+    branch_after = "\tblez\t$2,.L7_skip_offset_reload\n"
+    if body.count(branch_before) != 1:
+        raise RuntimeError("func_800A4B2C empty-group branch changed")
+    body = body.replace(branch_before, branch_after, 1)
+
+    before = (
+        "\tsll\t$2,$2,3\n"
+        "\t.set\tnoreorder\n"
+        "\tl.s\t$f0,76($18)\n"
+        "\taddu\t$2,$16,$2\n"
+        "\tmove\t$4,$17\n"
+        "\tmove\t$5,$19\n"
+        "\tmove\t$6,$20\n"
+        "\ts.s\t$f0,436($2)\n"
+        "\tlbu\t$2,431($16)\n"
+        "\tmove\t$7,$18\n"
+        "\tl.s\t$f0,72($18)\n"
+    )
+    after = (
+        "\t.set\tnoreorder\n"
+        "\tmove\t$4,$17\n"
+        "\tmove\t$5,$19\n"
+        "\tmove\t$6,$20\n"
+        "\tl.s\t$f0,76($18)\n"
+        "\tsll\t$2,$2,3\n"
+        "\taddu\t$2,$16,$2\n"
+        "\ts.s\t$f0,436($2)\n"
+        "\tlbu\t$2,431($16)\n"
+        "\tmove\t$7,$18\n"
+        "\tl.s\t$f0,72($7)\n"
+    )
+    if body.count(before) != 1:
+        raise RuntimeError("func_800A4B2C point-call schedule changed")
+    body = body.replace(before, after, 1)
+
+    before = (
+        "\t#.set\tvolatile\n"
+        "\tlw\t$2,36($sp)\n"
+        "\t#.set\tnovolatile\n"
+        "\tlw\t$3,1588($20)\n"
+        "\taddu\t$23,$23,1\n"
+        "\taddu\t$2,$2,24\n"
+        "\tslt\t$3,$23,$3\n"
+        "\t#.set\tvolatile\n"
+        "\tsw\t$2,36($sp)\n"
+        "\t#.set\tnovolatile\n"
+        "\tbne\t$3,$0,.L4\n"
+        "\tnop\n"
+    )
+    after = (
+        "\t#.set\tvolatile\n"
+        "\tlw\t$8,36($sp)\n"
+        "\t#.set\tnovolatile\n"
+        ".L7_skip_offset_reload:\n"
+        "\tlw\t$2,1588($20)\n"
+        "\taddu\t$23,$23,1\n"
+        "\taddu\t$8,$8,24\n"
+        "\tslt\t$2,$23,$2\n"
+        "\t#.set\tvolatile\n"
+        "\tbne\t$2,$0,.L4\n"
+        "\tsw\t$8,36($sp)\n"
+        "\t#.set\tnovolatile\n"
+    )
+    if body.count(before) != 1:
+        raise RuntimeError("func_800A4B2C outer-loop tail changed")
+    body = body.replace(before, after, 1)
+    return text[:start] + body + text[end:]
+
+
 def use_saved_route_state_pointer(text: str) -> str:
     """Use the long-lived route-state copy in ``func_800E1D40``.
 
@@ -5442,6 +5585,8 @@ def normalize_v3(source: str) -> str:
         text = shape_record_quicksort_partition(text)
     if os.environ.get("V3_OWNER_UNIT_SPAWN_SCAN", "1") == "1":
         text = shape_owner_unit_spawn_scan(text)
+    if os.environ.get("V3_GROUP_OBJECT_POINT_ASSIGNMENT", "1") == "1":
+        text = shape_group_object_point_assignment(text)
     if os.environ.get("V3_ROUTE_STATE_POINTER", "1") == "1":
         text = use_saved_route_state_pointer(text)
     if os.environ.get("V3_ROUTE_REBUILD_LOOP", "1") == "1":

@@ -475,7 +475,7 @@ functions = [
     { name = "squad_select_next_member", vram = 0x800a47ac, size = 0x254 },
     { name = "update_entity_by_unit_kind", vram = 0x800a4a00, size = 0x64 },
     { name = "append_entity_point_record", vram = 0x800a4a64, size = 0xc8 },
-    { name = "func_800A4B2C", vram = 0x800a4b2c, size = 0x1e4 },
+    { name = "assign_group_object_points", vram = 0x800a4b2c, size = 0x1e4 },
     { name = "func_800A4D10", vram = 0x800a4d10, size = 0xc },
     { name = "func_800A4D1C", vram = 0x800a4d1c, size = 0x18 },
     { name = "clear_entity_refresh_state", vram = 0x800a4d34, size = 0x24 },

@@ -62,9 +62,9 @@ catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,739 non-overlapping
 function ranges produce 703,444 bytes of generated assembly, while gaps and the
-resource area remain explicit binary regions. The 1,455 compiler-built source
-units now reconstruct 447,840 retail code bytes. Together with 17 authentic
-source-assembly units, 1,472 matching units reconstruct 449,188 code bytes.
+resource area remain explicit binary regions. The 1,456 compiler-built source
+units now reconstruct 448,324 retail code bytes. Together with 17 authentic
+source-assembly units, 1,473 matching units reconstruct 449,672 code bytes.
 Eighty-three of the compiler-built units are data-only translation units whose initialized sections are verified
 independently. The
 168 libultra and compiler-runtime units include the
@@ -102,9 +102,9 @@ padding and parsed-but-unreferenced data. Some bundle entries remain semanticall
 unidentified even though their enclosing format and byte range are proven.
 
 ```text
-code       [█████████████░░░░░░░]  63.78%    448,628 / 703,444 bytes
+code       [█████████████░░░░░░░]  63.84%    449,112 / 703,444 bytes
 data       [████████████████████] 100.00%    153,924 / 153,924 bytes
-functions  [███████████████████░]  94.48%       1,643 / 1,739
+functions  [███████████████████░]  94.54%       1,644 / 1,739
 assets     [████████████████████] 100.00%  7,335,936 / 7,335,936 bytes
 ```
 

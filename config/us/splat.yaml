@@ -619,7 +619,7 @@ segments:
       - [0x347AC, c, code/gameplay/squad_select_next_member]
       - [0x34A00, c, code/entities/update_entity_by_unit_kind]
       - [0x34A64, c, code/entities/append_entity_point_record]
-      - [0x34B2C, asm, functions/func_800A4B2C]
+      - [0x34B2C, c, code/gameplay/assign_group_object_points]
       - [0x34D10, c, code/unknown/800A4D10]
       - [0x34D1C, c, code/gameplay/decrement_countdown]
       - [0x34D34, c, code/entities/clear_entity_refresh_state]
