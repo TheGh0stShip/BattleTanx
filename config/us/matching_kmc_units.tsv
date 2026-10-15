@@ -1325,3 +1325,4 @@
 0x13394	0xB70	src/code/render/draw_level_objects_in_range.c	--section-base=.rodata:0x800714D8 -O2 -G0 -mips3 -mgp32 -mfp32	8cf2f3402e98a12cdb869aac67400d9f37a3404eaa04e3291d76cb7c72db8ba4
 0x24C58	0x6C4	src/code/render/clip_view_segment.c	--assembler=asn64 --section-base=.rodata:0x80072038 -O2 -G0 -mips3 -mgp32 -mfp32	7cd6e709029fb84f510abced3b8ccc3bd26e389269bf857b85432a2bb1ca9eed
 0x2E3A4	0xA08	src/code/gameplay/update_unit_control.c	--assembler=asn64 --section-base=.rodata:0x800728B0 -O2 -G0 -mips3 -mgp32 -mfp32	80d4b909c418456be09f4c25718816a3fb70e66de3bef057d9234666aa695845
+0xBD24	0x574	src/code/gameplay/play_campaign_wave.c	--assembler=asn64 --section-base=.rodata:0x80071150 -O2 -G0 -mips3 -mgp32 -mfp32	ac181693ec1ef4f2620d99080fdd1d28cf65478ec22f5e0684377d24db943bfe

@@ -123,7 +123,7 @@ functions = [
     { name = "run_campaign_waves", vram = 0x8007b280, size = 0x310 },
     { name = "func_8007B590", vram = 0x8007b590, size = 0x454 },
     { name = "func_8007B9E4", vram = 0x8007b9e4, size = 0x340 },
-    { name = "func_8007BD24", vram = 0x8007bd24, size = 0x574 },
+    { name = "play_campaign_wave", vram = 0x8007bd24, size = 0x574 },
     { name = "func_8007C298", vram = 0x8007c298, size = 0x8 },
     { name = "apply_mode_display_rows", vram = 0x8007c2a0, size = 0x9c },
     { name = "return_eleven_callback", vram = 0x8007c33c, size = 0x8 },

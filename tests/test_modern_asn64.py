@@ -100,6 +100,31 @@ class ModernAsn64Tests(unittest.TestCase):
             text,
         )
 
+    def test_campaign_retry_uses_retail_normal_branch(self) -> None:
+        text = self.preprocess(
+            "func_8007BD24:\n"
+            "\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L40\n"
+            "\tli\t$2,0x00000001\t\t# 1\n"
+            "\t.set\tmacro\n"
+            "\t.set\treorder\n"
+        )
+        self.assertIn(
+            "bne\t$2,$0,.L40\n\tli\t$2,0x00000001",
+            text,
+        )
+
+        disabled = self.preprocess(
+            "func_8007BD24:\n"
+            "\t.set\tnoreorder\n"
+            "\t.set\tnomacro\n"
+            "\tbnel\t$2,$0,.L40\n"
+            "\tli\t$2,0x00000001\t\t# 1\n",
+            disabled="CAMPAIGN-RETRY-BRANCH",
+        )
+        self.assertIn("bnel\t$2,$0,.L40", disabled)
+
     def test_disabled_rule_leaves_symbol_load_for_gas(self) -> None:
         text = self.preprocess(
             "\tlw\t$2,D_801144A0($3)\n", disabled="MEM-SYM-BASE"
