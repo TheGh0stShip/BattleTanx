@@ -1293,3 +1293,4 @@
 0xCCD0	0x528	src/code/runtime/apply_team_tuning.c	--assembler=asn64 --section-base=.rodata:0x80071348 -O2 -G0 -mips3 -mgp32 -mfp32	024cb8d63a89cd6757b423093c969605436b2ff95724def6b4a52fd2d29b925d
 0x165E0	0x508	src/code/levels/init_level_rom_ranges.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	963e4269191dd6e6b401ef744a703936b20bfc7bab77ceec99f0161541b7b154
 0x15470	0x508	src/code/render/update_object_area.c	--assembler=asn64 --section-base=.rodata:0x800714E8 -O2 -G0 -mips3 -mgp32 -mfp32	9ddf915d535ff562d30c88558cfc12419276d378364923848323151f3778929c
+0x1F6F4	0x428	src/code/effects/spawn_part_debris.c	--assembler=asn64 --section-base=.rodata:0x80071C80 -O2 -G0 -mips3 -mgp32 -mfp32	63ce7eee20fc300164082b447c194daa0a84f207dcf08b15f3b6956228bceeb8

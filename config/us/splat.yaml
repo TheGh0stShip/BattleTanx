@@ -443,7 +443,7 @@ segments:
       - [0x1F248, c, code/effects/spawn_effect_kind_08_in_quad]
       - [0x1F4EC, c, code/math/expand_vertex_bounds]
       - [0x1F5D4, c, code/math/compute_display_list_center]
-      - [0x1F6F4, asm, functions/func_8008F6F4]
+      - [0x1F6F4, c, code/effects/spawn_part_debris]
       - [0x1FB1C, c, code/effects/update_tumbling_debris]
       - [0x1FC9C, c, code/render/draw_placed_model]
       - [0x1FD6C, asm, functions/func_8008FD6C]

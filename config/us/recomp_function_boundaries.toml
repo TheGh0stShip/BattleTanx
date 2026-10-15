@@ -307,7 +307,7 @@ functions = [
     { name = "spawn_effect_kind_08_in_quad", vram = 0x8008f248, size = 0x2a4 },
     { name = "expand_vertex_bounds", vram = 0x8008f4ec, size = 0xe8 },
     { name = "compute_display_list_center", vram = 0x8008f5d4, size = 0x120 },
-    { name = "func_8008F6F4", vram = 0x8008f6f4, size = 0x428 },
+    { name = "spawn_part_debris", vram = 0x8008f6f4, size = 0x428 },
     { name = "update_tumbling_debris", vram = 0x8008fb1c, size = 0x180 },
     { name = "draw_placed_model", vram = 0x8008fc9c, size = 0xd0 },
     { name = "func_8008FD6C", vram = 0x8008fd6c, size = 0x550 },

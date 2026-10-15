@@ -102,9 +102,9 @@ padding and parsed-but-unreferenced data. Some bundle entries remain semanticall
 unidentified even though their enclosing format and byte range are proven.
 
 ```text
-code       [█████████████░░░░░░░]  63.45%    446,308 / 703,444 bytes
+code       [█████████████░░░░░░░]  63.60%    447,372 / 703,444 bytes
 data       [████████████████████] 100.00%    153,924 / 153,924 bytes
-functions  [███████████████████░]  94.31%       1,640 / 1,739
+functions  [███████████████████░]  94.36%       1,641 / 1,739
 assets     [████████████████████] 100.00%  7,335,936 / 7,335,936 bytes
 ```
 
