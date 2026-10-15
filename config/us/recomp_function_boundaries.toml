@@ -610,7 +610,7 @@ functions = [
     { name = "func_800ABFA0", vram = 0x800abfa0, size = 0x8 },
     { name = "enable_audio_output", vram = 0x800abfb0, size = 0x20 },
     { name = "draw_fullscreen_text_panel", vram = 0x800abfd0, size = 0xa0 },
-    { name = "func_800AC070", vram = 0x800ac070, size = 0x258 },
+    { name = "show_message_until_ready", vram = 0x800ac070, size = 0x258 },
     { name = "reset_audio_sequence_state", vram = 0x800ac2d0, size = 0x10 },
     { name = "init_opening_sequence", vram = 0x800ac2e0, size = 0x1060 },
     { name = "draw_opening_page_01", vram = 0x800ad340, size = 0x260 },

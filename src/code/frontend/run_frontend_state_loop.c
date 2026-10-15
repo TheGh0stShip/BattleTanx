@@ -24,7 +24,7 @@ extern s32 func_800CEE2C(void);
 extern s32 func_800D6060(void);
 extern s32 func_800D89F4(void);
 extern s32 func_800DA9B4(void);
-extern s32 func_800AC070(void);
+extern s32 show_message_until_ready(void) __asm__("func_800AC070");
 extern u8 gFrontendState __asm__("D_801B4AE0");
 extern FrontendSession D_801B4AB0;
 extern u8 D_801B4BF8;
@@ -97,7 +97,7 @@ s32 run_frontend_state_loop(void) {
             gFrontendState = func_800DA9B4();
             break;
         case 14:
-            gFrontendState = func_800AC070();
+            gFrontendState = show_message_until_ready();
             break;
         case 11:
         case 13:

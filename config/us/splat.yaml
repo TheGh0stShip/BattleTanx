@@ -743,7 +743,7 @@ segments:
       - [0x3BFA8, bin, gaps/gap_03BFA8]
       - [0x3BFB0, c, code/audio/enable_audio_output]
       - [0x3BFD0, c, code/render/draw_fullscreen_text_panel]
-      - [0x3C070, asm, functions/func_800AC070]
+      - [0x3C070, c, code/frontend/show_message_until_ready]
       - [0x3C2C8, bin, gaps/gap_03C2C8]
       - [0x3C2D0, c, code/audio/reset_audio_sequence_state]
       - [0x3C2E0, c, code/frontend/init_opening_sequence]

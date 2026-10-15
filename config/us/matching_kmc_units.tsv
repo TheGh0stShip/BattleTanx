@@ -1288,3 +1288,4 @@
 0x0B280	0x310	src/code/gameplay/run_campaign_waves.c	--section-base=.rodata:0x80071104 -O2 -G0 -mips3 -mgp32 -mfp32	50fc6257d95c1a78a5e5841d2b081b49c18cbbccab6b9037b134416b2270e460
 0x826B4	0x338	src/code/effects/draw_owner_flash.c	--section-base=.rodata:0x80074E08 -O2 -G0 -mips3 -mgp32 -mfp32	36302a116a66e8da4b7f67ca830851676c0e7f2a9b3c82aeb60ab92e456424db
 0x1716C	0x388	src/code/runtime/acquire_resource_slot.c	-O2 -G0 -mips3 -mgp32 -mfp32	554b848219d042728183fadbc94e5a24a2c075cf802c6d3319333947674ebea7
+0x3C070	0x258	src/code/frontend/show_message_until_ready.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	c4329cb2b9c6daec741a08a41c29f70f30e8ccd48b554dbb5c851f19dfdb0fb0

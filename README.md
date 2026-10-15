@@ -61,10 +61,10 @@ function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
 The initial split accounts for the full 8 MiB ROM: 1,739 non-overlapping
-function ranges produce 703,452 bytes of generated assembly, while gaps and the
-resource area remain explicit binary regions. The 1,315 compiler-built source
-units now reconstruct 314,480 retail code bytes. Together with 17 authentic
-source-assembly units, 1,332 matching units reconstruct 315,828 code bytes.
+function ranges produce 703,444 bytes of generated assembly, while gaps and the
+resource area remain explicit binary regions. The 1,448 compiler-built source
+units now reconstruct 440,492 retail code bytes. Together with 17 authentic
+source-assembly units, 1,465 matching units reconstruct 441,840 code bytes.
 Eighty-three of the compiler-built units are data-only translation units whose initialized sections are verified
 independently. The
 168 libultra and compiler-runtime units include the
