@@ -366,7 +366,7 @@ segments:
       - [0x153C8, c, code/render/restore_display_list_commands]
       - [0x15460, c, code/assets/resource_variant_callback_noop]
       - [0x15468, c, code/unknown/80085468]
-      - [0x15470, asm, functions/func_80085470]
+      - [0x15470, c, code/render/update_object_area]
       - [0x15978, c, code/render/submit_model]
       - [0x15B4C, c, code/audio/start_sound_scaled_by_listener_distance]
       - [0x15C68, c, code/audio/set_sound_volume_by_proximity]

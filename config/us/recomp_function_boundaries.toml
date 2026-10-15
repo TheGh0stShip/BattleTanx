@@ -233,7 +233,7 @@ functions = [
     { name = "restore_display_list_commands", vram = 0x800853c8, size = 0x98 },
     { name = "resource_variant_callback_noop", vram = 0x80085460, size = 0x8 },
     { name = "func_80085468", vram = 0x80085468, size = 0x8 },
-    { name = "func_80085470", vram = 0x80085470, size = 0x508 },
+    { name = "update_object_area", vram = 0x80085470, size = 0x508 },
     { name = "submit_model", vram = 0x80085978, size = 0x1d4 },
     { name = "start_sound_scaled_by_listener_distance", vram = 0x80085b4c, size = 0x11c },
     { name = "set_sound_volume_by_proximity", vram = 0x80085c68, size = 0x11c },
