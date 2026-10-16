@@ -50,10 +50,18 @@ Place the verified ROM at `baseroms/us/baserom.z64`, then run:
 sha1sum baseroms/us/baserom.z64
 sha256sum baseroms/us/baserom.z64
 python3 tools/verify_matching_units.py
+make rebuild-rom
 make check
 make report
 git diff --check
 ```
+
+`make rebuild-rom` starts with the legally supplied retail image, replaces all
+reviewed code and initialized-data ranges with freshly compiled or assembled
+bytes, and writes `build/us/battletanx.us.z64`. Unmodified ROM metadata and
+copyrighted asset bytes are retained from the supplied image; they are not
+distributed by this repository. The command fails unless the complete output
+is byte-identical to the supported ROM and prints its SHA-1 and SHA-256 hashes.
 
 The completion gate requires:
 

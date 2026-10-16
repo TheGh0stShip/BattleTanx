@@ -180,8 +180,13 @@ def main() -> None:
                         help="verify only this repository-relative source (repeatable)")
     parser.add_argument("--response", type=Path,
                         help="write one selected unit using the Decompkit adapter protocol")
+    parser.add_argument("--rebuild-rom", type=Path,
+                        help="write a ROM rebuilt from verified source units and supplied retail assets")
     args = parser.parse_args()
+    if args.rebuild_rom and args.source:
+        raise SystemExit("--rebuild-rom requires the complete manifest; do not combine it with --source")
     rom = args.rom.read_bytes()
+    rebuilt_rom = bytearray(rom) if args.rebuild_rom else None
     compiler = ROOT / ".toolchain/ido5.3/cc"
     if not compiler.is_file():
         raise SystemExit("missing pinned compiler; run tools/bootstrap_ido.sh")
@@ -298,6 +303,8 @@ def main() -> None:
         if text != retail:
             first = next(i for i, (left, right) in enumerate(zip(text, retail)) if left != right)
             raise SystemExit(f"{source}: mismatch at ROM 0x{start + first:X}")
+        if rebuilt_rom is not None:
+            rebuilt_rom[start : start + size] = text
         matched += size
         adapter_payload = {
             "format": "decompkit-build-response-v1",
@@ -331,6 +338,8 @@ def main() -> None:
         if data != retail:
             first = next(i for i, (left, right) in enumerate(zip(data, retail)) if left != right)
             raise SystemExit(f"{source}: data mismatch at ROM 0x{start + first:X}")
+        if rebuilt_rom is not None:
+            rebuilt_rom[start : start + size] = data
         matched_data += size
         if adapter_payload is not None:
             response_section = "rodata" if section == ".rdata" else section[1:]
@@ -340,6 +349,16 @@ def main() -> None:
     if args.response:
         args.response.parent.mkdir(parents=True, exist_ok=True)
         args.response.write_text(json.dumps(adapter_payload, indent=2) + "\n")
+    if args.rebuild_rom:
+        rebuilt = bytes(rebuilt_rom)
+        if rebuilt != rom:
+            first = next(i for i, (left, right) in enumerate(zip(rebuilt, rom)) if left != right)
+            raise SystemExit(f"rebuilt ROM mismatch at offset 0x{first:X}")
+        args.rebuild_rom.parent.mkdir(parents=True, exist_ok=True)
+        args.rebuild_rom.write_bytes(rebuilt)
+        print(f"Rebuilt byte-identical ROM: {args.rebuild_rom}")
+        print(f"SHA-1: {hashlib.sha1(rebuilt).hexdigest()}")
+        print(f"SHA-256: {hashlib.sha256(rebuilt).hexdigest()}")
     print(f"Verified {len(selected_rows)} matching source unit(s), {matched} code bytes, "
           f"{matched_data} data bytes")
 

@@ -35,6 +35,7 @@ python3 tools/prepare_rom.py --input /absolute/path/to/BattleTanx.z64 \
 make setup
 make split
 make verify-matching
+make rebuild-rom
 make report
 make asset-catalogue
 make data-survey
@@ -50,6 +51,9 @@ metadata, architecture, and repository-safety tests.
 GCC matching toolchains under ignored `.toolchain/` paths. The SN lane builds
 the GCC 2.8.0 runtime sources through Wibo and converts its Psy-Q objects to
 big-endian ELF before the same relocation-aware ROM comparison used elsewhere.
+`make rebuild-rom` additionally writes an ignored 8 MiB image assembled from
+freshly verified code/data plus the supplied retail metadata and assets, then
+requires it to match the input ROM byte for byte.
 
 `make asset-catalogue` validates and decodes the currently identified retail
 resource bundles into an ignored JSON catalogue under `build/us/assets/`.
@@ -144,4 +148,6 @@ See `docs/ARCHITECTURE.md` and `docs/PROVENANCE.md` before contributing.
 ## License
 
 Project-authored code and imported GPL research are GPL-3.0; see `COPYING`.
+Third-party origins and licensing exceptions are listed in
+[`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md).
 BattleTanx and its game data remain the property of their respective holders.

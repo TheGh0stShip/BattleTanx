@@ -4,7 +4,7 @@ VENV_PYTHON := $(VENV)/bin/python
 VENV_STAMP := $(VENV)/.installed
 ROM := baseroms/us/baserom.z64
 
-.PHONY: all setup toolchain verify config split verify-matching report asset-catalogue data-survey check clean-generated
+.PHONY: all setup toolchain verify config split verify-matching rebuild-rom report asset-catalogue data-survey check clean-generated
 
 all: split
 
@@ -32,6 +32,9 @@ split: setup verify
 
 verify-matching: verify toolchain
 	$(PYTHON) tools/verify_matching_units.py --rom $(ROM)
+
+rebuild-rom: verify toolchain
+	$(PYTHON) tools/verify_matching_units.py --rom $(ROM) --rebuild-rom build/us/battletanx.us.z64
 
 report:
 	$(PYTHON) tools/generate_decomp_report.py --config config/decompkit.toml
