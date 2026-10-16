@@ -147,6 +147,44 @@ class ModernAsn64Tests(unittest.TestCase):
         self.assertIn("sw\t$2,44($sp)", disabled)
         self.assertIn("beq\t$2,$0,.L11\n\tnop\n\tj\t.L17", disabled)
 
+    def test_endurance_wave_uses_retail_loop_allocation(self) -> None:
+        body = (
+            "func_8007B9E4:\n"
+            "\t.frame\t$sp,120,$31\n"
+            "\t.fmask\t0x00f00000,-4\n"
+            "\tsubu\t$sp,$sp,120\n"
+            "\tsw\t$16,80($sp)\n"
+            "\tsw\t$17,84($sp)\n"
+            "\ts.d\t$f22,112($sp)\n"
+            "\tcvt.d.s\t$f22,$f20\n"
+            "\tlh\t$17,524($16)\n"
+            "\tmove\t$4,$16\n"
+            "\tl.s\t$f2,520($16)\n"
+            "\tcvt.s.w\t$f2,$f2\n"
+            "\tsub.s\t$f2,$f2,$f20\n"
+            "\tcvt.d.s\t$f2,$f2\n"
+            "\tdiv.d\t$f2,$f2,$f22\n"
+            "\tl.s\t$f0,0($5)\n"
+            "\t#nop\n"
+            "\tcvt.d.s\t$f0,$f0\n"
+            "\tadd.d\t$f2,$f0,$f2\n"
+            "\tlw\t$17,84($sp)\n"
+            "\tlw\t$16,80($sp)\n"
+            "\tl.d\t$f22,112($sp)\n"
+            "\taddu\t$sp,$sp,120\n"
+        )
+        text = self.preprocess(body)
+        self.assertIn(".frame\t$sp,112,$31", text)
+        self.assertIn("sw\t$17,84($sp)", text)
+        self.assertIn("sw\t$16,80($sp)", text)
+        self.assertIn("move\t$4,$17\n\tlh\t$16,524($17)", text)
+        self.assertIn("cvt.d.s\t$f2,$f20\n\tcvt.d.s\t$f0,$f0", text)
+        self.assertNotIn("$f22", text)
+
+        disabled = self.preprocess(body, disabled="ENDURANCE-WAVE-LOOP-LAYOUT")
+        self.assertIn(".frame\t$sp,120,$31", disabled)
+        self.assertIn("cvt.d.s\t$f22,$f20", disabled)
+
     def test_attached_camera_uses_retail_floating_registers(self) -> None:
         body = (
             "func_80077E94:\n"

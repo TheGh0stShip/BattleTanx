@@ -324,6 +324,46 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("CODE-ENTRY-GRID-ALLOCATION")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_8007B9E4:" in line for line in input_lines) and rule("ENDURANCE-WAVE-LOOP-LAYOUT"):
+        joined = "".join(input_lines)
+        joined = joined.replace("$16", "$__swap").replace("$17", "$16").replace("$__swap", "$17")
+        rewrites = (
+            ("\t.frame\t$sp,120,$31", "\t.frame\t$sp,112,$31"),
+            ("\t.fmask\t0x00f00000,-4", "\t.fmask\t0x00300000,-4"),
+            ("\tsubu\t$sp,$sp,120", "\tsubu\t$sp,$sp,112"),
+            ("\tsw\t$17,80($sp)\n", "\tsw\t$17,84($sp)\n"),
+            ("\tsw\t$16,84($sp)\n", "\tsw\t$16,80($sp)\n"),
+            ("\ts.d\t$f22,112($sp)\n", ""),
+            ("\tcvt.d.s\t$f22,$f20\n", ""),
+            (
+                "\tlh\t$16,524($17)\n\tmove\t$4,$17\n",
+                "\tmove\t$4,$17\n\tlh\t$16,524($17)\n",
+            ),
+            (
+                "\tl.s\t$f2,520($17)\n\tcvt.s.w\t$f2,$f2\n"
+                "\tsub.s\t$f2,$f2,$f20\n\tcvt.d.s\t$f2,$f2\n"
+                "\tdiv.d\t$f2,$f2,$f22\n\tl.s\t$f0,0($5)\n"
+                "\t#nop\n\tcvt.d.s\t$f0,$f0\n\tadd.d\t$f2,$f0,$f2\n",
+                "\tl.s\t$f0,520($17)\n\tcvt.s.w\t$f0,$f0\n"
+                "\tsub.s\t$f0,$f0,$f20\n\tcvt.d.s\t$f2,$f20\n"
+                "\tcvt.d.s\t$f0,$f0\n\tdiv.d\t$f0,$f0,$f2\n"
+                "\tl.s\t$f2,0($5)\n\t#nop\n\tcvt.d.s\t$f2,$f2\n"
+                "\tadd.d\t$f2,$f2,$f0\n",
+            ),
+            ("\tlw\t$16,84($sp)\n", "\tlw\t$17,84($sp)\n"),
+            ("\tlw\t$17,80($sp)\n", "\tlw\t$16,80($sp)\n"),
+            ("\tl.d\t$f22,112($sp)\n", ""),
+            ("\taddu\t$sp,$sp,120", "\taddu\t$sp,$sp,112"),
+        )
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_8007B9E4 endurance-wave shaping fired {fires} times: {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        fire("ENDURANCE-WAVE-LOOP-LAYOUT")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_800DFA68:" in line for line in input_lines) and rule("AI-ROUTE-SEARCH-LAYOUT"):
         # GCC assigns two spilled route-search locals eight bytes above their
         # retail slots and emits an equivalent inverted two-branch loop latch.

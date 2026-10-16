@@ -39,7 +39,8 @@ typedef struct EntityRecord {
 } EntityRecord;
 
 extern s32 run_state_loop_after_sequence_reset(s32 state) __asm__("func_8007C58C");
-extern void func_8007B9E4(CampaignWave *wave, CampaignParams *params);
+extern void play_endurance_wave(CampaignWave *wave, CampaignParams *params)
+    __asm__("func_8007B9E4");
 extern EntityRecord *get_entity_record(u16 index) __asm__("func_800A6688");
 extern void func_800D0828(s32 id, s32 value, s32 session, s32 offset, s32 flag, void *buffer);
 extern CampaignWave gOpponentWaves[17] __asm__("D_80142DE8");
@@ -112,7 +113,7 @@ void run_campaign_waves(s32 index, s32 id, s32 offset, s16 bonus) {
         }
         gGameMode = 9;
         D_801B4AD4 = 1;
-        func_8007B9E4(&wave, &params);
+        play_endurance_wave(&wave, &params);
         if (D_80125798 != 0) {
             return;
         }

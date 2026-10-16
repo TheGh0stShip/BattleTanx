@@ -261,7 +261,7 @@ segments:
       - [0xB268, c, code/runtime/read_runtime_counter_pair]
       - [0xB280, c, code/gameplay/run_campaign_waves]
       - [0xB590, asm, functions/func_8007B590]
-      - [0xB9E4, asm, functions/func_8007B9E4]
+      - [0xB9E4, c, code/gameplay/play_endurance_wave]
       - [0xBD24, c, code/gameplay/play_campaign_wave]
       - [0xC298, c, code/unknown/8007C298]
       - [0xC2A0, c, code/runtime/apply_mode_display_rows]
