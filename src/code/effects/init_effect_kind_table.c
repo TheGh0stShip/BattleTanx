@@ -45,7 +45,7 @@ extern void func_8008EC80(void);
 extern void func_8008EE04(void);
 extern void func_8008FB1C(void);
 extern void func_8008FC9C(void);
-extern void func_8008FD6C(void);
+extern void destroy_placed_object(void) __asm__("func_8008FD6C");
 extern void func_80090BE0(void);
 extern void func_80090F94(void);
 extern void func_800913AC(void);
@@ -174,7 +174,7 @@ void init_effect_kind_table(void)
     D_802C3800[5].handler = func_8009345C;
     D_802C3800[23].update = func_800F2010;
     D_802C3800[23].handler = func_800F2478;
-    D_802C3800[18].update = func_8008FD6C;
+    D_802C3800[18].update = destroy_placed_object;
     D_802C3800[18].handler = func_80090BE0;
     D_802C3800[0].update = func_8009E3A4;
     D_802C3800[0].draw = func_8009EDAC;

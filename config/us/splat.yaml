@@ -446,7 +446,7 @@ segments:
       - [0x1F6F4, c, code/effects/spawn_part_debris]
       - [0x1FB1C, c, code/effects/update_tumbling_debris]
       - [0x1FC9C, c, code/render/draw_placed_model]
-      - [0x1FD6C, asm, functions/func_8008FD6C]
+      - [0x1FD6C, c, code/effects/destroy_placed_object]
       - [0x202BC, c, code/effects/spawn_random_debris]
       - [0x20428, c, code/effects/spawn_group_part_debris]
       - [0x205D8, c, code/effects/spawn_group_part_debris_mode]

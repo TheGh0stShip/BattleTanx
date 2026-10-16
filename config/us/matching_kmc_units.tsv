@@ -1337,3 +1337,4 @@
 0xBD24	0x574	src/code/gameplay/play_campaign_wave.c	--assembler=asn64 --section-base=.rodata:0x80071150 -O2 -G0 -mips3 -mgp32 -mfp32	ac181693ec1ef4f2620d99080fdd1d28cf65478ec22f5e0684377d24db943bfe
 0x7E94	0x7A0	src/code/render/update_attached_camera.c	--assembler=asn64 --section-base=.rodata:0x8007108C -O2 -G0 -mips3 -mgp32 -mfp32	9e7538deed2abfcd763f063e210e33195d685749a6beda932e473d52c6bc1b92
 0x1C2EC	0x404	src/code/effects/begin_radius_notification.c	-O2 -G0 -mips3 -mgp32 -mfp32	d8bb00efd0b7bf5dd8bbe17f2727986e7a268b0b7914499508cff6ca3ab61263
+0x1FD6C	0x550	src/code/effects/destroy_placed_object.c	--section-base=.rodata:0x80071CE0 -O2 -G0 -mips3 -mgp32 -mfp32	18dfad6e4041e6d1ac53c7e552303874a92c8bd0392eca36bf7c499a9bb5c968

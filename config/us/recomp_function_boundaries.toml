@@ -310,7 +310,7 @@ functions = [
     { name = "spawn_part_debris", vram = 0x8008f6f4, size = 0x428 },
     { name = "update_tumbling_debris", vram = 0x8008fb1c, size = 0x180 },
     { name = "draw_placed_model", vram = 0x8008fc9c, size = 0xd0 },
-    { name = "func_8008FD6C", vram = 0x8008fd6c, size = 0x550 },
+    { name = "destroy_placed_object", vram = 0x8008fd6c, size = 0x550 },
     { name = "spawn_random_debris", vram = 0x800902bc, size = 0x16c },
     { name = "spawn_group_part_debris", vram = 0x80090428, size = 0x1b0 },
     { name = "spawn_group_part_debris_mode", vram = 0x800905d8, size = 0x1f4 },
