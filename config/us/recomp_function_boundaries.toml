@@ -181,7 +181,7 @@ functions = [
     { name = "get_render_frame_record_alt", vram = 0x8007f060, size = 0x10 },
     { name = "set_role_framebuffer", vram = 0x8007f070, size = 0x194 },
     { name = "get_role_framebuffer", vram = 0x8007f204, size = 0x98 },
-    { name = "func_8007F2A0", vram = 0x8007f2a0, size = 0xcc8 },
+    { name = "update_match_state", vram = 0x8007f2a0, size = 0xcc8 },
     { name = "reset_player_round_state", vram = 0x8007ff68, size = 0xb4 },
     { name = "draw_screen_overlay", vram = 0x8008001c, size = 0x100 },
     { name = "draw_viewport_overlay", vram = 0x8008011c, size = 0x288 },

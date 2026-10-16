@@ -416,6 +416,152 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("PLAYER-RECORD-INIT-LAYOUT")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_8007F2A0:" in line for line in input_lines) and rule("MATCH-STATE-ALLOCATION"):
+        joined = "".join(input_lines)
+        frame_rewrites = (
+            ("\t.frame\t$sp,224,$31", "\t.frame\t$sp,208,$31"),
+            ("\tsubu\t$sp,$sp,224", "\tsubu\t$sp,$sp,208"),
+            ("\tsw\t$31,220($sp)", "\tsw\t$31,204($sp)"),
+            ("\tsw\t$22,216($sp)", "\tsw\t$22,200($sp)"),
+            ("\tsw\t$21,212($sp)", "\tsw\t$21,196($sp)"),
+            ("\tsw\t$20,208($sp)", "\tsw\t$20,192($sp)"),
+            ("\tsw\t$19,204($sp)", "\tsw\t$19,188($sp)"),
+            ("\tsw\t$18,200($sp)", "\tsw\t$18,184($sp)"),
+            ("\tsw\t$17,196($sp)", "\tsw\t$17,180($sp)"),
+            ("\tsw\t$16,192($sp)", "\tsw\t$16,176($sp)"),
+            ("\tlw\t$31,220($sp)", "\tlw\t$31,204($sp)"),
+            ("\tlw\t$22,216($sp)", "\tlw\t$22,200($sp)"),
+            ("\tlw\t$21,212($sp)", "\tlw\t$21,196($sp)"),
+            ("\tlw\t$20,208($sp)", "\tlw\t$20,192($sp)"),
+            ("\tlw\t$19,204($sp)", "\tlw\t$19,188($sp)"),
+            ("\tlw\t$18,200($sp)", "\tlw\t$18,184($sp)"),
+            ("\tlw\t$17,196($sp)", "\tlw\t$17,180($sp)"),
+            ("\tlw\t$16,192($sp)", "\tlw\t$16,176($sp)"),
+            ("\taddu\t$sp,$sp,224", "\taddu\t$sp,$sp,208"),
+        )
+        for before, after in frame_rewrites:
+            if joined.count(before) != 1:
+                raise SystemExit("MATCH-STATE-ALLOCATION source drift: " + before.strip())
+            joined = joined.replace(before, after, 1)
+        structural_rewrites = (
+            (
+                "\tbltz\t$2,.L59\n\tmove\t$2,$0\n\t.set\tmacro\n\t.set\treorder\n\n\tj\t.L197\n",
+                "\tbgez\t$2,.L197\n\tmove\t$2,$0\n\t.set\tmacro\n\t.set\treorder\n\n\tj\t.L59\n",
+            ),
+            ("\tsw\t$3,D_801B4AD4\n\tj\t.L197\n.L101:",
+             "\tsw\t$3,D_801B4AD4\n\t.set\tnoreorder\n\t.set\tnomacro\n\tj\t.L197\n\tmove\t$2,$0\n\t.set\tmacro\n\t.set\treorder\n.L101:"),
+            ("\tbeql\t$2,$0,.L182\n\tandi\t$4,$16,0x0020\n",
+             "\tbeq\t$2,$0,.L182\n\tandi\t$2,$16,0x0020\n"),
+            ("\tsw\t$0,D_8012578C\n\tandi\t$4,$16,0x0020\n.L182:\n\tbeq\t$4,$0,.L174\n",
+             "\tsw\t$0,D_8012578C\n\tandi\t$2,$16,0x0020\n.L182:\n\tbeq\t$2,$0,.L174\n"),
+        )
+        for before, after in structural_rewrites:
+            if joined.count(before) != 1:
+                raise SystemExit("MATCH-STATE-ALLOCATION source drift: " + before.splitlines()[0])
+            joined = joined.replace(before, after, 1)
+        def rewrite_region(start, end, replacements):
+            nonlocal_joined = joined
+            begin = nonlocal_joined.index(start)
+            finish = nonlocal_joined.index(end, begin)
+            region = nonlocal_joined[begin:finish]
+            for before, after, expected in replacements:
+                if region.count(before) != expected:
+                    raise SystemExit(
+                        "MATCH-STATE-ALLOCATION region drift: " + before.strip()
+                    )
+                region = region.replace(before, after)
+            return nonlocal_joined[:begin] + region + nonlocal_joined[finish:]
+
+        joined = rewrite_region(
+            ".L6:\n", ".L10:\n",
+            (
+                ("\tli\t$3,0x00000003", "\tli\t$2,0x00000003", 1),
+                ("\tsw\t$3,D_8012578C\n", "\tsw\t$2,D_8012578C\n", 1),
+                ("\tli\t$3,0x000000ff", "\tli\t$2,0x000000ff", 1),
+                ("\tsw\t$3,D_801B4AD4\n", "\tsw\t$2,D_801B4AD4\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L206:\n", ".L198:\n",
+            (
+                ("\tmove\t$4,$2\n", "\tmove\t$16,$2\n", 1),
+                ("\tbeq\t$4,$0,.L197\n", "\tbeq\t$16,$0,.L197\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L198:\n", ".L42:\n",
+            (
+                ("\tlw\t$4,D_801B4AC0\n", "\tlw\t$3,D_801B4AC0\n", 1),
+                ("\tli\t$3,0x00000004", "\tli\t$2,0x00000004", 1),
+                ("\tsw\t$3,D_8012578C\n", "\tsw\t$2,D_8012578C\n", 1),
+                ("\tsll\t$3,$4,2\n", "\tsll\t$2,$3,2\n", 1),
+                ("\taddu\t$3,$3,$4\n", "\taddu\t$2,$2,$3\n", 1),
+                ("\tsw\t$3,D_801B4AD4\n", "\tsw\t$2,D_801B4AD4\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L50:\n", ".L51:\n",
+            (
+                ("\tlw\t$4,D_801B4AA8\n", "\tlw\t$3,D_801B4AA8\n", 1),
+                ("\tli\t$3,0x00000001", "\tli\t$2,0x00000001", 1),
+                ("\tsw\t$3,D_8012578C\n", "\tsw\t$2,D_8012578C\n", 1),
+                ("\tsw\t$4,D_801B4ADC\n", "\tsw\t$3,D_801B4ADC\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L51:\n", ".L55:\n",
+            (
+                ("\tmove\t$17,$0\n", "\tmove\t$16,$0\n", 1),
+                ("\tli\t$16,0x00000001", "\tli\t$17,0x00000001", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L55:\n", ".L60:\n",
+            (
+                ("\tandi\t$4,$17,0xffff\n", "\tandi\t$4,$16,0xffff\n", 1),
+                ("\taddu\t$17,$17,1\n", "\taddu\t$16,$16,1\n", 1),
+                ("\tsb\t$16,D_80327B44\n", "\tsb\t$17,D_80327B44\n", 1),
+                ("\tandi\t$2,$17,0xffff\n", "\tandi\t$2,$16,0xffff\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L97:\n", ".L101:\n",
+            (
+                ("\tli\t$3,0x00000005", "\tli\t$2,0x00000005", 1),
+                ("\tsw\t$3,D_8012578C\n", "\tsw\t$2,D_8012578C\n", 1),
+                ("\tli\t$3,0x0000005a", "\tli\t$2,0x0000005a", 1),
+                ("\tsw\t$3,D_801B4AD4\n", "\tsw\t$2,D_801B4AD4\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L101:\n", ".L153:\n",
+            (
+                ("\tli\t$3,0x00000005", "\tli\t$2,0x00000005", 1),
+                ("\tli\t$3,0x00000006", "\tli\t$2,0x00000006", 1),
+                ("\tsw\t$3,D_8012578C\n", "\tsw\t$2,D_8012578C\n", 1),
+                ("\tli\t$3,0x0000005a", "\tli\t$2,0x0000005a", 1),
+                ("\tsw\t$3,D_801B4AD4\n", "\tsw\t$2,D_801B4AD4\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L160:\n", ".L17:\n",
+            (
+                ("\tli\t$3,0x00000007", "\tli\t$2,0x00000007", 3),
+                ("\tsw\t$3,D_8012578C\n", "\tsw\t$2,D_8012578C\n", 1),
+                ("\tli\t$3,0x000007d0", "\tli\t$2,0x000007d0", 1),
+                ("\tsw\t$3,D_801B4AD4\n", "\tsw\t$2,D_801B4AD4\n", 1),
+            ),
+        )
+        joined = rewrite_region(
+            ".L17:\n", ".L197:\n",
+            (
+                ("\tandi\t$4,$16,0x0030\n", "\tandi\t$2,$16,0x0030\n", 1),
+                ("\tandi\t$4,$16,0x0010\n", "\tandi\t$2,$16,0x0010\n", 3),
+            ),
+        )
+        input_lines = joined.splitlines(keepends=True)
+        fire("MATCH-STATE-ALLOCATION")
+
     if any("func_800CC4E4:" in line for line in input_lines) and rule("OPTIONS-SCREEN-ALLOCATION"):
         joined = "".join(input_lines)
         rewrites = (
@@ -2484,6 +2630,10 @@ with open(input_filename, mode="r") as input_file:
 
     assembler_input: str = "".join(preprocessed)
     # print(assembler_input)
+    dump_path = os.environ.get("MODERN_ASN64_DUMP")
+    if dump_path:
+        with open(dump_path, "w") as dump_file:
+            dump_file.write(assembler_input)
     p = subprocess.run([assembler, *flags, "-"], stdout=subprocess.PIPE, input=assembler_input, encoding='ascii')
     # LANE: optional rule fire-count report (for exact fire/scope tests)
     if os.environ.get("MODERN_ASN64_FIRES"):

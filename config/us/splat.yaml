@@ -317,7 +317,7 @@ segments:
       - [0xF070, c, code/render/set_role_framebuffer]
       - [0xF204, c, code/render/get_role_framebuffer]
       - [0xF29C, bin, gaps/gap_00F29C]
-      - [0xF2A0, asm, functions/func_8007F2A0]
+      - [0xF2A0, c, code/gameplay/update_match_state]
       - [0xFF68, c, code/gameplay/reset_player_round_state]
       - [0x1001C, c, code/render/draw_screen_overlay]
       - [0x1011C, c, code/render/draw_viewport_overlay]

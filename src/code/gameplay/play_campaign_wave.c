@@ -52,7 +52,7 @@ extern void func_80080580(s32 a, s32 b, s32 c, s32 d, s32 e);
 extern void wait_for_async_io_idle(void) __asm__("func_800A8EE0");
 extern void reset_runtime_pools(void) __asm__("func_800805DC");
 extern void reset_halfword_slots(void) __asm__("func_8007968C");
-extern void func_8007F2A0(void);
+extern void update_match_state(void) __asm__("func_8007F2A0");
 extern void init_runtime_color_record(void) __asm__("func_8007D850");
 extern void reset_player_round_state(void) __asm__("func_8007FF68");
 extern void draw_render_overlays(void) __asm__("func_800803A4");
@@ -183,7 +183,7 @@ restart:
         wait_for_async_io_idle();
         reset_runtime_pools();
         reset_halfword_slots();
-        func_8007F2A0();
+        update_match_state();
         request_audio_state_refresh();
         init_runtime_color_record();
         reset_player_round_state();
