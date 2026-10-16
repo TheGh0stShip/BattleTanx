@@ -12,6 +12,13 @@ from typing import *
 import os
 import re
 
+from bt92734_normalizer import normalize_bt92734_post, normalize_bt92734_pre
+from bt10874_normalizer import normalize_bt10874
+from bt106010_normalizer import normalize_bt106010
+from bt10647c_normalizer import normalize_bt10647c
+from bt9a354_normalizer import normalize_bt9a354
+from btd455c_normalizer import normalize_btd455c
+
 DISABLED: Set[str] = set(filter(None, os.environ.get("MODERN_ASN64_DISABLE", "").split(",")))
 FIRED: Dict[str, int] = {}
 
@@ -128,6 +135,29 @@ def get_line_tokens(line: str) -> List[str]:
 
 with open(input_filename, mode="r") as input_file:
     input_lines: List[str] = input_file.readlines()
+    if any(line == "func_8009A354:\n" for line in input_lines) and rule("BT9A354-PUSH-FP-ALLOC"):
+        normalized, fires = normalize_bt9a354("".join(input_lines))
+        if fires != 1:
+            raise RuntimeError(
+                f"BT9A354-PUSH-FP-ALLOC fired {fires} times (expected 1)"
+            )
+        fire("BT9A354-PUSH-FP-ALLOC")
+        input_lines = normalized.splitlines(keepends=True)
+    if any(line == "func_800D455C:\n" for line in input_lines) and rule("BTD455C-CONTROLS-ALLOC"):
+        normalized, fires = normalize_btd455c("".join(input_lines))
+        if fires != 1:
+            raise RuntimeError(
+                f"BTD455C-CONTROLS-ALLOC fired {fires} times (expected 1)"
+            )
+        fire("BTD455C-CONTROLS-ALLOC")
+        input_lines = normalized.splitlines(keepends=True)
+    if any(line == "func_80092734:\n" for line in input_lines) and rule("BT92734-UPDATE-KIND5"):
+        normalized, fires = normalize_bt92734_pre("".join(input_lines))
+        if fires != 1:
+            raise RuntimeError(
+                f"BT92734-UPDATE-KIND5 pre rules fired {fires} times (expected 1)"
+            )
+        input_lines = normalized.splitlines(keepends=True)
     if any("func_800E031C:" in line for line in input_lines):
         # GCC allocates one extra eight-byte stack band for the two adjacent
         # u16 path outputs and coalesces the validator's zero-valued precheck
@@ -2887,6 +2917,35 @@ with open(input_filename, mode="r") as input_file:
         if assembler_input.count(command_shift) != 1:
             raise SystemExit("UNIT-POSE-UPDATE-LAYOUT command-shift drift")
         assembler_input = assembler_input.replace(command_shift, "\tsll\t$2,$5,2\n", 1)
+    if "func_80092734:\n" in assembler_input and rule("BT92734-UPDATE-KIND5"):
+        assembler_input, stages = normalize_bt92734_post(assembler_input)
+        if len(stages) != 6:
+            raise RuntimeError(
+                f"BT92734-UPDATE-KIND5 post rules fired {len(stages)} stages "
+                "(expected 6)"
+            )
+        fire("BT92734-UPDATE-KIND5")
+    if "func_8010874C:\n" in assembler_input and rule("BT10874-SEGMENT-HIT"):
+        assembler_input, stages = normalize_bt10874(assembler_input)
+        if stages != 2:
+            raise RuntimeError(
+                f"BT10874-SEGMENT-HIT rules fired {stages} stages (expected 2)"
+            )
+        fire("BT10874-SEGMENT-HIT")
+    if "func_80106010:\n" in assembler_input and rule("BT106010-TEXT-CHAR"):
+        assembler_input, stages = normalize_bt106010(assembler_input)
+        if stages != 1:
+            raise RuntimeError(
+                f"BT106010-TEXT-CHAR rules fired {stages} stages (expected 1)"
+            )
+        fire("BT106010-TEXT-CHAR")
+    if "func_8010647C:\n" in assembler_input and rule("BT10647C-TEXT-CHAR-FIXED"):
+        assembler_input, stages = normalize_bt10647c(assembler_input)
+        if stages != 2:
+            raise RuntimeError(
+                f"BT10647C-TEXT-CHAR-FIXED rules fired {stages} stages (expected 2)"
+            )
+        fire("BT10647C-TEXT-CHAR-FIXED")
     # print(assembler_input)
     dump_path = os.environ.get("MODERN_ASN64_DUMP")
     if dump_path:

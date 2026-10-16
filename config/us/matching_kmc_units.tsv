@@ -858,7 +858,6 @@
 0x1DDCC	0x160	src/code/effects/visit_level_points_near_rotating_record.c	-O2 -G0 -mips3 -mgp32 -mfp32	98a5a34bc300ac2d71d52aec2fe81fa1cf83436f8f49a2f184566b7f7fcb51b2
 0x35AA4	0xC8	src/code/entities/add_entity_progress_by_id.c	-O2 -G0 -mips3 -mgp32 -mfp32	154477f374645e65339e61a445970938a070b5f3ca9f6eff55ec9fd22b327f4b
 0x366C8	0xD0	src/code/entities/recount_team_active_entities.c	-O2 -G0 -mips3 -mgp32 -mfp32	3e1cefb329b8c4692057f27d891566f745f297cf87391d90b62648a2164bf790
-0x92F8C	0x1E0	src/code/frontend/draw_player_stats_screen.c	-O2 -G0 -mips3 -mgp32 -mfp32	25367e9d2138b7043f5de910572256f5c5eed9aecf36249c8203fe50f7008a07
 0x91E9C	0x1B4	src/code/frontend/draw_viewport_message_pair.c	-O2 -G0 -mips3 -mgp32 -mfp32	2734d717b4e9f211af77f9976fed9ee8b0c4a415834e1705149d67e428bf23db
 0x611B0	0x254	src/code/frontend/show_timed_splash_image.c	-O2 -G0 -mips3 -mgp32 -mfp32	9bb9f111c491a345266e3b19464faff3a09b3d13f9dcc27c22b78770e8dcadfc
 0x70C44	0x48	src/code/gameplay/ai_exact_horizontal_length.c	-O2 -G0 -mips3 -mgp32 -mfp32	db3c712e0f4a62a005bf6736aadeba6afa99ac70ac85da7d1aad47463af6d043
@@ -870,7 +869,6 @@
 0x370E0	0x1E8	src/code/gameplay/collect_pickup.c	-O2 -G0 -mips3 -mgp32 -mfp32	9e2eec1b01826639640d2a89cfce1099a1f549a8119d8c2764cf2508b391ef5a
 0x1488C	0x124	src/code/gameplay/nearby_sector_mask.c	-O2 -G0 -mips3 -mgp32 -mfp32	55da370d2019c5af967bc9bdafd75684b1386580758ce9b852b6ed9834b71267
 0x253AC	0x3BC	src/code/gameplay/query_rect_edges_outside_zone.c	-O2 -G0 -mips3 -mgp32 -mfp32	500a263f895ab9ee681f5cf2703c19cdde0445076497ec193ffa18975988faa8
-0x75F30	0x78	src/code/gameplay/reset_owner_state.c	-O2 -G0 -mips3 -mgp32 -mfp32	19eea6a65b76db8fc0545724f83ec282a9538c554f0d014c10301db6738ae95f
 0x25EAC	0x84	src/code/gameplay/resolve_quad_params_and_query.c	-O2 -G0 -mips3 -mgp32 -mfp32	fb71ab9497e11c1384d544cb12f8cbeb6e578df3063632ab28b8343e0d694f99
 0x14778	0x114	src/code/gameplay/slots_near_quad_outside_mask.c	-O2 -G0 -mips3 -mgp32 -mfp32	806bc7041364816d1bbb3d0bddf187ca6f62daeed4cd8c9c5e47db54a77c3a74
 0x347AC	0x254	src/code/gameplay/squad_select_next_member.c	-O2 -G0 -mips3 -mgp32 -mfp32	0cf7d139daa39dbcff4b34536773be3e30c9ea519277bc40d1bdc79ee440913c
@@ -927,7 +925,6 @@
 0x77804	0xB8	src/code/gameplay/entity_active_member_value98_weight.c	-O2 -G0 -mips3 -mgp32 -mfp32	23f60c2afc3cbe35a0c0d33ed1a23c8dccbbeaf249932c99c6330cf787f91d82
 0x73F90	0x104	src/code/gameplay/find_nearest_active_group_member.c	-O2 -G0 -mips3 -mgp32 -mfp32	c95bb53c86a99502e919cb8a94072705570fc4d735a1a7e7d63f9ba85f1e5844
 0x71F14	0x144	src/code/gameplay/resolve_unit_pair.c	-O2 -G0 -mips3 -mgp32 -mfp32	43974781b3dce07e8eca92012e4dea3f3b0218e132a738e8492b018bb708d2ca
-0x75DE4	0x14C	src/code/gameplay/select_nearest_linked_member.c	-O2 -G0 -mips3 -mgp32 -mfp32	6a433c451b99ac229cbcdfed8afa838faed8cc75ef5719f7f0ab21db8c0ae1b1
 0x71648	0x94	src/code/levels/compute_waypoint_triangle_centroid.c	-O2 -G0 -mips3 -mgp32 -mfp32	c44298074f45f6da65474584a6db1b144da3a1aa26e6f0670d75eac35760a162
 0x718B0	0x108	src/code/levels/get_triangle_edge_vertices.c	-O2 -G0 -mips3 -mgp32 -mfp32	0034a9b542a5b8b26b5c85430b6bebf09eb12bd766bca88222561937b9c2c71a
 0x97B44	0x3D0	src/code/runtime/collect_motion_contacts.c	-O2 -G0 -mips3 -mgp32 -mfp32	816da005e438e1e493eac9517ad61863c27cb75f431288ad8c7a855a281d450e
@@ -1347,3 +1344,46 @@
 0x5C4E4	0x1B18	src/code/frontend/draw_options_screen.c	--assembler=asn64 --section-base=.rodata:0x800737C0 -O2 -G0 -mips3 -mgp32 -mfp32	74d8c9861b1f11ecbacdafe70aebf5973e03caa09a7b6239e072773054b183d2
 0xF2A0	0xCC8	src/code/gameplay/update_match_state.c	--assembler=asn64 --section-base=.rodata:0x800713D0 -O2 -G0 -mips3 -mgp32 -mfp32	cc7274a5bad28aaad221cbf6458d45b815700f18b3c7e3d2d4a82a395d6afd82
 0x2CA6C	0xA48	src/code/gameplay/update_unit_from_pose.c	--assembler=asn64 --section-base=.rodata:0x8007273C -O2 -G0 -mips3 -mgp32 -mfp32	cc12a1df32f0e008cf9c8087a66714e35933a5f71024335a89b823fcf2b886cf
+0x75328	0x344	src/code/gameplay/build_unit_pair_records.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	7a2dd3035a026c5502408032c0b691efd6d7dc5b7b3bf0d03bc9c46b2f7ed69e
+0x7CE4C	0x50C	src/code/effects/handle_breakable_object_event.c	--assembler=asn64 --section-base=.rodata:0x80074A08 -O2 -G0 -mips3 -mgp32 -mfp32	5c64cb6ba5ad05cff45b2d79fa703b10f1a5a053e1dff32746ddc5adfbd28ebb
+0x80FD8	0x5C8	src/code/effects/spawn_beam_effect.c	--assembler=asn64 --section-base=.rodata:0x80074DBC -O2 -G0 -mips3 -mgp32 -mfp32	0216578b487f7e0092bf11eae6375813b17628f0c04f3d06435416e8cc73cd2d
+0x86934	0x17EC	src/code/frontend/draw_player_hud.c	--section-base=.rodata:0x80075038 -O2 -G0 -mips3 -mgp32 -mfp32	ec0010bd86cd73ab3a3dd1d8899fa22a49ccf3a3a12e10bec814f9bae82c1812
+0x88120	0x1E14	src/code/frontend/draw_two_player_hud.c	--section-base=.rodata:0x80075040 -O2 -G0 -mips3 -mgp32 -mfp32	396affd05082f496b42e0c6be72e6df714edf227c28730fc5ea06db4e79bd902
+0x83D40	0x480	src/code/render/draw_paletted_image.c	--assembler=asn64 --section-base=.rodata:0x80074F70 -O2 -G0 -mips3 -mgp32 -mfp32	2e99542ab5bad1d7244bf8ce82dc80c8fcc4f281f5b3932c85812b02126f5e61
+0x841C0	0x408	src/code/render/draw_ci4_image.c	--assembler=asn64 --section-base=.rodata:0x80074F74 -O2 -G0 -mips3 -mgp32 -mfp32	7f380122078b6c44559308bd8bb3edd7fe5ae86068e49158e41981f0beb365eb
+0x995D0	0xEA4	src/code/gameplay/intersect_segment_box.c	--section-base=.rodata:0x800754B0 -O2 -G0 -mips3 -mgp32 -mfp32	96aac739b1f0859a07776e4ee460554ae9967d7b03fbf507520b18f6bf5793c3
+0x8FF78	0x5D8	src/code/frontend/draw_pause_menu.c	--assembler=asn64 --section-base=.rodata:0x80075054 -O2 -G0 -mips3 -mgp32 -mfp32	424d324fdb43cbf65f7c5057445193391fc407e5e475e0271becb97bf5647d41
+0x89F34	0x2740	src/code/frontend/draw_three_player_hud.c	--assembler=asn64 --section-base=.rodata:0x80075044 -O2 -G0 -mips3 -mgp32 -mfp32	4ff60997677b99a282d849f4ecc751ab28df93d732a395617754227256ac4bf6
+0x8C674	0x30C8	src/code/frontend/draw_four_player_hud.c	--assembler=asn64 --section-base=.rodata:0x80075048 -O2 -G0 -mips3 -mgp32 -mfp32	f34f4e3b3a4c491659206152d0921a619d2309e06b1404cb450ca2c7b551b71c
+0x92050	0x9E0	src/code/frontend/draw_stats_frame.c	--assembler=asn64 --section-base=.rodata:0x800750BC -O2 -G0 -mips3 -mgp32 -mfp32	6cd51a7feb638a3679bc15f18dbb1e20c88826faf51e87fd127230616d2af398
+0x92A30	0x55C	src/code/frontend/draw_player_stats_panel.c	--assembler=asn64 --section-base=.rodata:0x800750D4 -O2 -G0 -mips3 -mgp32 -mfp32	7bab30fbfeef58e2b5e0053b7d925a7ecbc9ce43a500f79badc378ed7463a9a1
+0x9435C	0x97C	src/code/frontend/draw_three_player_stats_screen.c	--assembler=asn64 --section-base=.rodata:0x80075174 -O2 -G0 -mips3 -mgp32 -mfp32	822f9cecdcad3e662bf057f598dff3425e981963e9a38fff7c60a1c8e6a3c9e3
+0x9AC90	0xAB0	src/code/math/sweep_box_polygon_against_bounds.c	--assembler=asn64 --section-base=.rodata:0x800754C0 -O2 -G0 -mips3 -mgp32 -mfp32	62097c2e1f1d1d8f38f3161ac5a835d46a9ab8044fb6d780f383a2602c7d33a5
+0x9C450	0x598	src/code/effects/draw_pulse_effect_shapes.c	--assembler=asn64 --section-base=.rodata:0x80075588 -O2 -G0 -mips3 -mgp32 -mfp32	c7e26506c71a7570d173b584f39fa325c426408e4c58953dc45cfee89b2e7d44
+0x9CE24	0x564	src/code/effects/draw_beam_effect.c	--assembler=asn64 --section-base=.rodata:0x80075590 -O2 -G0 -mips3 -mgp32 -mfp32	08d0b57ef5c77dc82e4163fbe86bd043ae55081a20ff00458aff47ff42377084
+0x97170	0x33C	src/code/effects/free_effect_motion.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	9a85639f902d867c9730ec8eaf2af3c9702596322c07e45fe0eda0c29852aa45
+0x75DE4	0x55C	src/code/gameplay/ai_update_goal_unit.c	--assembler=asn64 --section-base=.rodata:0x80074658 -O2 -G0 -mips3 -mgp32 -mfp32	0ca65359dd1c4cb456a50b95adf8bcda2739f54413ff7c0472e6209bd7be7e3d
+0x90550	0x194C	src/code/render/draw_player_unit_markers_and_level_map.c	--assembler=asn64 --section-base=.rodata:0x80075078 -O2 -G0 -mips3 -mgp32 -mfp32	ef28d71a404c8c98498efd616b8d91552df5b662779826e0338a068863c9b66c
+0x92F8C	0xEC4	src/code/frontend/draw_player_stats_screen.c	--assembler=asn64 --section-base=.rodata:0x800750D8 -O2 -G0 -mips3 -mgp32 -mfp32	560e43fe31a13f6d45bd046212f47dee4280d7ced7e5c8a9df75d8d60caf2de7
+0x85B6C	0xB84	src/code/frontend/draw_frame_overlays.c	--assembler=asn64 --section-base=.rodata:0x80075000 -O2 -G0 -mips3 -mgp32 -mfp32	b45a513221d68dc604f2a43576fb399d4b505005fb994d74056d4444234c0c0a
+0x9BFDC	0x474	src/code/effects/draw_pulse_effect.c	--assembler=asn64 --section-base=.rodata:0x80075520 -O2 -G0 -mips3 -mgp32 -mfp32	0e607e852e2f6fc351ba2a370633056f88f7bd5c85f43bd65e55e51942abf724
+0x7F440	0x544	src/code/effects/update_rolling_mine.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	e02caaaf1498ef876e8810b01dec1c02fcec429c29797f20d99e6055e760ffed
+0x7A478	0x3B0	src/code/gameplay/ai_play_stack_update.c	-O2 -G0 -mips3 -mgp32 -mfp32	eb62498e044661eda12c5f88e2e4fe5f5a5aab3fad93f8f390321cee1443a14f
+0x974AC	0x258	src/code/effects/move_effect_motion.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	4fbacf897419c0cf948f221c3ea8e31a8748e1e93893458aad1d38a261a98853
+0x84794	0x668	src/code/render/draw_title_quads.c	--assembler=asn64 --section-base=.rodata:0x80074F88 -O2 -G0 -mips3 -mgp32 -mfp32	5cbbbc686c01996f0c3063a10d6420849226e981fa341a4d379a42f13e2599f3
+0x22734	0x94C	src/code/effects/update_effect_kind_5.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	bfde211c83d65a962584cab87666d6387c4593b77571a8070b5b3a93e69ea434
+0x9874C	0x41C	src/code/math/find_segment_hit.c	--assembler=asn64 --section-base=.rodata:0x80075494 -O2 -G0 -mips3 -mgp32 -mfp32	07bc199db25d58f00258652200f9c65b176801122ae90490833e8c59fe606823
+0x96010	0x46C	src/code/render/draw_text_char.c	--assembler=asn64 --section-base=.rodata:0x80075430 -O2 -G0 -mips3 -mgp32 -mfp32	55aacd5c407e9b34def5ee236124617079019e43ec7ee43fa2588bc290034416
+0x9647C	0x510	src/code/render/draw_text_char_fixed.c	--assembler=asn64 --section-base=.rodata:0x80075460 -O2 -G0 -mips3 -mgp32 -mfp32	680551aec0965f96bc24f8279df59376eb45e0e67733d01cd50562c960588cad
+0x5F4C0	0x9F0	src/code/frontend/poll_controller_pak_screen.c	--section-base=.rodata:0x80073C18 -O2 -G0 -mips3 -mgp32 -mfp32	c7ee935a3e485ff88b5418c6cd40be269f476cd70132bd644882c813cb13c503
+0x55C60	0x2114	src/code/frontend/draw_unit_select_screen.c	--assembler=asn64 --section-base=.rodata:0x800735E0 -O2 -G0 -mips3 -mgp32 -mfp32	bcd4fe46bc16b8c03a927db2995f6f9713d8cf2689eb15632644b0133cf78546
+0x2D4DC	0xEC0	src/code/render/draw_unit_models.c	--assembler=asn64 --section-base=.rodata:0x80072800 -O2 -G0 -mips3 -mgp32 -mfp32	a8383c6c1a0b1cfaa78ef7302d1e846c27db4f6fc097db090964b03334ee498a
+0x287D8	0x1230	src/code/gameplay/fire_unit_weapon.c	--assembler=asn64 --section-base=.rodata:0x80072238 -O2 -G0 -mips3 -mgp32 -mfp32	5e0f14487dd33cd018611ecd14f308c29803ea6012b5ec820af30f790d7c6892
+0x2BBC0	0xD08	src/code/gameplay/update_rail_unit_control.c	--assembler=asn64 --section-base=.rodata:0x80072640 -O2 -G0 -mips3 -mgp32 -mfp32	57fb8ffc80f649733804740ef9c17d2feb58dc442779af4fa8450faecf3c32d1
+0x66BC0	0x1E34	src/code/frontend/draw_team_select_screen.c	--assembler=asn64 --section-base=.rodata:0x800740AC -O2 -G0 -mips3 -mgp32 -mfp32	9e3407ac97c7d3de35d44ac0d195b8796d692915a22c3fe8ddada2fa5f82b82d
+0x620E4	0x18C0	src/code/frontend/draw_results_tally_screen.c	--assembler=asn64 --section-base=.rodata:0x80073D48 -O2 -G0 -mips3 -mgp32 -mfp32	36a2b2fdb8215c53cc9b6abcf485fc36c99c2b9f97de45967f1b885f5d4ffef5
+0x316C0	0x1110	src/code/gameplay/update_turret.c	--assembler=asn64 --section-base=.rodata:0x80072C94 -O2 -G0 -mips3 -mgp32 -mfp32	ae638811e4cc0d6f25a3e8b1338cd762ffab949ab26ad1189bb4b4603f41f4e0
+0x583D4	0x1FC4	src/code/frontend/draw_gang_select_screen.c	--assembler=asn64 --section-base=.rodata:0x80073698 -O2 -G0 -mips3 -mgp32 -mfp32	978a07bc3152462e688b6e705aa55801260966526368027e909088f89498e4b0
+0x18CF0	0x201C	src/code/assets/load_level_data.c	--assembler=asn64 --section-base=.rodata:0x80071898 -O2 -G0 -mips3 -mgp32 -mfp32	34670b15028d80b83cbdf337654fe89b25b5ca4d04a61129b0b699b97684d630
+0x2A354	0x1808	src/code/gameplay/update_tank_drive.c	--assembler=asn64 --section-base=.rodata:0x80072498 -O2 -G0 -mips3 -mgp32 -mfp32	69ee10be3d1f400dee29ecb34affa4ead938d03dfd81af47f2a947f3b6a23408
+0x6455C	0x1B04	src/code/frontend/draw_controls_help_screen.c	--assembler=asn64 --section-base=.rodata:0x80073F50 -O2 -G0 -mips3 -mgp32 -mfp32	f705ee0b3b8ae1d126201ce9397b50831f7e429927000b368c193697f1d8f330

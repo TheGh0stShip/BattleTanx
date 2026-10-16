@@ -1,10 +1,19 @@
 # BattleTanx decompilation
 
+[![Decompilation](https://img.shields.io/badge/decompilation-100%25-brightgreen)](docs/VERIFICATION.md)
+[![Functions](https://img.shields.io/badge/functions-1738%2F1738-brightgreen)](docs/VERIFICATION.md)
+[![Code](https://img.shields.io/badge/code-703452%2F703452-brightgreen)](docs/VERIFICATION.md)
+[![Data](https://img.shields.io/badge/data-153924%2F153924-brightgreen)](docs/VERIFICATION.md)
+[![Assets](https://img.shields.io/badge/assets-7335936%2F7335936-brightgreen)](docs/VERIFICATION.md)
+[![Verify](https://github.com/TheGh0stShip/BattleTanx/actions/workflows/verify.yml/badge.svg)](https://github.com/TheGh0stShip/BattleTanx/actions/workflows/verify.yml)
+[![License: GPL-3.0](https://img.shields.io/badge/license-GPL--3.0-blue)](COPYING)
+
 This repository contains the decompilation of **BattleTanx** for
-Nintendo 64 (USA Rev 0). It currently provides a verified ROM contract and a
-1,700-entry function catalogue covering the game's loaded 1 MiB program region.
-Generated disassembly is deliberately untracked; reviewed C and authentic
-source assembly will replace it incrementally.
+Nintendo 64 (USA Rev 0). The matching decompilation is complete: all 1,738
+catalogued functions, all 703,452 reportable code bytes, all 153,924 initialized
+data bytes, and the complete 7,335,936-byte asset region are accounted for.
+Every matching source unit is compiled and compared directly with the verified
+retail ROM. Generated disassembly remains deliberately untracked.
 
 No ROM or ROM-derived assets are included. Supply your own legally obtained
 dump.
@@ -60,13 +69,11 @@ The generator rejects out-of-range, unaligned, or overlapping canonical
 function ranges. Aliases contained inside another function remain in the
 catalogue but are not emitted as duplicate splat segments.
 
-The initial split accounts for the full 8 MiB ROM: 1,739 non-overlapping
-function ranges produce 703,452 bytes of generated assembly, while gaps and the
-resource area remain explicit binary regions. The 1,461 compiler-built source
-units now reconstruct 452,836 retail code bytes. Together with 17 authentic
-source-assembly units, 1,478 matching units reconstruct 454,184 code bytes.
-Eighty-three of the compiler-built units are data-only translation units whose initialized sections are verified
-independently. The
+The split accounts for the full 8 MiB ROM. Its 1,738 canonical functions cover
+703,452 bytes, all reconstructed by matching source. Across code, authentic
+source assembly, and initialized-data entries, the 1,563 reviewed manifest
+units pass the relocation-aware byte verifier. Data-only translation units have
+their initialized sections verified independently. The
 168 libultra and compiler-runtime units include the
 ten-function 64-bit
 arithmetic runtime, controller CRC routines, heap routines, byte copy, and
@@ -102,11 +109,14 @@ padding and parsed-but-unreferenced data. Some bundle entries remain semanticall
 unidentified even though their enclosing format and byte range are proven.
 
 ```text
-code       [█████████████░░░░░░░]  64.49%    453,624 / 703,452 bytes
+code       [████████████████████] 100.00%    703,452 / 703,452 bytes
 data       [████████████████████] 100.00%    153,924 / 153,924 bytes
-functions  [███████████████████░]  94.82%       1,649 / 1,739
+functions  [████████████████████] 100.00%       1,738 / 1,738
 assets     [████████████████████] 100.00%  7,335,936 / 7,335,936 bytes
 ```
+
+The hashes, byte totals, verification commands, and latest successful gate
+results are recorded in [docs/VERIFICATION.md](docs/VERIFICATION.md).
 
 The game-owned KMC GCC units cover string and list helpers, state initialization
 and predicates, vector copying, matrix state setup, two matrix multiplication

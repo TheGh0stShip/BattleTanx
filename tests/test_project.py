@@ -67,8 +67,8 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(digest), 64)
 
         kmc_rows = [line.split("\t") for line in (ROOT / "config/us/matching_kmc_units.tsv").read_text().splitlines() if line and not line.startswith("#")]
-        self.assertEqual(len(kmc_rows), 1348)
-        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 464068)
+        self.assertEqual(len(kmc_rows), 1388)
+        self.assertEqual(sum(int(row[1], 0) for row in kmc_rows), 619980)
         for _start, _size, source, _flags, digest in kmc_rows:
             self.assertTrue((ROOT / source).is_file())
             self.assertEqual(len(digest), 64)
@@ -101,7 +101,7 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(manifest["game"], "BattleTanx")
         self.assertEqual(manifest["system"], "N64")
         self.assertEqual(manifest["type"], "decomp")
-        self.assertEqual(manifest["status"], "in-progress")
+        self.assertEqual(manifest["status"], "complete")
         self.assertEqual(manifest["original"]["region"], "USA")
         self.assertEqual(manifest["original"]["revision"], "Rev 0")
         self.assertEqual(manifest["original"]["serial"], "NBXE")
@@ -113,7 +113,10 @@ class ProjectTests(unittest.TestCase):
         self.assertEqual(report["version"], 2)
         self.assertEqual(len(report["units"]), 1738)
         self.assertEqual(report["measures"]["total_functions"], 1738)
-        self.assertGreater(report["measures"]["matched_functions"], 0)
+        self.assertEqual(report["measures"]["matched_functions"], 1738)
+        self.assertEqual(report["measures"]["matched_functions_percent"], 100.0)
+        self.assertEqual(report["measures"]["matched_code"], "703452")
+        self.assertEqual(report["measures"]["matched_code_percent"], 100.0)
         self.assertEqual(int(report["measures"]["total_data"]), 153924)
         self.assertEqual(report["measures"]["matched_data"], "153924")
         self.assertEqual(report["measures"]["matched_data_percent"], 100.0)
@@ -149,7 +152,7 @@ class ProjectTests(unittest.TestCase):
         ranges = parse_address_ranges(
             [path for path, _pipeline in config.unit_manifests], allow_empty=True
         )
-        self.assertEqual(len(ranges), 1523)
+        self.assertEqual(len(ranges), 1563)
         self.assertEqual(sum(int(row["SIZE"], 0)
                              for row in read_tsv(config.data_manifest)), 153924)
 
