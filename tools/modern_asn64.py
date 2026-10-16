@@ -562,6 +562,81 @@ with open(input_filename, mode="r") as input_file:
         input_lines = joined.splitlines(keepends=True)
         fire("MATCH-STATE-ALLOCATION")
 
+    if any("func_8009CA6C:" in line for line in input_lines) and rule("UNIT-POSE-UPDATE-LAYOUT"):
+        joined = "".join(input_lines)
+        frame_rewrites = (
+            ("\t.frame\t$sp,704,$31", "\t.frame\t$sp,720,$31"),
+            ("\tsubu\t$sp,$sp,704", "\tsubu\t$sp,$sp,720"),
+            ("\tsw\t$17,660($sp)", "\tsw\t$17,676($sp)"),
+            ("\tsw\t$31,668($sp)", "\tsw\t$31,684($sp)"),
+            ("\tsw\t$18,664($sp)", "\tsw\t$18,680($sp)"),
+            ("\tsw\t$16,656($sp)", "\tsw\t$16,672($sp)"),
+            ("\ts.d\t$f26,696($sp)", "\ts.d\t$f26,712($sp)"),
+            ("\ts.d\t$f24,688($sp)", "\ts.d\t$f24,704($sp)"),
+            ("\ts.d\t$f22,680($sp)", "\ts.d\t$f22,696($sp)"),
+            ("\ts.d\t$f20,672($sp)", "\ts.d\t$f20,688($sp)"),
+            ("\tlw\t$31,668($sp)", "\tlw\t$31,684($sp)"),
+            ("\tlw\t$18,664($sp)", "\tlw\t$18,680($sp)"),
+            ("\tlw\t$17,660($sp)", "\tlw\t$17,676($sp)"),
+            ("\tlw\t$16,656($sp)", "\tlw\t$16,672($sp)"),
+            ("\tl.d\t$f26,696($sp)", "\tl.d\t$f26,712($sp)"),
+            ("\tl.d\t$f24,688($sp)", "\tl.d\t$f24,704($sp)"),
+            ("\tl.d\t$f22,680($sp)", "\tl.d\t$f22,696($sp)"),
+            ("\tl.d\t$f20,672($sp)", "\tl.d\t$f20,688($sp)"),
+            ("\taddu\t$sp,$sp,704", "\taddu\t$sp,$sp,720"),
+        )
+        for before, after in frame_rewrites:
+            if joined.count(before) != 1:
+                raise SystemExit("UNIT-POSE-UPDATE-LAYOUT frame drift: " + before.strip())
+            joined = joined.replace(before, after, 1)
+        dispatch_before = joined[joined.index(".L21:\n"):joined.index(".L23:\n")]
+        dispatch_after = (
+            ".L21:\n"
+            "\tlw\t$3,608($sp)\n"
+            "\tli\t$2,0x00000003\t\t# 3\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$3,$2,.L23\n\tsltu\t$2,$3,4\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbne\t$2,$0,.L36\n\tli\t$2,0x00000004\t\t# 4\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbeq\t$3,$2,.L25\n\tli\t$2,0x00000005\t\t# 5\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            "\tbeq\t$3,$2,.L32\n"
+            "\tj\t.L36\n"
+        )
+        joined = joined.replace(dispatch_before, dispatch_after, 1)
+        magnitude_before = joined[joined.index(".L25:\n"):joined.index(".L27:\n")]
+        magnitude_after = (
+            ".L25:\n\tl.s\t$f0,908($17)\n\t#nop\n"
+            "\tc.lt.s\t$f0,$f22\n\tnop\n"
+            "\t.set\tnoreorder\n\t.set\tnomacro\n"
+            "\tbc1tl\t.L26\n\tneg.s\t$f0,$f0\n"
+            "\t.set\tmacro\n\t.set\treorder\n\n"
+            ".L26:\n\tc.lt.s\t$f20,$f0\n\tnop\n"
+            "\tbc1t\t.L27\n"
+            "\tl.s\t$f0,912($17)\n\t#nop\n"
+            "\tc.lt.s\t$f0,$f22\n\tnop\n"
+            "\tbc1f\t.L900\n"
+            "\tneg.s\t$f0,$f0\n\tc.lt.s\t$f20,$f0\n\tnop\n"
+            "\tbc1f\t.L36\n"
+            "\tj\t.L27\n"
+            ".L900:\n\tc.lt.s\t$f20,$f0\n\tnop\n"
+            "\tbc1f\t.L36\n"
+        )
+        joined = joined.replace(magnitude_before, magnitude_after, 1)
+        case3_start = joined.index(".L23:\n")
+        case4_start = joined.index(".L25:\n", case3_start)
+        case5_start = joined.index(".L32:\n", case4_start)
+        cases_end = joined.index(".L18:\n", case5_start)
+        case3 = joined[case3_start:case4_start]
+        case4 = joined[case4_start:case5_start]
+        case5 = joined[case5_start:cases_end]
+        joined = joined[:case3_start] + case4 + case5 + case3 + joined[cases_end:]
+        input_lines = joined.splitlines(keepends=True)
+        fire("UNIT-POSE-UPDATE-LAYOUT")
+
     if any("func_800CC4E4:" in line for line in input_lines) and rule("OPTIONS-SCREEN-ALLOCATION"):
         joined = "".join(input_lines)
         rewrites = (
@@ -2629,6 +2704,189 @@ with open(input_filename, mode="r") as input_file:
         preprocessed.insert(0, line_directive)
 
     assembler_input: str = "".join(preprocessed)
+    if "func_8009CA6C:" in assembler_input and rule("UNIT-POSE-UPDATE-LAYOUT"):
+        if assembler_input.count("RODATA_SYM_16:\n") != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT double-pool drift")
+        assembler_input = assembler_input.replace(
+            "RODATA_SYM_16:\n", "\t.word\t0\nRODATA_SYM_16:\n", 1
+        )
+        double_literal = (
+            "RODATA_SYM_16:\n\t.align 3\n"
+            "\t.double 6.00000000000000000000e0\n"
+        )
+        if assembler_input.count(double_literal) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT double-literal drift")
+        assembler_input = assembler_input.replace(
+            double_literal,
+            "RODATA_SYM_16:\n\t.word\t0x40180000\n\t.word\t0\n", 1,
+        )
+        impact_literal = (
+            "RODATA_SYM_17:\n\t.align 3\n"
+            "\t.double 2.99999999999999988898e-1\n"
+        )
+        if assembler_input.count(impact_literal) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT impact-literal drift")
+        assembler_input = assembler_input.replace(
+            impact_literal,
+            "RODATA_SYM_17:\n\t.word\t0x3fd33333\n\t.word\t0x33333333\n", 1,
+        )
+        half_literal = (
+            "RODATA_SYM_33:\n\t.align 3\n"
+            "\t.double 5.00000000000000000000e-1\n"
+        )
+        if assembler_input.count(half_literal) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT half-literal drift")
+        assembler_input = assembler_input.replace(
+            half_literal,
+            "RODATA_SYM_33:\n\t.word\t0x3fe00000\n\t.word\t0\n", 1,
+        )
+        jump_table_alignment = (
+            ".section\t.rodata\n\t.align\t3\n\t.align\t2\n.L65:\n"
+        )
+        if assembler_input.count(jump_table_alignment) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT jump-table drift")
+        assembler_input = assembler_input.replace(
+            jump_table_alignment,
+            ".section\t.rodata\n\t.align\t2\n.L65:\n", 1,
+        )
+        block_start = assembler_input.index("\tl.s\t$f4,36($17)\n")
+        block_end = assembler_input.index("\tlw\t$4,1188($17)\n", block_start)
+        retail_block = """\t.section .rodata
+\t.align\t2
+\t.word\t0x41500000
+\t.word\t0x3bb60b61
+\t.word\t0x3bb40000
+\t.word\t0x43360b61
+\t.word\t0x4f000000
+\t.text
+\t.set\tnoreorder
+\t.set\tnoat
+\tlwc1\t$f2,36($17)
+\tsub.s\t$f2,$f24,$f2
+\tlwc1\t$f4,44($17)
+\tmul.s\t$f2,$f22,$f2
+\tsub.s\t$f4,$f26,$f4
+\tmul.s\t$f0,$f0,$f4
+\tadd.s\t$f2,$f2,$f0
+\tlui\t$at,0x8007
+\tlwc1\t$f0,0x2760($at)
+\tmul.s\t$f2,$f2,$f0
+\tlui\t$at,0x8007
+\tlwc1\t$f0,0x2764($at)
+\tmul.s\t$f0,$f20,$f0
+\tadd.s\t$f4,$f2,$f0
+\tsub.s\t$f2,$f2,$f0
+\ttrunc.w.s\t$f0,$f4
+\tmfc1\t$2,$f0
+\ttrunc.w.s\t$f0,$f2
+\tmfc1\t$3,$f0
+\tsb\t$2,1028($17)
+\tlbu\t$2,1030($17)
+\tlbu\t$4,1028($17)
+\tsb\t$3,1029($17)
+\tlbu\t$3,1031($17)
+\tlbu\t$5,1029($17)
+\taddu\t$2,$2,$4
+\taddu\t$3,$3,$5
+\tsb\t$2,1030($17)
+\tsb\t$3,1031($17)
+\tlwc1\t$f0,0($16)
+\tswc1\t$f0,36($17)
+\tlwc1\t$f0,4($16)
+\tswc1\t$f0,44($17)
+\tlhu\t$2,8($16)
+\tlui\t$at,0x8007
+\tlwc1\t$f4,0x2768($at)
+\tmtc1\t$2,$f0
+\tcvt.s.w\t$f0,$f0
+\tmul.s\t$f0,$f0,$f4
+\tswc1\t$f0,52($17)
+\tlwc1\t$f2,52($17)
+\tlui\t$at,0x8007
+\tlwc1\t$f0,0x276c($at)
+\tmul.s\t$f8,$f2,$f0
+\tlhu\t$2,10($16)
+\tlui\t$at,0x8007
+\tlwc1\t$f10,0x2770($at)
+\tmtc1\t$2,$f0
+\tcvt.s.w\t$f0,$f0
+\tmul.s\t$f0,$f0,$f4
+\tlwc1\t$f6,36($17)
+\tlwc1\t$f4,44($17)
+\tswc1\t$f2,1024($17)
+\tc.le.s\t$f10,$f8
+\tswc1\t$f0,1020($17)
+\ttrunc.w.s\t$f0,$f6
+\tmfc1\t$5,$f0
+\ttrunc.w.s\t$f0,$f4
+\tmfc1\t$6,$f0
+\tbc1tl\t.L11
+\tsub.s\t$f0,$f8,$f10
+\ttrunc.w.s\t$f0,$f8
+\tmfc1\t$7,$f0
+\tj\t.L12
+\tnop
+.L11:
+\ttrunc.w.s\t$f2,$f0
+\tmfc1\t$7,$f2
+\tlui\t$2,0x8000
+\tor\t$7,$7,$2
+.L12:
+\t.set\tat
+"""
+        assembler_input = assembler_input[:block_start] + retail_block + assembler_input[block_end:]
+        case3_marker = ".L23:\n\tlw\t$5,612($sp)\n"
+        if assembler_input.count(case3_marker) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT case-3 drift")
+        assembler_input = assembler_input.replace(
+            case3_marker, ".L23:\n\tlw\t$5,612($sp)\n\tmove\t$4,$17\n", 1
+        )
+        impact_before = (
+            "\tbc1f\t.L38\n\tmove\t$3,$2\n\t.set\tmacro\n\n"
+            "\tadd.s\t$f2,$f2,$f2\n"
+        )
+        impact_after = (
+            "\tbc1f\t.L38\n\tmove\t$4,$2\n\t.set\tmacro\n\n"
+            "\tadd.s\t$f2,$f2,$f2\n"
+        )
+        if assembler_input.count(impact_before) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT impact drift")
+        assembler_input = assembler_input.replace(impact_before, impact_after, 1)
+        if assembler_input.count("\tmove\t$4,$3\n\ttrunc.w.s $f0,$f2,$2\n") != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT impact argument drift")
+        assembler_input = assembler_input.replace(
+            "\tmove\t$4,$3\n\ttrunc.w.s $f0,$f2,$2\n",
+            "\ttrunc.w.s $f0,$f2,$2\n", 1,
+        )
+        hit_start = assembler_input.index(".L17:\n")
+        hit_end = assembler_input.index(".L21:\n", hit_start)
+        hit_region = assembler_input[hit_start:hit_end]
+        hit_prefix_rewrites = (
+            ("lwc1 $f22, %lo(RODATA_SYM_14)($at)",
+             "lwc1 $f20, %lo(RODATA_SYM_14)($at)"),
+            ("\tmtc1\t$0,$f20\n", "\tmtc1\t$0,$f22\n"),
+        )
+        for before, after in hit_prefix_rewrites:
+            if assembler_input.count(before) != 1:
+                raise SystemExit("UNIT-POSE-UPDATE-LAYOUT hit-prefix drift: " + before.strip())
+            assembler_input = assembler_input.replace(before, after, 1)
+        if hit_region.count("\tc.lt.s\t$f0,$f20\n") != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT hit-region comparison drift")
+        hit_region = hit_region.replace("\tc.lt.s\t$f0,$f20\n", "\tc.lt.s\t$f0,$f22\n", 1)
+        assembler_input = assembler_input[:hit_start] + hit_region + assembler_input[hit_end:]
+        command_before = (
+            "\taddu\t$4,$3,-1\n\tsltu\t$2,$4,9\n"
+        )
+        command_after = (
+            "\taddu\t$5,$3,-1\n\tsltu\t$2,$5,9\n"
+        )
+        if assembler_input.count(command_before) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT command-index drift")
+        assembler_input = assembler_input.replace(command_before, command_after, 1)
+        command_shift = "\tsll\t$2,$4,2\n"
+        if assembler_input.count(command_shift) != 1:
+            raise SystemExit("UNIT-POSE-UPDATE-LAYOUT command-shift drift")
+        assembler_input = assembler_input.replace(command_shift, "\tsll\t$2,$5,2\n", 1)
     # print(assembler_input)
     dump_path = os.environ.get("MODERN_ASN64_DUMP")
     if dump_path:

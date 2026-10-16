@@ -545,7 +545,7 @@ segments:
       - [0x2BB5C, c, code/entities/stop_unit_sound_and_set_owner_timer]
       - [0x2BBC0, asm, functions/func_8009BBC0]
       - [0x2C8C8, c, code/entities/steer_unit_toward_point]
-      - [0x2CA6C, asm, functions/func_8009CA6C]
+      - [0x2CA6C, c, code/gameplay/update_unit_from_pose]
       - [0x2D4B4, c, code/entities/refresh_entity_target]
       - [0x2D4DC, asm, functions/func_8009D4DC]
       - [0x2E39C, c, code/entities/get_entity_member_54]

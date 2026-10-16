@@ -1346,3 +1346,4 @@
 0xB590	0x454	src/code/gameplay/start_skirmish_wave.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	dd4d4cb569f54b06ad023154d546f54727377c8d8063ba77925bbc3102cc692d
 0x5C4E4	0x1B18	src/code/frontend/draw_options_screen.c	--assembler=asn64 --section-base=.rodata:0x800737C0 -O2 -G0 -mips3 -mgp32 -mfp32	74d8c9861b1f11ecbacdafe70aebf5973e03caa09a7b6239e072773054b183d2
 0xF2A0	0xCC8	src/code/gameplay/update_match_state.c	--assembler=asn64 --section-base=.rodata:0x800713D0 -O2 -G0 -mips3 -mgp32 -mfp32	cc7274a5bad28aaad221cbf6458d45b815700f18b3c7e3d2d4a82a395d6afd82
+0x2CA6C	0xA48	src/code/gameplay/update_unit_from_pose.c	--assembler=asn64 --section-base=.rodata:0x8007273C -O2 -G0 -mips3 -mgp32 -mfp32	cc12a1df32f0e008cf9c8087a66714e35933a5f71024335a89b823fcf2b886cf

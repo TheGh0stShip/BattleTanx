@@ -405,7 +405,7 @@ functions = [
     { name = "stop_unit_sound_and_set_owner_timer", vram = 0x8009bb5c, size = 0x64 },
     { name = "func_8009BBC0", vram = 0x8009bbc0, size = 0xd08 },
     { name = "steer_unit_toward_point", vram = 0x8009c8c8, size = 0x1a4 },
-    { name = "func_8009CA6C", vram = 0x8009ca6c, size = 0xa48 },
+    { name = "update_unit_from_pose", vram = 0x8009ca6c, size = 0xa48 },
     { name = "refresh_entity_target", vram = 0x8009d4b4, size = 0x28 },
     { name = "func_8009D4DC", vram = 0x8009d4dc, size = 0xec0 },
     { name = "get_entity_member_54", vram = 0x8009e39c, size = 0x8 },
