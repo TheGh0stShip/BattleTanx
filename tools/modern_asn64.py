@@ -416,6 +416,94 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("PLAYER-RECORD-INIT-LAYOUT")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800CC4E4:" in line for line in input_lines) and rule("OPTIONS-SCREEN-ALLOCATION"):
+        joined = "".join(input_lines)
+        rewrites = (
+            (
+                "\tlw\t$9,D_803275F8\n",
+                "\tlw\t$10,D_803275F8\n",
+            ),
+            (
+                "\tnor\t$5,$0,$9\n\tsra\t$5,$5,31\n\tand\t$5,$9,$5\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tjal\tfunc_800F4DFC\n\taddu\t$7,$9,320\n",
+                "\tnor\t$5,$0,$10\n\tsra\t$5,$5,31\n\tand\t$5,$10,$5\n"
+                "\tmove\t$7,$10\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tjal\tfunc_800F4DFC\n\taddiu\t$7,$7,320\n",
+            ),
+            (
+                "\tli\t$7,-50397184\t\t\t# 0xfcff0000\n"
+                "\tori\t$7,$7,0xffff\n"
+                "\tli\t$5,-262144\t\t\t# 0xfffc0000\n"
+                "\tori\t$5,$5,0xf279\n"
+                "\tlw\t$3,D_80125790\n"
+                "\tli\t$6,-1174405120\t\t\t# 0xba000000\n"
+                "\tori\t$6,$6,0x0e02\n"
+                "\tlw\t$4,D_803275F8\n"
+                "\tlw\t$8,D_803276D4\n"
+                "\tsll\t$2,$3,1\n"
+                "\taddu\t$2,$2,$3\n"
+                "\tsll\t$2,$2,2\n"
+                "\taddu\t$10,$2,$3\n"
+                "\taddu\t$9,$4,54\n"
+                "\tlw\t$3,D_80134E60\n"
+                "\taddu\t$10,$10,$9\n",
+                "\tli\t$6,-50397184\t\t\t# 0xfcff0000\n"
+                "\tori\t$6,$6,0xffff\n"
+                "\tli\t$5,-262144\t\t\t# 0xfffc0000\n"
+                "\tori\t$5,$5,0xf279\n"
+                "\tli\t$7,-1174405120\t\t\t# 0xba000000\n"
+                "\tlw\t$4,D_80125790\n"
+                "\tori\t$7,$7,0x0e02\n"
+                "\tlw\t$8,D_803276D4\n"
+                "\tlw\t$3,D_803275F8\n"
+                "\tsll\t$2,$4,1\n"
+                "\taddu\t$2,$2,$4\n"
+                "\tsll\t$2,$2,2\n"
+                "\taddu\t$2,$2,$4\n"
+                "\taddiu\t$3,$3,54\n"
+                "\tlw\t$4,D_80134E60\n"
+                "\taddu\t$10,$2,$3\n",
+            ),
+            (
+                "\taddu\t$10,$2,$3\n\taddu\t$9,$4,54\n"
+                "\tlw\t$3,D_80134E60\n",
+                "\taddu\t$2,$2,$3\n\taddiu\t$4,$4,54\n"
+                "\tlw\t$3,D_80134E60\n",
+            ),
+            (
+                "\tli\t$2,0x00000001\t\t# 1\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbne\t$3,$2,.L22\n\taddu\t$10,$10,$9\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tli\t$7,-184549376\t\t\t# 0xf5000000\n",
+                "\taddu\t$10,$2,$4\n"
+                "\tli\t$2,0x00000001\t\t# 1\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbne\t$3,$2,.L22\n\tli\t$7,-184549376\t\t\t# 0xf5000000\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n",
+            ),
+            (
+                "\tsw\t$7,0($8)\n\tsw\t$5,4($8)\n\tsw\t$6,8($8)\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbne\t$3,$0,.L20\n",
+                "\tsw\t$6,0($8)\n\tsw\t$5,4($8)\n\tsw\t$7,8($8)\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbne\t$4,$0,.L20\n",
+            ),
+            (
+                ".L22:\n\tli\t$7,-184549376\t\t\t# 0xf5000000\n"
+                "\tori\t$7,$7,0x0100\n",
+                ".L22:\n\tori\t$7,$7,0x0100\n",
+            ),
+        )
+        for before, after in rewrites:
+            if joined.count(before) != 1:
+                raise SystemExit("OPTIONS-SCREEN-ALLOCATION source drift: " + before.splitlines()[0])
+            joined = joined.replace(before, after, 1)
+        input_lines = joined.splitlines(keepends=True)
+        fire("OPTIONS-SCREEN-ALLOCATION")
+
     if any("func_8007B590:" in line for line in input_lines) and rule("SKIRMISH-WAVE-COPY-LAYOUT"):
         # GCC recognizes the three fixed-size profile assignments as copy
         # loops.  This source-equivalent expansion keeps three invariant end

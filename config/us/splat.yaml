@@ -835,7 +835,7 @@ segments:
       - [0x5BDBC, c, code/frontend/run_game_setup_screen]
       - [0x5C1A8, c, code/frontend/update_game_setup_menu_input]
       - [0x5C470, c, code/assets/load_resource_bundle_4B39B0]
-      - [0x5C4E4, asm, functions/func_800CC4E4]
+      - [0x5C4E4, c, code/frontend/draw_options_screen]
       - [0x5DFFC, c, code/frontend/run_compressed_choice_screen]
       - [0x5E214, c, code/frontend/update_options_menu_input]
       - [0x5E4B0, c, code/assets/load_resource_bundle_4B1300]

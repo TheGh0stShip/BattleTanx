@@ -696,7 +696,7 @@ functions = [
     { name = "run_game_setup_screen", vram = 0x800cbdbc, size = 0x3ec },
     { name = "update_game_setup_menu_input", vram = 0x800cc1a8, size = 0x2c8 },
     { name = "load_resource_bundle_4B39B0", vram = 0x800cc470, size = 0x74 },
-    { name = "func_800CC4E4", vram = 0x800cc4e4, size = 0x1b18 },
+    { name = "draw_options_screen", vram = 0x800cc4e4, size = 0x1b18 },
     { name = "run_compressed_choice_screen", vram = 0x800cdffc, size = 0x218 },
     { name = "update_options_menu_input", vram = 0x800ce214, size = 0x29c },
     { name = "load_resource_bundle_4B1300", vram = 0x800ce4b0, size = 0xa4 },

@@ -7,7 +7,7 @@ extern void func_8007D998(void);
 extern void func_8007EEF8(s32, s32);
 extern void func_800A8ECC(void);
 extern void func_800A8EE0(void);
-extern void func_800CC4E4(s32);
+extern void draw_options_screen(s32) __asm__("func_800CC4E4");
 extern u8 func_800CE214(void);
 extern s32 lzari_decode(u32 sourceSize, u8 *source, u32 destinationSize, u8 *destination) __asm__("func_800F4F60");
 extern void load_texture_draw_font(s32 font) __asm__("func_801053B0");
@@ -31,7 +31,7 @@ static inline void render_choice_frame(void) {
 
     func_8007D850();
     gFrameDisplayList = (u32 *)(D_803276D0 + D_803276D8 * 0x11000);
-    func_800CC4E4(D_803276D8);
+    draw_options_screen(D_803276D8);
     cmd = gFrameDisplayList;
     dl = D_803276D0 + D_803276D8 * 0x11000;
     base = D_803276D0;

@@ -37,7 +37,7 @@ extern void func_800C83D4(void);
 extern void func_800CA980(void);
 extern void func_800CAA04(void);
 extern void func_800CC470(void);
-extern void func_800CC4E4(void);
+extern void draw_options_screen(void) __asm__("func_800CC4E4");
 extern void func_800CE4B0(void);
 extern void func_800CE554(void);
 extern void func_800D44CC(void);
@@ -76,7 +76,7 @@ void init_audio_mode_state(void)
     gAudioHandlersB[2] = func_800CA980;
     gAudioHandlersA[2] = func_800CAA04;
     gAudioHandlersB[5] = func_800CC470;
-    gAudioHandlersA[5] = func_800CC4E4;
+    gAudioHandlersA[5] = draw_options_screen;
     gAudioHandlersB[3] = func_800C5B90;
     gAudioHandlersA[3] = func_800C5C60;
     gAudioHandlersB[3] = func_800C8210;
