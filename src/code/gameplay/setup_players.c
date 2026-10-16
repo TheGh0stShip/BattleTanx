@@ -78,7 +78,8 @@ extern s32 func_800ECB68(s32 index);
 extern s32 func_800EC3D0(void);
 extern ColorInfo *func_800A68C0(s32 controller);
 extern void *func_800A6688(u16 index);
-extern void func_800A31C0(void *player, PlayerSetup *setup);
+extern void initialize_player_record(void *player, PlayerSetup *setup)
+    __asm__("func_800A31C0");
 extern u8 func_8007D1F8(GameSetup *game, s32 index);
 extern void func_8010D850(void);
 extern void func_800E4DF8(void);
@@ -118,7 +119,7 @@ void setup_players(GameSetup *game)
             setup.red = D_80126290[setup.color][0];
             setup.green = D_80126290[setup.color][1];
             setup.blue = D_80126290[setup.color][2];
-            func_800A31C0(func_800A6688(i), &setup);
+            initialize_player_record(func_800A6688(i), &setup);
         }
     } else {
         for (j = 0; j < game->count; j++) {
@@ -274,7 +275,7 @@ void setup_players(GameSetup *game)
                 }
                 break;
             }
-            func_800A31C0(func_800A6688(j), &setup);
+            initialize_player_record(func_800A6688(j), &setup);
         }
         func_8010D850();
         if (D_80135834 != 0) {

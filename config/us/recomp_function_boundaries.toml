@@ -457,7 +457,7 @@ functions = [
     { name = "randomize_slot_order", vram = 0x800a2f50, size = 0x120 },
     { name = "clear_four_runtime_pairs", vram = 0x800a3070, size = 0x38 },
     { name = "shuffle_four_slot_order", vram = 0x800a30a8, size = 0x118 },
-    { name = "func_800A31C0", vram = 0x800a31c0, size = 0xb70 },
+    { name = "initialize_player_record", vram = 0x800a31c0, size = 0xb70 },
     { name = "refresh_entity_unit_model", vram = 0x800a3d30, size = 0xb0 },
     { name = "update_squad_state", vram = 0x800a3de0, size = 0x46c },
     { name = "func_800A424C", vram = 0x800a424c, size = 0x8 },

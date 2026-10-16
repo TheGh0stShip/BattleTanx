@@ -601,7 +601,7 @@ segments:
       - [0x32F50, c, code/gameplay/randomize_slot_order]
       - [0x33070, c, code/runtime/clear_four_runtime_pairs]
       - [0x330A8, c, code/gameplay/shuffle_four_slot_order]
-      - [0x331C0, asm, functions/func_800A31C0]
+      - [0x331C0, c, code/gameplay/initialize_player_record]
       - [0x33D30, c, code/entities/refresh_entity_unit_model]
       - [0x33DE0, c, code/gameplay/update_squad_state]
       - [0x3424C, c, code/unknown/800A424C]

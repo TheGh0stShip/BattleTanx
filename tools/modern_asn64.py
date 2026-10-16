@@ -324,6 +324,98 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("CODE-ENTRY-GRID-ALLOCATION")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800A31C0:" in line for line in input_lines) and rule("PLAYER-RECORD-INIT-LAYOUT"):
+        joined = "".join(input_lines)
+        rewrites = (
+            (
+                "\tsw\t$20,56($sp)\n\tmove\t$20,$5\n\tsw\t$17,44($sp)\n"
+                "\tsw\t$31,76($sp)\n\tsw\t$fp,72($sp)\n\tsw\t$23,68($sp)\n"
+                "\tsw\t$22,64($sp)\n\tsw\t$21,60($sp)\n\tsw\t$19,52($sp)\n"
+                "\tsw\t$18,48($sp)\n\tsw\t$16,40($sp)\n\ts.d\t$f20,80($sp)\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_800821C0\n"
+                "\tmove\t$17,$4\n",
+                "\tsw\t$17,44($sp)\n\tmove\t$17,$4\n\tsw\t$20,56($sp)\n"
+                "\tsw\t$31,76($sp)\n\tsw\t$fp,72($sp)\n\tsw\t$23,68($sp)\n"
+                "\tsw\t$22,64($sp)\n\tsw\t$21,60($sp)\n\tsw\t$19,52($sp)\n"
+                "\tsw\t$18,48($sp)\n\tsw\t$16,40($sp)\n\ts.d\t$f20,80($sp)\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tjal\tfunc_800821C0\n"
+                "\tmove\t$20,$5\n",
+            ),
+            (
+                "\tsw\t$2,36($sp)\n\tlbu\t$2,535($2)\n\tmove\t$4,$17\n"
+                "\tli\t$5,0x00000348\t\t# 840\n\tlhu\t$6,0($20)\n",
+                "\tmove\t$4,$17\n\tsw\t$2,36($sp)\n\tlbu\t$2,535($2)\n"
+                "\tli\t$5,0x00000348\t\t# 840\n\tmove\t$18,$0\n\tlhu\t$6,0($20)\n",
+            ),
+            ("\n\tmove\t$18,$0\n\tlhu\t$3,2($20)\n", "\n\tlhu\t$3,2($20)\n"),
+            (
+                "\tl.s\t$f0,4($16)\n\tli\t$2,0x00000001\t\t# 1\n"
+                "\tsb\t$2,420($17)\n\tsb\t$2,421($17)\n"
+                "\tli\t$2,0x000000ff\t\t# 255\n\tmul.s\t$f0,$f0,$f2\n"
+                "\tsw\t$0,408($17)\n\tsw\t$0,412($17)\n\tsw\t$0,416($17)\n"
+                "\tsh\t$2,424($17)\n\tsh\t$2,426($17)\n\tsh\t$0,428($17)\n"
+                "\ts.s\t$f0,820($17)\n\tlbu\t$2,17($20)\n\t#nop\n"
+                "\tsb\t$2,422($17)\n",
+                "\tl.s\t$f0,4($16)\n\tmul.s\t$f0,$f0,$f2\n"
+                "\tli\t$2,0x00000001\t\t# 1\n\tsw\t$0,408($17)\n"
+                "\tsw\t$0,412($17)\n\tsw\t$0,416($17)\n"
+                "\tsb\t$2,420($17)\n\tsb\t$2,421($17)\n\ts.s\t$f0,820($17)\n"
+                "\tlbu\t$3,17($20)\n\tli\t$2,0x000000ff\t\t# 255\n"
+                "\tsh\t$2,424($17)\n\tsh\t$2,426($17)\n\tsh\t$0,428($17)\n"
+                "\tsb\t$3,422($17)\n",
+            ),
+            (
+                "\tlbu\t$2,16($20)\n\tsb\t$0,431($17)\n\tsb\t$2,430($17)\n"
+                "\tlw\t$2,36($20)\n",
+                "\tlbu\t$2,16($20)\n\tsb\t$2,430($17)\n\tlw\t$2,36($20)\n"
+                "\tsb\t$0,431($17)\n",
+            ),
+            (
+                "\tli\t$2,0x0000001e\t\t# 30\n\tsb\t$0,34($17)\n"
+                "\tsw\t$2,772($17)\n\tsb\t$0,36($17)\n\tsb\t$0,37($17)\n"
+                "\tlw\t$2,24($20)\n\t#nop\n\t.set\tnoreorder\n"
+                "\t.set\tnomacro\n\tjal\tfunc_800EC644\n\tsb\t$2,56($17)\n",
+                "\tsb\t$0,34($17)\n\tlw\t$3,24($20)\n"
+                "\tli\t$2,0x0000001e\t\t# 30\n\tsw\t$2,772($17)\n"
+                "\tsb\t$0,36($17)\n\tsb\t$0,37($17)\n\t.set\tnoreorder\n"
+                "\t.set\tnomacro\n\tjal\tfunc_800EC644\n\tsb\t$3,56($17)\n",
+            ),
+            (
+                "\tsb\t$2,0($19)\n\tsb\t$21,18($19)\n\tlhu\t$2,0($20)\n"
+                "\t#nop\n\tsh\t$2,2($19)\n",
+                "\tsb\t$2,0($19)\n\tlhu\t$2,0($20)\n\tsb\t$21,18($19)\n"
+                "\tsh\t$2,2($19)\n",
+            ),
+            (
+                ".L102:\n\tla\t$18,D_80126140\n\tjal\tfunc_8007AAA0\n"
+                "\tslt\t$2,$2,2\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbeql\t$2,$0,.L104\n\taddu\t$18,$18,12\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n.L104:\n"
+                "\tlw\t$2,24($16)\n\tlw\t$6,1284($16)\n\tsll\t$2,$2,2\n"
+                "\taddu\t$2,$2,$18\n\tlw\t$5,0($2)\n",
+                ".L102:\n\tjal\tfunc_8007AAA0\n\t#nop\n\tla\t$3,D_80126140\n"
+                "\tslt\t$2,$2,2\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tbeql\t$2,$0,.L104\n\taddu\t$3,$3,12\n"
+                "\t.set\tmacro\n\t.set\treorder\n\n.L104:\n"
+                "\tlw\t$2,24($16)\n\tlw\t$6,1284($16)\n\tsll\t$2,$2,2\n"
+                "\taddu\t$2,$2,$3\n\tlw\t$5,0($2)\n",
+            ),
+            (
+                "\tli\t$2,0x00000001\t\t# 1\n\tsb\t$2,240($17)\n"
+                "\tlw\t$2,1284($16)\n\t#nop\n\tsw\t$2,236($17)\n",
+                "\tlw\t$3,1284($16)\n\tli\t$2,0x00000001\t\t# 1\n"
+                "\tsb\t$2,240($17)\n\tsw\t$3,236($17)\n",
+            ),
+        )
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800A31C0 player-init shaping fired {fires} times: {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        fire("PLAYER-RECORD-INIT-LAYOUT")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_8007B9E4:" in line for line in input_lines) and rule("ENDURANCE-WAVE-LOOP-LAYOUT"):
         joined = "".join(input_lines)
         joined = joined.replace("$16", "$__swap").replace("$17", "$16").replace("$__swap", "$17")
