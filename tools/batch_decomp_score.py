@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import argparse
 import concurrent.futures
+import hashlib
 import json
 import re
 import sys
@@ -27,6 +28,34 @@ import decomp_score  # noqa: E402
 
 
 ADDRESS_SYMBOL = re.compile(r"\b(?:D|func)_([0-9A-Fa-f]{8})\b")
+CACHE_PATH = ROOT / "build" / "decomp_score_cache.json"
+
+
+def cache_fingerprint(args: argparse.Namespace, path: Path) -> str:
+    """Fingerprint inputs that can change a candidate's generated object."""
+    digest = hashlib.sha256()
+    digest.update(path.read_bytes())
+    digest.update(f"{args.vram:x}\0{args.function}\0{args.pipeline}".encode())
+    for dependency in (
+        ROOT / "config/us/recomp_function_boundaries.toml",
+        ROOT / "build/us/symbols.ld",
+        ROOT / "tools/normalize_kmc_gcc_asm.py",
+        ROOT / "tools/modern_asn64.py",
+        ROOT / "build/decomp_compile.py",
+        ROOT / "build/decomp_score.py",
+    ):
+        if dependency.exists():
+            stat = dependency.stat()
+            digest.update(f"{dependency}:{stat.st_mtime_ns}:{stat.st_size}".encode())
+    return digest.hexdigest()
+
+
+def load_cache() -> dict[str, dict[str, object]]:
+    try:
+        value = json.loads(CACHE_PATH.read_text())
+        return value if isinstance(value, dict) else {}
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
 
 
 def add_address_symbols(text: str, focus: str) -> str:
@@ -88,15 +117,39 @@ def main() -> int:
     )
     parser.add_argument("--jobs", type=int, default=8)
     parser.add_argument("--json", type=Path)
+    parser.add_argument("--no-cache", action="store_true")
     args = parser.parse_args()
 
     missing = [path for path in args.candidates if not path.is_file()]
     if missing:
         parser.error("missing candidate(s): " + ", ".join(map(str, missing)))
 
-    jobs = max(1, min(args.jobs, len(args.candidates)))
+    cache = {} if args.no_cache else load_cache()
+    pending = []
+    results = []
+    keys = {}
+    for path in args.candidates:
+        key = cache_fingerprint(args, path)
+        keys[path] = key
+        if key in cache:
+            hit = dict(cache[key])
+            hit["path"] = str(path)
+            hit["seconds"] = 0.0
+            hit["cached"] = True
+            results.append(hit)
+        else:
+            pending.append(path)
+
+    jobs = max(1, min(args.jobs, len(pending))) if pending else 1
     with concurrent.futures.ThreadPoolExecutor(max_workers=jobs) as executor:
-        results = list(executor.map(lambda path: score_candidate(path, args), args.candidates))
+        fresh = list(executor.map(lambda path: score_candidate(path, args), pending))
+    results.extend(fresh)
+    if not args.no_cache and fresh:
+        CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+        for path, result in zip(pending, fresh):
+            if "error" not in result:
+                cache[keys[path]] = {k: v for k, v in result.items() if k != "path"}
+        CACHE_PATH.write_text(json.dumps(cache, sort_keys=True) + "\n")
     results.sort(key=lambda item: (
         "error" in item,
         item.get("words", sys.maxsize),
@@ -111,7 +164,8 @@ def main() -> int:
         print(
             f"{result['words']:5d} words\t{result['structural']:3d} structural\t"
             f"{result['built_size']:5d}/{result['rom_size']:5d} bytes\t"
-            f"{result['seconds']:6.3f}s\t{result['path']}"
+            f"{result['seconds']:6.3f}s{' cached' if result.get('cached') else '       '}\t"
+            f"{result['path']}"
         )
 
     if args.json:
