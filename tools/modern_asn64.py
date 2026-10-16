@@ -1348,28 +1348,6 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("BONUS-CRATE-ALLOCATION")
         input_lines = joined.splitlines(keepends=True)
-    if any("func_8007BD24:" in line for line in input_lines) and rule("CAMPAIGN-RETRY-BRANCH"):
-        # ASN64 emits the campaign retry as a normal branch even though KMC's
-        # scheduler marks it likely.  The delay-slot value is harmless on the
-        # retry edge and is the function's fallthrough return value, so the
-        # two forms have identical game-visible behaviour.  Scope the rewrite
-        # to the exact function tail and reject source drift.
-        joined = "".join(input_lines)
-        before = (
-            "\tbnel\t$2,$0,.L40\n"
-            "\tli\t$2,0x00000001\t\t# 1\n"
-        )
-        after = (
-            "\tbne\t$2,$0,.L40\n"
-            "\tli\t$2,0x00000001\t\t# 1\n"
-        )
-        fires = joined.count(before)
-        if fires != 1:
-            raise RuntimeError(
-                f"func_8007BD24 retry-branch shaping fired {fires} times (expected 1)"
-            )
-        fire("CAMPAIGN-RETRY-BRANCH")
-        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
     if any("func_80079064:" in line for line in input_lines):
         # Keep the global snapshot base and end pointers in the retail t0/t1
         # pair.  GCC otherwise derives the end pointer inside the copy loop,

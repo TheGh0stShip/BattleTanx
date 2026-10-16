@@ -107,31 +107,6 @@ class ModernAsn64Tests(unittest.TestCase):
             text,
         )
 
-    def test_campaign_retry_uses_retail_normal_branch(self) -> None:
-        text = self.preprocess(
-            "func_8007BD24:\n"
-            "\t.set\tnoreorder\n"
-            "\t.set\tnomacro\n"
-            "\tbnel\t$2,$0,.L40\n"
-            "\tli\t$2,0x00000001\t\t# 1\n"
-            "\t.set\tmacro\n"
-            "\t.set\treorder\n"
-        )
-        self.assertIn(
-            "bne\t$2,$0,.L40\n\tli\t$2,0x00000001",
-            text,
-        )
-
-        disabled = self.preprocess(
-            "func_8007BD24:\n"
-            "\t.set\tnoreorder\n"
-            "\t.set\tnomacro\n"
-            "\tbnel\t$2,$0,.L40\n"
-            "\tli\t$2,0x00000001\t\t# 1\n",
-            disabled="CAMPAIGN-RETRY-BRANCH",
-        )
-        self.assertIn("bnel\t$2,$0,.L40", disabled)
-
     def test_attached_camera_uses_retail_floating_registers(self) -> None:
         body = (
             "func_80077E94:\n"

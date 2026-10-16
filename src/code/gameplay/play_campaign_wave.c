@@ -84,9 +84,9 @@ extern u8 D_801B4BF9;
 extern u8 gRuntimeInitialized __asm__("D_80125780");
 extern s32 D_80125784;
 
-s32 play_campaign_wave(CampaignWave *wave, CampaignParams *params) __asm__("func_8007BD24");
+void play_campaign_wave(CampaignWave *wave, CampaignParams *params) __asm__("func_8007BD24");
 
-s32 play_campaign_wave(CampaignWave *wave, CampaignParams *params)
+void play_campaign_wave(CampaignWave *wave, CampaignParams *params)
 {
     CampaignWave backup;
     char path[0x20];
@@ -132,7 +132,7 @@ restart:
     if (wave->kind == demoKind) {
         result = load_demo_recording();
         if (result < 0) {
-            return result;
+            return;
         }
         result = get_runtime_partition_stride();
         D_801B4AB8 = result;
