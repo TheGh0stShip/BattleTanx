@@ -251,6 +251,26 @@ with open(input_filename, mode="r") as input_file:
                 )
             joined = joined.replace(before, after, 1)
         input_lines = joined.splitlines(keepends=True)
+    if any("func_8009201C:" in line for line in input_lines) and rule("MORPH-MODEL-ADDRESS-ORDER"):
+        # GCC canonicalizes this commutative model-table address addition in
+        # the opposite operand order from the retail object. Keep the rewrite
+        # guarded by the surrounding instruction sequence so source drift is
+        # rejected rather than silently reshaped.
+        joined = "".join(input_lines)
+        before = (
+            "\tlbu\t$2,14($20)\n"
+            "\tsll\t$3,$3,2\n"
+            "\taddu\t$3,$3,$5\n"
+            "\tlhu\t$3,2($3)\n"
+        )
+        after = before.replace("\taddu\t$3,$3,$5\n", "\taddu\t$3,$5,$3\n")
+        fires = joined.count(before)
+        if fires != 1:
+            raise RuntimeError(
+                f"func_8009201C address-order shaping fired {fires} times (expected 1)"
+            )
+        fire("MORPH-MODEL-ADDRESS-ORDER")
+        input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
     if any("func_800DDE88:" in line for line in input_lines):
         # The source expands the same ring-status scan on both exits. GCC
         # coalesces the entry count with the amount argument and rotates the

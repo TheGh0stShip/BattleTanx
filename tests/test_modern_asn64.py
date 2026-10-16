@@ -107,6 +107,20 @@ class ModernAsn64Tests(unittest.TestCase):
             text,
         )
 
+    def test_morph_model_address_uses_retail_operand_order(self) -> None:
+        body = (
+            "func_8009201C:\n"
+            "\tlbu\t$2,14($20)\n"
+            "\tsll\t$3,$3,2\n"
+            "\taddu\t$3,$3,$5\n"
+            "\tlhu\t$3,2($3)\n"
+        )
+        text = self.preprocess(body)
+        self.assertIn("addu\t$3,$5,$3", text)
+
+        disabled = self.preprocess(body, disabled="MORPH-MODEL-ADDRESS-ORDER")
+        self.assertIn("addu\t$3,$3,$5", disabled)
+
     def test_attached_camera_uses_retail_floating_registers(self) -> None:
         body = (
             "func_80077E94:\n"

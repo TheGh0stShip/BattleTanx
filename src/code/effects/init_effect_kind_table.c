@@ -52,7 +52,7 @@ extern void func_800913AC(void);
 extern void func_800916B8(void);
 extern void func_80091D04(void);
 extern void func_80091D10(void);
-extern void func_8009201C(void);
+extern void update_morphing_effect(void) __asm__("func_8009201C");
 extern void func_80092734(void);
 extern void func_8009345C(void);
 extern void func_80093A5C(void);
@@ -203,7 +203,7 @@ void init_effect_kind_table(void)
     D_802C3800[29].update = func_8010DC0C;
     D_802C3800[29].handler = func_8010DDD4;
     D_802C3800[29].draw = func_8010D9B0;
-    D_802C3800[9].update = func_8009201C;
+    D_802C3800[9].update = update_morphing_effect;
     D_802C3800[9].handler = func_80093A5C;
     D_802C3800[33].update = func_800F03B4;
     D_802C3800[33].handler = func_800F0CF0;

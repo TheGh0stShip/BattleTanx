@@ -1190,6 +1190,7 @@
 0x1B66C	0x230	src/code/effects/broadcast_effect_message_4.c	-O2 -G0 -mips3 -mgp32 -mfp32	99d4910f502e8a4c1da09bcdcaaba415e994084b79ed91a70442ecb1e1c8b014
 0x1F040	0x208	src/code/effects/spawn_effect_kind_08_burst.c	--section-base=.rodata:0x80071C50 -O2 -G0 -mips3 -mgp32 -mfp32	25447754cbcc2d13b69b9b280fbecdc20a22038939f80fa5f65ec5bccf18c456
 0x21A60	0x244	src/code/render/morph_display_list_vertices.c	-O2 -G0 -mips3 -mgp32 -mfp32	125baa1cee7c10da3f0e19a90085a8eded3d128412c7f4af64900d22735e3c10
+0x2201C	0x3EC	src/code/effects/update_morphing_effect.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	1adf11513db168ab11a7d965140cff75b71076ee06b5aba0f17e84fb034f9d59
 0x242A8	0x294	src/code/render/polygon_outside_view.c	-O2 -G0 -mips3 -mgp32 -mfp32	4f2c8603c0e5c02a9f9876e93595b7b9a203bb510aeee516774a3947ac6ffc91
 0x249D8	0x280	src/code/levels/lower_profile_span.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	d6ec1229fa0c10424e2eeef50112836e57d998c79df228d0202464f9ea478154
 0x25768	0x4B4	src/code/gameplay/query_rect_edges_near_zone.c	-O2 -G0 -mips3 -mgp32 -mfp32	5064c52ae97eaeff6fbbd5828603312786d68429a1e8918520cd0f4252202c67
