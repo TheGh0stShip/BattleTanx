@@ -271,6 +271,59 @@ with open(input_filename, mode="r") as input_file:
             )
         fire("MORPH-MODEL-ADDRESS-ORDER")
         input_lines = joined.replace(before, after, 1).splitlines(keepends=True)
+    if any("func_800DAE30:" in line for line in input_lines) and rule("CODE-ENTRY-GRID-ALLOCATION"):
+        # The retail allocator assigns the two strength-reduced grid-Y
+        # induction variables in the opposite saved-register order and emits
+        # two straight-line setup groups in a different valid schedule.
+        joined = "".join(input_lines)
+        rewrites = (
+            ("\tli\t$21,0x00000055\t\t# 85\n", "\tli\t$21,0x00000050\t\t# 80\n"),
+            ("\tli\t$23,0x00000050\t\t# 80\n", "\tli\t$23,0x00000055\t\t# 85\n"),
+            (
+                ".L9:\n\tli\t$16,0x0000002f\t\t# 47\n\tmove\t$17,$0\n"
+                "\tmove\t$19,$23\n\tmove\t$20,$21\n\tmove\t$18,$3\n",
+                ".L9:\n\tmove\t$17,$0\n\tmove\t$20,$23\n"
+                "\tmove\t$19,$21\n\tmove\t$18,$3\n\tli\t$16,0x0000002f\t\t# 47\n",
+            ),
+            (
+                "\tli\t$7,-100663296\t\t\t# 0xfa000000\n"
+                "\tori\t$7,$7,0x0101\n\tlw\t$2,D_803276D4\n"
+                "\tlw\t$5,D_803275F4\n\tli\t$3,-5636096\t\t\t# 0xffaa0000\n"
+                "\tori\t$3,$3,0x00ff\n\tsw\t$3,4($2)\n\tlw\t$3,D_803275F8\n"
+                "\tla\t$4,D_803276D4\n\tli\t$6,0x00000003\t\t# 3\n"
+                "\tsw\t$7,0($2)\n\tlw\t$8,32($5)\n",
+                "\tli\t$7,-100663296\t\t\t# 0xfa000000\n"
+                "\tori\t$7,$7,0x0101\n\tli\t$3,-5636096\t\t\t# 0xffaa0000\n"
+                "\tori\t$3,$3,0x00ff\n\tlw\t$2,D_803276D4\n"
+                "\tlw\t$5,D_803275F4\n\tla\t$4,D_803276D4\n"
+                "\tli\t$6,0x00000003\t\t# 3\n\tsw\t$7,0($2)\n"
+                "\tsw\t$3,4($2)\n\tlw\t$8,32($5)\n\tlw\t$3,D_803275F8\n",
+            ),
+            (
+                "\tlw\t$4,D_80328428\n\tli\t$16,0x00000028\t\t# 40\n"
+                "\tmove\t$fp,$0\n\tli\t$3,0x000000f6\t\t# 246\n"
+                "\tsll\t$2,$4,2\n\taddu\t$2,$2,$4\n\tsll\t$2,$2,2\n"
+                "\taddu\t$2,$2,$4\n\tsubu\t$3,$3,$2\n\tsrl\t$2,$3,31\n"
+                "\taddu\t$3,$3,$2\n\t.set\tnoreorder\n\t.set\tnomacro\n"
+                "\tblez\t$4,.L26\n\tsra\t$17,$3,1\n\t.set\tmacro\n\t.set\treorder\n\n.L28:\n",
+                "\tlw\t$4,D_80328428\n\tmove\t$fp,$0\n"
+                "\tli\t$3,0x000000f6\t\t# 246\n\tsll\t$2,$4,2\n"
+                "\taddu\t$2,$2,$4\n\tsll\t$2,$2,2\n\taddu\t$2,$2,$4\n"
+                "\tsubu\t$3,$3,$2\n\tsrl\t$2,$3,31\n\taddu\t$3,$3,$2\n"
+                "\t.set\tnoreorder\n\t.set\tnomacro\n\tblez\t$4,.L26\n"
+                "\tsra\t$17,$3,1\n\t.set\tmacro\n\t.set\treorder\n\n"
+                "\tli\t$16,0x00000028\t\t# 40\n.L28:\n",
+            ),
+        )
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800DAE30 grid-allocation shaping fired {fires} times: {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        fire("CODE-ENTRY-GRID-ALLOCATION")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_800DDE88:" in line for line in input_lines):
         # The source expands the same ring-status scan on both exits. GCC
         # coalesces the entry count with the amount argument and rotates the

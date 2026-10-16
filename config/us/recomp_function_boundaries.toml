@@ -765,7 +765,7 @@ functions = [
     { name = "menu_poll_list_selection", vram = 0x800dac4c, size = 0x110 },
     { name = "reset_blank_text_buffer", vram = 0x800dad60, size = 0x5c },
     { name = "load_resource_bundle_4AC150", vram = 0x800dadbc, size = 0x74 },
-    { name = "func_800DAE30", vram = 0x800dae30, size = 0x1b0c },
+    { name = "draw_code_entry_screen", vram = 0x800dae30, size = 0x1b0c },
     { name = "run_compressed_image_screen", vram = 0x800dc93c, size = 0x140 },
     { name = "check_entered_password", vram = 0x800dca7c, size = 0x244 },
     { name = "update_name_entry_input", vram = 0x800dccc0, size = 0x30c },

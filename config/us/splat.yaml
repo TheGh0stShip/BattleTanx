@@ -910,7 +910,7 @@ segments:
       - [0x6AD5C, bin, gaps/gap_06AD5C]
       - [0x6AD60, c, code/runtime/reset_blank_text_buffer]
       - [0x6ADBC, c, code/assets/load_resource_bundle_4AC150]
-      - [0x6AE30, asm, functions/func_800DAE30]
+      - [0x6AE30, c, code/frontend/draw_code_entry_screen]
       - [0x6C93C, c, code/frontend/run_compressed_image_screen]
       - [0x6CA7C, c, code/frontend/check_entered_password]
       - [0x6CCC0, c, code/frontend/update_name_entry_input]

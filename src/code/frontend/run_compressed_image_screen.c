@@ -12,7 +12,7 @@ extern void func_8007D998(void);
 extern void append_display_list_call_0(u8 *list, u8 *base) __asm__("func_8007EEF8");
 extern void request_audio_state_refresh(void) __asm__("func_800A8ECC");
 extern void wait_for_async_io_idle(void) __asm__("func_800A8EE0");
-extern void func_800DAE30(s32 index);
+extern void draw_code_entry_screen(void) __asm__("func_800DAE30");
 extern s32 func_800DCCC0(void);
 extern void lzari_decode(s32 sourceSize, u8 *source, s32 destinationSize, s32 destination)
     __asm__("func_800F4F60");
@@ -50,7 +50,7 @@ s32 run_compressed_image_screen(void) {
         done = func_800DCCC0();
         func_8007D850();
         gFrameDisplayList = (DisplayCommand *)(gDisplayListBase + gDisplayListIndex * 0x11000);
-        func_800DAE30(gDisplayListIndex);
+        draw_code_entry_screen();
         cmd = gFrameDisplayList++;
         cmd->w0 = 0xB8000000;
         cmd->w1 = 0;
