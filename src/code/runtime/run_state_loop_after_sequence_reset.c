@@ -6,7 +6,7 @@ extern void reset_sequence_b(void) __asm__("func_800BD1F0");
 extern void reset_sequence_c(void) __asm__("func_800C0880");
 extern void reset_sequence_d(void) __asm__("func_800C3EF0");
 extern void trigger_all_sound_ids(void) __asm__("func_80079948");
-extern s32 func_8007B590(s32 mode);
+extern s32 start_skirmish_wave(u16 mode) __asm__("func_8007B590");
 extern s32 func_8007C344(s32 mode);
 extern s8 D_801B4AE0;
 extern s32 D_80327B4C;
@@ -39,7 +39,7 @@ s32 run_state_loop_after_sequence_reset(s32 state) {
     do {
         result = func_8007C344(0);
         if (result == 2) {
-            func_8007B590(2);
+            start_skirmish_wave(2);
             D_801B4AE0 = D_80327B4C;
         }
     } while (result >= 2);

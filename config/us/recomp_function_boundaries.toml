@@ -121,7 +121,7 @@ functions = [
     { name = "get_range_progress", vram = 0x8007b208, size = 0x60 },
     { name = "read_runtime_counter_pair", vram = 0x8007b268, size = 0x18 },
     { name = "run_campaign_waves", vram = 0x8007b280, size = 0x310 },
-    { name = "func_8007B590", vram = 0x8007b590, size = 0x454 },
+    { name = "start_skirmish_wave", vram = 0x8007b590, size = 0x454 },
     { name = "play_endurance_wave", vram = 0x8007b9e4, size = 0x340 },
     { name = "play_campaign_wave", vram = 0x8007bd24, size = 0x574 },
     { name = "func_8007C298", vram = 0x8007c298, size = 0x8 },

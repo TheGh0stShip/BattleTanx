@@ -416,6 +416,256 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("PLAYER-RECORD-INIT-LAYOUT")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_8007B590:" in line for line in input_lines) and rule("SKIRMISH-WAVE-COPY-LAYOUT"):
+        # GCC recognizes the three fixed-size profile assignments as copy
+        # loops.  This source-equivalent expansion keeps three invariant end
+        # pointers in s0/s1/t9; the retail allocation rematerializes those
+        # ends in t0 and needs no callee-saved registers.  Replace only the
+        # profile-copy region, with exact sentinels on both sides so source
+        # drift fails loudly instead of silently producing a false match.
+        joined = "".join(input_lines)
+        joined = joined.replace("\t.mask\t0x80030000,-8\n", "\t.mask\t0x80000000,-8\n", 1)
+        for saved in ("\tsw\t$17,604($sp)\n", "\tsw\t$16,600($sp)\n",
+                      "\tlw\t$17,604($sp)\n", "\tlw\t$16,600($sp)\n"):
+            if joined.count(saved) != 1:
+                raise SystemExit("SKIRMISH-WAVE-COPY-LAYOUT source drift: " + saved.strip())
+            joined = joined.replace(saved, "", 1)
+        start = joined.find("\tsb\t$2,551($sp)\n", joined.find("func_8007B590:"))
+        end = joined.find("\tli\t$2,0x00000014", start)
+        if start < 0 or end < 0:
+            raise SystemExit("SKIRMISH-WAVE-COPY-LAYOUT source drift: copy-loop sentinels")
+        replacement = '''\tsb\t$2,551($sp)
+\tmove\t$13,$0
+\tlui\t$15,%hi(D_80145208)
+\taddiu\t$15,$15,%lo(D_80145208)
+\taddiu\t$24,$15,32
+\taddiu\t$14,$sp,16
+\tmove\t$11,$14
+\tmove\t$12,$0
+.Lskirmish_outer:
+\tlw\t$2,D_80135674
+\t.set\tnoreorder
+\tbnel\t$2,$0,.Lskirmish_profile_1
+\taddiu\t$7,$11,28
+\t.set\treorder
+\tmove\t$9,$0
+\tmove\t$10,$12
+\tmove\t$8,$14
+.Lskirmish_default_next:
+\taddiu\t$2,$8,28
+\taddu\t$7,$10,$2
+\tmove\t$6,$15
+.Lskirmish_default_copy:
+\tlw\t$2,0($6)
+\tlw\t$3,4($6)
+\tlw\t$4,8($6)
+\tlw\t$5,12($6)
+\tsw\t$2,0($7)
+\tsw\t$3,4($7)
+\tsw\t$4,8($7)
+\tsw\t$5,12($7)
+\taddiu\t$6,$6,16
+\t.set\tnoreorder
+\tbne\t$6,$24,.Lskirmish_default_copy
+\taddiu\t$7,$7,16
+\t.set\treorder
+\tlw\t$2,0($6)
+\tsw\t$2,0($7)
+\taddiu\t$9,$9,1
+\tslti\t$2,$9,3
+\t.set\tnoreorder
+\tbnez\t$2,.Lskirmish_default_next
+\taddiu\t$8,$8,144
+\tj\t.Lskirmish_outer_bottom
+\taddiu\t$11,$11,36
+\t.set\treorder
+.Lskirmish_profile_1:
+\tlui\t$6,%hi(D_8014522C)
+\taddiu\t$6,$6,%lo(D_8014522C)
+\taddiu\t$8,$6,32
+.Lskirmish_copy_1:
+\tlw\t$2,0($6)
+\tlw\t$3,4($6)
+\tlw\t$4,8($6)
+\tlw\t$5,12($6)
+\tsw\t$2,0($7)
+\tsw\t$3,4($7)
+\tsw\t$4,8($7)
+\tsw\t$5,12($7)
+\taddiu\t$6,$6,16
+\t.set\tnoreorder
+\tbne\t$6,$8,.Lskirmish_copy_1
+\taddiu\t$7,$7,16
+\t.set\treorder
+\tlw\t$2,0($6)
+\tsw\t$2,0($7)
+\taddiu\t$7,$11,172
+\tlui\t$6,%hi(D_80145250)
+\taddiu\t$6,$6,%lo(D_80145250)
+\taddiu\t$8,$6,32
+.Lskirmish_copy_2:
+\tlw\t$2,0($6)
+\tlw\t$3,4($6)
+\tlw\t$4,8($6)
+\tlw\t$5,12($6)
+\tsw\t$2,0($7)
+\tsw\t$3,4($7)
+\tsw\t$4,8($7)
+\tsw\t$5,12($7)
+\taddiu\t$6,$6,16
+\t.set\tnoreorder
+\tbne\t$6,$8,.Lskirmish_copy_2
+\taddiu\t$7,$7,16
+\t.set\treorder
+\tlw\t$2,0($6)
+\tsw\t$2,0($7)
+\taddiu\t$7,$11,316
+\tlui\t$6,%hi(D_80145274)
+\taddiu\t$6,$6,%lo(D_80145274)
+\taddiu\t$8,$6,32
+.Lskirmish_copy_3:
+\tlw\t$2,0($6)
+\tlw\t$3,4($6)
+\tlw\t$4,8($6)
+\tlw\t$5,12($6)
+\tsw\t$2,0($7)
+\tsw\t$3,4($7)
+\tsw\t$4,8($7)
+\tsw\t$5,12($7)
+\taddiu\t$6,$6,16
+\t.set\tnoreorder
+\tbne\t$6,$8,.Lskirmish_copy_3
+\taddiu\t$7,$7,16
+\t.set\treorder
+\tlw\t$2,0($6)
+\tsw\t$2,0($7)
+\taddiu\t$11,$11,36
+.Lskirmish_outer_bottom:
+\taddiu\t$13,$13,1
+\tslti\t$2,$13,4
+\t.set\tnoreorder
+\tbnez\t$2,.Lskirmish_outer
+\taddiu\t$12,$12,36
+\t.set\treorder
+'''
+        joined = joined[:start] + replacement + joined[end:]
+        for before, after in (
+            ("\tmove\t$24,$4\n", "\tmove\t$25,$4\n"),
+            ("\tandi\t$3,$24,0xffff\n", "\tandi\t$3,$25,0xffff\n"),
+            ("\tandi\t$2,$24,0xffff\n", "\tandi\t$2,$25,0xffff\n"),
+            ("\tj\t.L35\n\tmove\t$2,$0\n", "\tj\t.L35\n\tnop\n"),
+        ):
+            if joined.count(before) != 1:
+                raise SystemExit("SKIRMISH-WAVE-COPY-LAYOUT source drift: " + before.strip())
+            joined = joined.replace(before, after, 1)
+        tail_start = joined.find(".L20:\n", joined.find("func_8007B590:"))
+        tail_end = joined.find("\t.end\tfunc_8007B590", tail_start)
+        if tail_start < 0 or tail_end < 0:
+            raise SystemExit("SKIRMISH-WAVE-COPY-LAYOUT source drift: tail sentinels")
+        tail = '''.L20:
+\tlw\t$10,D_80135674
+\tlw\t$4,D_80134E58
+\tlw\t$3,D_803283C4
+\tlw\t$5,D_803283C0
+\tlw\t$6,D_80328400
+\tlw\t$7,D_80328400+4
+\tlw\t$8,D_80328400+8
+\tlw\t$9,D_80328400+12
+\tli\t$2,3
+\tsw\t$0,500($sp)
+\tsw\t$0,504($sp)
+\tsw\t$0,508($sp)
+\tsw\t$0,512($sp)
+\tsw\t$2,516($sp)
+\tsw\t$6,484($sp)
+\tlui\t$6,%hi(D_801B4AB0)
+\taddiu\t$6,$6,%lo(D_801B4AB0)
+\tsw\t$4,476($sp)
+\tli\t$4,1
+\tsw\t$3,480($sp)
+\tsw\t$3,D_801B4AB8
+\txori\t$3,$10,9
+\tsltiu\t$3,$3,1
+\txori\t$2,$10,17
+\tsltiu\t$2,$2,1
+\tor\t$3,$3,$2
+\tsw\t$10,20($sp)
+\tsw\t$5,532($sp)
+\tsw\t$7,488($sp)
+\tsw\t$8,492($sp)
+\t.set\tnoreorder
+\tbnez\t$3,.Lskirmish_special_test
+\tsw\t$9,496($sp)
+\t.set\treorder
+\txori\t$3,$10,5
+\tsltiu\t$3,$3,1
+\txori\t$2,$10,13
+\tsltiu\t$2,$2,1
+\tor\t$3,$3,$2
+\t.set\tnoreorder
+\tbeqz\t$3,.Lskirmish_after_special
+\tnop
+\t.set\treorder
+.Lskirmish_special_test:
+\tlw\t$3,16($sp)
+\tli\t$2,8
+\t.set\tnoreorder
+\tbeq\t$3,$2,.Lskirmish_after_special
+\tli\t$2,7
+\t.set\treorder
+\tsw\t$2,16($sp)
+\tli\t$2,12
+\tsw\t$2,28($sp)
+\tli\t$2,13
+\tsw\t$2,32($sp)
+\tsw\t$2,36($sp)
+\tsw\t$2,40($sp)
+\tli\t$2,4
+\tsw\t$2,480($sp)
+\tsw\t$2,D_801B4AB8
+\tli\t$2,5
+\tsw\t$4,476($sp)
+\tsw\t$0,484($sp)
+\tsw\t$4,488($sp)
+\tsw\t$4,492($sp)
+\tsw\t$4,496($sp)
+\tsw\t$2,536($sp)
+.Lskirmish_after_special:
+\tlbu\t$2,D_80134E68
+\t.set\tnoreorder
+\tbeqz\t$2,.Lskirmish_call
+\taddiu\t$4,$sp,16
+\t.set\treorder
+\tsw\t$0,28($sp)
+\tsw\t$0,32($sp)
+\tsw\t$0,36($sp)
+\tsw\t$0,40($sp)
+.Lskirmish_call:
+\taddiu\t$5,$sp,560
+\t.set\tnoreorder
+\tjal\tfunc_8007B9E4
+\tsw\t$4,12($6)
+\t.set\treorder
+\tlbu\t$2,D_80125798
+\t.set\tnoreorder
+\tbnez\t$2,.L1
+\tnop
+\t.set\treorder
+\tli\t$2,2
+\tsb\t$2,D_801B4AE0
+.L35:
+.L1:
+\tlw\t$31,608($sp)
+\tmove\t$2,$0
+\t.set\tnoreorder
+\tj\t$31
+\taddu\t$sp,$sp,616
+\t.set\treorder
+'''
+        joined = joined[:tail_start] + tail + joined[tail_end:]
+        input_lines = joined.splitlines(keepends=True)
+        fire("SKIRMISH-WAVE-COPY-LAYOUT")
+
     if any("func_8007B9E4:" in line for line in input_lines) and rule("ENDURANCE-WAVE-LOOP-LAYOUT"):
         joined = "".join(input_lines)
         joined = joined.replace("$16", "$__swap").replace("$17", "$16").replace("$__swap", "$17")

@@ -1343,3 +1343,4 @@
 0x6FA68	0x5E4	src/code/gameplay/find_ai_route_step.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	6f56e2b2f893a1e4d602732411250ca7ccccbc2d4b526aee59758d5976180aa1
 0xB9E4	0x340	src/code/gameplay/play_endurance_wave.c	--assembler=asn64 --section-base=.rodata:0x80071138 -O2 -G0 -mips3 -mgp32 -mfp32	c20565440f95a8343a68be9cee1cda63e43f86d6065094ce01c49d8306f66314
 0x331C0	0xB70	src/code/gameplay/initialize_player_record.c	--assembler=asn64 --section-base=.rodata:0x80072DA0 -O2 -G0 -mips3 -mgp32 -mfp32	a0c26f9e64f14b9c4c357e152876728fa26c9e107826c667f50eee1a6a89d94c
+0xB590	0x454	src/code/gameplay/start_skirmish_wave.c	--assembler=asn64 -O2 -G0 -mips3 -mgp32 -mfp32	dd4d4cb569f54b06ad023154d546f54727377c8d8063ba77925bbc3102cc692d
