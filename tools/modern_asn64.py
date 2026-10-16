@@ -324,6 +324,33 @@ with open(input_filename, mode="r") as input_file:
             joined = joined.replace(before, after, 1)
         fire("CODE-ENTRY-GRID-ALLOCATION")
         input_lines = joined.splitlines(keepends=True)
+    if any("func_800DFA68:" in line for line in input_lines) and rule("AI-ROUTE-SEARCH-LAYOUT"):
+        # GCC assigns two spilled route-search locals eight bytes above their
+        # retail slots and emits an equivalent inverted two-branch loop latch.
+        # Scope all rewrites to the exact function shapes.
+        joined = "".join(input_lines)
+        rewrites = (
+            ("\tsw\t$0,36($sp)\n", "\tsw\t$0,28($sp)\n"),
+            ("\tsw\t$2,44($sp)\n", "\tsw\t$2,36($sp)\n"),
+            ("\tlw\t$8,36($sp)\n", "\tlw\t$8,28($sp)\n"),
+            ("\tlw\t$8,44($sp)\n", "\tlw\t$8,36($sp)\n"),
+            ("\tsw\t$8,36($sp)\n", "\tsw\t$8,28($sp)\n"),
+            (
+                "\tandi\t$2,$22,0xffff\n\tsltu\t$2,$2,3\n"
+                "\tbeq\t$2,$0,.L11\n\tj\t.L17\n",
+                "\tandi\t$2,$22,0xffff\n\tsltu\t$2,$2,3\n"
+                "\tbne\t$2,$0,.L17\n\tj\t.L11\n",
+            ),
+        )
+        for before, after in rewrites:
+            fires = joined.count(before)
+            if fires != 1:
+                raise RuntimeError(
+                    f"func_800DFA68 route-layout shaping fired {fires} times: {before!r}"
+                )
+            joined = joined.replace(before, after, 1)
+        fire("AI-ROUTE-SEARCH-LAYOUT")
+        input_lines = joined.splitlines(keepends=True)
     if any("func_800DDE88:" in line for line in input_lines):
         # The source expands the same ring-status scan on both exits. GCC
         # coalesces the entry count with the amount argument and rotates the

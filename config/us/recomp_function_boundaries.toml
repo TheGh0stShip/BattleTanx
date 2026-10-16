@@ -815,7 +815,7 @@ functions = [
     { name = "remove_pool_tree_node", vram = 0x800df60c, size = 0xe8 },
     { name = "sort_tree_pop_min_node", vram = 0x800df6f4, size = 0xdc },
     { name = "build_route_from_path", vram = 0x800df7d0, size = 0x298 },
-    { name = "func_800DFA68", vram = 0x800dfa68, size = 0x5e4 },
+    { name = "find_ai_route_step", vram = 0x800dfa68, size = 0x5e4 },
     { name = "choose_cell_exit_edges", vram = 0x800e004c, size = 0x2d0 },
     { name = "extend_route_three_steps", vram = 0x800e031c, size = 0x240 },
     { name = "select_level_waypoint_set", vram = 0x800e055c, size = 0x48 },

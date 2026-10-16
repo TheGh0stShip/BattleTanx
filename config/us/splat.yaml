@@ -962,7 +962,7 @@ segments:
       - [0x6F60C, c, code/runtime/remove_pool_tree_node]
       - [0x6F6F4, c, code/render/sort_tree_pop_min_node]
       - [0x6F7D0, c, code/gameplay/build_route_from_path]
-      - [0x6FA68, asm, functions/func_800DFA68]
+      - [0x6FA68, c, code/gameplay/find_ai_route_step]
       - [0x7004C, c, code/gameplay/choose_cell_exit_edges]
       - [0x7031C, c, code/gameplay/extend_route_three_steps]
       - [0x7055C, c, code/levels/select_level_waypoint_set]

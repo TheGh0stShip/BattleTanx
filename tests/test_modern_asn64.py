@@ -121,6 +121,32 @@ class ModernAsn64Tests(unittest.TestCase):
         disabled = self.preprocess(body, disabled="MORPH-MODEL-ADDRESS-ORDER")
         self.assertIn("addu\t$3,$3,$5", disabled)
 
+    def test_ai_route_search_uses_retail_stack_layout(self) -> None:
+        body = (
+            "func_800DFA68:\n"
+            "\tsw\t$0,36($sp)\n"
+            "\tsw\t$2,44($sp)\n"
+            "\tlw\t$8,36($sp)\n"
+            "\tlw\t$8,44($sp)\n"
+            "\tsw\t$8,36($sp)\n"
+            "\tandi\t$2,$22,0xffff\n"
+            "\tsltu\t$2,$2,3\n"
+            "\tbeq\t$2,$0,.L11\n"
+            "\tj\t.L17\n"
+        )
+        text = self.preprocess(body)
+        self.assertIn("sw\t$0,28($sp)", text)
+        self.assertIn("sw\t$2,36($sp)", text)
+        self.assertIn("lw\t$8,28($sp)", text)
+        self.assertIn("lw\t$8,36($sp)", text)
+        self.assertIn("sw\t$8,28($sp)", text)
+        self.assertIn("bne\t$2,$0,.L17\n\tnop\n\tj\t.L11", text)
+
+        disabled = self.preprocess(body, disabled="AI-ROUTE-SEARCH-LAYOUT")
+        self.assertIn("sw\t$0,36($sp)", disabled)
+        self.assertIn("sw\t$2,44($sp)", disabled)
+        self.assertIn("beq\t$2,$0,.L11\n\tnop\n\tj\t.L17", disabled)
+
     def test_attached_camera_uses_retail_floating_registers(self) -> None:
         body = (
             "func_80077E94:\n"
