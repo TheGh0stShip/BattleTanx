@@ -41,6 +41,9 @@ CASES = (
 class LateFunctionNormalizerTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls) -> None:
+        if not (KMC / "gcc").is_file():
+            raise unittest.SkipTest("requires the pinned KMC toolchain")
+        (ROOT / "build").mkdir(exist_ok=True)
         cls.temporary = tempfile.TemporaryDirectory(dir=ROOT / "build")
         cls.directory = Path(cls.temporary.name)
         cls.raw = {}
